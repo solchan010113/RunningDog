@@ -17,7 +17,7 @@
 <button class="saveButton">저장</button>
 
 </div>
-
+   
 
 <div class="editData">
 <div class="imgContainer">
