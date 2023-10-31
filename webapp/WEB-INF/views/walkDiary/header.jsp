@@ -15,7 +15,7 @@
 <body>
 	<header class="global-header">
 		<nav>
-			<ul>
+			<ul>  
 				<li class="logo">
 					<a><img src="${pageContext.request.contextPath}/assets/images/logo.png"></a>
 				</li>
