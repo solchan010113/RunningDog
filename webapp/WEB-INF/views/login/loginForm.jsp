@@ -21,10 +21,10 @@
 	<form action="/login" id="loginForm">
 	
 		<div class="">
-			<a href="" class="social formEliments" id="naver"><img alt="" src="/teamproject/assets/images/naver-icon-file.png">네이버로 로그인</a>
+			<a href="" class="social formEliments" id="naver"><img alt="" src="${pageContext.request.contextPath}/assets/images/naver-icon-file.png">네이버로 로그인</a>
 		</div>
 		<div class="">
-			<a href="" class="social formEliments" id="google"><img alt="" src="/teamproject/assets/images/google_logo.png">구글로 로그인</a>
+			<a href="" class="social formEliments" id="google"><img alt="" src="${pageContext.request.contextPath}/assets/images/google_logo.png">구글로 로그인</a>
 		</div>
 		
 		<div id="idLoginMessage">아이디로 로그인</div>

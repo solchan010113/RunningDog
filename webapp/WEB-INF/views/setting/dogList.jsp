@@ -52,8 +52,8 @@
 	
 				<div class="dogCard">
 					
-					<img class="profileImg" alt="" src="/teamproject/assets/images/liltriber.jpg">
-					<img class="certifyMark" src="/teamproject/assets/images/bluemark.png">
+					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
+					<img class="certifyMark" src="${pageContext.request.contextPath}/assets/images/bluemark.png">
 					
 					<h3>강아지 카드</h3>
 					<div>이름: 릴파</div>
@@ -70,7 +70,7 @@
 				
 				<div class="dogCard">
 					
-					<img class="profileImg" alt="" src="/teamproject/assets/images/liltriber.jpg">
+					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
 					
 					<h3>강아지 카드</h3>
 					<div>이름: 띨파</div>
@@ -87,7 +87,7 @@
 				
 				<div class="dogCard">
 					
-					<img class="profileImg" alt="" src="/teamproject/assets/images/liltriber.jpg">
+					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
 					
 					<h3>강아지 카드</h3>
 					<div>이름: 뇨파</div>
@@ -104,7 +104,7 @@
 				
 				<div class="dogCard">
 					
-					<img class="profileImg" alt="" src="/teamproject/assets/images/liltriber.jpg">
+					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
 					
 					<h3>강아지 카드</h3>
 					<div>이름: 이제 쓸 이름이 없다</div>

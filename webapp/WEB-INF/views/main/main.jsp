@@ -19,7 +19,7 @@
 		<div class="miniProfile backgroundWhite">
 			<div class="textArea">
 				<a href="">아델
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 				</a>
 				<br>
 				<span>(#12345)</span>	
@@ -89,7 +89,7 @@
 				<div class="sideContentTitle">글 제목</div>
 				<div class="sideContentWrite">
 					<div>미안하다 이거 보여주려고 어그로끌었다.. 나루토 사스케 싸움수준 ㄹㅇ실화냐? 진짜 세계관최강자들의 싸움이다.. 그바보같은 나루토가 맞는지 정말 가슴이 웅장해진다 </div>
-					<img src="/teamproject/assets/images/Yoshi.jpg">
+					<img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg">
 				</div>
 			</div>
 		</div>
@@ -103,7 +103,7 @@
 			<div class="contentHalf">
 				<div class="cateTilte">많이 다닌 길</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="writeDate">1972.11.21</div>
@@ -116,7 +116,7 @@
 			<div class="contentHalf noBorder">
 				<div class="cateTilte">찜 순</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="writeDate">1972.11.21</div>
@@ -133,7 +133,7 @@
 			<div class="contentHalf">
 				<div class="cateTilte">조회수</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="writeDate">1972.11.21</div>
@@ -160,7 +160,7 @@
 							욕심 많고 거짓뿐인 소녀의 꿈은 다 그런 법이죠
 							모른 체해줘요 				
 						</div>
-						<img src="/teamproject/assets/images/Yoshi.jpg"  alt="/teamproject/assets/images/logo.png">
+						<img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"  alt="${pageContext.request.contextPath}/assets/images/logo.png">
 					</div>
 				</div>
 			</div>
@@ -168,7 +168,7 @@
 			<div class="contentHalf noBorder">
 				<div class="cateTilte">추천수</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="writeDate">1972.11.21</div>
@@ -195,7 +195,7 @@
 							질투 많고 집착뿐인 소녀의 꿈을 다 이룰 거에요
 							정말로 모르죠?
 						</div>
-						<img src="/teamproject/assets/images/Yoshi.jpg" alt="/teamproject/assets/images/logo.png">
+						<img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg" alt="${pageContext.request.contextPath}/assets/images/logo.png">
 					</div>
 				</div>
 			</div>
@@ -207,21 +207,21 @@
 			<div class="contentHalf">
 				<div class="cateTilte">맴버수</div>
 				<div class="clubProfile">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">맴버 21574</div>
 					</div>
 				</div>
 				<div class="clubProfile">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">맴버 21574</div>
 					</div>
 				</div>
 				<div class="clubProfile noMargin">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">맴버 21574</div>
@@ -233,21 +233,21 @@
 			<div class="contentHalf noBorder">
 				<div class="cateTilte">모임수</div>
 				<div class="clubProfile">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">모임 2134</div>
 					</div>
 				</div>
 				<div class="clubProfile">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">모임 2134</div>
 					</div>
 				</div>
 				<div class="clubProfile noMargin">
-					<img alt="" src="/teamproject/assets/images/dog.jpg">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/dog.jpg">
 					<div class="clubBox">
 						<div class="clubName">강아지 동아리</div>
 						<div class="clubContent">모임 2134</div>
@@ -262,7 +262,7 @@
 			<div class="contentHalf">
 				<div class="cateTilte">일지 작성수</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="clubName">이번 달 작성 일지: 54</div>
@@ -275,7 +275,7 @@
 			<div class="contentHalf noBorder">
 				<div class="cateTilte">방문자수</div>
 				<div class="writerProfile">
-					<img alt="" src="/teamproject/assets/images/adele.png">
+					<img alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
 					<div class="nameDate">
 						<div class="nickname">아델</div>
 						<div class="clubName">이번 달 방문자 수: 1234</div>

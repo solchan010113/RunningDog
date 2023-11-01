@@ -66,7 +66,7 @@
 		            <th>신청버튼</th>
 		        </tr>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>요시미츠(#21345)</td>
 					<td>27</td>
 					<td>남</td>

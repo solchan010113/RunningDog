@@ -36,7 +36,7 @@
 		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
-			<img class="profileImg" alt="" src="/teamproject/assets/images/liltriber.jpg">
+			<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
 			<input type="file" name="profile_img">
 		</div>
 		

@@ -60,7 +60,7 @@
 		            <th>거절</th>
 		        </tr>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
 					<td>나이</td>
 					<td>성별</td>
@@ -82,7 +82,7 @@
 					<col style="width: 8%;" />
 				</colgroup>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
 					<td>나이</td>
 					<td>성별</td>
@@ -104,7 +104,7 @@
 					<col style="width: 8%;" />
 				</colgroup>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
 					<td>나이</td>
 					<td>성별</td>
@@ -126,7 +126,7 @@
 					<col style="width: 8%;" />
 				</colgroup>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
 					<td>나이</td>
 					<td>성별</td>
@@ -148,7 +148,7 @@
 					<col style="width: 8%;" />
 				</colgroup>
 				<tr>
-					<td><img src="/teamproject/assets/images/Yoshi.jpg"></td>
+					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
 					<td>나이</td>
 					<td>성별</td>
