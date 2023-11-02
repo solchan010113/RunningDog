@@ -1,0 +1,15 @@
+package com.runningdog.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping(value="/walkBlog")
+@Controller
+public class WalkBlogController {
+	
+	
+	public String home() {
+		return"walkBlog/walkBlogHome";
+	}
+
+}
