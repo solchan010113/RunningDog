@@ -42,18 +42,54 @@ public class mobileWebController {
 	@RequestMapping( "/map")
 	public String map(){
 		System.out.println("/산책시작 페이지");
+		
+		// 내 강아지 정보
+		// 내 모임일정정보				
+		
 		return "mobileWeb/walkStart";
 	}
 	
-	// 산책기록 보내기
-		@RequestMapping(value = "/walkInsertForm", method = { RequestMethod.GET, RequestMethod.POST })
-		public String map2(){
-			System.out.println("/산책기록 받아오기");
-			
-			
-			
-			return "mobileWeb/walkEnd";
-		}
+	// 산책기록폼
+	@RequestMapping("/wif")
+	public String wif(@RequestParam(name = "line") String lineData, Model model)
+			throws JsonParseException,JsonMappingException, IOException {
+		
+		System.out.println(lineData);		    
+	    
+		// URL 디코딩을 수행하여 JSON 문자열을 원래 형식으로 변환
+	    String decodedJson = URLDecoder.decode(lineData, StandardCharsets.UTF_8);
+
+	    // JSON 문자열을 파싱하여 객체로 변환
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    List<linePathVo> lineList = objectMapper.readValue(decodedJson, new TypeReference<List<linePathVo>>() {});		    
+	    
+	    // lineData를 사용하여 다른 작업을 수행
+	    System.out.println("lineList"+lineList);
+	    model.addAttribute("lineList", objectMapper.writeValueAsString(lineList)); // JSON 형식의 문자열로 변환하여 전달
+	    System.out.println(objectMapper.writeValueAsString(lineList));
+	    
+	    return "mobileWeb/walkEnd"; // wif 페이지로 이동
+	}
+	
+	
+	// 기록하기
+	@RequestMapping( "/walkInsert")
+	public String walkInsert(){
+		System.out.println("/walkInsert");
+		return "redirect:map";
+	}	
+	
+	
+	/*
+	 * // 산책기록 보내기
+	 * 
+	 * @RequestMapping(value = "/walkInsertForm", method = { RequestMethod.GET,
+	 * RequestMethod.POST }) public String map2(){ System.out.println("/산책기록 받아오기");
+	 * 
+	 * 
+	 * 
+	 * return "mobileWeb/walkEnd"; }
+	 */
 	
 	
 	// 산책기록 보내기
@@ -77,35 +113,7 @@ public class mobileWebController {
 //		
 //		return "mobileWeb/walkEnd";
 //	}
-	
-		@RequestMapping("/wif")
-		public String wif(@RequestParam(name = "line") String lineData, Model model)
-				throws JsonParseException,JsonMappingException, IOException {
-			
-			System.out.println(lineData);		    
-		    
-			// URL 디코딩을 수행하여 JSON 문자열을 원래 형식으로 변환
-		    String decodedJson = URLDecoder.decode(lineData, StandardCharsets.UTF_8);
 
-		    // JSON 문자열을 파싱하여 객체로 변환
-		    ObjectMapper objectMapper = new ObjectMapper();
-		    List<linePathVo> lineList = objectMapper.readValue(decodedJson, new TypeReference<List<linePathVo>>() {});		    
-		    
-		    // lineData를 사용하여 다른 작업을 수행
-		    System.out.println("lineList"+lineList);
-		    model.addAttribute("lineList", objectMapper.writeValueAsString(lineList)); // JSON 형식의 문자열로 변환하여 전달
-		    System.out.println(objectMapper.writeValueAsString(lineList));
-		    
-		    return "mobileWeb/walkEnd"; // wif 페이지로 이동
-		}
-	
-	
-	// 기록하기
-	@RequestMapping( "/walkInsert")
-	public String walkInsert(){
-		System.out.println("/walkInsert");
-		return "redirect:map";
-	}
 	
 	
 
