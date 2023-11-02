@@ -19,5 +19,10 @@ public class WalkBlogController {
 	public String userBlog() {
 		return"walkBlog/userBlog";
 	}
-	//
+	
+	@RequestMapping(value = "detail")
+	public String detail() {
+		return"walkBlog/detail";
+	}
+	
 }
