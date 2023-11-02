@@ -19,5 +19,5 @@ public class WalkBlogController {
 	public String userBlog() {
 		return"walkBlog/userBlog";
 	}
-
+	//
 }
