@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping( "/comm")
 public class communityController {
-	
-	
-	
-	
+		
 	// 산책소식 홈
 	@RequestMapping( "/home")
 	public String home(){
