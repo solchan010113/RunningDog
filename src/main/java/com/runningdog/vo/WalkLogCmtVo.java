@@ -13,7 +13,7 @@ public class WalkLogCmtVo {
 	public WalkLogCmtVo() {}
 	
 	
-	public WalkLogCmtVo(int walkLogCmtNo, WalkLogVo walkLogNo, UserVo userNo, String content, int regDate, char status) {
+	public WalkLogCmtVo(int walkLogCmtNo, WalkLogVo walkLogNo, UsersVo userNo, String content, int regDate, char status) {
 		super();
 		this.walkLogCmtNo = walkLogCmtNo;
 		this.walkLogNo = walkLogNo;
@@ -44,12 +44,12 @@ public class WalkLogCmtVo {
 	}
 
 
-	public UserVo getUserNo() {
+	public UsersVo getUserNo() {
 		return userNo;
 	}
 
 
-	public void setUserNo(UserVo userNo) {
+	public void setUserNo(UsersVo userNo) {
 		this.userNo = userNo;
 	}
 
