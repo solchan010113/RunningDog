@@ -8,7 +8,6 @@ public class DogVo {
 	private String birth;
 	private String gender;
 	private float weight;
-	private String locationNo;
 	private String kind;
 	private String neuter;
 	private String cert;
@@ -19,7 +18,7 @@ public class DogVo {
 		
 	}
 	
-	public DogVo(int dogNo, UsersVo userNo, String name, String birth, String gender, float weight, String locationNo,
+	public DogVo(int dogNo, UsersVo userNo, String name, String birth, String gender, float weight,
 			String kind, String neuter, String cert, String color, char status) {
 		super();
 		this.dogNo = dogNo;
@@ -28,7 +27,6 @@ public class DogVo {
 		this.birth = birth;
 		this.gender = gender;
 		this.weight = weight;
-		this.locationNo = locationNo;
 		this.kind = kind;
 		this.neuter = neuter;
 		this.cert = cert;
@@ -84,14 +82,6 @@ public class DogVo {
 		this.weight = weight;
 	}
 
-	public String getLocationNo() {
-		return locationNo;
-	}
-
-	public void setLocationNo(String locationNo) {
-		this.locationNo = locationNo;
-	}
-
 	public String getKind() {
 		return kind;
 	}
@@ -135,7 +125,7 @@ public class DogVo {
 	@Override
 	public String toString() {
 		return "DogVo [dogNo=" + dogNo + ", userNo=" + userNo + ", name=" + name + ", birth=" + birth + ", gender="
-				+ gender + ", weight=" + weight + ", locationNo=" + locationNo + ", kind=" + kind + ", neuter=" + neuter
+				+ gender + ", weight=" + weight + ", kind=" + kind + ", neuter=" + neuter
 				+ ", cert=" + cert + ", color=" + color + ", status=" + status + "]";
 	}
 	
