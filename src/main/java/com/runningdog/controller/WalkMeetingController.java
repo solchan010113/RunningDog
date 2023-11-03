@@ -10,6 +10,7 @@ public class WalkMeetingController {
 	@RequestMapping(value = "")
 	public String home(){
 		System.out.println("sdf");
+		//asdf
 		return "walkMeeting/walkMeetingHome";
 	}
 	

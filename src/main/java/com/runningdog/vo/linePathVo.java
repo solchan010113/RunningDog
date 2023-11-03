@@ -2,8 +2,8 @@ package com.runningdog.vo;
 
 public class linePathVo {
 	
-	private double lat;
-	private double lng;
+	private double lat; // y값 (위도)
+	private double lng; // x값 (경도)
 	
 	public linePathVo() {}
 	

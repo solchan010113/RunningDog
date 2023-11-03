@@ -54,7 +54,7 @@ public class mobileWebController {
 	public String wif(@RequestParam(name = "line") String lineData, Model model)
 			throws JsonParseException,JsonMappingException, IOException {
 		
-		System.out.println(lineData);		    
+		System.out.println("wif" + lineData);		    
 	    
 		// URL 디코딩을 수행하여 JSON 문자열을 원래 형식으로 변환
 	    String decodedJson = URLDecoder.decode(lineData, StandardCharsets.UTF_8);
@@ -76,6 +76,11 @@ public class mobileWebController {
 	@RequestMapping( "/walkInsert")
 	public String walkInsert(){
 		System.out.println("/walkInsert");
+		
+		
+		
+		
+		
 		return "redirect:map";
 	}	
 	
