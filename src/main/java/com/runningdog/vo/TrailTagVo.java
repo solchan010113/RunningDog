@@ -1,6 +1,6 @@
 package com.runningdog.vo;
 
-public class TrailTag {
+public class TrailTagVo {
 	
 	private int trailTagNo;
 	private TrailVo trailVo;
