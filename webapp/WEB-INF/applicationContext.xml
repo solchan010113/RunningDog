@@ -42,13 +42,10 @@
 		<property name="dataSource" ref="oracleDatasource" />
 		<property name="configLocation" value="classpath:mybatis/configuration.xml" />
 	</bean>	
-		
 	
 	<!-- MyBatis SqlSessionTemplate  설정-->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-    
-	
 
 </beans>
