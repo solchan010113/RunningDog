@@ -11,7 +11,7 @@ public class UsersVo {
 	private String code;
 	private String birth;
 	private String gender;
-	private String status;
+	private Character status;
 	
 	//생성자
 	public UsersVo() {
@@ -19,7 +19,7 @@ public class UsersVo {
 	}
 	
 	public UsersVo(int userNo, int locationNo, String id, String password, String name, String code, String birth,
-			String gender, String status) {
+			String gender, Character status) {
 		super();
 		this.userNo = userNo;
 		this.locationNo = locationNo;
@@ -81,10 +81,10 @@ public class UsersVo {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getStatus() {
+	public Character getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Character status) {
 		this.status = status;
 	}
 
