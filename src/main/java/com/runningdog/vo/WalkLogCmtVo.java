@@ -1,19 +1,19 @@
 package com.runningdog.vo;
 
-public class walkLogCmt {
+public class WalkLogCmtVo {
 	
 	private int walkLogCmtNo;
 	private WalkLogVo walkLogNo;
-	private UserVo userNo;
+	private UsersVo userNo;
 	private String content;
 	private int regDate;
 	private char status;
 	
 	
-	public walkLogCmt() {}
+	public WalkLogCmtVo() {}
 	
 	
-	public walkLogCmt(int walkLogCmtNo, WalkLogVo walkLogNo, UserVo userNo, String content, int regDate, char status) {
+	public WalkLogCmtVo(int walkLogCmtNo, WalkLogVo walkLogNo, UserVo userNo, String content, int regDate, char status) {
 		super();
 		this.walkLogCmtNo = walkLogCmtNo;
 		this.walkLogNo = walkLogNo;

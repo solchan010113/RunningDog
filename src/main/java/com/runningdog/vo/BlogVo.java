@@ -3,12 +3,12 @@ package com.runningdog.vo;
 public class BlogVo {
 	
 	private int blogNo;
-	private UserVo userNo;
+	private UsersVo userNo;
 	
 	public BlogVo() {}
 	
 	
-	public BlogVo(int blogNo, UserVo userNo) {
+	public BlogVo(int blogNo, UsersVo userNo) {
 		super();
 		this.blogNo = blogNo;
 		this.userNo = userNo;
@@ -27,12 +27,12 @@ public class BlogVo {
 	}
 
 
-	public UserVo getUserNo() {
+	public UsersVo getUserNo() {
 		return userNo;
 	}
 
 
-	public void setUserNo(UserVo userNo) {
+	public void setUserNo(UsersVo userNo) {
 		this.userNo = userNo;
 	}
 
