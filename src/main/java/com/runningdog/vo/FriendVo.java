@@ -4,13 +4,13 @@ public class FriendVo {
 	private int friendNo;
 	private int applyUserNo;
 	private int appliedUserNo;
-	private Character status;
+	private char status;
 	
 	public FriendVo() {
 		
 	}
 	
-	public FriendVo(int friendNo, int applyUserNo, int appliedUserNo, Character status) {
+	public FriendVo(int friendNo, int applyUserNo, int appliedUserNo, char status) {
 		super();
 		this.friendNo = friendNo;
 		this.applyUserNo = applyUserNo;
@@ -42,11 +42,11 @@ public class FriendVo {
 		this.appliedUserNo = appliedUserNo;
 	}
 
-	public Character getStatus() {
+	public char getStatus() {
 		return status;
 	}
 
-	public void setStatus(Character status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 

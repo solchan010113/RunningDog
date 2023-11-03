@@ -13,14 +13,14 @@ public class DogVo {
 	private String neuter;
 	private String cert;
 	private String color;
-	private Character status;
+	private char status;
 	
 	public DogVo() {
 		
 	}
 	
 	public DogVo(int dogNo, int userNo, String name, String birth, String gender, float weight, String locationNo,
-			String kind, String neuter, String cert, String color, Character status) {
+			String kind, String neuter, String cert, String color, char status) {
 		super();
 		this.dogNo = dogNo;
 		this.userNo = userNo;
@@ -124,11 +124,11 @@ public class DogVo {
 		this.color = color;
 	}
 
-	public Character getStatus() {
+	public char getStatus() {
 		return status;
 	}
 
-	public void setStatus(Character status) {
+	public void setStatus(char status) {
 		this.status = status;
 	}
 
