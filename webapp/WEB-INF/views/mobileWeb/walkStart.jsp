@@ -28,9 +28,7 @@
 	<!-- Slick 슬라이더 스크립트 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>	
-	
 		
-	
 </head>
 <body>
 	
@@ -370,15 +368,8 @@
         $(document).ready(function() {
             // 슬라이드 버튼을 숨김
             $('.slick-next, .slick-prev').hide();
-        });
-        
-     // JavaScript를 사용하여 토글 동작 추가
-        const clubsIcon = document.querySelector('.clubsIcon');
-        clubsIcon.addEventListener('click', () => {
-            clubsIcon.classList.toggle('active');
-        });
-        
-        
+        });     
+            
     </script>
     <script>
         // 네이버 지도 API 스크립트 로딩 후 initMap 함수 호출

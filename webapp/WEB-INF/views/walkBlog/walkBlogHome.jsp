@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${pageContext.request.contextPath}/assets/css/walkDiary/index.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <title>Insert title here</title>
 </head>
 <body>
