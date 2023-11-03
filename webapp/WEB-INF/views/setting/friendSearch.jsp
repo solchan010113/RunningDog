@@ -16,16 +16,16 @@
 <div class="pageContainer">
 
 	<ul id="settingsMenu">
-		<li class=""><a href="">내 정보</a></li>
-		<li class=""><a href="">강아지</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="">강아지 카드</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">강아지 등록</a></li>
-		<li class="selected"><a href="">친구</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="">친구 목록</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">내가 받은 신청</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">내가 한 신청</a></li>
-		<li class="settingSubLi noTopBorder selectedBold"><a class="setting_sub" href="">회원 검색</a></li>
-		<li class="last_li"><a href="">회원탈퇴</a></li>
+		<li class=""><a href="${pageContext.request.contextPath}/setting/myProfile">내 정보</a></li>
+		<li class=""><a href="${pageContext.request.contextPath}/setting/dogList">강아지</a></li>
+		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogList">강아지 카드</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogInsert">강아지 등록</a></li>
+		<li class="selected"><a href="${pageContext.request.contextPath}/setting/friendList">친구</a></li>
+		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendList">친구 목록</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApplied">내가 받은 신청</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApply">내가 한 신청</a></li>
+		<li class="settingSubLi noTopBorder selectedBold"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearch">회원 검색</a></li>
+		<li class="last_li"><a href="${pageContext.request.contextPath}/setting/resign">회원탈퇴</a></li>
 	</ul>
 	
 	
@@ -64,7 +64,7 @@
 		            <th>나이</th>
 		            <th>성별</th>
 		            <th>동네</th>
-		            <th>신청버튼</th>
+		            <th>신청하기</th>
 		        </tr>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
@@ -72,7 +72,7 @@
 					<td>27</td>
 					<td>남</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn ok">패밀리 신청</a></td>
+					<td><a href="" class="deleteBtn ok">친구 신청</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
