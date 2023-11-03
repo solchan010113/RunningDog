@@ -3,7 +3,7 @@ package com.runningdog.vo;
 public class DogVo {
 
 	private int dogNo;
-	private int userNo;
+	private UsersVo userNo;
 	private String name;
 	private String birth;
 	private String gender;
@@ -19,7 +19,7 @@ public class DogVo {
 		
 	}
 	
-	public DogVo(int dogNo, int userNo, String name, String birth, String gender, float weight, String locationNo,
+	public DogVo(int dogNo, UsersVo userNo, String name, String birth, String gender, float weight, String locationNo,
 			String kind, String neuter, String cert, String color, char status) {
 		super();
 		this.dogNo = dogNo;
@@ -44,11 +44,11 @@ public class DogVo {
 		this.dogNo = dogNo;
 	}
 
-	public int getUserNo() {
+	public UsersVo getUserNo() {
 		return userNo;
 	}
 
-	public void setUserNo(int userNo) {
+	public void setUserNo(UsersVo userNo) {
 		this.userNo = userNo;
 	}
 

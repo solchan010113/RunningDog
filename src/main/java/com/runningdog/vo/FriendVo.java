@@ -2,15 +2,15 @@ package com.runningdog.vo;
 
 public class FriendVo {
 	private int friendNo;
-	private int applyUserNo;
-	private int appliedUserNo;
+	private UsersVo applyUserNo;
+	private UsersVo appliedUserNo;
 	private char status;
 	
 	public FriendVo() {
 		
 	}
 	
-	public FriendVo(int friendNo, int applyUserNo, int appliedUserNo, char status) {
+	public FriendVo(int friendNo, UsersVo applyUserNo, UsersVo appliedUserNo, char status) {
 		super();
 		this.friendNo = friendNo;
 		this.applyUserNo = applyUserNo;
@@ -26,19 +26,19 @@ public class FriendVo {
 		this.friendNo = friendNo;
 	}
 
-	public int getApplyUserNo() {
+	public UsersVo getApplyUserNo() {
 		return applyUserNo;
 	}
 
-	public void setApplyUserNo(int applyUserNo) {
+	public void setApplyUserNo(UsersVo applyUserNo) {
 		this.applyUserNo = applyUserNo;
 	}
 
-	public int getAppliedUserNo() {
+	public UsersVo getAppliedUserNo() {
 		return appliedUserNo;
 	}
 
-	public void setAppliedUserNo(int appliedUserNo) {
+	public void setAppliedUserNo(UsersVo appliedUserNo) {
 		this.appliedUserNo = appliedUserNo;
 	}
 
@@ -55,5 +55,5 @@ public class FriendVo {
 		return "FriendVo [friendNo=" + friendNo + ", applyUserNo=" + applyUserNo + ", appliedUserNo=" + appliedUserNo
 				+ ", status=" + status + "]";
 	}
-	
+
 }
