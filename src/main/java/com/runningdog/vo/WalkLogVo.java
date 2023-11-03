@@ -90,6 +90,7 @@ public class WalkLogVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
 
 	public String getSecurity() {
 		return security;
