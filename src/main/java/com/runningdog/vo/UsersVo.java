@@ -4,7 +4,7 @@ public class UsersVo {
 	
 	//필드
 	private int userNo;
-	private String locationNo;
+	private int locationNo;
 	private String id;
 	private String password;
 	private String name;
@@ -18,7 +18,7 @@ public class UsersVo {
 		
 	}
 	
-	public UsersVo(int userNo, String locationNo, String id, String password, String name, String code, String birth,
+	public UsersVo(int userNo, int locationNo, String id, String password, String name, String code, String birth,
 			String gender, String status) {
 		super();
 		this.userNo = userNo;
@@ -39,10 +39,10 @@ public class UsersVo {
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
-	public String getLocationNo() {
+	public int getLocationNo() {
 		return locationNo;
 	}
-	public void setLocationNo(String locationNo) {
+	public void setLocationNo(int locationNo) {
 		this.locationNo = locationNo;
 	}
 	public String getId() {
