@@ -16,12 +16,12 @@ public class MeetingVo {
 	private double lng;
 	private double lat;
 	private ClubVo clubVo;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	private TrailVo trailVo;
 	public MeetingVo() {}
 	public MeetingVo(int meetingNo, String name, String description, String meetingDate, int maxPersonnel,
 			char openStatus, char small, char medium, char large, char status, double lng, double lat, ClubVo clubVo,
-			UserVo userVo, TrailVo trailVo) {
+			UsersVo usersVo, TrailVo trailVo) {
 		this.meetingNo = meetingNo;
 		this.name = name;
 		this.description = description;
@@ -35,7 +35,7 @@ public class MeetingVo {
 		this.lng = lng;
 		this.lat = lat;
 		this.clubVo = clubVo;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 		this.trailVo = trailVo;
 	}
 	public int getMeetingNo() {
@@ -116,11 +116,11 @@ public class MeetingVo {
 	public void setClubVo(ClubVo clubVo) {
 		this.clubVo = clubVo;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUsersVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUsersVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	public TrailVo getTrailVo() {
 		return trailVo;

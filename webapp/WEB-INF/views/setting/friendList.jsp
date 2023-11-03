@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>패밀리 목록</title>
+<title>친구 목록</title>
 <link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/setting/setting.css" rel="stylesheet" type="text/css">
 
@@ -16,22 +16,23 @@
 <div class="pageContainer">
 
 	<ul id="settingsMenu">
-		<li class=""><a href="">내 정보</a></li>
-		<li class=""><a href="">강아지</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="">강아지 카드</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">강아지 등록</a></li>
-		<li class="selected"><a href="">패밀리</a></li>
-		<li class="settingSubLi selectedBold"><a class="setting_sub" href="">패밀리 목록</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">패밀리 신청 관리</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">패밀리 추가</a></li>
-		<li class="last_li"><a href="">회원탈퇴</a></li>
+		<li class=""><a href="${pageContext.request.contextPath}/setting/myProfile">내 정보</a></li>
+		<li class=""><a href="${pageContext.request.contextPath}/setting/dogList">강아지</a></li>
+		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogList">강아지 카드</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogInsert">강아지 등록</a></li>
+		<li class="selected"><a href="${pageContext.request.contextPath}/setting/friendList">친구</a></li>
+		<li class="settingSubLi selectedBold"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendList">친구 목록</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApplied">내가 받은 신청</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApply">내가 한 신청</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearch">회원 검색</a></li>
+		<li class="last_li"><a href="${pageContext.request.contextPath}/setting/resign">회원탈퇴</a></li>
 	</ul>
 	
 	
-	<div id="familyProfile">
+	<div id="friendProfile">
 
 		<div class="firstElement">
-			<h1>패밀리 목록</h1>
+			<h1>친구 목록</h1>
 			<div>#12345</div>
 		</div>
 		
@@ -44,7 +45,7 @@
 				</div>
 			</form>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 20%;" />
@@ -59,7 +60,7 @@
 		            <th>나이</th>
 		            <th>성별</th>
 		            <th>동네</th>
-		            <th>신청버튼</th>
+		            <th>친구 삭제</th>
 		        </tr>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
@@ -67,12 +68,12 @@
 					<td>55</td>
 					<td>남</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">패밀리 삭제</a></td>
+					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 20%;" />
@@ -87,12 +88,12 @@
 					<td>나이</td>
 					<td>성별</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">패밀리 삭제</a></td>
+					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 20%;" />
@@ -107,12 +108,12 @@
 					<td>나이</td>
 					<td>성별</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">패밀리 삭제</a></td>
+					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 20%;" />
@@ -127,12 +128,12 @@
 					<td>나이</td>
 					<td>성별</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">패밀리 삭제</a></td>
+					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 20%;" />
@@ -147,7 +148,7 @@
 					<td>나이</td>
 					<td>성별</td>
 					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">패밀리 삭제</a></td>
+					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>

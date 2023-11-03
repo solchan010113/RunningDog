@@ -4,14 +4,14 @@ public class MeetingInfoVo {
 	
 	private int meetingInfoNo;
 	private MeetingVo meetingVo;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	private DogVo dogVo;
 	
 	public MeetingInfoVo() {}
-	public MeetingInfoVo(int meetingInfoNo, MeetingVo meetingVo, UserVo userVo, DogVo dogVo) {
+	public MeetingInfoVo(int meetingInfoNo, MeetingVo meetingVo, UsersVo usersVo, DogVo dogVo) {
 		this.meetingInfoNo = meetingInfoNo;
 		this.meetingVo = meetingVo;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 		this.dogVo = dogVo;
 	}
 	public int getMeetingInfoNo() {
@@ -26,11 +26,11 @@ public class MeetingInfoVo {
 	public void setMeetingVo(MeetingVo meetingVo) {
 		this.meetingVo = meetingVo;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUsersVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUsersVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	public DogVo getDogVo() {
 		return dogVo;

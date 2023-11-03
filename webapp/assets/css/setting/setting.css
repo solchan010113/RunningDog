@@ -260,6 +260,15 @@
 	float: right;
 }
 
+
+#dogProfile .dogSlickBox .dogCard > h3{
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+/*	color: white;
+	text-shadow: -1px 0px #212529, 0px 1px #212529, 1px 0px #212529, 0px -1px #212529;*/
+}
+
 #dogProfile .dogSlickBox .dogCard > div{
 	width: 200px;
 	margin-bottom: 4px;
@@ -284,11 +293,6 @@
 #dogProfile .dogSlickBox .dogCard > .personal{
 	width: 100%;
 	word-break:break-all;
-}
-
-#dogProfile .dogSlickBox .dogCard > h3{
-	text-align: center;
-	font-size: 24px;
 }
 
 
@@ -392,7 +396,7 @@ input::-webkit-inner-spin-button {
 }
 
 #profile textarea{
-	width: 350px;
+	width: 300px;
 }
 
 #profile #weight{
@@ -403,49 +407,49 @@ input::-webkit-inner-spin-button {
 
 
 
-/* 패밀리 */
+/* 친구 */
 
-#familyProfile{
+#friendProfile{
 	float: left;
 	width: 80.6%;	
 	position: relative;
 }
 
-#familyProfile > div{
+#friendProfile > div{
 	border-bottom: 1px;
 	border-style: solid;
 	border-color: rgb(192, 192, 192);
 	padding: 20px;
 }
 
-#familyProfile .firstElement{
+#friendProfile .firstElement{
 	border: none;
 	padding: 0 0 10px;
 }
 
-#familyProfile > .listBox > .familyList > input:nth-child(1) {
+#friendProfile > .listBox > .friendList > input:nth-child(1) {
 	margin-left: 50px;
 }
 
-#familyProfile .familyList tr td img{
+#friendProfile .listBox .friendList tr td img{
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 }
 
-#familyProfile .familyList{
+#friendProfile .listBox .friendList{
 	width: 100%;
 	text-align: center;
 	border-bottom: 1px solid rgb(192, 192, 192);
 	box-sizing: border-box;
 }
 
-#familyProfile .familyList td{
+#friendProfile .listBox .friendList td{
 	text-align: center;
 	padding: 7px 0;
 }
 
-#familyProfile .familyList tr td .deleteBtn{
+#friendProfile .listBox .friendList tr td .deleteBtn{
 	float: none;
 	display: inline-block;
 	font-size: 14px;
@@ -453,7 +457,7 @@ input::-webkit-inner-spin-button {
 	margin-right: 0;
 }
 
-#familyProfile #paging {
+#friendProfile #paging {
 	margin: 0px auto;
 	width: 420px;
 	border: none;
@@ -461,51 +465,51 @@ input::-webkit-inner-spin-button {
 	text-align: center;
 }
 
-#familyProfile #paging ul {
+#friendProfile #paging ul {
 	margin: 10px 5px 10px 5px;
 }
 
-#familyProfile #paging ul > li{
+#friendProfile #paging ul > li{
 	float: left;
 	margin: 0px 8px 0px 8px;
 }
 
-#familyProfile #paging ul > li a{
+#friendProfile #paging ul > li a{
 	color: #212529;
 	text-decoration: none;
 }
 
-#familyProfile .listBox {
+#friendProfile .listBox {
 	width: 100%;
 	float:left;
 	border: none;
 	padding: 0;
 }
 
-#familyProfile .listBox > form{
+#friendProfile .listBox > form{
 	width: 100%;
 	float:right;
 	border-bottom: 1px solid rgb(192, 192, 192);
 }
 
-#familyProfile .listBox form .searchBox{
+#friendProfile .listBox form .searchBox{
 	display: block;
 	float:right;
 	padding-bottom: 20px;
 }
 
 
-#familyProfile .listBox .searchBox select{
+#friendProfile .listBox .searchBox select{
 	float:left;
 	margin-right: 5px;
 	height: 30px;
 }
 
-#familyProfile .listBox .searchBox input{
+#friendProfile .listBox .searchBox input{
 	float:left;
 }
 
-#familyProfile .listBox .searchBox #searchBtn{
+#friendProfile .listBox .searchBox #searchBtn{
 	height: 30px;
 	font-size: 14px;
 	float: left;
@@ -513,15 +517,15 @@ input::-webkit-inner-spin-button {
 	margin-left: 5px;
 }
 
-#familyProfile .listBox > .borderBottom{
+#friendProfile .listBox > .borderBottom{
 	border-bottom: 1px solid rgb(192, 192, 192);
 }
 
-#familyProfile .listBox .familyList tr td .ok{
+#friendProfile .listBox .friendList tr td .ok{
 	background-color: dodgerblue;
 }
 
-#familyProfile .listBox .familyList tr th{
+#friendProfile .listBox .friendList tr th{
 	font-weight: bold;
 	padding: 7px 0;
 	border-bottom: 1px solid rgb(192, 192, 192);
