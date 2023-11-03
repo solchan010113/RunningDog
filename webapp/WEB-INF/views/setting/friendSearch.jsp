@@ -20,18 +20,19 @@
 		<li class=""><a href="">강아지</a></li>
 		<li class="settingSubLi"><a class="setting_sub" href="">강아지 카드</a></li>
 		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">강아지 등록</a></li>
-		<li class="selected"><a href="">패밀리</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="">패밀리 목록</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">패밀리 신청 관리</a></li>
-		<li class="settingSubLi noTopBorder selectedBold"><a class="setting_sub" href="">패밀리 추가</a></li>
+		<li class="selected"><a href="">친구</a></li>
+		<li class="settingSubLi"><a class="setting_sub" href="">친구 목록</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">내가 받은 신청</a></li>
+		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="">내가 한 신청</a></li>
+		<li class="settingSubLi noTopBorder selectedBold"><a class="setting_sub" href="">회원 검색</a></li>
 		<li class="last_li"><a href="">회원탈퇴</a></li>
 	</ul>
 	
 	
-	<div id="familyProfile">
+	<div id="friendProfile">
 
 		<div class="firstElement">
-			<h1>패밀리 추가</h1>
+			<h1>회원 검색</h1>
 			<div>#12345</div>
 		</div>
 		
@@ -48,7 +49,7 @@
 				</div>
 			</form>
 			
-			<table class="familyList">
+			<table class="friendList">
 				<colgroup>
 					<col style="width: 10%;" />
 	    			<col style="width: 25%;" />
@@ -75,7 +76,7 @@
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
 			</table>
-			<table class="familyList">
+			<table class="friendList">
 				<tr>
 					<td>해당 회원이 존재하지 않습니다.</td>
 				</tr>

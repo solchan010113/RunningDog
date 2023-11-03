@@ -37,20 +37,27 @@ public class SettingController {
 		return "setting/dogModify";
 	}
 	
-	@RequestMapping( "/setting/familyAdd")
-	public String familyAdd(){
-		return "setting/familyAdd";
+	
+	@RequestMapping( "/setting/friendSearch")
+	public String friendSearch(){
+		return "setting/friendSearch";
 	}
 	
-	@RequestMapping( "/setting/familyList")
-	public String familyList(){
-		return "setting/familyList";
+	@RequestMapping( "/setting/friendList")
+	public String friendList(){
+		return "setting/friendList";
 	}
 	
-	@RequestMapping( "/setting/familyRequest")
-	public String familyRequest(){
-		return "setting/familyRequest";
+	@RequestMapping( "/setting/friendApply")
+	public String friendApply(){
+		return "setting/friendApply";
 	}
+	
+	@RequestMapping( "/setting/friendApplied")
+	public String friendApplied(){
+		return "setting/friendApplied";
+	}
+	
 	
 	@RequestMapping( "/setting/myProfile")
 	public String myProfile(){
