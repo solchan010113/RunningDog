@@ -7,5 +7,11 @@
 
     <mappers>
         <mapper resource="mybatis/mappers/users.xml" />
+<<<<<<< HEAD
+        <!-- <mapper resource="mybatis/mappers/guestbook.xml" /> -->
     </mappers>
 </configuration>
+=======
+    </mappers>
+</configuration>
+>>>>>>> 592fa7813f6482a7173467e2b768f7c36abff7a6

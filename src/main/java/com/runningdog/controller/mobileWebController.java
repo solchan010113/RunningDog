@@ -18,7 +18,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.runningdog.vo.linePathVo;
+import com.runningdog.vo.LinePathVo;
 
 @Controller
 @RequestMapping( "/m")
@@ -61,7 +61,7 @@ public class mobileWebController {
 
 	    // JSON 문자열을 파싱하여 객체로 변환
 	    ObjectMapper objectMapper = new ObjectMapper();
-	    List<linePathVo> lineList = objectMapper.readValue(decodedJson, new TypeReference<List<linePathVo>>() {});		    
+	    List<LinePathVo> lineList = objectMapper.readValue(decodedJson, new TypeReference<List<LinePathVo>>() {});		    
 	    
 	    // lineData를 사용하여 다른 작업을 수행
 	    System.out.println("lineList"+lineList);
