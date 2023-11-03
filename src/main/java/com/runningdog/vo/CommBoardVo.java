@@ -10,12 +10,12 @@ public class CommBoardVo {
 	private int count; 	
 	private char status; 
 
-	private UserVo userVo;
+	private UsersVo usersVo;
 
-	public CommBoardVo() {};
-	
+	public CommBoardVo() {}
+
 	public CommBoardVo(int commBoardNo, String commCategory, String title, String content, String regDate, int count,
-			char status, UserVo userVo) {
+			char status, UsersVo usersVo) {
 		super();
 		this.commBoardNo = commBoardNo;
 		this.commCategory = commCategory;
@@ -24,7 +24,7 @@ public class CommBoardVo {
 		this.regDate = regDate;
 		this.count = count;
 		this.status = status;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 	}
 
 	public int getCommBoardNo() {
@@ -83,19 +83,21 @@ public class CommBoardVo {
 		this.status = status;
 	}
 
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUsersVo() {
+		return usersVo;
 	}
 
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUsersVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 
 	@Override
 	public String toString() {
 		return "CommBoardVo [commBoardNo=" + commBoardNo + ", commCategory=" + commCategory + ", title=" + title
-				+ ", content=" + content + ", regDate=" + regDate + ", count=" + count + ", status=" + status + "]";
-	}
+				+ ", content=" + content + ", regDate=" + regDate + ", count=" + count + ", status=" + status
+				+ ", usersVo=" + usersVo + "]";
+	};
+	
 	
 	
 	
