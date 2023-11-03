@@ -6,9 +6,9 @@ public class WalkedDogVo {
 	private WalkLogVo walkLogVo;
 	private DogVo dogVo;
 	
-	public WalkedDogVo() {};
-	
-	public WalkedDogVo(int walkedDogNo, com.runningdog.vo.WalkLogVo walkLogVo, com.runningdog.vo.DogVo dogVo) {
+	public WalkedDogVo() {}
+
+	public WalkedDogVo(int walkedDogNo, WalkLogVo walkLogVo, DogVo dogVo) {
 		super();
 		this.walkedDogNo = walkedDogNo;
 		this.walkLogVo = walkLogVo;
@@ -42,8 +42,9 @@ public class WalkedDogVo {
 	@Override
 	public String toString() {
 		return "WalkedDogVo [walkedDogNo=" + walkedDogNo + ", walkLogVo=" + walkLogVo + "]";
-	}
-
+	};
+	
+	
 	
 	
 	
