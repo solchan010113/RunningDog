@@ -1,9 +1,5 @@
 package com.runningdog.controller;
 
-
-
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,19 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping( "/comm")
 public class communityController {
-	
-	@Autowired
-	private SqlSession sqlSession;
-	
-	
+		
 	// 산책소식 홈
 	@RequestMapping( "/home")
 	public String home(){
-		System.out.println("/home");	
-		
-		sqlSession.insert("users.insert" );
-		
-		
+		System.out.println("/home");			
 		return "community/commHome";
 		}	
 	
