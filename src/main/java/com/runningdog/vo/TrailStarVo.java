@@ -40,5 +40,11 @@ public class TrailStarVo {
 	public void setStarDate(String starDate) {
 		StarDate = starDate;
 	}
+
+	@Override
+	public String toString() {
+		return "TrailStarVo [trailStarNo=" + trailStarNo + ", usersVo=" + usersVo + ", trailVo=" + trailVo
+				+ ", StarDate=" + StarDate + "]";
+	}
 	
 }

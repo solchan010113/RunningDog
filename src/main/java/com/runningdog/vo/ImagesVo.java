@@ -2,7 +2,6 @@ package com.runningdog.vo;
 
 public class ImagesVo {
 	
-	
 	private int imagesNo;
 	private String orgName;
 	private String saveName;
@@ -98,10 +97,4 @@ public class ImagesVo {
 				+ imageOrder + "]";
 	}
 	
-	
-	
-	
-	
-	
-
 }
