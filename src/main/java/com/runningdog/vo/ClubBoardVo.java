@@ -9,11 +9,11 @@ public class ClubBoardVo {
 	private char status;
 	private int visits;
 	private ClubBoardCategoryVo categoryVo;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	
 	public ClubBoardVo() {}
 	public ClubBoardVo(int clubBoardNo, String title, String contents, String regDate, char status, int visits,
-			ClubBoardCategoryVo categoryVo, UserVo userVo) {
+			ClubBoardCategoryVo categoryVo, UsersVo usersVo) {
 		this.clubBoardNo = clubBoardNo;
 		this.title = title;
 		this.contents = contents;
@@ -21,7 +21,7 @@ public class ClubBoardVo {
 		this.status = status;
 		this.visits = visits;
 		this.categoryVo = categoryVo;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 	}
 	public int getClubBoardNo() {
 		return clubBoardNo;
@@ -65,20 +65,16 @@ public class ClubBoardVo {
 	public void setCategoryVo(ClubBoardCategoryVo categoryVo) {
 		this.categoryVo = categoryVo;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUserVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUserVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	@Override
 	public String toString() {
 		return "ClubBoardVo [clubBoardNo=" + clubBoardNo + ", title=" + title + ", contents=" + contents + ", regDate="
 				+ regDate + ", status=" + status + ", visits=" + visits + ", categoryVo=" + categoryVo + "]";
 	}
-	
-	
-	
-	
 	
 }

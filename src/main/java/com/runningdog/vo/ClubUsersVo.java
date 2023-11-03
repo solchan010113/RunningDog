@@ -9,11 +9,11 @@ public class ClubUsersVo {
 	private char status;
 	private int visits;
 	private String lastVisit;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	private ClubVo clubVo;
 	
 	public ClubUsersVo() {}
-	public ClubUsersVo(int clubUserNo, char auth, String regDate, char status, int visits, String lastVisit, UserVo userVo,
+	public ClubUsersVo(int clubUserNo, char auth, String regDate, char status, int visits, String lastVisit, UsersVo usersVo,
 			ClubVo clubVo) {
 		this.clubUserNo = clubUserNo;
 		this.auth = auth;
@@ -21,7 +21,7 @@ public class ClubUsersVo {
 		this.status = status;
 		this.visits = visits;
 		this.lastVisit = lastVisit;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 		this.clubVo = clubVo;
 	}
 	public int getClubUserNo() {
@@ -60,11 +60,11 @@ public class ClubUsersVo {
 	public void setLastVisit(String lastVisit) {
 		this.lastVisit = lastVisit;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUserVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUserVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	public ClubVo getClubVo() {
 		return clubVo;
@@ -77,9 +77,5 @@ public class ClubUsersVo {
 		return "ClubUsersVo [clubUserNo=" + clubUserNo + ", auth=" + auth + ", regDate=" + regDate + ", status="
 				+ status + ", visits=" + visits + ", lastVisit=" + lastVisit + ", clubVo=" + clubVo + "]";
 	}
-	
-	
-	
-	
 
 }

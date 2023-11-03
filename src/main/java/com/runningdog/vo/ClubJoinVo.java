@@ -4,15 +4,15 @@ public class ClubJoinVo {
 	
 	private int joinNo;
 	private String regDate;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	private ClubVo clubVo;
 	
 	public ClubJoinVo() {}
-	public ClubJoinVo(int joinNo, String regDate, UserVo userVo, ClubVo clubVo) {
+	public ClubJoinVo(int joinNo, String regDate, UsersVo usersVo, ClubVo clubVo) {
 		super();
 		this.joinNo = joinNo;
 		this.regDate = regDate;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 		this.clubVo = clubVo;
 	}
 	public int getJoinNo() {
@@ -27,11 +27,11 @@ public class ClubJoinVo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUserVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUserVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	public ClubVo getClubVo() {
 		return clubVo;

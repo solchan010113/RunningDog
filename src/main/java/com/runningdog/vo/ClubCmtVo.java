@@ -4,18 +4,18 @@ public class ClubCmtVo {
 	
 	private int clubCommentNo;
 	private ClubBoardVo clubBoardVo;
-	private UserVo userVo;
+	private UsersVo usersVo;
 	private String contents;
 	private String regDate;
 	private int groupNo;
 	private char status;
 	
 	public ClubCmtVo() {}
-	public ClubCmtVo(int clubCommentNo, ClubBoardVo clubBoardVo, UserVo userVo, String contents, String regDate,
+	public ClubCmtVo(int clubCommentNo, ClubBoardVo clubBoardVo, UsersVo usersVo, String contents, String regDate,
 			int groupNo, char status) {
 		this.clubCommentNo = clubCommentNo;
 		this.clubBoardVo = clubBoardVo;
-		this.userVo = userVo;
+		this.usersVo = usersVo;
 		this.contents = contents;
 		this.regDate = regDate;
 		this.groupNo = groupNo;
@@ -33,11 +33,11 @@ public class ClubCmtVo {
 	public void setClubBoardVo(ClubBoardVo clubBoardVo) {
 		this.clubBoardVo = clubBoardVo;
 	}
-	public UserVo getUserVo() {
-		return userVo;
+	public UsersVo getUserVo() {
+		return usersVo;
 	}
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUserVo(UsersVo usersVo) {
+		this.usersVo = usersVo;
 	}
 	public String getContents() {
 		return contents;
