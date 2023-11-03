@@ -3,12 +3,12 @@ package com.runningdog.vo;
 public class WalkedDogVo {
 	
 	private int walkedDogNo;
-	private walkLogVo walkLogVo;
-	private dogVo dogVo;
+	private WalkLogVo walkLogVo;
+	private DogVo dogVo;
 	
-	public WalkedDogVo() {}:
+	public WalkedDogVo() {};
 	
-	public WalkedDogVo(int walkedDogNo, com.runningdog.vo.walkLogVo walkLogVo, com.runningdog.vo.dogVo dogVo) {
+	public WalkedDogVo(int walkedDogNo, com.runningdog.vo.WalkLogVo walkLogVo, com.runningdog.vo.DogVo dogVo) {
 		super();
 		this.walkedDogNo = walkedDogNo;
 		this.walkLogVo = walkLogVo;
@@ -23,19 +23,19 @@ public class WalkedDogVo {
 		this.walkedDogNo = walkedDogNo;
 	}
 
-	public walkLogVo getWalkLogVo() {
+	public WalkLogVo getWalkLogVo() {
 		return walkLogVo;
 	}
 
-	public void setWalkLogVo(walkLogVo walkLogVo) {
+	public void setWalkLogVo(WalkLogVo walkLogVo) {
 		this.walkLogVo = walkLogVo;
 	}
 
-	public dogVo getDogVo() {
+	public DogVo getDogVo() {
 		return dogVo;
 	}
 
-	public void setDogVo(dogVo dogVo) {
+	public void setDogVo(DogVo dogVo) {
 		this.dogVo = dogVo;
 	}
 
@@ -43,6 +43,7 @@ public class WalkedDogVo {
 	public String toString() {
 		return "WalkedDogVo [walkedDogNo=" + walkedDogNo + ", walkLogVo=" + walkLogVo + "]";
 	}
+
 	
 	
 	
