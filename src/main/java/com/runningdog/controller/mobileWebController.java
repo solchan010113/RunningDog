@@ -76,6 +76,11 @@ public class mobileWebController {
 	@RequestMapping( "/walkInsert")
 	public String walkInsert(){
 		System.out.println("/walkInsert");
+		
+		
+		
+		
+		
 		return "redirect:map";
 	}	
 	
