@@ -62,6 +62,13 @@ integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="ano
 				</button>			
 			</div>
 			
+			<!-- 부트스트랩에서 가져온 인풋 폼 -->
+			<label for="inputPassword5" class="form-label">제목</label>
+			<input type="text" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+			<div id="passwordHelpBlock" class="form-text">
+			  제목을 입력해주세요.
+			</div>
+			
 			<div class="insertBox">				
 				<div id="summernote"></div>
 			</div>
