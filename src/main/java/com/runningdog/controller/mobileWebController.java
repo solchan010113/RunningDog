@@ -42,17 +42,13 @@ public class mobileWebController {
 	
 	// 모바일메인화면 맵실행
 	@RequestMapping( "/map")
-	public String map(Model model){
+	public String map(){
 		System.out.println("/산책시작 페이지");
 		
-		System.out.println(model);
 		
 		moWebService.trailSelect();
 		
-		
-		
 			
-		
 		//myLocation = model.addAllAttributes(null)
 		// 서비스에서 요청해야할것
 		// 강아지정보
