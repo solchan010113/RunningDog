@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,9 +62,19 @@
 				</li>
 			</ul>
 			<ul class="right">
-				<li>로그인</li>
-				<li>회원가입</li>
+				<!-- 로그인 전 메뉴 -->
+				<c:if test="${sessionScope.authUser == null}">
+					<li><a href="${pageContext.request.contextPath}/loginForm">로그인</a></li>
+					<li><a href="${pageContext.request.contextPath}/joinForm">회원가입</a></li>
+	 			</c:if>
+	 			
+	 			<!-- 로그인 후 메뉴 -->
+				<c:if test="${sessionScope.authUser != null}">
+					<li><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+					<li><a href="${pageContext.request.contextPath}/setting/myProfile">설정</a></li>
+	 			</c:if>
 			</ul>
+			
 		</nav>
 		
 	</header>
