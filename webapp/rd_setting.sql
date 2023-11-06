@@ -1104,13 +1104,6 @@ from location;
 
 
 
---friend 
---	friendNo	NUMBER	NOT NULL,
---	applyUserNo	NUMBER	NOT NULL,
---	appliedUserNo	NUMBER	NOT NULL,
---	status	char	NOT NULL
-
-
 
 
 
