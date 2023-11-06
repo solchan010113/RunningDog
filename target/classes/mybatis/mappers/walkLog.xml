@@ -6,9 +6,14 @@
    <!-- 쿼리문 작성 --> 
    
    <!-- 산책로 가져오기 -->
-   <select id="trailSelect"  resultType="com.runningdog.vo.TrailVo">
+   <select id="trailSelect"  resultType="com.runningdog.vo.UseTrailVo">
       <![CDATA[
-         SELECT  *
+         SELECT co.coordno as coordNo
+		        ,tr.trailno as trailNo
+		        ,tr.name as name
+		        ,co.coordorder as coordOrder
+		        ,co.lat as lat
+		        ,co.lng as lng
          FROM trail tr, coords co
          where co.type = 'trail'
          and tr.trailno = co.useno

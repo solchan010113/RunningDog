@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.service.MoWebService;
 import com.runningdog.vo.LinePathVo;
+import com.runningdog.vo.UseTrailVo;
 
 @Controller
 @RequestMapping( "/m")
@@ -42,13 +43,18 @@ public class mobileWebController {
 	
 	// 모바일메인화면 맵실행
 	@RequestMapping( "/map")
-	public String map(){
+	public String map(Model model){
 		System.out.println("/산책시작 페이지");
 		
 		
-		moWebService.trailSelect();
+
 		
-			
+		List<UseTrailVo> trailList = moWebService.trailSelect();
+		
+		System.out.println(trailList);
+		
+		model.addAttribute("trailList",trailList);
+		
 		//myLocation = model.addAllAttributes(null)
 		// 서비스에서 요청해야할것
 		// 강아지정보

@@ -385,9 +385,36 @@
         $(document).ready(function() {
             // 슬라이드 버튼을 숨김
             $('.slick-next, .slick-prev').hide();
-        });     
+        }); 
+        
+        // 산책로 화면에 뿌려주기
+        
+        var trailLine = [];
+        
+        
+       
+		var trailList = '${trailList}';
+        
+		 // lineList의 각 항목을 polylinePath 배열에 추가
+	    for (var i = 0; i < trailList.length; i++) {
+	        var lat = trailList[i].lat;
+	        var lng = trailList[i].lng;
+	        trailLine.push(new naver.maps.LatLng(lat, lng));
+	    }
+        
+        var polyline = new naver.maps.Polyline({
+			map : map,
+			path : trailLine[0],
+			strokeColor : '#5347AA',
+			strokeWeight : 5,
+			clickable : true,
+		});
+        
+        
+        
             
     </script>
+    
     <script>
         // 네이버 지도 API 스크립트 로딩 후 initMap 함수 호출
         naver.maps.onJSContentLoaded = initMap;        
