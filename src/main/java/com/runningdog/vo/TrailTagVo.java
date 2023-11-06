@@ -32,5 +32,10 @@ public class TrailTagVo {
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
+
+	@Override
+	public String toString() {
+		return "TrailTagVo [trailTagNo=" + trailTagNo + ", trailVo=" + trailVo + ", tagName=" + tagName + "]";
+	}
 	
 }

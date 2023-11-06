@@ -56,5 +56,11 @@ public class TrailCmtVo {
 	public void setStatus(char status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "TrailCmtVo [trailCmtNo=" + trailCmtNo + ", trailVo=" + trailVo + ", usersVo=" + usersVo + ", regDate="
+				+ regDate + ", content=" + content + ", status=" + status + "]";
+	}
 	
 }

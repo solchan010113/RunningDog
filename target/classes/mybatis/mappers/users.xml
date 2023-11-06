@@ -7,11 +7,7 @@
 	
 	<insert id="insert" >  
 		 <![CDATA[
-<<<<<<< HEAD
-	     INSERT INTO "users"
-=======
 	     INSERT INTO users
->>>>>>> 592fa7813f6482a7173467e2b768f7c36abff7a6
 	     VALUES  (02,
 			      30,     
 			      '아이디1',  

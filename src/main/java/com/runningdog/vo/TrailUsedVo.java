@@ -33,4 +33,9 @@ public class TrailUsedVo {
 		this.trailVo = trailVo;
 	}
 
+	@Override
+	public String toString() {
+		return "TrailUsedVo [trailUserdNo=" + trailUserdNo + ", walkLogVo=" + walkLogVo + ", trailVo=" + trailVo + "]";
+	}
+
 }

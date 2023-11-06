@@ -43,11 +43,15 @@ public class mobileWebController {
 	public String map(){
 		System.out.println("/산책시작 페이지");
 		
-		// 내 강아지 정보
-		// 내 모임일정정보				
+		
+		// 서비스에서 요청해야할것
+		// 강아지정보
+		// 모임정보
+		// 산책로 정보 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
 		
 		return "mobileWeb/walkStart";
 	}
+	
 	
 	// 산책기록폼
 	@RequestMapping("/wif")
@@ -75,14 +79,14 @@ public class mobileWebController {
 	// 기록하기
 	@RequestMapping( "/walkInsert")
 	public String walkInsert(){
-		System.out.println("/walkInsert");
-		
-		
-		
-		
+		System.out.println("/walkInsert");		
+				
 		
 		return "redirect:map";
 	}	
+	
+	
+	
 	
 	
 	/*

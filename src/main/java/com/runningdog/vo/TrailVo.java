@@ -122,5 +122,13 @@ public class TrailVo {
 	public void setStatus(char status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "TrailVo [trailNo=" + trailNo + ", usersVo=" + usersVo + ", locationVo=" + locationVo + ", name=" + name
+				+ ", spot=" + spot + ", distance=" + distance + ", eta=" + eta + ", parking=" + parking + ", restroom="
+				+ restroom + ", trashCan=" + trashCan + ", explanation=" + explanation + ", regDate=" + regDate
+				+ ", updateDate=" + updateDate + ", status=" + status + "]";
+	}
 	
 }
