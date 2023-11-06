@@ -7,8 +7,12 @@
 
     <mappers>
         <mapper resource="mybatis/mappers/users.xml" />
+<<<<<<< HEAD
         
         <mapper resource="mybatis/mappers/user.xml" />
         
+=======
+        <mapper resource="mybatis/mappers/walkLog.xml" />
+>>>>>>> branch 'master' of https://github.com/solchan010113/RunningDog.git
     </mappers>
 </configuration>
