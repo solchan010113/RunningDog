@@ -163,6 +163,23 @@
           
           console.log("현재 위치는 위도: " + lat + ", 경도: " + lng);
           
+          /* 내 위치를 컨트롤러로 받기? 
+          	$.ajax({
+              url : "${pageContext.request.contextPath}/m/map",
+              type : "POST",
+              dataType: 'JSON',
+              success : function (data) {
+                  if(data.resultMap.code == "1"){
+                      alert("success!")
+                      
+                  } else {
+                      alert("error!")
+                  }
+                  
+                  }
+              });  //ajax */
+          
+          
           map = new naver.maps.Map("map", {
             center: myLocation,
             zoom: 19,
