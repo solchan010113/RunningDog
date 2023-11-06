@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.runningdog.service.UsersService;
-import com.runningdog.vo.UsersVo;
+import com.runningdog.service.UserService;
+import com.runningdog.vo.UserVo;
 
 
 @Controller
-public class UsersController {
+public class UserController {
 	
 	@Autowired
-	private UsersService usersService;
+	private UserService userService;
 	
 	
 	//회원가입 폼
@@ -29,13 +29,13 @@ public class UsersController {
 	
 	//회원가입
 	@RequestMapping(value="/join", method={RequestMethod.GET, RequestMethod.POST})
-	public String join(@ModelAttribute UsersVo usersVo){
+	public String join(@ModelAttribute UserVo userVo){
 		System.out.println("UsersController.join()");
 		
-		//System.out.println(usersVo);
-		usersService.insertUser(usersVo);
+		//System.out.println(userVo);
+		userService.insertUser(userVo);
 		
-		return "redirect:/loginform";
+		return "redirect:/loginForm";
 	}
 	
 	
@@ -49,11 +49,11 @@ public class UsersController {
 	
 	//로그인
 	@RequestMapping(value="/login", method = {RequestMethod.GET, RequestMethod.POST})
-	public String login(@ModelAttribute UsersVo usersVo,
+	public String login(@ModelAttribute UserVo userVo,
 						HttpSession session) {
 		System.out.println("UsersController.login()");
 		
-		UsersVo authUser = usersService.selectOneUser(usersVo);
+		UserVo authUser = userService.selectOneUser(userVo);
 		
 		session.setAttribute("authUser", authUser);
 		//세션은 web 전용이므로 controller에서 처리한다.
