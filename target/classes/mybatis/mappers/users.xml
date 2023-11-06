@@ -20,6 +20,7 @@
 		 ]]>
 	</insert>
 	
+<<<<<<< HEAD
 	
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UsersVo" resultType="com.runningdog.vo.UsersVo">
@@ -47,3 +48,7 @@
 
 
 
+=======
+
+</mapper>
+>>>>>>> e7c71a7d9a1e4570969d2ce90f0b2c391f4940f2

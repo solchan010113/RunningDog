@@ -3,26 +3,28 @@ package com.runningdog.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.runningdog.service.MoWebService;
 import com.runningdog.vo.LinePathVo;
 
 @Controller
 @RequestMapping( "/m")
 public class mobileWebController {
+	
+	@Autowired
+	private MoWebService moWebService;
+	
 		
 	// 로그인폼
 	@RequestMapping( "/loginForm")
@@ -40,17 +42,28 @@ public class mobileWebController {
 	
 	// 모바일메인화면 맵실행
 	@RequestMapping( "/map")
-	public String map(){
+	public String map(Model model){
 		System.out.println("/산책시작 페이지");
 		
+		System.out.println(model);
 		
+		moWebService.trailSelect();
+		
+		
+		
+			
+		
+		//myLocation = model.addAllAttributes(null)
 		// 서비스에서 요청해야할것
 		// 강아지정보
 		// 모임정보
 		// 산책로 정보 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
 		
+		
 		return "mobileWeb/walkStart";
 	}
+		
+	
 	
 	
 	// 산책기록폼
