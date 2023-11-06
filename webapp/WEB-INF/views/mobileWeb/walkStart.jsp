@@ -394,6 +394,8 @@
         
        
 		var trailList = '${trailList}';
+		
+		console.log('${trailList}');
         
 		 // lineList의 각 항목을 polylinePath 배열에 추가
 	    for (var i = 0; i < trailList.length; i++) {
