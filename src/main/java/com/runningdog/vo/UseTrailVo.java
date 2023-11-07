@@ -2,6 +2,8 @@ package com.runningdog.vo;
 
 public class UseTrailVo {
 	
+	// 손성진사용
+	
 	private int coordNo;
 	private int trailNo;
 	private String name;	
