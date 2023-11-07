@@ -127,8 +127,20 @@
 	
 	<input id="mapX" type="hidden" name="mapX" value="">
 	<input id="mapY" type="hidden" name="mapY" value="">
+	
+	<form id="dataForm" action="${pageContext.request.contextPath}/m/wif" method="post">
+	    <input type="hidden" name="line" id="lineDataInput" value="">
+	</form>
 
-    <script>    
+    <script>
+    
+    	//
+    
+    
+    
+    
+    
+    
     	
     	// 보여지는 맵
         let map;
@@ -227,7 +239,7 @@
                 
                 console.log("시작버튼 클릭");
                 
-                // 네비게이션 기능으로 위치정보 받아오기 (10초마다 위치 업데이트)
+                // 네비게이션 기능으로 위치정보 받아오기 (3초마다 위치 업데이트)
                 updateMyLocation();
                 watchId = setInterval(updateMyLocation, 3000);                    
             }
@@ -254,10 +266,19 @@
                         lat: point._lat,
                         lng: point._lng
                       };           		
-                }));
+                }));  
                 
-                window.location.href = "${pageContext.request.contextPath}/m/wif?line=" + encodeURIComponent(jsonData);        	
+                //window.location.href = "${pageContext.request.contextPath}/m/wif?line=" + encodeURIComponent(jsonData);
                 
+             	// 페이지 이동 (주소창에는 나타나지 않음) 실패
+                //window.location.replace("${pageContext.request.contextPath}/m/wif?line=" + encodeURIComponent(jsonData));
+                
+                // 데이터를 폼 필드에 설정
+                $("#lineDataInput").val(jsonData);
+
+                // 폼 제출
+                $("#dataForm").submit();
+             	
              	// 라인 초기화
                 //linePath = [];
             }           

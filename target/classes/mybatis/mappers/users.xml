@@ -18,8 +18,10 @@
 			      '남자',
 			      't')
 		 ]]>
-	</insert>	
-	
+
+	</insert>
+
+
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UsersVo" resultType="com.runningdog.vo.UsersVo">
 		<![CDATA[

@@ -7,6 +7,10 @@
 
     <mappers>
         <mapper resource="mybatis/mappers/users.xml" />
+        
+        <mapper resource="mybatis/mappers/user.xml" />        
+
         <mapper resource="mybatis/mappers/walkLog.xml" />
+        
     </mappers>
 </configuration>
