@@ -49,17 +49,20 @@ public class mobileWebController {
 		
 
 		
-		List<UseTrailVo> trailList = moWebService.trailSelect();
+		//List<UseTrailVo> trailList = moWebService.trailSelect();
 		
-		System.out.println(trailList);
+		//System.out.println(trailList);
 		
-		model.addAttribute("trailList",trailList);
+		//model.addAttribute("trailList",trailList);	
 		
-		//myLocation = model.addAllAttributes(null)
-		// 서비스에서 요청해야할것
-		// 강아지정보
-		// 모임정보
 		// 산책로 정보 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
+		
+		
+		// 서비스에서 요청해야할것
+		
+		// 강아지정보		
+		
+		// 모임정보 (후순위)
 		
 		
 		return "mobileWeb/walkStart";

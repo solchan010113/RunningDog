@@ -166,8 +166,24 @@
           let myLocation = new naver.maps.LatLng(lat, lng); 
           
           console.log("현재 위치는 위도: " + lat + ", 경도: " + lng);
-        
-          // 맵 표시
+          
+          /* 내 위치를 컨트롤러로 받기? 
+          	$.ajax({
+              url : "${pageContext.request.contextPath}/m/map",
+              type : "POST",
+              dataType: 'JSON',
+              success : function (data) {
+                  if(data.resultMap.code == "1"){
+                      alert("success!")
+                      
+                  } else {
+                      alert("error!")
+                  }
+                  
+                  }
+              });  //ajax */
+          
+          
           map = new naver.maps.Map("map", {
             center: myLocation,
             zoom: 19,
@@ -176,7 +192,6 @@
 	        logoControl: false
           });  
           
-          // 초기 내 위치 반경표시
           mapRadius = new naver.maps.Circle({
 			 map : map,
 			 center : myLocation,
@@ -185,7 +200,6 @@
 			 fillOpacity : 0.5
 		  });
          
-          // 내 위치 마커
           myLocationMarker = new naver.maps.Marker({
               position: myLocation,
               map: map,              
@@ -204,7 +218,10 @@
           maximumAge: 0,
           timeout: Infinity
         };    	
-     
+     	
+        // navigator.geolocation.watchPosition() 위치정보가 변하면 현재위치정보를 지속적으로 업데이트하는 함수
+        // navigator.geolocation.getCurrentPosition() 현재위치정보를 업데이트하는 함수
+         	
         // 시작버튼 클릭 후 작동
         function startTracking() {
             if (!isTracking) {
@@ -241,15 +258,24 @@
                         lat: point._lat,
                         lng: point._lng
                       };           		
-                }));  
-    
+                }));             	
+             	
+                
+                //window.location.href = "${pageContext.request.contextPath}/m/wif?line=" + encodeURIComponent(jsonData);
+                
+             	// 페이지 이동 (주소창에는 나타나지 않음) 실패
+                //window.location.replace("${pageContext.request.contextPath}/m/wif?line=" + encodeURIComponent(jsonData));
+                
                 // 데이터를 폼 필드에 설정
                 $("#lineDataInput").val(jsonData);
+
                 // 폼 제출
                 $("#dataForm").submit();
+             	
+             	// 라인 초기화
+                //linePath = [];
             }           
         }
-        
         
     	// 마커 아이콘을 생성
         const mapIcon = {
@@ -326,7 +352,43 @@
         function handleError(error) {
             console.error("위치 정보 가져오기 실패: " + error.message);
         }
-  
+        
+     	
+     // 라인 컨트롤러로 넘기기
+        /* function sendLinePathToController(linePath) {
+             // Replace 'your_controller_url' with the actual URL of your controller
+             console.log("기록된 위치 재확인 : " + linePath);
+             
+             // JavaScript에서 데이터를 linePathVo와 일치하는 구조로 변환 (x와 y 제외)
+             const linePathData = linePath.map(function (point) {
+               return {
+                 lat: point._lat,
+                 lng: point._lng
+               };
+             });
+             
+             // JSON형식으로 변환하기
+             const jsonData = JSON.stringify(linePathData);
+             
+             console.log("기록된 위치 데이터 : " + jsonData);
+
+             $.ajax({
+               type: 'POST',
+               url: "${pageContext.request.contextPath}/m/walkInsertForm",
+             contentType : "application/json",
+               // data: { linePath: JSON.stringify(linePath) },
+               data: jsonData, 
+               //traditional: true,
+               success: function (response) {
+                  console.log("기록완료");
+                  window.location.href = "${pageContext.request.contextPath}/m/wif";
+               },
+               error: function (error) {
+                 console.error('Error sending data to the controller:', error);
+               }
+             });
+           } */
+        
         
        $('.profile-circles').slick({
            slidesToShow: 6, // 화면에 보여질 슬라이드 수
@@ -338,7 +400,34 @@
             // 슬라이드 버튼을 숨김
             $('.slick-next, .slick-prev').hide();
         }); 
-                
+        
+        // 산책로 화면에 뿌려주기
+        
+        var trailLine = [];
+        
+        
+       
+		var trailList = '${trailList}';
+		
+		console.log('${trailList}');
+        
+		 // lineList의 각 항목을 polylinePath 배열에 추가
+	    for (var i = 0; i < trailList.length; i++) {
+	        var lat = trailList[i].lat;
+	        var lng = trailList[i].lng;
+	        trailLine.push(new naver.maps.LatLng(lat, lng));
+	    }
+        
+        var polyline = new naver.maps.Polyline({
+			map : map,
+			path : trailLine[0],
+			strokeColor : '#5347AA',
+			strokeWeight : 5,
+			clickable : true,
+		});
+        
+        
+        
             
     </script>
     
