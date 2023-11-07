@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +18,7 @@
 <div class="pageContainer">
 
 	<ul id="settingsMenu">
-<li class="selected"><a href="${pageContext.request.contextPath}/setting/myProfile">내 정보</a></li>
+		<li class="selected"><a href="${pageContext.request.contextPath}/setting/myProfile">내 정보</a></li>
 		<li class=""><a href="${pageContext.request.contextPath}/setting/dogList">강아지</a></li>
 		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogList">강아지 카드</a></li>
 		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogInsert">강아지 등록</a></li>
@@ -32,36 +35,62 @@
 	
 		<div class="firstElement">
 			<h1>내 정보</h1>
-			<div>#회원코드</div>
+			<div>#${requestScope.selectUser.code}</div>
 		</div>
 		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
-			<img class="profileImg" alt="" src="">
+			
+			<!-- 등록한 이미지가 없으면 기본 이미지 보여주기 -->
+			<c:choose>
+			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
+			   		<!-- Result값이 있다면 실행할 로직 -->
+			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
+			    </c:when>
+			    <c:otherwise>
+					 <!-- 그렇지 않다면 실행할 로직 -->
+					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		<div>
 			<div class="settingLabel">닉네임</div>
-			<div>아델</div>
+			<c:if test="${requestScope.selectUser.name != null && requestScope.selectUser.name != ''}">
+				<div>${requestScope.selectUser.name}</div>
+			</c:if>
+			<c:if test="${requestScope.selectUser.name == null && requestScope.selectUser.name != ''}">
+				<div>-</div>
+			</c:if>
 		</div>
 		
 		<div>
 			<div class="settingLabel">생일</div>
-			<div>-</div>
+			<c:if test="${requestScope.selectUser.birth != null && requestScope.selectUser.birth != ''}">
+				<div>${requestScope.selectUser.birth}</div>
+			</c:if>
+			<c:if test="${requestScope.selectUser.birth == null && requestScope.selectUser.birth != ''}">
+				<div>-</div>
+			</c:if>
 		</div>
 		
 		<div>
 			<div class="settingLabel">성별</div>
-			<div>-</div>
+			<c:if test="${requestScope.selectUser.gender != null && requestScope.selectUser.gender != ''}">
+				<div>${requestScope.selectUser.gender}</div>
+			</c:if>
+			<c:if test="${requestScope.selectUser.gender == null && requestScope.selectUser.gender != ''}">
+				<div>-</div>
+			</c:if>
 		</div>
 		
 		<div>
 			<div class="settingLabel">동네</div>
-			<div>-</div>
+			<div>${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}&nbsp;&nbsp;${requestScope.selectUser.dong}</div>
 		</div>
 		
 		<div class="noBorder">
-			<a class="button" href="">내 정보 수정</a>
+			<a class="button" href="${pageContext.request.contextPath}/setting/myProfileModify">내 정보 수정</a>
 		</div>
 				
 	</div>

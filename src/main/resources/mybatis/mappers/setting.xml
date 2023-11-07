@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="setting">
+
+	<!-- 유저 1명 가져오기 (전부) -->
+	<select id="selectUser" parameterType="String" resultType="com.runningdog.vo.UserVo">
+		<![CDATA[
+			select  u.name name,
+			        u.code code,
+			        u.birth birth,
+			        u.gender gender,
+			        u.locationNo locationNo,
+			        l.si si,
+			        l.gu gu,
+			        l.dong dong,
+			        u.status status
+			from users u, location l
+			where u.id = #{id}
+			and u.locationNo = l.locationNo
+		]]>
+	</select>
+
+
+
+</mapper>
+
+
+

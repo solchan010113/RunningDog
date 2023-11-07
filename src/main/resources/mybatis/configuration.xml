@@ -12,5 +12,7 @@
 
         <mapper resource="mybatis/mappers/walkLog.xml" />
         
+        <mapper resource="mybatis/mappers/setting.xml" />
+        
     </mappers>
 </configuration>
