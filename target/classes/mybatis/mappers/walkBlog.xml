@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="walkBlog">
+   
+   <!-- 쿼리문 작성 --> 
+   
+   <!-- 산책로 가져오기 -->
+   <select id="selectBlogOwner" parameterType="String"  resultType="String">
+      <![CDATA[
+      
+      SELECT name,
+      		 userNo
+      FROM users
+      WHERE id = #{id}
+      
+      ]]>
+   </select>
+   
+   
+   
+      <select id="selectFollowerNum" parameterType="String" resultType="int">
+      <![CDATA[
+      
+      SELECT count(followeeNo) as followerNum
+      from follow
+      where followeeNo = (SELECT userNo
+                            From users
+                            WHERE id = #{id})
+      ]]>
+   </select>
+   
+    <select id="selectFollowingNum" parameterType="String" resultType="int">
+      <![CDATA[
+      
+      SELECT count(followerNo) as followingNum
+      from follow
+      where followerNo = (SELECT userNo
+                            From users
+                            WHERE id = #{id})
+      ]]>
+   </select>
+   
+   
+
+</mapper>

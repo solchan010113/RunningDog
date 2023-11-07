@@ -34,7 +34,7 @@
 						<div class="profileImg">
 							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 						</div>
-						<h1 class="userName">호두마루</h1>
+						<h1 class="userName">${blogInfoVo.name}</h1>
 						<button class="followButton">팔로우</button>
 					</div>
 					<div class="mainDogCard">
@@ -244,11 +244,11 @@
 							<h3 class="social">소셜 네트워크</h3>
 							<div class="followingBox">
 								<div class="followText">팔로잉</div>
-								<div class="followNum">1</div>
+								<div class="followNum">${blogInfoVo.followingNum}</div>
 							</div>
 							<div class="followerBox">
 								<div class="followText">팔로워</div>
-								<div class="followNum">0</div>
+								<div class="followNum">${blogInfoVo.followerNum}</div>
 							</div>
 						</div>
 
