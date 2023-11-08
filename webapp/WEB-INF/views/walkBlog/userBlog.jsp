@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,17 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
+<script>
+  function toggleFollowButton() {
+    var followButton = document.getElementById("followButton");
+    
+    if (followButton.innerText === "팔로우") {
+      followButton.innerText = "팔로잉";
+    } else {
+      followButton.innerText = "팔로우";
+    }
+  }
+</script>
 </head>
 <body>
 	<jsp:include page="../global/header.jsp"></jsp:include>
@@ -35,7 +47,21 @@
 							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
-						<button class="followButton">팔로우</button>
+						
+						<c:if test="${requestScope.blogInfoVo.authId != requestScope.blogInfoVo.paramId }">
+						<button id="followButton" class="followButton" onclick="toggleFollowButton()">
+						<c:if test="${requestScope.blogInfoVo.followNo == 0}">
+						팔로우
+						
+						</c:if>
+						
+						<c:if test="${requestScope.blogInfoVo.followNo == 1}">
+						팔로잉
+						
+						</c:if>
+						
+						</button>
+						</c:if>
 					</div>
 					<div class="mainDogCard">
 						<div class="coworkingDog">산책 파트너</div>
@@ -82,6 +108,7 @@
 
 
 					<div class="mainRecordSection">
+					<c:forEach items="${gbList}" var="guestbookVo">
 						<div class="mainRecord1">
 
 
@@ -92,7 +119,7 @@
 										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 									</div>
 
-									<div class="MRuserName1">호두마루</div>
+									<div class="MRuserName1"></div>
 								</div>
 								<div class="wrappingBox">
 									<div class="MRtitleBox">
@@ -210,7 +237,7 @@
 							</div>
 							<div class="MRborder"></div>
 						</div>
-
+                    </c:forEach>
 					</div>
 
 

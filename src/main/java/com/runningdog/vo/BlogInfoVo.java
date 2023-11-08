@@ -7,21 +7,85 @@ public class BlogInfoVo {
 	
 	private String userSavename;
 	private String  bannerSavename;
-	
+	private String authId;
+	private String paramId;
 	
 	private int followerNum;
 	private int followingNum;
 	
+	private int followNo;
+	
 	public BlogInfoVo() {}
 	
-	public BlogInfoVo(String name, String userSavename, String bannerSavename, int followerNum, int followingNum) {
+	
+	
+
+	
+
+
+	public BlogInfoVo(int no, String name, String userSavename, String bannerSavename, String authId, String paramId,
+			int followerNum, int followingNum, int followNo) {
 		super();
+		this.no = no;
 		this.name = name;
 		this.userSavename = userSavename;
 		this.bannerSavename = bannerSavename;
+		this.authId = authId;
+		this.paramId = paramId;
 		this.followerNum = followerNum;
 		this.followingNum = followingNum;
+		this.followNo = followNo;
 	}
+
+
+
+
+
+
+
+	public int getFollowNo() {
+		return followNo;
+	}
+
+
+
+
+
+
+
+	public void setFollowNo(int followNo) {
+		this.followNo = followNo;
+	}
+
+
+
+
+
+
+
+	public String getAuthId() {
+		return authId;
+	}
+
+
+
+	public void setAuthId(String authId) {
+		this.authId = authId;
+	}
+
+
+
+	public String getParamId() {
+		return paramId;
+	}
+
+
+
+	public void setParamId(String paramId) {
+		this.paramId = paramId;
+	}
+
+
 
 	public int getNo() {
 		return no;
@@ -71,11 +135,17 @@ public class BlogInfoVo {
 		this.followingNum = followingNum;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "BlogInfoVo [no=" + no + ", name=" + name + ", userSavename=" + userSavename + ", bannerSavename="
-				+ bannerSavename + ", followerNum=" + followerNum + ", followingNum=" + followingNum + "]";
+				+ bannerSavename + ", authId=" + authId + ", paramId=" + paramId + ", followerNum=" + followerNum
+				+ ", followingNum=" + followingNum + "]";
 	}
+
+	
+
 
 
 	

@@ -1,5 +1,7 @@
 package com.runningdog.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.runningdog.service.WalkBlogService;
 import com.runningdog.vo.BlogInfoVo;
+import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.UserVo;
 
 @RequestMapping(value="/walkBlog")
@@ -39,13 +42,31 @@ public class WalkBlogController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET,RequestMethod.POST }) 
-	public String userBlog(@PathVariable (value="id") String id, Model model) {
+	public String userBlog(@PathVariable (value="id") String id, Model model, HttpSession session) {
 		
-		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(id);
+		System.out.println("userBlog");
+		
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		String authId = authuser.getId();
+		
+		String paramId = id;
+		
+		
+		
+		
+		
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramId, authId);
+		
+		
 		
 		System.out.println(blogInfoVo);
 		
 		  model.addAttribute("blogInfoVo", blogInfoVo);
+		  
+		  
+			List<ShowLogVo> walkLogList = walkBlogService.walkLogList();  
+		  
+		  model.addAttribute("walkLogList",walkLogList );
 		
 		
 		

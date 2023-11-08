@@ -26,7 +26,7 @@
       from follow
       where followeeNo = (SELECT userNo
                             From users
-                            WHERE id = #{id})
+                            WHERE id = #{paramId})
       ]]>
    </select>
    
@@ -37,7 +37,43 @@
       from follow
       where followerNo = (SELECT userNo
                             From users
-                            WHERE id = #{id})
+                            WHERE id = #{paramId})
+      ]]>
+   </select>
+   
+   
+   
+   <select id="didIFollow" resultType="int" parameterType="Map">
+      <![CDATA[
+      
+      SELECT count(followNo) as followNo 
+	  from follow
+	  where followeeNo =(SELECT userNo
+        From users
+        WHERE id = #{paramId}) and followerNo = (SELECT userNo
+                          From users
+                          WHERE id = #{authId})
+      ]]>
+   </select>
+   
+     <select id="showLog" resultType="int" parameterType="Map">
+      <![CDATA[
+      
+      select walkLogNo,
+       		 userNo,
+       	  	 locationNo,
+       		 regDate,
+       		 startTime,
+      		 endTime,
+      		 logTime,
+      		 distance,
+      		 content,
+      		 security,
+      		 status
+			 from walkLog
+	   where userNo = (SELECT userNo
+       From users
+       WHERE id = #{paramId});
       ]]>
    </select>
    
