@@ -29,8 +29,8 @@
 			<div class="end" id="text01">산책종료</div>
 			
 			<div class="recordBox">
-				<div class="date" id="text02">2023년 10월 25일(화)</div>
-				<div class="record" id="text02"> 거리:34m  시간: ${time} </div>
+				<div class="date" id="text02"> </div>
+				<div class="record" id="text02"> 거리:${distance}m  시간: ${time} </div>
 			</div>		
 			
 		</div>
@@ -130,8 +130,13 @@
 	
 	
 	<script th:inline="javascript">
-	// 경로로 표시할 배열(array)
-	// naver.maps.LatLng 위도 경도 변수
+	
+		// 날짜표시
+		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	    document.getElementById("text02").innerHTML = new Date().toLocaleDateString('ko-KR', options);
+	
+		// 경로로 표시할 배열(array)
+		// naver.maps.LatLng 위도 경도 변수
 		var polylinePath = [];	
 	
 		// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱

@@ -125,8 +125,8 @@
 	</div>
 	
 	
-	<input id="mapX" type="hidden" name="mapX" value="">
-	<input id="mapY" type="hidden" name="mapY" value="">
+	<input id="mapLat" type="hidden" name="mapLat" value="">
+	<input id="mapLng" type="hidden" name="mapLng" value="">
 	
 	<!-- form으로 컨트롤러 보내기 -->
 	<form id="dataForm" action="${pageContext.request.contextPath}/m/wif" method="post">

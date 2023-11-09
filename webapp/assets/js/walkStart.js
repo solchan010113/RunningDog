@@ -40,14 +40,10 @@
 	
 	        document.getElementById("tVal").innerHTML = th + ":" + tm + ":" + ts;
 	        
-	         $("#timeDataInput").val(th + ":" + tm);   
+	        // 시간 인풋창으로 넘기기
+	        $("#timeDataInput").val(th + ":" + tm + ":" + ts);   
 	         
-	      }, 1000);	   
-	      
-	    
-	   
-	                 
-	    
+	      }, 1000);	
 	  });
 	  
 	  
@@ -112,6 +108,9 @@
       let myLocation = new naver.maps.LatLng(lat, lng); 
       
       console.log("현재 위치는 위도: " + lat + ", 경도: " + lng);
+        	
+      $("#mapLat").val(lat);
+      $("#mapLng").val(lng);
     
       // 맵 표시
       map = new naver.maps.Map("map", {
@@ -162,7 +161,8 @@
             
             // 네비게이션 기능으로 위치정보 받아오기 (3초마다 위치 업데이트)
             updateMyLocation();
-            watchId = setInterval(updateMyLocation, 3000);                 
+            
+            watchId = setInterval(updateMyLocation, 3000);  
         }
     }          
          
@@ -207,21 +207,57 @@
 	  caleControl: false,
       logoControl: false
     };
+    
+    let distanceEnd = 0;
 
     // 이동중 현재 위치정보
     function updateMyLocation(position) {  
+		
+		// 이 위치와 if문 안의 위치 사이의 거리값을 구해서 distance에 계속 업데이트해주고
+        // 최종적으로 distance 값을 form으로 보내고 컨트롤러까지 보낼것
+		console.log("  <<위치갱신>>  "); 
+		
+		// 처음에 입력된 현재 내 위치를 받아오기
+		let mapLat = $("#mapLat").val();
+        let mapLng = $("#mapLng").val();         
+        console.log("처음 위치는 : " + mapLat + ", " + mapLng); 
+		
     	if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-        	
+				
+			// 시작버튼을 누른후의 현재 위치를 구하기	
         	let lat = position.coords.latitude;
-        	let lng = position.coords.longitude;       	
+        	let lng = position.coords.longitude;     
         	
+        	// 시작버튼을 누른후의 현재 위치를 myLocation에 넣기
             let myLocation = new naver.maps.LatLng(lat, lng); 
             
 			console.log("이동중 현재 위치는 : " + lat + ", " + lng);
         	
-        	$("#mapX").val(lat);
-        	$("#mapY").val(lng);
+        	// 시작버튼을 누른후의 현재 위치를 input에 넣기
+        	$("#mapLat").val(lat);
+        	$("#mapLng").val(lng);
+        	
+        	// 거리계산 준비        	
+        	let EARTH_R = 6371000.0;        	
+	        let rad = Math.PI / 180;	        
+	        let radLat1 = rad * mapLat;
+	        let radLat2 = rad * lat;
+	        let radDist = rad * (mapLng - lng);	        	        
+			
+	        let distance = Math.sin(radLat1) * Math.sin(radLat2); 
+	        distance = distance + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist);	      
+	        let ret = EARTH_R * Math.acos(distance);	        
+	        let distance2 = Math.round(ret); // 미터 단위
+	        		
+	        distanceEnd = distanceEnd + distance2;
+	        		
+	        console.log("거리m : " + distanceEnd);	
+	        
+	        document.getElementById("mVal").innerHTML = distanceEnd + "m";	               		
+        	
+        	// 시간 인풋창으로 넘기기
+	        $("#distanceDataInput").val(distanceEnd);   
             
         	// 이동위치마커 표시할때 처음위치마커 지우기
             if (myLocationMarker) {
@@ -265,7 +301,12 @@
             map.setCenter(myLocation);
             });
         }
-     }        
+        
+        
+        
+     }     
+     
+        
 
     function handleError(error) {
         console.error("위치 정보 가져오기 실패: " + error.message);
