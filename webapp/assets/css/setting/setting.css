@@ -167,11 +167,60 @@
 	border-radius: 50%;
 }
 
-#profile > .imageArea input{
-	margin-left: 176px;
-	margin-top: 10px;
+#profile > .imageArea #showImgModal {
+	width: 124px;
+    border: 1px solid rgb(133, 133, 133); 
+    padding: 6px 12px;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 176px;
+	margin-top: 16px;
+	border-radius: 2px;
+	font-size: 15px;
 }
 
+/* 이미지 등록 모달창 */
+#addModal .form-group{
+	
+}
+
+#addModal .close{
+	width: 28px;
+	height: 28px;
+	border: 1px solid rgb(133, 133, 133); 
+}
+
+#addModal #btnUpload{
+	border: 1px solid rgb(133, 133, 133); 
+}
+
+#addModal .upload-btn {
+	width: 107px;
+    border: 1px solid rgb(133, 133, 133); 
+    padding: 6px 12px;
+    display: block;
+    cursor: pointer;
+	border-radius: 2px;
+	margin:0 auto;
+	margin-top: 16px;
+}
+
+#addModal .upload-btn span{
+    font-size: 15px;
+}
+
+#addModal #inputFile {
+	display: none;
+}
+
+#addModal .profileImgModal{
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	display: block;
+	margin:0 auto;
+}
+/*------------------------------------*/
 
 #profile > .genderSelect > input{
 	margin-right: 10px;
@@ -181,13 +230,16 @@
 	margin-left: 50px;
 }
 
-#profile #address{
-	width: 250px;
+#profile .address{
+	border: 1px solid rgb(115, 115, 115); 
+	border-radius: 2px;
+	padding: 2px 5px;
 }
 
 #profile #searchAddress{
 	border: 1px solid rgb(133, 133, 133); 
 	border-radius: 2px;
+	margin-left:6px;
 }
 
 

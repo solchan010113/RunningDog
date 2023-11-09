@@ -4,23 +4,51 @@
 <mapper namespace="setting">
 
 	<!-- 유저 1명 가져오기 (전부) -->
-	<select id="selectUser" parameterType="String" resultType="com.runningdog.vo.UserVo">
+	<select id="selectUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
 			select  u.name name,
 			        u.code code,
-			        u.birth birth,
+			        to_char(u.birth, 'YYYY-MM-DD') birth,
 			        u.gender gender,
 			        u.locationNo locationNo,
 			        l.si si,
 			        l.gu gu,
 			        l.dong dong,
-			        u.status status
-			from users u, location l
+			        u.status status,
+			        i.saveName saveName
+			from users u, location l, images i
 			where u.id = #{id}
 			and u.locationNo = l.locationNo
+			and #{userNo} = i.useNo
 		]]>
 	</select>
 
+
+	<!-- id로 no 찾기 -->
+	<select id="selectUserNoWithId" parameterType="String" resultType="int">
+		<![CDATA[
+			select userNo
+			from users
+			where id = #{id}
+		]]>
+	</select>
+
+
+	<!-- 프로필 새로 등록 시 기존 사진 row 지우기 -->
+	<delete id="deleteUserProfile" parameterType="int">
+		<![CDATA[
+			delete from images
+			where useNo = #{useNo}
+		]]>
+	</delete>
+
+	<!-- user profile 업로드한 파일 정보 저장 -->
+	<insert id="insertUserProfile" parameterType="com.runningdog.vo.MainImageVo">
+		<![CDATA[
+			insert into images
+			values(seq_images_no.nextval, #{orgName}, #{saveName}, #{filePath}, #{fileSize}, 'users', #{useNo}, 0)
+		]]>
+	</insert>
 
 
 </mapper>

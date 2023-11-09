@@ -45,7 +45,7 @@
 			<c:choose>
 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/adele.png">
+			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/${requestScope.selectUser.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
@@ -56,12 +56,7 @@
 		
 		<div>
 			<div class="settingLabel">닉네임</div>
-			<c:if test="${requestScope.selectUser.name != null && requestScope.selectUser.name != ''}">
-				<div>${requestScope.selectUser.name}</div>
-			</c:if>
-			<c:if test="${requestScope.selectUser.name == null && requestScope.selectUser.name != ''}">
-				<div>-</div>
-			</c:if>
+			<div>${requestScope.selectUser.name}</div>
 		</div>
 		
 		<div>
@@ -77,7 +72,12 @@
 		<div>
 			<div class="settingLabel">성별</div>
 			<c:if test="${requestScope.selectUser.gender != null && requestScope.selectUser.gender != ''}">
-				<div>${requestScope.selectUser.gender}</div>
+				<c:if test="${requestScope.selectUser.gender == 'female'}">
+					<div>여</div>
+				</c:if>
+				<c:if test="${requestScope.selectUser.gender == 'male'}">
+					<div>남</div>
+				</c:if>
 			</c:if>
 			<c:if test="${requestScope.selectUser.gender == null && requestScope.selectUser.gender != ''}">
 				<div>-</div>

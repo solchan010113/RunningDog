@@ -39,7 +39,7 @@
 
 		<div class="firstElement">
 			<h1>강아지 카드</h1>
-			<div>#회원코드</div>
+			<div>#${requestScope.selectUser.code}</div>
 		</div>
 		
 		<div class="noBorder">
