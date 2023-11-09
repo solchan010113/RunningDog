@@ -50,6 +50,19 @@
 		]]>
 	</insert>
 
+	<!-- 회원 정보 수정 -->
+	<update id="updateUser" parameterType="com.runningdog.vo.UserVo">
+		<![CDATA[
+			update users
+			set  locationNo = #{locationNo},
+			     name = #{name},
+			     birth = #{birth, jdbcType = VARCHAR},
+			     gender = #{gender, jdbcType = VARCHAR}
+			where id = #{id}
+		]]>
+	</update>
+	
+	
 
 </mapper>
 

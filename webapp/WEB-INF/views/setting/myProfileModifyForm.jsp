@@ -112,34 +112,33 @@
 
 
 
-<!-- 이미지등록 팝업(모달)창 -->
-<div class="modal fade" id="addModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">이미지등록</h4>
-			</div>
+<!-- <!-- 이미지등록 팝업(모달)창 --> -->
+<!-- <div class="modal fade" id="addModal"> -->
+<!-- 	<div class="modal-dialog"> -->
+<!-- 		<div class="modal-content"> -->
+<!-- 			<div class="modal-header"> -->
+<!-- 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+<!-- 				<h4 class="modal-title">이미지등록</h4> -->
+<!-- 			</div> -->
 			
-			<form id="myProfileImgForm" method="post" action="">
-				<div class="modal-body">
-					<div class="form-group">
-						<img class="profileImgModal" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
-						<label for="inputFile" class="upload-btn">
-							<input id="inputFile" type="file" name="file" accept="image/*">
-						    <span class="form-text" >이미지 선택</span>
-					    </label>
-					    <span class="imgMessage">프로필 이미지는 등록 즉시 적용됩니다!</span>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn" id="btnUpload">등록</button>
-				</div>
-			</form>
+<!-- 			<form id="myProfileImgForm" method="post" action=""> -->
+<!-- 				<div class="modal-body"> -->
+<!-- 					<div class="form-group"> -->
+<%-- 						<img class="profileImgModal" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}"> --%>
+<!-- 						<label for="inputFile" class="upload-btn"> -->
+<!-- 							<input id="inputFile" type="file" name="file" accept="image/*"> -->
+<!-- 						    <span class="form-text" >이미지 선택</span> -->
+<!-- 					    </label> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 				<div class="modal-footer"> -->
+<!-- 					<button type="button" class="btn" id="btnUpload">등록</button> -->
+<!-- 				</div> -->
+<!-- 			</form> -->
 			
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- 		</div>/.modal-content -->
+<!-- 	</div>/.modal-dialog -->
+<!-- </div>/.modal -->
 
 
 

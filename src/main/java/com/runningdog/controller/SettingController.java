@@ -69,9 +69,13 @@ public class SettingController {
 	//내 정보 수정 "기능"
 	@RequestMapping(value="/modifyMyProfile", method={RequestMethod.GET, RequestMethod.POST})
 	public String modifyMyProfile(@ModelAttribute UserVo userVo, 
-								  @RequestParam(value="file") MultipartFile file){
+								  @RequestParam(value="file") MultipartFile file,
+								  HttpSession session){
 		System.out.println("SettingController.modifyMyProfile()");
 		
+		String id = ((UserVo) session.getAttribute("authUser")).getId();
+		
+		settingService.modifyMyProfile(userVo, id, file);
 		
 		return "redirect:/setting/myProfile";
 	}

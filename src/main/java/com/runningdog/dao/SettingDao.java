@@ -36,7 +36,7 @@ public class SettingDao {
 	}
 	
 	
-	//user profile 삭제
+	//user profile 이미지 삭제
 	public int deleteUserProfile(int useNo) {
 		System.out.println("SettingDao.deleteUserProfile()");
 		
@@ -45,7 +45,7 @@ public class SettingDao {
 		return count;
 	}
 	
-	//user profile 저장
+	//user profile 이미지 저장
 	public int insertUserProfile(MainImageVo mainImageVo) {
 		System.out.println("SettingDao.insertUserProfile()");
 		
@@ -54,6 +54,14 @@ public class SettingDao {
 		return count;
 	}
 	
+	//user 정보 수정
+	public int updateUser(UserVo userVo) {
+		System.out.println("SettingDao.updateUser()");
+		
+		int count = sqlSession.update("setting.updateUser", userVo);
+		
+		return count;
+	}
 	
 }
 
