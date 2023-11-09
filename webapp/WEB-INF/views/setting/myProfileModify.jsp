@@ -44,7 +44,7 @@
 			<c:choose>
 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img id="savedProfileImg" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/${requestScope.selectUser.saveName}">
+			   		<img id="savedProfileImg" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
@@ -118,11 +118,12 @@
 			<form id="myProfileImgForm" method="post" action="" enctype="multipart/form-data">
 				<div class="modal-body">
 					<div class="form-group">
-						<img class="profileImgModal" alt="" src="${pageContext.request.contextPath}/rdimg/${requestScope.selectUser.saveName}">
+						<img class="profileImgModal" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
 						<label for="inputFile" class="upload-btn">
 							<input id="inputFile" type="file" name="file" accept="image/*">
 						    <span class="form-text" >이미지 선택</span>
 					    </label>
+					    <span class="imgMessage">프로필 이미지는 등록 즉시 적용됩니다!</span>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -180,9 +181,8 @@ $("#btnUpload").on("click", ()=>{
 		success : function(saveName){
 			console.log(saveName);
 			
-			$("#savedProfileImg").attr("src", "${pageContext.request.contextPath}/rdimg/"+saveName);
+			$("#savedProfileImg").attr("src", "${pageContext.request.contextPath}/rdimg/userProfile/"+saveName);
 
-			alert("이미지 변경 완료");
 		},
 
 		cache: false,

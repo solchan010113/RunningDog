@@ -42,7 +42,7 @@ public class SettingService {
 		System.out.println("SettingService.uploadMyProfileImg()");
 		
 		//파일 저장 디렉토리
-		String saveDir = "C:\\javaStudy\\rdimg";
+		String saveDir = "C:\\javaStudy\\rdimg\\userProfile";
 		
 		//파일 관련 정보 추출 //////////////////////////
 		//오리지널 파일 명

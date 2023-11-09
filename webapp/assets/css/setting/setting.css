@@ -179,11 +179,29 @@
 	font-size: 15px;
 }
 
-/* 이미지 등록 모달창 */
-#addModal .form-group{
-	
+
+#profile > .genderSelect > input{
+	margin-right: 10px;
 }
 
+#profile > .genderSelect > input:nth-child(3) {
+	margin-left: 50px;
+}
+
+#profile .address{
+	border: 1px solid rgb(115, 115, 115); 
+	border-radius: 2px;
+	padding: 2px 5px;
+}
+
+#profile #searchAddress{
+	border: 1px solid rgb(133, 133, 133); 
+	border-radius: 2px;
+	margin-left:6px;
+}
+
+
+/* 이미지 등록 모달창 */
 #addModal .close{
 	width: 28px;
 	height: 28px;
@@ -220,27 +238,15 @@
 	display: block;
 	margin:0 auto;
 }
+
+#addModal .imgMessage{
+	color: rgb(110, 110, 110); 
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 12px;
+}
 /*------------------------------------*/
-
-#profile > .genderSelect > input{
-	margin-right: 10px;
-}
-
-#profile > .genderSelect > input:nth-child(3) {
-	margin-left: 50px;
-}
-
-#profile .address{
-	border: 1px solid rgb(115, 115, 115); 
-	border-radius: 2px;
-	padding: 2px 5px;
-}
-
-#profile #searchAddress{
-	border: 1px solid rgb(133, 133, 133); 
-	border-radius: 2px;
-	margin-left:6px;
-}
 
 
 

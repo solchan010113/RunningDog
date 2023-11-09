@@ -45,7 +45,7 @@
 			<c:choose>
 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/${requestScope.selectUser.saveName}">
+			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
