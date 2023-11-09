@@ -73,11 +73,17 @@ public class mobileWebController {
 	
 	// 산책기록폼
 	@RequestMapping("/wif")
-	public String wif(@RequestParam(name = "line") String lineData, Model model)
+	public String wif(@RequestParam(name = "line") String lineData, Model model,
+					  @RequestParam(name = "time") String timeData, Model model2
+					  )
 			throws JsonParseException,JsonMappingException, IOException {
 		
-		System.out.println("wif" + lineData);		    
+		System.out.println("wif" + lineData);	
+		
+		System.out.println("time" +timeData);
 	    
+		model2.addAttribute("time",timeData);
+		
 		// URL 디코딩을 수행하여 JSON 문자열을 원래 형식으로 변환
 	    String decodedJson = URLDecoder.decode(lineData, StandardCharsets.UTF_8);
 

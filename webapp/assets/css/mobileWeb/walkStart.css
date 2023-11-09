@@ -69,6 +69,10 @@
 	
 	#walkStart div a {
 	    text-decoration: none; /* 링크 텍스트 밑줄 제거 */		
+	}	
+	
+	.wValue {
+		color: rgb(63, 63, 63);
 	}
 	
 	.lBox{
@@ -97,11 +101,7 @@
 		background-color: white;
 		border:5px solid orange;
 		font-size: 36px;		
-	}
-	
-	/*진행중 버튼*/
-	
-	
+	}	
 	
 	
 	/*버튼 그림자*/

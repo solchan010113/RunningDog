@@ -30,7 +30,7 @@
 			
 			<div class="recordBox">
 				<div class="date" id="text02">2023년 10월 25일(화)</div>
-				<div class="record" id="text02"> 거리:34m  시간:0:45</div>
+				<div class="record" id="text02"> 거리:34m  시간: ${time} </div>
 			</div>		
 			
 		</div>
