@@ -45,17 +45,11 @@
 	         
 	      }, 1000);	
 	  });
-	  
-	  
-	  
-            
 	
 	// 아직 미사용 ------------------------------------
 	  // pause btn
 	  $("#pausebtn").click(function(){
-	    if(time != 0){
-	      $(".fa").css("color","#FAED7D")
-	      this.style.color = "#4C4C4C";
+	    if(time != 0){	      
 	      clearInterval(timer);
 	      starFlag = true;
 	    }
@@ -68,11 +62,10 @@
 	      starFlag = true;
 	      time = 0;
 	      init();
-	      
-	      
-	      
-	    }
+	      }
 	  });
+	  
+	  
 	}
 	// ---------------------------------------------
  
@@ -155,7 +148,13 @@
         if (!isTracking) {
             isTracking = true;                
             $("#startButton").hide(); // 시작버튼 가리기
-            $("#walkStart").show(); // 정지버튼 보이기                
+            $("#walkStart").show(); // 정지버튼 보이기 
+            
+            let sTime = new Date().toISOString().slice(0, 16);  
+            
+            document.getElementById('sTimeDataInput').value = sTime;
+             
+            console.log("시작시간" + sTime);                          
             
             console.log("시작버튼 클릭");  
             
@@ -172,6 +171,12 @@
             isTracking = false;
             $("#startButton").show();
             $("#walkStart").hide();
+            
+            let eTime = new Date().toISOString().slice(0, 16);  
+            
+            document.getElementById('sTimeDataInput').value = eTime;
+             
+            console.log("종료시간" + eTime);           
             
             console.log("위치정보 받아오기 중단");    
 

@@ -134,8 +134,12 @@
 	    <input type="hidden" name="line" id="lineDataInput" value="">
 	    <!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="">
-	    <!-- 시간데이터 -->
+	    <!-- 소요시간데이터 -->
 	    <input type="hidden" name="time" id="timeDataInput" value="">
+	    <!-- 시작시간데이터 -->
+	    <input type="hidden" name="sTime" id="sTimeDataInput" value="">
+	    <!-- 종료시간데이터 -->
+	    <input type="hidden" name="eTime" id="eTimeDataInput" value="">
 	</form>
       
     <!-- js 설정 -->

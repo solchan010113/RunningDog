@@ -21,6 +21,20 @@
 </head>
 <body>
 
+	<!-- 컨트롤러로 보내서 insert할 데이터들 -->
+	<form id="dataForm" action="${pageContext.request.contextPath}/m/walkInsert" method="post">
+		<!-- 좌표데이터 -->
+	    <input type="hidden" name="line" id="lineDataInput" value="">
+	    <!-- 거리데이터 -->
+	    <input type="hidden" name="distance" id="distanceDataInput" value="">
+	    <!-- 소요시간데이터 -->
+	    <input type="hidden" name="time" id="timeDataInput" value="">
+	    <!-- 시작시간데이터 -->
+	    <input type="hidden" name="sTime" id="sTimeDataInput" value="">
+	    <!-- 종료시간데이터 -->
+	    <input type="hidden" name="eTime" id="eTimeDataInput" value="">
+	</form>
+	
 	<div id="allBox">
 	
 		<!-- 헤더박스 -->
@@ -87,7 +101,7 @@
 				</label>
 			</div>
 			
-			<div class="checkBox">
+			<!-- <div class="checkBox">
 			
 				<i class="fa-brands fa-instagram"></i>
 				
@@ -98,7 +112,7 @@
 				    <span class="onoff-switch"></span>
 				</label>
 				
-			</div>
+			</div> -->
 		</div>
 		
 		<!-- 작성하기 버튼 -->
@@ -198,6 +212,13 @@
 	        map: map
 	    });
 	    
+	    
+	    $(document).ready(function() {
+            $(".btn btn-primary").click(function() {
+                // 폼 제출
+            	$("#dataForm").submit();                
+            });
+        });    
 	    
 	    $(document).ready(function() {
             $(".back").click(function() {

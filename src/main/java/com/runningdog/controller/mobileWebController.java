@@ -46,9 +46,6 @@ public class mobileWebController {
 	public String map(Model model){
 		System.out.println("/산책시작 페이지");
 		
-		
-
-		
 		//List<UseTrailVo> trailList = moWebService.trailSelect();
 		
 		//System.out.println(trailList);
@@ -67,9 +64,6 @@ public class mobileWebController {
 		
 		return "mobileWeb/walkStart";
 	}
-		
-	
-	
 	
 	// 산책기록폼
 	@RequestMapping("/wif")
@@ -104,11 +98,11 @@ public class mobileWebController {
 	
 	// 기록하기
 	@RequestMapping( "/walkInsert")
-	public String walkInsert(){
+	public void walkInsert(){
 		System.out.println("/walkInsert");		
 				
 		
-		return "redirect:map";
+		//return "redirect:map";
 	}	
 	
 	
