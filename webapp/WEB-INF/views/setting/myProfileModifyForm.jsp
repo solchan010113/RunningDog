@@ -18,40 +18,46 @@
 
 <div class="pageContainer">
 
-	<ul id="settingsMenu">
-		<li class="selected"><a href="${pageContext.request.contextPath}/setting/myProfile">내 정보</a></li>
-		<li class=""><a href="${pageContext.request.contextPath}/setting/dogList">강아지</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogList">강아지 카드</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/dogInsert">강아지 등록</a></li>
-		<li class=""><a href="${pageContext.request.contextPath}/setting/friendList">친구</a></li>
-		<li class="settingSubLi"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendList">친구 목록</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApplied">내가 받은 신청</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApply">내가 한 신청</a></li>
-		<li class="settingSubLi noTopBorder"><a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearch">회원 검색</a></li>
-		<li class="last_li"><a href="${pageContext.request.contextPath}/setting/resign">회원탈퇴</a></li>
-	</ul>
+	<jsp:include page="sideBar.jsp"></jsp:include>
 	
-	
-	<form method="post" action="${pageContext.request.contextPath}/setting/modifyMyProfile" id="profile">
+	<form method="post" action="${pageContext.request.contextPath}/setting/modifyMyProfile" id="profile" enctype="multipart/form-data">
 	
 		<div class="firstElement">
 			<h1>내 정보 수정</h1>
 			<div>#${requestScope.selectUser.code}</div>
 		</div>
 		
+<!--  		<div class="imageArea"> -->
+<!-- 			<div class="settingLabel">프로필 이미지</div> -->
+<%-- 			<c:choose> --%>
+<%-- 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}"> --%>
+<!-- 			   		Result값이 있다면 실행할 로직 -->
+<%-- 			   		<img id="savedProfileImg" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}"> --%>
+<%-- 			    </c:when> --%>
+<%-- 			    <c:otherwise> --%>
+<!-- 					 그렇지 않다면 실행할 로직 -->
+<%-- 					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg"> --%>
+<%-- 			    </c:otherwise> --%>
+<%-- 			</c:choose> --%>
+<!-- 			<button type="button" id="showImgModal">이미지 업로드</button> -->
+<!-- 		</div> -->
+		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
 			<c:choose>
 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img id="savedProfileImg" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
+			   		<img id="savedProfileImg2" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
 					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
 			    </c:otherwise>
 			</c:choose>
-			<button type="button" id="showImgModal">이미지 업로드</button>
+			<label for="inputFile2" class="upload-btn" id="uploadLabel">
+				<input id="inputFile2" type="file" name="file" accept="image/*">
+			    <span class="form-text" >이미지 선택</span>
+		    </label>
 		</div>
 		
 		<div>
@@ -115,7 +121,7 @@
 				<h4 class="modal-title">이미지등록</h4>
 			</div>
 			
-			<form id="myProfileImgForm" method="post" action="" enctype="multipart/form-data">
+			<form id="myProfileImgForm" method="post" action="">
 				<div class="modal-body">
 					<div class="form-group">
 						<img class="profileImgModal" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
@@ -152,52 +158,69 @@ $(".close").on("click", ()=>{
 	$("#addModal").modal("hide");
 });
 
-//이미지 미리보기 코드 URL.createObjectURL()
-const input = document.querySelector('#inputFile');
-const img = document.querySelectorAll('.profileImgModal');
 
-input.addEventListener('change', () => {
-	const imageSrc = URL.createObjectURL(input.files[0]);
-	img[0].src = imageSrc;
-	img.onload = () => {
-		URL.revokeObjectURL(imageSrc);
-	}
-});
+// //이미지 미리보기 코드 URL.createObjectURL()
+// const input = document.querySelector('#inputFile');
+// const img = document.querySelectorAll('.profileImgModal');
 
-//이미지 등록 누르면 db에 저장 (ajax)
-$("#btnUpload").on("click", ()=>{
-	
-	var formData = new FormData($('#myProfileImgForm')[0]);
+// input.addEventListener('change', () => {
+// 	const imageSrc = URL.createObjectURL(input.files[0]);
+// 	img[0].src = imageSrc;
+// 	img.onload = () => {
+// 		URL.revokeObjectURL(imageSrc);
+// 	}
+// });
 
-	$.ajax({
-		url : "${pageContext.request.contextPath}/setting/uploadMyProfileImg",
-		type : "post",	//이거 get으로 해도 어차피 안 보임
-		//보낼 때
-		/* contentType : "application/json", */
-		data : formData,
 
-		//받을 때
-		dataType : "text",
-		success : function(saveName){
-			console.log(saveName);
-			
-			$("#savedProfileImg").attr("src", "${pageContext.request.contextPath}/rdimg/userProfile/"+saveName);
+//이미지 미리보기 코드2 URL.createObjectURL()
+const input2 = $("#inputFile2");
+const img2 = $("#savedProfileImg2");
 
-		},
-
-		cache: false,
-        contentType: false,
-        processData: false,
-        
-		error : function(XHR, status, error) {
-			console.error(status + " : " + error);
-		}
+input2.on('change', function() {
+	const imageSrc2 = URL.createObjectURL(input2.prop("files")[0]);
+	img2.attr("src", imageSrc2);
+	img2.on("load", function(){
+		URL.revokeObjectURL(imageSrc2);
 	});
-	
-	//modal 닫기
-	$("#addModal").modal("hide");
-	
 });
+
+
+
+
+// //이미지 등록 누르면 db에 저장 (ajax)
+// $("#btnUpload").on("click", ()=>{
+	
+// 	var formData = new FormData($('#myProfileImgForm')[0]);
+
+// 	$.ajax({
+// 		url : "${pageContext.request.contextPath}/setting/ploadMyProfileImg",
+// 		type : "post",
+// 		//보낼 때
+// 		/* contentType : "application/json", */
+// 		data : formData,
+
+// 		//받을 때
+// 		dataType : "text",
+// 		success : function(saveName){
+// 			console.log(saveName);
+			
+// 			$("#savedProfileImg").attr("src", "${pageContext.request.contextPath}/rdimg/userProfile/"+saveName);
+
+// 		},
+
+// 		cache: false,
+//         contentType: false,
+//         processData: false,
+        
+// 		error : function(XHR, status, error) {
+// 			console.error(status + " : " + error);
+// 		}
+// 	});
+	
+// 	//modal 닫기
+// 	$("#addModal").modal("hide");
+	
+// });
 
 
 

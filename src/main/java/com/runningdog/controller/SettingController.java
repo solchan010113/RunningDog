@@ -38,14 +38,17 @@ public class SettingController {
 		
 		model.addAttribute("selectUser", selectUser);
 		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "m");
+		
 		return "setting/myProfile";
 	}
 	
 	//내 정보 수정 "폼"
-	@RequestMapping(value="/myProfileModify", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/myProfileModifyForm", method={RequestMethod.GET, RequestMethod.POST})
 	public String myProfileModify(HttpSession session,
 		    					  Model model){
-		System.out.println("SettingController.myProfileModify()");
+		System.out.println("SettingController.myProfileModifyForm()");
 		
 		//세션에서 id 가져옴
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
@@ -57,93 +60,129 @@ public class SettingController {
 		
 		model.addAttribute("selectUser", selectUser);
 		
-		return "setting/myProfileModify";
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "m");
+		
+		return "setting/myProfileModifyForm";
 	}
 	
 	//내 정보 수정 "기능"
 	@RequestMapping(value="/modifyMyProfile", method={RequestMethod.GET, RequestMethod.POST})
-	public String modifyMyProfile(@ModelAttribute UserVo userVo){
+	public String modifyMyProfile(@ModelAttribute UserVo userVo, 
+								  @RequestParam(value="file") MultipartFile file){
 		System.out.println("SettingController.modifyMyProfile()");
 		
-		System.out.println(userVo);
 		
 		return "redirect:/setting/myProfile";
 	}
 	
-	//유저 프로필 이미지 저장 (ajax)
-	@ResponseBody
-	@RequestMapping(value="/uploadMyProfileImg", method={RequestMethod.GET, RequestMethod.POST})
-	public String insertMyProfileImg(@RequestParam(value="file") MultipartFile file,
-			 						 HttpSession session){
-		System.out.println("SettingController.uploadMyProfileImg()");
-		
-		String id = ((UserVo) session.getAttribute("authUser")).getId();
-		
-		String saveName = settingService.uploadMyProfileImg(id, file);
-		
-		return saveName;
-	}
+	
+//	//유저 프로필 이미지 저장 (ajax)
+//	@ResponseBody
+//	@RequestMapping(value="/uploadMyProfileImg", method={RequestMethod.GET, RequestMethod.POST})
+//	public String insertMyProfileImg(@RequestParam(value="file") MultipartFile file,
+//			 						 HttpSession session){
+//		System.out.println("SettingController.uploadMyProfileImg()");
+//		
+//		String id = ((UserVo) session.getAttribute("authUser")).getId();
+//		
+//		String saveName = settingService.uploadMyProfileImg(id, file);
+//		
+//		return saveName;
+//	}
 	
 	
 	//강아지 카드
 	@RequestMapping("/dogList")
-	public String dogList(){
+	public String dogList(Model model){
+		
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "dl");
 		
 		return "setting/dogList";
 	}
 	
 	//강아지 추가
-	@RequestMapping("/dogInsert")
-	public String dogInsert(){
+	@RequestMapping("/dogInsertForm")
+	public String dogInsert(Model model){
 		
-		return "setting/dogInsert";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "di");
+		
+		return "setting/dogInsertForm";
 	}
 
 	
 	//강아지 수정
-	@RequestMapping("/dogModify")
-	public String dogModify(){
+	@RequestMapping("/dogModifyForm")
+	public String dogModify(Model model){
 		
-		return "setting/dogModify";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "dm");
+		
+		return "setting/dogModifyForm";
 	}
 	
 
 	
 	//친구 목록
 	@RequestMapping("/friendList")
-	public String friendList(){
+	public String friendList(Model model){
+		
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "fl");
 		
 		return "setting/friendList";
 	}
 
 	//내가 받은 신청
-	@RequestMapping("/friendApplied")
-	public String friendApplied(){
+	@RequestMapping("/friendAppliedForm")
+	public String friendApplied(Model model){
 		
-		return "setting/friendApplied";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "fad");
+		
+		return "setting/friendAppliedForm";
 	}
 	
 	//내가 한 신청
-	@RequestMapping("/friendApply")
-	public String friendApply(){
+	@RequestMapping("/friendApplyForm")
+	public String friendApply(Model model){
 		
-		return "setting/friendApply";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "fa");
+		
+		return "setting/friendApplyForm";
 	}
 	
 	//회원 검색
-	@RequestMapping("/friendSearch")
-	public String friendSearch(){
+	@RequestMapping("/friendSearchForm")
+	public String friendSearch(Model model){
 		
-		return "setting/friendSearch";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "fs");
+		
+		return "setting/friendSearchForm";
 	}
 	
 
 	
 	//회원 탈퇴
-	@RequestMapping("/resign")
-	public String resign(){
+	@RequestMapping("/resignForm")
+	public String resign(Model model){
 		
-		return "setting/resign";
+		
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "r");
+		
+		return "setting/resignForm";
 	}
 	
 }
