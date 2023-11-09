@@ -8,15 +8,15 @@
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
 <script>
-  function toggleFollowButton() {
-    var followButton = document.getElementById("followButton");
-    
-    if (followButton.innerText === "팔로우") {
-      followButton.innerText = "팔로잉";
-    } else {
-      followButton.innerText = "팔로우";
-    }
-  }
+	function toggleFollowButton() {
+		var followButton = document.getElementById("followButton");
+
+		if (followButton.innerText === "팔로우") {
+			followButton.innerText = "팔로잉";
+		} else {
+			followButton.innerText = "팔로우";
+		}
+	}
 </script>
 </head>
 <body>
@@ -47,20 +47,20 @@
 							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
-						
+
 						<c:if test="${requestScope.blogInfoVo.authId != requestScope.blogInfoVo.paramId }">
-						<button id="followButton" class="followButton" onclick="toggleFollowButton()">
-						<c:if test="${requestScope.blogInfoVo.followNo == 0}">
+							<button id="followButton" class="followButton" onclick="toggleFollowButton()">
+								<c:if test="${requestScope.blogInfoVo.followNo == 0}">
 						팔로우
 						
 						</c:if>
-						
-						<c:if test="${requestScope.blogInfoVo.followNo == 1}">
+
+								<c:if test="${requestScope.blogInfoVo.followNo == 1}">
 						팔로잉
 						
 						</c:if>
-						
-						</button>
+
+							</button>
 						</c:if>
 					</div>
 					<div class="mainDogCard">
@@ -100,7 +100,7 @@
 
 					<div class="category">
 						<div class="tab record active">산책기록</div>
-						
+
 						<div class="tab meeting">산책모임</div>
 						<div class="tab following">팔로잉</div>
 						<div class="tab blank"></div>
@@ -108,136 +108,155 @@
 
 
 					<div class="mainRecordSection">
-					<c:forEach items="${gbList}" var="guestbookVo">
-						<div class="mainRecord1">
 
 
-							<div class="MRprofileBox">
 
-								<div class="MRprofileWrapper1">
-									<div class="MRprofileImg1">
-										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-									</div>
+						<c:forEach items="${walkLogList}" var="ShowLogVo">
+							<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
+								<div class="mainRecord1">
 
-									<div class="MRuserName1"></div>
-								</div>
-								<div class="wrappingBox">
-									<div class="MRtitleBox">
-										<div class="MRtime">2023년 10월 21일 (토) 오후 2:04</div>
-										<div class="MRtitle">오후 산책</div>
 
-									</div>
-									<div class="MRrecordBox">
-										<div class="MRdistanceBox">
-											<div class="MRrecordData">0.55km</div>
-											<div class="MRlabel">산책거리</div>
+									<div class="MRprofileBox">
+
+										<div class="MRprofileWrapper1">
+											<div class="MRprofileImg1">
+												<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+											</div>
+
+											<div class="MRuserName1">${ShowLogVo.name}</div>
 										</div>
-										<div class="MRtimeBox">
-											<div class="MRrecordData">0:32분</div>
-											<div class="MRlabel">산책시간</div>
-										</div>
+										<div class="wrappingBox">
+											<div class="MRtitleBox">
+												<div class="MRtime">${ShowLogVo.regDate}</div>
+												<div class="MRtitle">오후 산책</div>
+
+											</div>
+											<div class="MRrecordBox">
+												<div class="MRdistanceBox">
+													<div class="MRrecordData">${ShowLogVo.distance}km</div>
+													<div class="MRlabel">산책거리</div>
+												</div>
+												<div class="MRtimeBox">
+													<div class="MRrecordData">0:32분</div>
+													<div class="MRlabel">산책시간</div>
+												</div>
 
 
-									</div>
-								</div>
-
-
-								<div class="modifyDelete">
-									<button class="modifyButton">수정</button>
-									<button class="deleteButton">삭제</button>
-
-
-
-								</div>
-								<div class="MRdogCardBox">
-
-									<div class="MRpartnerDoglabel">함께한 강아지</div>
-									<div class="MRdogCards">
-										<div class="MRdogCard1">
-											<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-											<div class="MRdogName">마루</div>
-										</div>
-										<div class="MRdogCard2">
-											<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-											<div class="MRdogName">연탄</div>
-										</div>
-										<div class="MRdogCard3">
-											<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-											<div class="MRdogName">도지</div>
+											</div>
 										</div>
 
-									</div>
+										<c:if test="${requestScope.blogInfoVo.authId == requestScope.blogInfoVo.paramId }">
+											<div class="modifyDelete">
+												<button class="modifyButton">수정</button>
+												<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
+												<!-- <button class="deleteButton">삭제</button> -->
+
+												<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">정말 삭제하시겠습니까?</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+																<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/walkBlog/delete?no=${ShowLogVo.walkLogNo}'">삭제</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</c:if>
+										<div class="MRdogCardBox">
+
+											<div class="MRpartnerDoglabel">함께한 강아지</div>
+											<div class="MRdogCards">
+												<div class="MRdogCard1">
+													<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+													<div class="MRdogName">마루</div>
+												</div>
+												<div class="MRdogCard2">
+													<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
+													<div class="MRdogName">연탄</div>
+												</div>
+												<div class="MRdogCard3">
+													<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
+													<div class="MRdogName">도지</div>
+												</div>
+
+											</div>
 
 
 
-								</div>
-
-
-							</div>
-
-							<div class="MRwalkRecordSection">
-								<div class="MRwalkData">
-									<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
-								</div>
-								<div class="MRpictures">
-									<div class="MRpicture1">
-										<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-									</div>
-									<div class="MRpicture2">
-										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-									</div>
-									<div class="MRpicture3">
-										<img src="${pageContext.request.contextPath}/assets/images/산책로.png" alt="">
-									</div>
-									<div class="MRpicture4">
-										<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-									</div>
-
-								</div>
-
-
-
-
-							</div>
-
-							<div class="MRcommentSection">
-								<div class="MRcomments">
-									<div class="MRcomment1">
-
-										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-										<div class="MRreplyDate">2023년 10월 21일 (토) 오후 2:04</div>
-										<div class="MRuserIdandContent">
-											<div class="MRreplyUserId">똘이</div>
-											<div class="MRreplyContent">너무 귀엽네요 ^^</div>
 										</div>
 
 
-
 									</div>
-									<div class="MRcomment2">
-										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-										<div class="MRreplyDate">2023년 10월 21일 (토) 오후 3:04</div>
-										<div class="MRuserIdandContent">
-											<div class="MRreplyUserId">몰랑이</div>
-											<div class="MRreplyContent">잘 보고갑니다~</div>
+
+									<div class="MRwalkRecordSection">
+										<div class="MRwalkData">
+											<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
+										</div>
+										<div class="MRpictures">
+											<div class="MRpicture1">
+												<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
+											</div>
+											<div class="MRpicture2">
+												<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+											</div>
+											<div class="MRpicture3">
+												<img src="${pageContext.request.contextPath}/assets/images/산책로.png" alt="">
+											</div>
+											<div class="MRpicture4">
+												<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
+											</div>
+
 										</div>
 
-									</div>
-								</div>
-								<div class="MRcommentInputBox">
-									<div class="MRinput-group">
 
-										<textarea class="form-control" aria-label="With textarea"></textarea>
+
 
 									</div>
-									<button class="MRreplyButton">등록</button>
+
+									<div class="MRcommentSection">
+
+										<div class="MRcomments">
+											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
+												<%-- <c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}"> --%>
+													<div class="MRcomment1">
+
+														<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+														<div class="MRreplyDate">${cmt.regDate}</div>
+														<div class="MRuserIdandContent">
+															<div class="MRreplyUserId">${cmt.name}</div>
+															<div class="MRreplyContent">${cmt.content}</div>
+														</div>
+
+
+
+													</div>
+												<%-- </c:if> --%>
+											</c:forEach>
+
+											
+										</div>
+										<div class="MRcommentInputBox">
+											<div class="MRinput-group">
+
+												<textarea class="form-control" aria-label="With textarea"></textarea>
+
+											</div>
+											<button class="MRreplyButton">등록</button>
+										</div>
+
+
+									</div>
+									<div class="MRborder"></div>
 								</div>
-
-
-							</div>
-							<div class="MRborder"></div>
-						</div>
-                    </c:forEach>
+							</c:if>
+						</c:forEach>
 					</div>
 
 
@@ -282,64 +301,64 @@
 
 					</div>
 					<div class="stats">
-					
-					<h3 class="statslabel">호두마루님의 기록</h3>
+
+						<h3 class="statslabel">호두마루님의 기록</h3>
 						<table class="statsTable">
-							
+
 							<tr>
-							<th>이번 달</th>
+								<th>이번 달</th>
 							</tr>
-							
-						
-							
-							
-								<tr>
-									<td>산책횟수</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>산책거리</td>
-									<td>0.55km</td>
-								</tr>
-							
-							
-								<tr>
-									<td>산책시간</td>
-									<td>32분</td>
-								</tr>
-							
-							
-							
-							
+
+
+
+
+							<tr>
+								<td>산책횟수</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>산책거리</td>
+								<td>0.55km</td>
+							</tr>
+
+
+							<tr>
+								<td>산책시간</td>
+								<td>32분</td>
+							</tr>
+
+
+
+
 						</table>
-						
+
 						<table class="statsTableAll">
-							
+
 							<tr>
-							<th>총 기록</th>
+								<th>총 기록</th>
 							</tr>
-							
-						
-							
-							
-								<tr>
-									<td>산책횟수</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>산책거리</td>
-									<td>0.55km</td>
-								</tr>
-							
-							
-								<tr>
-									<td>산책시간</td>
-									<td>32분</td>
-								</tr>
-							
-							
-							
-							
+
+
+
+
+							<tr>
+								<td>산책횟수</td>
+								<td>1</td>
+							</tr>
+							<tr>
+								<td>산책거리</td>
+								<td>0.55km</td>
+							</tr>
+
+
+							<tr>
+								<td>산책시간</td>
+								<td>32분</td>
+							</tr>
+
+
+
+
 						</table>
 					</div>
 				</div>
@@ -351,6 +370,7 @@
 		</div>
 
 	</section>
+
 
 </body>
 

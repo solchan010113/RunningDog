@@ -10,72 +10,82 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.runningdog.service.WalkBlogService;
 import com.runningdog.vo.BlogInfoVo;
 import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.UserVo;
 
-@RequestMapping(value="/walkBlog")
+@RequestMapping(value = "/walkBlog")
 @Controller
 public class WalkBlogController {
-	
-	
+
 	@Autowired
 	private WalkBlogService walkBlogService;
-	
-	
-	
-	
+
 	@RequestMapping(value = "home")
 	public String home(HttpSession session) {
-		
+
 		UserVo authuser = (UserVo) session.getAttribute("authUser");
-		
+
 		System.out.println(authuser);
-		
-		
-		return"walkBlog/walkBlogHome";
-		
-	
-		
+
+		return "walkBlog/walkBlogHome";
+
 	}
-	
-	@RequestMapping(value = "/{id}", method = { RequestMethod.GET,RequestMethod.POST }) 
-	public String userBlog(@PathVariable (value="id") String id, Model model, HttpSession session) {
-		
+
+	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String userBlog(@PathVariable(value = "id") String id, Model model, Model model2, HttpSession session) {
+
 		System.out.println("userBlog");
-		
+
 		UserVo authuser = (UserVo) session.getAttribute("authUser");
 		String authId = authuser.getId();
-		
+
 		String paramId = id;
-		
-		
-		
-		
-		
+
 		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramId, authId);
-		
-		
-		
+
 		System.out.println(blogInfoVo);
-		
-		  model.addAttribute("blogInfoVo", blogInfoVo);
-		  
-		  
-			List<ShowLogVo> walkLogList = walkBlogService.walkLogList();  
-		  
-		  model.addAttribute("walkLogList",walkLogList );
-		
+
+		model.addAttribute("blogInfoVo", blogInfoVo);
+
+		List<ShowLogVo> walkLogList = walkBlogService.walkLogList(paramId);
+		System.out.println(walkLogList);
+		model2.addAttribute("walkLogList", walkLogList);
 		
 		
-		return"walkBlog/userBlog";
+		
+
+		return "walkBlog/userBlog";
+		
+		
+		
+		
+		
 	}
-	
+
 	@RequestMapping(value = "detail")
 	public String detail() {
-		return"walkBlog/detail";
+		return "walkBlog/detail";
 	}
 	
+	
+	@RequestMapping(value="delete", method= {RequestMethod.GET, RequestMethod.POST})
+	public String delete(@RequestParam(value="no") int no , HttpSession session) {
+		
+		System.out.println("walkBlog.delete()");
+		
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		String myId = authuser.getId();
+		
+		walkBlogService.deleteWalkLog(no);
+		
+		return "redirect:" + myId;
+		
+		
+	}
+	
+
 }

@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
 
 @Repository
@@ -55,10 +55,21 @@ public class WalkBlogDao {
 	}
 
 	public List<ShowLogVo> walkLogList(String paramId) {
-		List<ShowLogVo> walkLogList = sqlSession.selectList("guestbook.walkLogList", paramId);
+		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogList", paramId);
 		
 		return walkLogList;
 	}
+	
+	public List<ShowLogCmtVo> getShowLogCmtList(int walkLogNo) {
+        return sqlSession.selectList("walkBlog.getShowLogCmtList", walkLogNo);
+    }
+
+	public void deleteWalkLog(int no) {
+		
+		sqlSession.delete("walkBlog.deleteWalkLog", no);
+		
+	}
+	
 	
 	
 
