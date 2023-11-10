@@ -95,9 +95,16 @@
 		
 		<div>
 			<div class="settingLabel">동네</div>
-			<div class="address">${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}&nbsp;&nbsp;${requestScope.selectUser.dong}</div>
-			<input type="hidden" name="locationNo" value="${requestScope.selectUser.locationNo}">
-			<button type="button" id="searchAddress">주소 찾기</button>
+			<c:choose>
+			    <c:when test="${requestScope.selectUser.locationNo == 1100000000}">
+			   		<div class="address">${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}</div>
+			    </c:when>
+			    <c:otherwise>
+					 <div class="address">${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}&nbsp;&nbsp;${requestScope.selectUser.dong}</div>
+			    </c:otherwise>
+			</c:choose>
+			<input type="hidden" name="locationNo" id="hideLoNo" value="${requestScope.selectUser.locationNo}">
+			<button type="button" id="searchAddress">동네 검색</button>
 		</div>
 		<!-- 주소 찾기 누르면 창 띄우기 -->
 		<!-- 주소 가져올 때 locationNo 가져와서 그걸로 select -->
@@ -109,6 +116,44 @@
 	</form>	
 	
 </div>
+
+
+
+
+<div class="modal fade" id="addressModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<input type="text" class="form-control" id="searchAddressInput" placeholder="구 혹은, 동으로 검색해보세요">
+				<button id="searchAddressBtn" type="button" class="btn btn-primary">동네 검색</button>
+			</div>
+			
+			<form id="" method="post" action="">
+				<div class="modal-body">
+					<div id="showAddressList" class="form-group">
+						<table id="addressListTable">
+							<thead id="theadTr">
+								<tr>
+									<td>시</td>
+									<td>구</td>
+									<td>동</td>
+								</tr>
+							</thead>
+							<tbody id="addressListTbody">
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+</div>
+
+
+
+
 
 
 
@@ -145,16 +190,23 @@
 	
 <script type="text/javascript">
 
-//이미지 업로드 모달창 버튼 클릭 시
-$("#showImgModal").on("click", ()=>{
+// //이미지 업로드 모달창 버튼 클릭 시
+// $("#showImgModal").on("click", ()=>{
+// 	//열기
+// 	$("#addModal").modal("show");
+// });
+
+
+//주소 검색 버튼 클릭 시 모달
+$("#searchAddress").on("click", ()=>{
 	//열기
-	$("#addModal").modal("show");
+	$("#addressModal").modal("show");
 });
 
 //모달 닫기
-$(".close").on("click", ()=>{
+$(".btn-close").on("click", ()=>{
 	//닫기
-	$("#addModal").modal("hide");
+	$("#addressModal").modal("hide");
 });
 
 
@@ -183,6 +235,75 @@ input2.on('change', function() {
 	});
 });
 
+
+
+//엔터 누르면
+$("#searchAddressInput").keydown(function(e){
+	if(e.keyCode == '13'){
+		$("#searchAddressBtn").trigger( "click" );
+	  };
+});
+
+//동네 검색 -> 리스트 뿌려줌 (ajax)
+$("#searchAddressBtn").on("click", ()=>{
+	
+	const keyword = $("#searchAddressInput").val();
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/setting/selectAddressList",
+		type : "post",
+		//보낼 때
+		/* contentType : "application/json", */
+		data : {keyword: keyword},
+
+		//받을 때
+		dataType : "json",
+		success : function(addressList){
+			
+			$("#addressListTbody").html("");
+			
+			for(let i = 0; i<addressList.length; i++){
+				
+				render(addressList[i]);
+			}
+
+		},
+
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+	
+});
+
+
+function render(userVo){
+	
+	let str = '';
+	str += '<tr data-lno="'+userVo.locationNo+'" class="addressSelect">';
+	str += '	<td class="si">'+userVo.si+'</td>';
+	str += '	<td class="gu">'+userVo.gu+'</td>';
+	str += '	<td class="dong">'+userVo.dong+'</td>';
+	str += '</tr>';
+	
+	$("#addressListTbody").append(str);
+};
+
+//새로 그린 건 위임을 통해 지정해야 함
+$("#addressListTable").on("click", ".addressSelect", function(){
+	let $this = $(this);
+	let lno = parseInt($this.data("lno"));
+	//data- 대분자 구분 못함 
+	$("#hideLoNo").val(lno);
+	
+	let si = $this.children(".si").text();
+	let gu = $this.children(".gu").text();
+	let dong = $this.children(".dong").text();
+	
+	$(".address").html(si + "&nbsp;&nbsp;" + gu + "&nbsp;&nbsp;" + dong);
+	
+	$("#addressModal").modal("hide");
+});
 
 
 
@@ -235,7 +356,6 @@ const handleFile = (files) => {
 	  }
 }
 input.addEventListener('change', (e) => handleFile(e.target.files)); */
-
 
 
 

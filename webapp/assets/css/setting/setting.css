@@ -158,46 +158,95 @@
 
 
 /* 이미지 등록 모달창 */
-#addModal .close{
-	width: 28px;
-	height: 28px;
-	border: 1px solid rgb(133, 133, 133); 
-}
+/*#addModal .close{*/
+/*	width: 28px;*/
+/*	height: 28px;*/
+/*	border: 1px solid rgb(133, 133, 133); */
+/*}*/
 
-#addModal #btnUpload{
-	border: 1px solid rgb(133, 133, 133); 
-}
+/*#addModal #btnUpload{*/
+/*	border: 1px solid rgb(133, 133, 133); */
+/*}*/
 
-#addModal .upload-btn {
-	width: 107px;
-    border: 1px solid rgb(133, 133, 133); 
-    padding: 6px 12px;
-    display: block;
-    cursor: pointer;
-	border-radius: 2px;
-	margin:0 auto;
-	margin-top: 16px;
-}
+/*#addModal .upload-btn {*/
+/*	width: 107px;*/
+/*    border: 1px solid rgb(133, 133, 133); */
+/*    padding: 6px 12px;*/
+/*    display: block;*/
+/*    cursor: pointer;*/
+/*	border-radius: 2px;*/
+/*	margin:0 auto;*/
+/*	margin-top: 16px;*/
+/*}*/
 
-#addModal .upload-btn span{
-    font-size: 15px;
-}
+/*#addModal .upload-btn span{*/
+/*    font-size: 15px;*/
+/*}*/
 
-#addModal #inputFile {
-	display: none;
-}
+/*#addModal #inputFile {*/
+/*	display: none;*/
+/*}*/
 
-#addModal .profileImgModal{
-	width: 300px;
-	height: 300px;
-	border-radius: 50%;
-	display: block;
-	margin:0 auto;
-}
-
+/*#addModal .profileImgModal{*/
+/*	width: 300px;*/
+/*	height: 300px;*/
+/*	border-radius: 50%;*/
+/*	display: block;*/
+/*	margin:0 auto;*/
+/*}*/
 /*------------------------------------*/
 
 
+/*동네 검색 모달*/
+#addressModal .btn-primary{
+	width: 120px;
+	height: 38px;
+	margin-left: 8px;
+	background-color: rgb(160, 160, 160);
+	border: none;
+}
+
+#addressModal .btn-primary:active{
+	background-color: rgb(110, 110, 110);
+}
+
+#addressModal .form-group{
+	height: 400px;
+	overflow-y: auto;
+}
+
+#addressModal #addressListTable tr{
+	width: 100%;
+}
+
+#addressModal #addressListTable tr td{
+	width: 1%;
+	text-align: center;
+}
+
+#addressModal #addressListTable #theadTr{
+	background-color: rgb(220,220,220);
+	font-size: 17px;
+	font-weight: bold;
+	border-bottom: 1px solid rgb(150,150,150);
+}
+
+#addressModal #addressListTable #theadTr td{
+	padding: 5px 0;
+}
+
+#addressModal #addressListTable .addressSelect{
+	border-bottom: 1px solid rgb(150,150,150);
+}
+
+#addressModal #addressListTable .addressSelect td{
+	padding: 10px 0;
+}
+
+#addressModal #addressListTable .addressSelect:hover{
+	cursor: pointer;
+}
+/*------------------------------------*/
 
 
 

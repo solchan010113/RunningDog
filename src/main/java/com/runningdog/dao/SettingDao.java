@@ -1,5 +1,7 @@
 package com.runningdog.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,23 +18,13 @@ public class SettingDao {
 	
 	
 	//유저 정보
-	public UserVo selectUser(UserVo userVo) {
+	public UserVo selectUser(int userNo) {
 		System.out.println("SettingDao.selectUser()");
 		
-		UserVo selectUser = sqlSession.selectOne("setting.selectUser", userVo);
+		UserVo selectUser = sqlSession.selectOne("setting.selectUser", userNo);
 		//System.out.println(selectUser);
 		
 		return selectUser;
-	}
-	
-	
-	//id로 no 찾기
-	public int selectUserNoWithId(String id) {
-		System.out.println("SettingDao.selectUserNoWithId()");
-		
-		int userNo = sqlSession.selectOne("setting.selectUserNoWithId", id);
-		
-		return userNo;
 	}
 	
 	
@@ -62,6 +54,19 @@ public class SettingDao {
 		
 		return count;
 	}
+	
+	
+	//동네 찾기
+	public List<UserVo> selectAddressList(String keyword) {
+		System.out.println("SettingDao.selectAddressList()");
+		
+		List<UserVo> addressList  = sqlSession.selectList("setting.selectAddressList", keyword);
+		
+		return addressList;
+	}
+	
+	
+	
 	
 }
 

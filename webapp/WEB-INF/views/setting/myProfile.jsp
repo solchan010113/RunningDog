@@ -76,7 +76,14 @@
 		
 		<div>
 			<div class="settingLabel">동네</div>
-			<div>${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}&nbsp;&nbsp;${requestScope.selectUser.dong}</div>
+			<c:choose>
+			    <c:when test="${requestScope.selectUser.locationNo == 1100000000}">
+			   		<div>${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}</div>
+			    </c:when>
+			    <c:otherwise>
+					 <div>${requestScope.selectUser.si}&nbsp;&nbsp;${requestScope.selectUser.gu}&nbsp;&nbsp;${requestScope.selectUser.dong}</div>
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		<div class="noBorder">

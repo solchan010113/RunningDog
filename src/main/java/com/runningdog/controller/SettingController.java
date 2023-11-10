@@ -1,5 +1,7 @@
 package com.runningdog.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,12 @@ public class SettingController {
 						    Model model){
 		System.out.println("SettingController.myProfile()");
 		
-		//세션에서 id 가져옴
+		//세션에서 getUserNo
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		String id = authUser.getId();
+		int userNo = authUser.getUserNo();
 		
 		//그걸로 db 검색
-		UserVo selectUser = settingService.selectUser(id);
+		UserVo selectUser = settingService.selectUser(userNo);
 		//System.out.println(selectUser);
 		
 		model.addAttribute("selectUser", selectUser);
@@ -50,14 +52,15 @@ public class SettingController {
 		    					  Model model){
 		System.out.println("SettingController.myProfileModifyForm()");
 		
-		//세션에서 id 가져옴
+		//세션에서 getUserNo
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		String id = authUser.getId();
-		
+		int userNo = authUser.getUserNo();	
+				
 		//그걸로 db 검색
-		UserVo selectUser = settingService.selectUser(id);
-		//System.out.println(selectUser);
+		UserVo selectUser = settingService.selectUser(userNo);
 		
+		//System.out.println(selectUser);
+
 		model.addAttribute("selectUser", selectUser);
 		
 		//사이드 바 색칠용
@@ -73,9 +76,9 @@ public class SettingController {
 								  HttpSession session){
 		System.out.println("SettingController.modifyMyProfile()");
 		
-		String id = ((UserVo) session.getAttribute("authUser")).getId();
+		int userNo = ((UserVo) session.getAttribute("authUser")).getUserNo();
 		
-		settingService.modifyMyProfile(userVo, id, file);
+		settingService.modifyMyProfile(userVo, userNo, file);
 		
 		return "redirect:/setting/myProfile";
 	}
@@ -94,6 +97,21 @@ public class SettingController {
 //		
 //		return saveName;
 //	}
+	
+	
+	//동네 검색 AJAX
+	@ResponseBody
+	@RequestMapping(value="/selectAddressList", method={RequestMethod.GET, RequestMethod.POST})
+	public List<UserVo> selectAddressList(@RequestParam(value="keyword", required=false, defaultValue="") String keyword){
+		System.out.println("SettingController.selectAddressList()");
+		
+		List<UserVo> addressList = settingService.selectAddressList(keyword);
+		
+		//System.out.println(addressList);
+		
+		return addressList;
+	}
+	
 	
 	
 	//강아지 카드

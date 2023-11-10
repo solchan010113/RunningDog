@@ -4,7 +4,7 @@
 <mapper namespace="setting">
 
 	<!-- 유저 1명 가져오기 (전부) -->
-	<select id="selectUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
+	<select id="selectUser" parameterType="int" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
 			select  u.name name,
 			        u.code code,
@@ -17,7 +17,7 @@
 			        u.status status,
 			        i.saveName saveName
 			from users u, location l, images i
-			where u.id = #{id}
+			where u.userNo = #{userNo}
 			and u.locationNo = l.locationNo
 			and #{userNo} = i.useNo
 		]]>
@@ -58,13 +58,29 @@
 			     name = #{name},
 			     birth = #{birth, jdbcType = VARCHAR},
 			     gender = #{gender, jdbcType = VARCHAR}
-			where id = #{id}
+			where userNo = #{userNo}
 		]]>
 	</update>
 	
 	
+	<!-- 동네 검색 -->
+	<select id="selectAddressList" parameterType="String" resultType="com.runningdog.vo.UserVo">
+		<![CDATA[
+			SELECT  locationNo,
+			        si,
+			        gu,
+			        dong
+			FROM location
+			WHERE gu || dong LIKE REPLACE('%'||#{keyword}||'%', ' ', '')
+			order by locationNo asc
+		]]>
+	</select>
+	
 
 </mapper>
+
+
+
 
 
 
