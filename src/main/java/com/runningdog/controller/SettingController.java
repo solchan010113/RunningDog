@@ -34,6 +34,8 @@ public class SettingController {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		int userNo = authUser.getUserNo();
 		
+		System.out.println(userNo);
+		
 		//그걸로 db 검색
 		UserVo selectUser = settingService.selectUser(userNo);
 		//System.out.println(selectUser);

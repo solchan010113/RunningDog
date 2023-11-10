@@ -3,7 +3,7 @@
 
 <mapper namespace="setting">
 
-	<!-- 유저 1명 가져오기 (전부) -->
+	<!-- 유저 1명 가져오기 (이미지 제외) -->
 	<select id="selectUser" parameterType="int" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
 			select  u.name name,
@@ -14,12 +14,20 @@
 			        l.si si,
 			        l.gu gu,
 			        l.dong dong,
-			        u.status status,
-			        i.saveName saveName
-			from users u, location l, images i
+			        u.status status
+			from users u, location l
 			where u.userNo = #{userNo}
 			and u.locationNo = l.locationNo
-			and #{userNo} = i.useNo
+		]]>
+	</select>
+	
+	<!-- 유저 1명 가져오기 (이미지만) -->
+	<select id="selectUserImg" parameterType="int" resultType="String">
+		<![CDATA[
+			select saveName
+			from images
+			where type = 'users'
+			and useNo = #{userNo}
 		]]>
 	</select>
 

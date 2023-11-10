@@ -47,7 +47,7 @@
 			<c:choose>
 			    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img id="savedProfileImg2" class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
+			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/userProfile/${requestScope.selectUser.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
@@ -225,7 +225,7 @@ $(".btn-close").on("click", ()=>{
 
 //이미지 미리보기 코드2 URL.createObjectURL()
 const input2 = $("#inputFile2");
-const img2 = $("#savedProfileImg2");
+const img2 = $(".profileImg");
 
 input2.on('change', function() {
 	const imageSrc2 = URL.createObjectURL(input2.prop("files")[0]);

@@ -17,7 +17,7 @@ public class SettingDao {
 	private SqlSession sqlSession;
 	
 	
-	//유저 정보
+	//유저 정보 (이미지 제외)
 	public UserVo selectUser(int userNo) {
 		System.out.println("SettingDao.selectUser()");
 		
@@ -25,6 +25,16 @@ public class SettingDao {
 		//System.out.println(selectUser);
 		
 		return selectUser;
+	}
+	
+	//유저 이미지 가져오기
+	public String selectUserImg(int userNo) {
+		System.out.println("SettingDao.selectUserImg()");
+		
+		String saveName = sqlSession.selectOne("setting.selectUserImg", userNo);
+		//System.out.println(selectUser);
+		
+		return saveName;
 	}
 	
 	

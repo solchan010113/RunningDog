@@ -28,6 +28,9 @@ public class SettingService {
 			
 		UserVo selectUser = settingDao.selectUser(userNo);
 		
+		String saveName = settingDao.selectUserImg(userNo);
+		selectUser.setSaveName(saveName);
+		
 		return selectUser;
 	}
 	
