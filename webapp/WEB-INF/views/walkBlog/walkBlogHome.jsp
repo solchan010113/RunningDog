@@ -22,7 +22,7 @@
 				<div class="right">
 				<c:if test="${sessionScope.authUser != null}">
 					<span onclick="location.href='${pageContext.request.contextPath}/walkBlog/${authUser.id}'" style="cursor:pointer;
-" >내 <span class="myColor"  >산책일지</span></span>&nbsp;&nbsp;
+" >내 <span class="myColor"  >산책블로그</span></span>&nbsp;&nbsp;
 
 </c:if>
 					<!-- <span>내 동아리 <span class="myColor">0</span>개</span>&nbsp;&nbsp; 

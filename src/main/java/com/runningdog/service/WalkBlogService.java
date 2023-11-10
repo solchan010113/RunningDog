@@ -18,24 +18,24 @@ public class WalkBlogService {
 	@Autowired
 	private WalkBlogDao walkBlogDao;
 
-	public BlogInfoVo selectBlogInfo(String paramId, String authId) {
+	public BlogInfoVo selectBlogInfo(String paramCode, int authUserNo) {
 		
 		System.out.println("selectBlogInfo");
 		
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("paramId",paramId);
-		map.put("authId",authId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("paramCode",paramCode);
+		map.put("authUserNo",authUserNo);
 		
 		BlogInfoVo blogInfoVo = new BlogInfoVo();
 		
-		blogInfoVo.setName(walkBlogDao.selectBlogOwner(paramId));
-		blogInfoVo.setAuthId(authId);
-		blogInfoVo.setParamId(paramId);
+		blogInfoVo.setName(walkBlogDao.selectBlogOwner(paramCode));
+		blogInfoVo.setAuthId(authCode);
+		blogInfoVo.setParamId(paramCode);
 		
 		
-		blogInfoVo.setFollowerNum(walkBlogDao.selectfollowerNum(paramId));
+		blogInfoVo.setFollowerNum(walkBlogDao.selectfollowerNum(paramCode));
 		
-		blogInfoVo.setFollowingNum(walkBlogDao.selectfollowingNum(paramId));
+		blogInfoVo.setFollowingNum(walkBlogDao.selectfollowingNum(paramCode));
 		
 		blogInfoVo.setFollowNo(walkBlogDao.didIFollow(map));
 		
@@ -81,6 +81,9 @@ public class WalkBlogService {
 		
 	}
 
+	public void addComment(ShowLogCmtVo comment) {
+	    walkBlogDao.addComment(comment);
+	}
 
 
 }

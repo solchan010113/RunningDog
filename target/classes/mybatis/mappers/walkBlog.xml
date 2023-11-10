@@ -114,6 +114,13 @@
 
 
 	</delete>
+	
+	<insert id="addComment" parameterType="com.runningdog.vo.ShowLogCmtVo">
+    <![CDATA[
+        INSERT INTO walkLogCmt (walkLogCmtNo, walkLogNo, userNo, content, regDate, status)
+        VALUES (seq_walklogcmt_no.nextval, #{walkLogNo}, #{userNo}, #{content}, SYSDATE, 'T')
+    ]]>
+</insert>
 
 
 

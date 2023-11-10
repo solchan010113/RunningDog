@@ -17,21 +17,21 @@ public class WalkBlogDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public String selectBlogOwner(String paramId) {
+	public String selectBlogOwner(String paramCode) {
 
-		return sqlSession.selectOne("walkBlog.selectBlogOwner", paramId);
+		return sqlSession.selectOne("walkBlog.selectBlogOwner", paramCode);
 	}
 	
-	public int  selectfollowerNum(String paramId) {
+	public int  selectfollowerNum(String paramCode) {
 		
-		return sqlSession.selectOne("walkBlog.selectFollowerNum", paramId);
+		return sqlSession.selectOne("walkBlog.selectFollowerNum", paramCode);
 		
 	}
 	
 	
-	public int  selectfollowingNum(String paramId) {
+	public int  selectfollowingNum(String paramCode) {
 		
-		return sqlSession.selectOne("walkBlog.selectFollowingNum", paramId);
+		return sqlSession.selectOne("walkBlog.selectFollowingNum", paramCode);
 		
 	}
 	
@@ -54,8 +54,8 @@ public class WalkBlogDao {
 		
 	}
 
-	public List<ShowLogVo> walkLogList(String paramId) {
-		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogList", paramId);
+	public List<ShowLogVo> walkLogList(String paramCode) {
+		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogList", paramIdCode);
 		
 		return walkLogList;
 	}
@@ -68,6 +68,10 @@ public class WalkBlogDao {
 		
 		sqlSession.delete("walkBlog.deleteWalkLog", no);
 		
+	}
+	
+	public void addComment(ShowLogCmtVo comment) {
+	    sqlSession.insert("walkBlog.addComment", comment);
 	}
 	
 	

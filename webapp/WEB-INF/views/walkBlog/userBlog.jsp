@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
 <script>
 	function toggleFollowButton() {
@@ -15,6 +16,31 @@
 			followButton.innerText = "팔로잉";
 		} else {
 			followButton.innerText = "팔로우";
+		}
+	}
+
+	function addComment(walkLogNo) {
+		var commentText = document.getElementById("commentText").value;
+		console.log(commentText);
+		console.log(${ShowLogVo.walkLogNo});
+		
+		if (commentText.trim() !== "") {
+			// Ajax 호출
+			$.ajax({
+				type : "POST",
+				url : "${pageContext.request.contextPath}/walkBlog/addComment",
+				data : {
+					walkLogNo : walkLogNo, // 적절한 walkLogNo 전달
+					content : commentText
+				},
+				success : function(response) {
+					// 성공 시, 화면 갱신 등 추가 작업 가능
+					console.log("댓글 등록 성공");
+				},
+				error : function(error) {
+					console.error("댓글 등록 실패: " + error);
+				}
+			});
 		}
 	}
 </script>
@@ -225,30 +251,28 @@
 										<div class="MRcomments">
 											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
 												<%-- <c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}"> --%>
-													<div class="MRcomment1">
+												<div class="MRcomment1">
 
-														<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-														<div class="MRreplyDate">${cmt.regDate}</div>
-														<div class="MRuserIdandContent">
-															<div class="MRreplyUserId">${cmt.name}</div>
-															<div class="MRreplyContent">${cmt.content}</div>
-														</div>
-
-
-
+													<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+													<div class="MRreplyDate">${cmt.regDate}</div>
+													<div class="MRuserIdandContent">
+														<div class="MRreplyUserId">${cmt.name}</div>
+														<div class="MRreplyContent">${cmt.content}</div>
 													</div>
+
+
+
+												</div>
 												<%-- </c:if> --%>
 											</c:forEach>
 
-											
+
 										</div>
 										<div class="MRcommentInputBox">
 											<div class="MRinput-group">
-
-												<textarea class="form-control" aria-label="With textarea"></textarea>
-
+												<textarea id="commentText" class="form-control" aria-label="With textarea"></textarea>
 											</div>
-											<button class="MRreplyButton">등록</button>
+											<button class="MRreplyButton" onclick="addComment('${ShowLogVo.walkLogNo}')">등록</button>
 										</div>
 
 
@@ -373,6 +397,8 @@
 
 
 </body>
+
+
 
 
 
