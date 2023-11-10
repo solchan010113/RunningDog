@@ -100,9 +100,28 @@ public class mobileWebController {
 	@RequestMapping( "/walkInsert")
 	public void walkInsert(){
 		System.out.println("/walkInsert");		
-				
+		
+		// 쿼리문에서 넣어줄 것 (산책일지번호,작성시간,상태)		
+		// 회원번호
+		// 동네번호 
+		// 모임번호 null 
+		// 시작시간
+		// 종료시간
+		// 소요시간 O
+		// 거리 O
+		// 내용
+		// 공개여부
 		
 		
+		
+		// 좌표
+		
+		// 맵사진
+		// 첨부사진	
+		
+		// 산책로이용정보번호
+		// 산책일지번호
+		// 산책로번호
 		
 		//return "redirect:map";
 	}	

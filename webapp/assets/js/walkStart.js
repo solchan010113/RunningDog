@@ -254,14 +254,15 @@
 	        distance = distance + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist);	      
 	        let ret = EARTH_R * Math.acos(distance);	        
 	        let distance2 = Math.round(ret); // 미터 단위
-	        		
+	        
+	        // 갱신될때마다 거리 추가해서 업데이트		
 	        distanceEnd = distanceEnd + distance2;
 	        		
 	        console.log("거리m : " + distanceEnd);	
 	        
 	        document.getElementById("mVal").innerHTML = distanceEnd + "m";	               		
         	
-        	// 시간 인풋창으로 넘기기
+        	// 거리 인풋창으로 넘기기
 	        $("#distanceDataInput").val(distanceEnd);   
             
         	// 이동위치마커 표시할때 처음위치마커 지우기

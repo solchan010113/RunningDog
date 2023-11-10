@@ -144,6 +144,7 @@
       
     <!-- js 설정 -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/walkStart.js"></script>	  
+    
     <script>
         // 네이버 지도 API 스크립트 로딩 후 initMap 함수 호출
         naver.maps.onJSContentLoaded = initMap;        

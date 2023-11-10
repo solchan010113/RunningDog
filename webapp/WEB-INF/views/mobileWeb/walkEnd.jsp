@@ -164,9 +164,10 @@
 	        polylinePath.push(new naver.maps.LatLng(lat, lng));
 	    }
 	    
-	    console.log("내 이동 경로 표시 : " + polylinePath);
+	    console.log("내 이동 경로 표시 : " + polylinePath);	  
 	    
-	
+	    
+	  
 		// 중간 지점을 계산
 		var totalLat = 0;
 		var totalLng = 0;
@@ -212,6 +213,7 @@
 	        map: map
 	    });
 	    
+	    $("#lineDataInput").val(polylinePath);
 	    
 	    $(document).ready(function() {
             $(".btn btn-primary").click(function() {
