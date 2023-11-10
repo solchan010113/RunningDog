@@ -6,9 +6,7 @@
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
-			select  userNo,
-			        name,
-			        code
+			select  userNo
 			from users
 			where id = #{id}
 			and password = #{password}
