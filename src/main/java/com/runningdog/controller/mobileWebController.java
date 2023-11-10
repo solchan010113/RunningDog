@@ -102,6 +102,8 @@ public class mobileWebController {
 		System.out.println("/walkInsert");		
 				
 		
+		
+		
 		//return "redirect:map";
 	}	
 	

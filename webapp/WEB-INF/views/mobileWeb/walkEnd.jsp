@@ -216,7 +216,8 @@
 	    $(document).ready(function() {
             $(".btn btn-primary").click(function() {
                 // 폼 제출
-            	$("#dataForm").submit();                
+            	$("#dataForm").submit();    
+            	console.log("기록완료");
             });
         });    
 	    
