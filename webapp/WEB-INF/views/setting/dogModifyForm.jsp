@@ -29,58 +29,95 @@
 		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
-			<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-			<label for="inputFile2" class="upload-btn" id="uploadLabel">
-				<input id="inputFile2" type="file" name="file" accept="image/*">
-			    <span class="form-text" >이미지 선택</span>
-		    </label>
+			<c:choose>
+			    <c:when test="${dogVo.saveName != null && dogVo.saveName != ''}">
+			   		<!-- Result값이 있다면 실행할 로직 -->
+			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
+			    </c:when>
+			    <c:otherwise>
+					 <!-- 그렇지 않다면 실행할 로직 -->
+					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		<div>
 			<div class="settingLabel">이름</div>
-			<input type="text" name="name" value="" maxlength="10">
+			<input type="text" name="name" value="${dogVo.dogName}" maxlength="10">
 		</div>
 		
 		<div>
 			<div class="settingLabel">생일</div>
-			<input type="date" name="date" value="">
+			<input type="date" name="date" value="${dogVo.birth}">
 		</div>
 		
 		<div class="genderSelect">
 			<div class="settingLabel">성별</div>
-			<input type="radio" name="gender" value="male">남
-			<input type="radio" name="gender" value="female">여
+			<c:choose>
+			    <c:when test="${dogVo.gender == 'male'}">
+			   		<input type="radio" name="gender" value="male">남
+			    </c:when>
+			    <c:otherwise>		
+					<input type="radio" name="gender" value="female">여
+			    </c:otherwise>
+			</c:choose>
+
 		</div>
 		
 		<div>
 			<div class="settingLabel">체중</div>
-			<input id="weight" type="number" name="weight" value=""> kg
+			<input id="weight" type="number" name="weight" value="${dogVo.weight}"> kg
 		</div>
 		
 		<div>
 			<div class="settingLabel">견종</div>
-			<input id="kind" type="text" name="kind" value="">
+			<input id="kind" type="text" name="kind" value="${dogVo.kind}">
 		</div>
 				
 		<div class="genderSelect">
 			<div class="settingLabel">중성화</div>
-			<input type="radio" name="cast" value="yes">했어요
-			<input type="radio" name="cast" value="no">안 했어요
+			<c:if test="${dogVo.neuter == 'T'}">
+				<input type="radio" name="cast" value="T" checked="checked">했어요
+				<input type="radio" name="cast" value="F">안 했어요
+			</c:if>
+			<c:if test="${dogVo.neuter == 'F'}">
+			<input type="radio" name="cast" value="T">했어요
+				<input type="radio" name="cast" value="F" checked="checked">안 했어요
+			</c:if>
+			<c:if test="${dogVo.neuter == null || dogVo.neuter == ''}">
+				<input type="radio" name="cast" value="T">했어요
+				<input type="radio" name="cast" value="F">안 했어요
+			</c:if>
 		</div>
 		
 		<div>
 			<div class="settingLabel vertialTop">성격</div>
-			<textarea name="personality" maxlength="30" placeholder="* 성격이나 성향을 간단하게 서술해주세요."></textarea>
+			<c:choose>
+			    <c:when test="${dogVo.personality != null && dogVo.personality != ''}">
+			   		<textarea name="personality" maxlength="30">${dogVo.personality}</textarea>
+			    </c:when>
+			    <c:otherwise>
+					 <textarea name="personality" maxlength="30" placeholder="* 성격이나 성향을 간단하게 적어주세요"></textarea>
+			    </c:otherwise>
+			</c:choose>
+			
 		</div>
 
 		<div>
 			<div class="settingLabel vertialTop">프로필 색상</div>
-			<input type="color" name="color">
+			<c:choose>
+			    <c:when test="${dogVo.color != null && dogVo.color != ''}">
+			   		<input type="color" name="color" value="${dogVo.color}">
+			    </c:when>
+			    <c:otherwise>
+					 <input type="color" name="color">
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		<div class="noBorder marginBottom">
 			<button type="submit" class="button">수정 완료</button>
-			<a href="" class="button deleteBtn">강아지 삭제</a>
+			<a href="${pageContext.request.contextPath}/setting/deleteDog?no=${requestScope.dogVo.dogNo}" class="button deleteBtn">강아지 삭제</a>
 		</div>
 		
 	</form>	

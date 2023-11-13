@@ -178,8 +178,8 @@ public class SettingController {
 
 	
 	//강아지 수정 폼
-	@RequestMapping(value="/dogModifyForm?no={no}", method={RequestMethod.GET, RequestMethod.POST})
-	public String dogModifyForm(@PathVariable(value="no") int no, Model model, HttpSession session){
+	@RequestMapping(value="/dogModifyForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String dogModifyForm(@RequestParam(value="no") int dogNo, Model model, HttpSession session){
 		System.out.println("SettingController.dogModifyForm()");
 		
 		//세션에서 getUserNo
@@ -194,11 +194,13 @@ public class SettingController {
 		model.addAttribute("crtMenu", "dm");
 		
 		//강아지 하나
-		DogListVo dogVo = settingService.selectDog(no);
+		DogListVo dogVo = settingService.selectDog(dogNo);
 		model.addAttribute("dogVo", dogVo);
 		
 		return "setting/dogModifyForm";
 	}
+	
+	//강아지 삭제 누르면
 	
 
 	
