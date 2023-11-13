@@ -32,7 +32,7 @@
 		</div>
 		
 		<div class="noBorder">
-			<a href="" class="button">등록하기</a>
+			<a href="${pageContext.request.contextPath}/setting/dogInsertForm" class="button">등록하기</a>
 		</div>
 
 		<h2 class="myDogWord">우리 아이</h2>
@@ -43,80 +43,52 @@
 			
 			<div class="dogCardBox dCB1">
 	
-				<div class="dogCard">
-					
-					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-					<img class="certifyMark" src="${pageContext.request.contextPath}/assets/images/bluemark.png">
-					
-					<h3>강아지 카드</h3>
-					<div>이름: 릴파</div>
-					<div>품종: </div>
-					<div class="dogCardEliment">생일: 1972.11.21</div>
-					<div class="dogCardEliment">성별: </div>
-					<div class="dogCardEliment">체중: </div>
-					<div class="dogCardEliment">중성화: </div>
-					<div class="personal">성격: 천 구 백 칠 십이 년 십 일 월 이 십 이 일 김두한</div>
-					<div class="lastElement">보호자: </div>
-					
-					<a class="iconPencil" href=""><i class="fa-regular fa-pen-to-square"></i></a>
-				</div>
-				
-				<div class="dogCard">
-					
-					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-					
-					<h3>강아지 카드</h3>
-					<div>이름: 띨파</div>
-					<div>품종: </div>
-					<div class="dogCardEliment">생일: </div>
-					<div class="dogCardEliment">성별: </div>
-					<div class="dogCardEliment">체중: </div>
-					<div class="dogCardEliment">중성화: </div>
-					<div class="personal">성격: bbbb</div>
-					<div class="lastElement">보호자: </div>
-					
-					<a class="iconPencil" href=""><i class="fa-regular fa-pen-to-square"></i></a>
-				</div>
-				
-				<div class="dogCard">
-					
-					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-					
-					<h3>강아지 카드</h3>
-					<div>이름: 뇨파</div>
-					<div>품종: </div>
-					<div class="dogCardEliment">생일: </div>
-					<div class="dogCardEliment">성별: </div>
-					<div class="dogCardEliment">체중: </div>
-					<div class="dogCardEliment">중성화: </div>
-					<div class="personal">성격: qqqq</div>
-					<div class="lastElement">보호자: </div>
-					
-					<a class="iconPencil" href=""><i class="fa-regular fa-pen-to-square"></i></a>
-				</div>
-				
-				<div class="dogCard">
-					
-					<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-					
-					<h3>강아지 카드</h3>
-					<div>이름: 이제 쓸 이름이 없다</div>
-					<div>품종: </div>
-					<div class="dogCardEliment">생일: </div>
-					<div class="dogCardEliment">성별: </div>
-					<div class="dogCardEliment">체중: </div>
-					<div class="dogCardEliment">중성화: </div>
-					<div class="personal">성격: asdf</div>
-					<div class="lastElement">보호자: </div>
-					
-					<a class="iconPencil" href=""><i class="fa-regular fa-pen-to-square"></i></a>
-				</div>
-	
-	
-				<div class="dogCard emptyCard">
+			<c:choose>
+			    <c:when test="${not empty requestScope.dogList || requestScope.dogList.size() != 0}">
+				   	<c:forEach items="${requestScope.dogList}" var="dogListVo">
+						<div class="dogCard" style="background-color: ${dogListVo.color};">
+							<c:choose>
+							    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
+							   		<!-- Result값이 있다면 실행할 로직 -->
+							   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogListVo.saveName}">
+							    </c:when>
+							    <c:otherwise>
+									 <!-- 그렇지 않다면 실행할 로직 -->
+									 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+							    </c:otherwise>
+							</c:choose>
+							
+							<h3>강아지 카드</h3>
+							<div>이름: ${dogListVo.dogName}</div>
+							<div>품종: ${dogListVo.kind}</div>
+							<div class="dogCardElimentL">생일: ${dogListVo.birth}</div>
+							<c:if test="${dogListVo.gender == 'female'}">
+								<div class="dogCardElimentS">성별: 여</div>
+							</c:if>
+							<c:if test="${dogListVo.gender == 'male'}">
+								<div class="dogCardElimentS">성별: 남</div>
+							</c:if>
+							<div class="dogCardElimentL">체중: ${dogListVo.weight} kg</div>
+							<div class="dogCardElimentS">중성화: ${dogListVo.neuter}</div>
+							<div class="personal">성격: ${dogListVo.personality}</div>
+							<div class="lastElement">보호자: ${dogListVo.userName}</div>
+							
+							<!-- null + 값 예외 처리 해야 함 -->
+							
+							<a class="iconPencil" href="${pageContext.request.contextPath}/setting/dogModifyForm?no=${dogListVo.dogNo}"><i class="fa-regular fa-pen-to-square"></i></a>
+						</div>
+					</c:forEach>
+			    </c:when>
+			    <c:otherwise>
+					 <div class="dogCard emptyCard">
 					강아지를 등록해보세요!
-				</div>
-				
+					</div>
+			    </c:otherwise>
+			</c:choose>
+
+				<!-- 인증마크 -->
+				<%-- <img class="certifyMark" src="${pageContext.request.contextPath}/assets/images/bluemark.png"> --%>
+
 			</div> <!-- dogCardBox -->
 			
 			<button class="rightBtn rB1">></button>

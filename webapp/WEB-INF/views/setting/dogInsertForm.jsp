@@ -21,7 +21,7 @@
 	<jsp:include page="sideBar.jsp"></jsp:include>
 	
 	
-	<form action="" id="profile">
+	<form method="post" action="${pageContext.request.contextPath}/setting/dogInsert" id="profile" enctype="multipart/form-data">
 	
 		<div class="firstElement">
 			<h1>강아지 등록</h1>
@@ -30,41 +30,53 @@
 		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
-			<img class="profileImg" alt="" src="">
-			<input type="file" name="profile_img">
+			<c:choose>
+			    <c:when test="${requestScope.selectUser == null}">
+			   		<!-- Result값이 있다면 실행할 로직 -->
+			   		<img class="profileImg" alt="" src="">
+			    </c:when>
+			    <c:otherwise>
+					 <!-- 그렇지 않다면 실행할 로직 -->
+					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+			    </c:otherwise>
+			</c:choose>
+			<label for="inputFile2" class="upload-btn" id="uploadLabel">
+				<input id="inputFile2" type="file" name="file" accept="image/*">
+			    <span class="form-text" >이미지 선택</span>
+		    </label>
 		</div>
 		
-		<div>
-			<div class="settingLabel vertialTop">동물등록번호</div>
+<!-- 		<div> -->
+<!-- 			<div class="settingLabel vertialTop">동물등록번호</div> -->
 			
-			<div class="checkAnimalBox">
-				<div class="checkAnimalNum">
-					<select name="selectOwner" id="profile">
-						<option value="소유주">소유주</option>
-						<option value="생년월일">생년월일</option>
-					</select>
-					<input type="text" name="" value="">
-				</div>
-				<div class="checkAnimalNum">
-					<select name="selectAnimalNum" id="profile">
-						<option value="">등록번호</option>
-						<option value="">RFID</option>
-					</select>
-					<input type="number" name="" value="" maxlength="15">
-				</div>
+<!-- 			<div class="checkAnimalBox"> -->
+<!-- 				<div class="checkAnimalNum"> -->
+<!-- 					<select name="selectOwner" id="profile"> -->
+<!-- 						<option value="소유주">소유주</option> -->
+<!-- 						<option value="생년월일">생년월일</option> -->
+<!-- 					</select> -->
+<!-- 					<input type="text" name="" value=""> -->
+<!-- 				</div> -->
+<!-- 				<div class="checkAnimalNum"> -->
+<!-- 					<select name="selectAnimalNum" id="profile"> -->
+<!-- 						<option value="">등록번호</option> -->
+<!-- 						<option value="">RFID</option> -->
+<!-- 					</select> -->
+<!-- 					<input type="number" name="" value="" maxlength="15"> -->
+<!-- 				</div> -->
 				
-				<button class="" id="animalBtn" type="submit">조회</button>
-			</div>
-		</div>
+<!-- 				<button class="" id="animalBtn" type="submit">조회</button> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 		
 		<div>
 			<div class="settingLabel">이름</div>
-			<input type="text" name="name" value="" maxlength="10">
+			<input type="text" name="dogName" value="" maxlength="10">
 		</div>
 		
 		<div>
 			<div class="settingLabel">생일</div>
-			<input type="date" name="date" value="">
+			<input type="date" name="birth" value="">
 		</div>
 		
 		<div class="genderSelect">
@@ -75,8 +87,10 @@
 		
 		<div>
 			<div class="settingLabel">체중</div>
-			<input id="weight" type="number" name="weight" value=""> kg
+			<input id="weight" type="number" name="weight" step="0.1" value=""> kg
 		</div>
+		
+		<!-- 이름 성별 생일 체중 not null 처리 해야 함 -->
 		
 		<div>
 			<div class="settingLabel">견종</div>
@@ -85,13 +99,13 @@
 				
 		<div class="genderSelect">
 			<div class="settingLabel">중성화</div>
-			<input type="radio" name="cast" value="yes">했어요
-			<input type="radio" name="cast" value="no">안 했어요
+			<input type="radio" name="neuter" value="T">했어요
+			<input type="radio" name="neuter" value="F">안 했어요
 		</div>
 		
 		<div>
 			<div class="settingLabel vertialTop">성격</div>
-			<textarea name="personality" maxlength="40" placeholder="* 성격이나 성향을 간단하게 서술해주세요."></textarea>
+			<textarea name="personality" maxlength="35" placeholder="* 성격이나 성향을 간단하게 적어주세요"></textarea>
 		</div>
 
 		<div>
@@ -99,7 +113,7 @@
 			<input type="color" name="color">
 		</div>
 		
-		<div class="noBorder">
+		<div class="noBorder marginBottom">
 			<button type="submit" class="button">등록하기</button>
 		</div>
 		
@@ -109,7 +123,23 @@
 
 	
 
+<script type="text/javascript">
 
+//이미지 미리보기 코드2 URL.createObjectURL()
+const input2 = $("#inputFile2");
+const img2 = $(".profileImg");
+
+input2.on('change', function() {
+	const imageSrc2 = URL.createObjectURL(input2.prop("files")[0]);
+	img2.attr("src", imageSrc2);
+	img2.on("load", function(){
+		URL.revokeObjectURL(imageSrc2);
+	});
+});
+
+
+
+</script>
 
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.service.SettingService;
+import com.runningdog.vo.DogListVo;
 import com.runningdog.vo.UserVo;
 
 @Controller
@@ -33,8 +35,6 @@ public class SettingController {
 		//세션에서 getUserNo
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		int userNo = authUser.getUserNo();
-		
-		System.out.println(userNo);
 		
 		//그걸로 db 검색
 		UserVo selectUser = settingService.selectUser(userNo);
@@ -116,10 +116,23 @@ public class SettingController {
 	
 	
 	
-	//강아지 카드
-	@RequestMapping("/dogList")
-	public String dogList(Model model){
+	//강아지 카드 (리스트)
+	@RequestMapping(value="/dogList", method={RequestMethod.GET, RequestMethod.POST})
+	public String dogList(HttpSession session, Model model){
+		System.out.println("SettingController.dogList()");
 		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		//유저 코드 보여주기 용
+		UserVo selectUser = settingService.selectUser(userNo);
+		model.addAttribute("selectUser", selectUser);
+		
+		//강아지 리스트
+		List<DogListVo> dogList = settingService.selectDogList(userNo);
+		//System.out.println(dogList);
+		model.addAttribute("dogList", dogList);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "dl");
@@ -127,25 +140,63 @@ public class SettingController {
 		return "setting/dogList";
 	}
 	
-	//강아지 추가
-	@RequestMapping("/dogInsertForm")
-	public String dogInsert(Model model){
+	//강아지 등록 폼
+	@RequestMapping(value="/dogInsertForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String dogInsertForm(HttpSession session, Model model){
+		System.out.println("SettingController.dogInsertForm()");
 		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		//유저 코드 보여주기 용
+		UserVo selectUser = settingService.selectUser(userNo);
+		model.addAttribute("selectUser", selectUser);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "di");
 		
 		return "setting/dogInsertForm";
 	}
+	
+	//강아지 등록 기능
+	@RequestMapping(value="/dogInsert", method={RequestMethod.GET, RequestMethod.POST})
+	public String dogInsert(HttpSession session, 
+							@ModelAttribute DogListVo dogListVo, 
+							@RequestParam(value="file") MultipartFile file){
+		System.out.println("SettingController.dogInsert()");
+		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		//강아지 등록
+		settingService.insertDog(userNo, dogListVo, file);
+		
+		return "redirect:/setting/dogList";
+	}
 
 	
-	//강아지 수정
-	@RequestMapping("/dogModifyForm")
-	public String dogModify(Model model){
+	//강아지 수정 폼
+	@RequestMapping(value="/dogModifyForm?no={no}", method={RequestMethod.GET, RequestMethod.POST})
+	public String dogModifyForm(@PathVariable(value="no") int no, Model model, HttpSession session){
+		System.out.println("SettingController.dogModifyForm()");
 		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		//유저 코드 보여주기 용
+		UserVo selectUser = settingService.selectUser(userNo);
+		model.addAttribute("selectUser", selectUser);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "dm");
+		
+		//강아지 리스트
+		//DogListVo dogVo = settingService.selectDog(no);
+		//System.out.println(dogList);
+		//model.addAttribute("dogVo", dogVo);
 		
 		return "setting/dogModifyForm";
 	}

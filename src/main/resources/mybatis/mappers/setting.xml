@@ -20,17 +20,6 @@
 			and u.locationNo = l.locationNo
 		]]>
 	</select>
-	
-	<!-- 유저 1명 가져오기 (이미지만) -->
-	<select id="selectUserImg" parameterType="int" resultType="String">
-		<![CDATA[
-			select saveName
-			from images
-			where type = 'users'
-			and useNo = #{userNo}
-		]]>
-	</select>
-
 
 	<!-- id로 no 찾기 -->
 	<select id="selectUserNoWithId" parameterType="String" resultType="int">
@@ -42,19 +31,30 @@
 	</select>
 
 
+	<!-- 사진 한 장 가져오기 -->
+	<select id="selectImg" parameterType="com.runningdog.vo.MainImageVo" resultType="String">
+		<![CDATA[
+			select saveName
+			from images
+			where type = #{type}
+			and useNo = #{useNo}
+		]]>
+	</select>
+
 	<!-- 프로필 새로 등록 시 기존 사진 row 지우기 -->
-	<delete id="deleteUserProfile" parameterType="int">
+	<delete id="deleteImg" parameterType="com.runningdog.vo.MainImageVo">
 		<![CDATA[
 			delete from images
 			where useNo = #{useNo}
+			and type = #{type}
 		]]>
 	</delete>
 
-	<!-- user profile 업로드한 파일 정보 저장 -->
-	<insert id="insertUserProfile" parameterType="com.runningdog.vo.MainImageVo">
+	<!-- 이미지 저장 -->
+	<insert id="insertImg" parameterType="com.runningdog.vo.MainImageVo">
 		<![CDATA[
 			insert into images
-			values(seq_images_no.nextval, #{orgName}, #{saveName}, #{filePath}, #{fileSize}, 'users', #{useNo}, 0)
+			values(seq_images_no.nextval, #{orgName}, #{saveName}, #{filePath}, #{fileSize}, #{type}, #{useNo}, 0)
 		]]>
 	</insert>
 
@@ -84,6 +84,76 @@
 		]]>
 	</select>
 	
+	
+<!-- 	강아지 	-->
+
+	<!-- 강아지 카드 (리스트) -->
+	<select id="selectDogList" parameterType="int" resultType="com.runningdog.vo.DogListVo">
+		<![CDATA[
+			select  d.dogNo dogNo
+					d.name dogName, 
+			        to_char(d.birth, 'YYYY-MM-DD') birth,
+			        d.gender gender,
+			        d.weight weight,
+			        d.kind kind,
+			        d.neuter neuter,
+			        d.personality personality,
+			        d.color color,
+			        d.status status,
+			        u.name userName,
+			        i.saveName saveName
+			from dog d, users u, images i
+			where u.userNo = d.userNo
+			and d.userNo = #{userNo}
+			and d.dogNo = i.useNo
+			and i.type = 'dog'
+			and d.status != 'F'
+			order by dogNo asc
+		]]>
+	</select>
+	
+	<!-- 댕댕이 등록 -->
+	<insert id="insertDog" parameterType="com.runningdog.vo.DogListVo">
+		<!-- DogListVo "주소"의 dogNo에 값을 넣는다. -->
+		<selectKey keyProperty="dogNo" resultType="int" order="BEFORE">	
+			<![CDATA[	
+				select seq_dog_no.nextval from dual
+			]]>
+		</selectKey>
+		<![CDATA[
+			INSERT INTO dog
+			VALUES (#{dogNo}, #{userNo}, #{dogName}, #{birth}, #{gender}, #{weight}, #{kind}, #{neuter}, #{personality}, 'F', #{color}, 'T')
+		]]>
+	</insert>
+	
+	<!-- 강아지 카드 1개 -->
+	<select id="selectDogList" parameterType="int" resultType="com.runningdog.vo.DogListVo">
+		<![CDATA[
+			select  d.dogNo dogNo
+					d.name dogName, 
+			        to_char(d.birth, 'YYYY-MM-DD') birth,
+			        d.gender gender,
+			        d.weight weight,
+			        d.kind kind,
+			        d.neuter neuter,
+			        d.personality personality,
+			        d.color color,
+			        d.status status,
+			        u.name userName,
+			        i.saveName saveName
+			from dog d, users u, images i
+			where u.userNo = d.userNo
+			and d.userNo = #{userNo}
+			and d.dogNo = i.useNo
+			and i.type = 'dog'
+			and d.status != 'F'
+			order by dogNo asc
+		]]>
+	</select>
+	
+
+
+
 
 </mapper>
 

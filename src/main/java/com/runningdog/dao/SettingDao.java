@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.runningdog.vo.DogListVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -27,31 +28,30 @@ public class SettingDao {
 		return selectUser;
 	}
 	
-	//유저 이미지 가져오기
-	public String selectUserImg(int userNo) {
-		System.out.println("SettingDao.selectUserImg()");
+	//이미지 한 개 가져오기
+	public String selectImg(MainImageVo mainImageVo) {
+		System.out.println("SettingDao.selectImg()");
 		
-		String saveName = sqlSession.selectOne("setting.selectUserImg", userNo);
+		String saveName = sqlSession.selectOne("setting.selectImg", mainImageVo);
 		//System.out.println(selectUser);
 		
 		return saveName;
 	}
 	
-	
-	//user profile 이미지 삭제
-	public int deleteUserProfile(int useNo) {
-		System.out.println("SettingDao.deleteUserProfile()");
+	// 이미지 삭제
+	public int deleteImg(MainImageVo mainImageVo) {
+		System.out.println("SettingDao.deleteImg()");
 		
-		int count = sqlSession.delete("setting.deleteUserProfile", useNo);
+		int count = sqlSession.delete("setting.deleteImg", mainImageVo);
 		
 		return count;
 	}
 	
-	//user profile 이미지 저장
-	public int insertUserProfile(MainImageVo mainImageVo) {
-		System.out.println("SettingDao.insertUserProfile()");
+	//이미지 저장
+	public int insertImg(MainImageVo mainImageVo) {
+		System.out.println("SettingDao.insertImg()");
 		
-		int count = sqlSession.insert("setting.insertUserProfile", mainImageVo);
+		int count = sqlSession.insert("setting.insertImg", mainImageVo);
 		
 		return count;
 	}
@@ -77,11 +77,33 @@ public class SettingDao {
 	
 	
 	
+/*	강아지	*/
+	
+	//강아지 카드 리스트
+	public List<DogListVo> selectDogList(int userNo) {
+		System.out.println("SettingDao.selectDogList()");
+		
+		List<DogListVo> dogList = sqlSession.selectList("setting.selectDogList", userNo);
+		
+		return dogList;
+	}
+
+	//강아지 등록
+	public int insertDog(DogListVo dogListVo) {
+		System.out.println("SettingDao.insertDog()");
+		
+		System.out.println(dogListVo.getDogNo());
+		int count = sqlSession.insert("setting.insertDog", dogListVo);
+		//selectkey로 추가한 값이 나옴
+		System.out.println(dogListVo.getDogNo());
+		
+		return count;
+	}
+	
+	
+	
 	
 }
-
-
-
 
 
 

@@ -71,6 +71,10 @@
 	padding: none;
 }
 
+#profile > .marginBottom{
+	margin-bottom: 40px;
+}
+
 #profile > .firstElement{
 	padding: 0 0 10px;
 }
@@ -342,8 +346,12 @@
 	padding-top: 6px;
 }
 
-#dogProfile .dogSlickBox .dogCard > .dogCardEliment{
-	width: 125px;
+#dogProfile .dogSlickBox .dogCard > .dogCardElimentL{
+	width: 150px;
+}
+
+#dogProfile .dogSlickBox .dogCard > .dogCardElimentS{
+	width: 100px;
 }
 
 #dogProfile .dogSlickBox .dogCard > .personal{

@@ -30,30 +30,10 @@
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
 			<img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/liltriber.jpg">
-			<input type="file" name="profile_img">
-		</div>
-		
-		<div>
-			<div class="settingLabel vertialTop">동물등록번호</div>
-			
-			<div class="checkAnimalBox">
-				<div class="checkAnimalNum">
-					<select name="selectOwner" id="profile">
-						<option value="">소유주</option>
-						<option value="">생년월일</option>
-					</select>
-					<input type="text" name="" value="">
-				</div>
-				<div class="checkAnimalNum">
-					<select name="selectAnimalNum" id="profile">
-						<option value="">등록번호</option>
-						<option value="">RFID</option>
-					</select>
-					<input type="number" name="" value="" maxlength="15">
-				</div>
-				
-				<button class="" id="animalBtn" type="submit">조회</button>
-			</div>
+			<label for="inputFile2" class="upload-btn" id="uploadLabel">
+				<input id="inputFile2" type="file" name="file" accept="image/*">
+			    <span class="form-text" >이미지 선택</span>
+		    </label>
 		</div>
 		
 		<div>
@@ -98,7 +78,7 @@
 			<input type="color" name="color">
 		</div>
 		
-		<div class="noBorder">
+		<div class="noBorder marginBottom">
 			<button type="submit" class="button">수정 완료</button>
 			<a href="" class="button deleteBtn">강아지 삭제</a>
 		</div>

@@ -14,6 +14,11 @@ public class MainImageVo {
 	
 	public MainImageVo() {}
 	
+	public MainImageVo(String type, int useNo) {
+		this.type = type;
+		this.useNo = useNo;
+	}
+	
 	public MainImageVo(int imagesNo, String orgName, String saveName, String filePath, long fileSize, String type,
 			int useNo, int imageOrder) {
 		super();
@@ -27,12 +32,13 @@ public class MainImageVo {
 		this.imageOrder = imageOrder;
 	}
 	
-	public MainImageVo(String orgName, String saveName, String filePath, long fileSize, int useNo) {
+	public MainImageVo(String orgName, String saveName, String filePath, long fileSize, String type, int useNo) {
 		super();
 		this.orgName = orgName;
 		this.saveName = saveName;
 		this.filePath = filePath;
 		this.fileSize = fileSize;
+		this.type = type;
 		this.useNo = useNo;
 	}
 
