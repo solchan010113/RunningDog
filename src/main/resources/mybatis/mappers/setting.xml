@@ -90,7 +90,7 @@
 	<!-- 강아지 카드 (리스트) -->
 	<select id="selectDogList" parameterType="int" resultType="com.runningdog.vo.DogListVo">
 		<![CDATA[
-			select  d.dogNo dogNo
+			select  d.dogNo dogNo,
 					d.name dogName, 
 			        to_char(d.birth, 'YYYY-MM-DD') birth,
 			        d.gender gender,
@@ -127,9 +127,10 @@
 	</insert>
 	
 	<!-- 강아지 카드 1개 -->
-	<select id="selectDogList" parameterType="int" resultType="com.runningdog.vo.DogListVo">
+	<select id="selectDog" parameterType="int" resultType="com.runningdog.vo.DogListVo">
 		<![CDATA[
-			select  d.name dogName, 
+			select  d.dogNo dogNo,
+					d.name dogName, 
 			        to_char(d.birth, 'YYYY-MM-DD') birth,
 			        d.gender gender,
 			        d.weight weight,

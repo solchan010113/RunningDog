@@ -193,10 +193,9 @@ public class SettingController {
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "dm");
 		
-		//강아지 리스트
-		//DogListVo dogVo = settingService.selectDog(no);
-		//System.out.println(dogList);
-		//model.addAttribute("dogVo", dogVo);
+		//강아지 하나
+		DogListVo dogVo = settingService.selectDog(no);
+		model.addAttribute("dogVo", dogVo);
 		
 		return "setting/dogModifyForm";
 	}

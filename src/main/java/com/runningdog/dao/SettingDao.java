@@ -100,7 +100,14 @@ public class SettingDao {
 		return count;
 	}
 	
-	
+	//강아지 수정
+	public DogListVo selectDog(int dogNo) {
+		System.out.println("SettingDao.selectDog()");
+
+		DogListVo dogVo = sqlSession.selectOne("setting.selectDog", dogNo);
+		
+		return dogVo;
+	}
 	
 	
 }

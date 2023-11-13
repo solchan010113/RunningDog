@@ -210,6 +210,14 @@ public class SettingService {
 		
 	}
 	
+	//강아지 하나
+	public DogListVo selectDog(int dogNo){
+		System.out.println("SettingService.selectDog()");
+		
+		DogListVo dogVo = settingDao.selectDog(dogNo);
+		
+		return dogVo;
+	}
 	
 	
 }
