@@ -14,7 +14,6 @@
 	</select>
 	
 	
-	
 	<!-- 회원 가입 -->
 	<insert id="insertUser" parameterType="com.runningdog.vo.UserVo">
 		<![CDATA[
