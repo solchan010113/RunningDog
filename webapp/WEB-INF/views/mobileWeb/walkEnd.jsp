@@ -18,9 +18,15 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<script src="https://kit.fontawesome.com/109d7bd609.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+	<!-- 맵 이미지저장 -->
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
+	<!-- 컨트롤러로 보내서 insert할 데이터들 -->
+	<form id="dataForm" action="${pageContext.request.contextPath}/m/walkInsert" method="post">
+			    
 	<div id="allBox">
 	
 		<!-- 헤더박스 -->
@@ -29,9 +35,18 @@
 			<div class="end" id="text01">산책종료</div>
 			
 			<div class="recordBox">
-				<div class="date" id="text02">2023년 10월 25일(화)</div>
-				<div class="record" id="text02"> 거리:34m  시간:0:45</div>
-			</div>		
+				<div class="date" id="text02"> </div>
+				<div class="record" id="text02"> 거리:${moWalkLogVo.distance}m  시간: ${moWalkLogVo.logTime} </div>
+			</div>	
+			
+			<!-- 거리데이터 -->
+		    <input type="hidden" name="distance" id="distanceDataInput" value="${distance}">
+		    <!-- 소요시간데이터 -->
+		    <input type="hidden" name="logTime" id="timeDataInput" value="${time}">
+		    <!-- 시작시간데이터 -->
+		    <input type="hidden" name="startTime" id="sTimeDataInput" value="">
+		    <!-- 종료시간데이터 -->
+		    <input type="hidden" name="endTime" id="eTimeDataInput" value="">	
 			
 		</div>
 		
@@ -41,6 +56,9 @@
 		
 			<!-- 기록된 이동기록이 뜨는 맵 -->
 			<div id="map"></div>
+			
+			<!-- 좌표데이터 -->
+	    	<input type="hidden" name="line" id="lineDataInput" value="">
 			
 			<!-- 기록된 라인과 일치율이 높은 산책로 사진 3개 -->
 			<div class="mapImages" >
@@ -87,7 +105,7 @@
 				</label>
 			</div>
 			
-			<div class="checkBox">
+			<!-- <div class="checkBox">
 			
 				<i class="fa-brands fa-instagram"></i>
 				
@@ -98,13 +116,15 @@
 				    <span class="onoff-switch"></span>
 				</label>
 				
-			</div>
+			</div> -->
 		</div>
+		
+		</form>
 		
 		<!-- 작성하기 버튼 -->
 		<div class="lastButton">
 			<!-- 작성 -->
-			<div class="write" data-bs-toggle="modal" data-bs-target="#exampleModal"> 기록하기 </div>
+			<div class="write" id="insertBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"> 기록하기 </div>
 			<!-- 취소 -->
 			<div class="back"> 기록하지않기 </div>
 		</div>	
@@ -119,7 +139,7 @@
 		      </div>
 		     
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary">확인</button>
+		        <button type="button"  class="btn btn-primary">확인</button>
 		      </div>
 		    </div>
 		  </div>
@@ -130,8 +150,13 @@
 	
 	
 	<script th:inline="javascript">
-	// 경로로 표시할 배열(array)
-	// naver.maps.LatLng 위도 경도 변수
+	
+		// 날짜표시
+		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	    document.getElementById("text02").innerHTML = new Date().toLocaleDateString('ko-KR', options);
+	
+		// 경로로 표시할 배열(array)
+		// naver.maps.LatLng 위도 경도 변수
 		var polylinePath = [];	
 	
 		// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱
@@ -145,9 +170,10 @@
 	        polylinePath.push(new naver.maps.LatLng(lat, lng));
 	    }
 	    
-	    console.log("내 이동 경로 표시 : " + polylinePath);
+	    console.log("내 이동 경로 표시 : " + polylinePath);	  
 	    
-	
+	    
+	  
 		// 중간 지점을 계산
 		var totalLat = 0;
 		var totalLng = 0;
@@ -193,13 +219,36 @@
 	        map: map
 	    });
 	    
+	    $("#lineDataInput").val(polylinePath);
+	    
+	    $("#insertBtn").click(function() {	    	
+	    	console.log("기록완료");
+	    	// html2canvas를 사용하여 맵을 이미지로 변환
+	        html2canvas(document.getElementById('map')).then(function(canvas) {
+
+	            // 변환된 캔버스를 가져오고 이미지로 저장
+	            if (navigator.msSaveBlob) {
+	                navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
+	            } else {
+	                canvas.toBlob(function(blob) {
+	                    saveAs(blob, 'map.png');
+	                });
+	            }
+	        });
+	    	
+        	// 폼 제출            	
+        	
+	    	$("#dataForm").submit();  
+        });
+	    	    
 	    
 	    $(document).ready(function() {
             $(".back").click(function() {
                 // 여기에 이동할 링크를 넣어주세요
                 window.location.href = "${pageContext.request.contextPath}/m/map";
             });
-        });    
+        });  	    
+	    
 	    
 	</script>
 	

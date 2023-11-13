@@ -20,10 +20,70 @@
          ORDER BY co.coordno asc
          , co.coordorder asc
       ]]>
+   </select>   
+  
+   <!-- 내 강아지 가져오기 -->
+   
+   <select id="dogSelect"  parameterType="String" resultType="com.runningdog.vo.MoDogVo">
+      <![CDATA[
+         SELECT  us.userno as userNo 
+		         ,us.name as userName
+		         ,do.dogno as dogNo
+		         ,do.name as dogName
+	     FROM users us,dog do
+	     where us.id = #{id}
+	     and us.userno = do.userno
+      ]]>
    </select>
    
    
+   <!-- 산책기록 저장하기 -->
+   <insert id="walkLogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >
+ 		<selectKey resultType="int" keyProperty="walkLogNo" order="BEFORE">
+			SELECT MAX(walkLogNo)+1 FROM walkLog    
+		</selectKey>
+      <![CDATA[
+         INSERT INTO walkLog
+		 VALUES (#{walkLogNo},  
+		         #{userNo},
+		         null, 
+		         null, 
+		         SYSDATE,
+		         #{startTime},
+		         #{endTime},
+		         #{logTime},
+		         #{distance},
+		         #{content},
+		         '공개'
+		         'T'
+		         )
+      ]]>
+   </insert>
    
+   <!-- 산책강아지 저장하기 -->
+   <insert id="walkedDogInsert"  parameterType="com.runningdog.vo.WalkedDogVo" >
+      <![CDATA[
+         INSERT INTO walkedDog
+		 VALUES (seq_walkeddog_no.NEXTVAL,
+		         #{selectKey},
+		         #{dogNo}   
+		         )
+      ]]>
+   </insert>
+   
+    <!-- 좌표 저장하기 -->
+   <insert id="coordsInsert"  parameterType="com.runningdog.vo.CoordsVo" >
+      <![CDATA[
+         INSERT INTO coords (coordNo, coordOrder, type, useNo, lng, lat) 
+		 VALUES (seq_coords_no.NEXTVAL,
+		         #{coordOrder},
+		         'walkLog',
+		         #{selectKey},
+		         #{lng},
+		         #{lat}
+		         );
+      ]]>
+   </insert>
    
 
 </mapper>
