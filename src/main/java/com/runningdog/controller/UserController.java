@@ -70,7 +70,7 @@ public class UserController {
 		//세션의 모든 값을 지움.
 		session.invalidate();
 		
-		return "redirect:/";
+		return "redirect:/loginForm";
 	}
 }
 
