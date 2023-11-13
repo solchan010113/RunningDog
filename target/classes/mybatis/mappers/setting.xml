@@ -129,8 +129,7 @@
 	<!-- 강아지 카드 1개 -->
 	<select id="selectDogList" parameterType="int" resultType="com.runningdog.vo.DogListVo">
 		<![CDATA[
-			select  d.dogNo dogNo
-					d.name dogName, 
+			select  d.name dogName, 
 			        to_char(d.birth, 'YYYY-MM-DD') birth,
 			        d.gender gender,
 			        d.weight weight,
@@ -139,15 +138,13 @@
 			        d.personality personality,
 			        d.color color,
 			        d.status status,
-			        u.name userName,
 			        i.saveName saveName
 			from dog d, users u, images i
 			where u.userNo = d.userNo
-			and d.userNo = #{userNo}
+			and d.dogNo = #{dogNo}
 			and d.dogNo = i.useNo
 			and i.type = 'dog'
 			and d.status != 'F'
-			order by dogNo asc
 		]]>
 	</select>
 	
