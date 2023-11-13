@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UseTrailVo;
 
 @Repository
@@ -30,5 +31,11 @@ public class MoWebDao {
 		return dogList;
 	}
 	
+	// (3) 산책기록하기
+	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
+		System.out.println("다오 산책기록하기");
+		System.out.println(moWalkLogVo);
+		sqlSession.insert("walkLog.walkLogInsert",moWalkLogVo);		
+	}
 
 }

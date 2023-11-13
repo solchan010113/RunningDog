@@ -174,7 +174,7 @@
             
             let eTime = new Date().toISOString().slice(0, 16);  
             
-            document.getElementById('sTimeDataInput').value = eTime;
+            document.getElementById('eTimeDataInput').value = eTime;
              
             console.log("종료시간" + eTime);           
             

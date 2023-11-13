@@ -128,11 +128,11 @@
 	    <!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="">
 	    <!-- 소요시간데이터 -->
-	    <input type="hidden" name="time" id="timeDataInput" value="">
+	    <input type="hidden" name="logTime" id="timeDataInput" value="">
 	    <!-- 시작시간데이터 -->
-	    <input type="hidden" name="sTime" id="sTimeDataInput" value="">
+	    <input type="hidden" name="startTime" id="sTimeDataInput" value="">
 	    <!-- 종료시간데이터 -->
-	    <input type="hidden" name="eTime" id="eTimeDataInput" value="">
+	    <input type="hidden" name="endTime" id="eTimeDataInput" value="">
 	</form>
       
     <!-- js 설정 -->

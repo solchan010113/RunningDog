@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UseTrailVo;
 
 @Service	
@@ -26,6 +27,12 @@ public class MoWebService {
 	public List<MoDogVo> dogSelect(String userId){
 		System.out.println("서비스 강아지가져오기");				
 		return moWebDao.dogSelect(userId);
+	}
+	
+	// (3) 산책기록하기
+	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
+		System.out.println("서비스 산책기록하기");		
+		moWebDao.walkLogInsert(moWalkLogVo);		
 	}
 	
 
