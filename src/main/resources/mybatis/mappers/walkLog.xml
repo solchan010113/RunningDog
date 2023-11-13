@@ -24,14 +24,14 @@
   
    <!-- 내 강아지 가져오기 -->
    
-   <select id="dogSelect"  parameterType="String" resultType="com.runningdog.vo.MoDogVo">
+   <select id="dogSelect"  parameterType="int" resultType="com.runningdog.vo.MoDogVo">
       <![CDATA[
          SELECT  us.userno as userNo 
 		         ,us.name as userName
 		         ,do.dogno as dogNo
 		         ,do.name as dogName
 	     FROM users us,dog do
-	     where us.id = #{id}
+	     where us.userno = #{userno}
 	     and us.userno = do.userno
       ]]>
    </select>
@@ -46,7 +46,7 @@
          INSERT INTO walkLog
 		 VALUES (#{walkLogNo},  
 		         #{userNo},
-		         null, 
+		         1174010900, 
 		         null, 
 		         SYSDATE,
 		         #{startTime},
@@ -54,7 +54,7 @@
 		         #{logTime},
 		         #{distance},
 		         #{content},
-		         '공개'
+		         '공개',
 		         'T'
 		         )
       ]]>

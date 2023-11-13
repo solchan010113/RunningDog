@@ -24,9 +24,9 @@ public class MoWebService {
 	}
 	
 	// (2) 강아지정보 가져오기
-	public List<MoDogVo> dogSelect(String userId){
+	public List<MoDogVo> dogSelect(int userNo){
 		System.out.println("서비스 강아지가져오기");				
-		return moWebDao.dogSelect(userId);
+		return moWebDao.dogSelect(userNo);
 	}
 	
 	// (3) 산책기록하기

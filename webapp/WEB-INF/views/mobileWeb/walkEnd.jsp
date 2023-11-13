@@ -26,7 +26,17 @@
 
 	<!-- 컨트롤러로 보내서 insert할 데이터들 -->
 	<form id="dataForm" action="${pageContext.request.contextPath}/m/walkInsert" method="post">
-			    
+		<!-- 거리데이터 -->
+	    <input type="hidden" name="distance" id="distanceDataInput" value="${moWalkLogVo.distance}">
+	    <!-- 소요시간데이터 -->
+	    <input type="hidden" name="logTime" id="timeDataInput" value="${moWalkLogVo.logTime}">
+	    <!-- 시작시간데이터 -->
+	    <input type="hidden" name="startTime" id="sTimeDataInput" value="${moWalkLogVo.startTime}">
+	    <!-- 종료시간데이터 -->
+	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">	
+	
+	</form>	 
+	   
 	<div id="allBox">
 	
 		<!-- 헤더박스 -->
@@ -37,16 +47,7 @@
 			<div class="recordBox">
 				<div class="date" id="text02"> </div>
 				<div class="record" id="text02"> 거리:${moWalkLogVo.distance}m  시간: ${moWalkLogVo.logTime} </div>
-			</div>	
-			
-			<!-- 거리데이터 -->
-		    <input type="hidden" name="distance" id="distanceDataInput" value="${distance}">
-		    <!-- 소요시간데이터 -->
-		    <input type="hidden" name="logTime" id="timeDataInput" value="${time}">
-		    <!-- 시작시간데이터 -->
-		    <input type="hidden" name="startTime" id="sTimeDataInput" value="">
-		    <!-- 종료시간데이터 -->
-		    <input type="hidden" name="endTime" id="eTimeDataInput" value="">	
+			</div>							
 			
 		</div>
 		
@@ -119,7 +120,7 @@
 			</div> -->
 		</div>
 		
-		</form>
+		
 		
 		<!-- 작성하기 버튼 -->
 		<div class="lastButton">
@@ -147,6 +148,7 @@
 		
 		
 	</div>
+	
 	
 	
 	<script th:inline="javascript">
@@ -221,26 +223,27 @@
 	    
 	    $("#lineDataInput").val(polylinePath);
 	    
-	    $("#insertBtn").click(function() {	    	
-	    	console.log("기록완료");
-	    	// html2canvas를 사용하여 맵을 이미지로 변환
-	        html2canvas(document.getElementById('map')).then(function(canvas) {
-
-	            // 변환된 캔버스를 가져오고 이미지로 저장
-	            if (navigator.msSaveBlob) {
-	                navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
-	            } else {
-	                canvas.toBlob(function(blob) {
-	                    saveAs(blob, 'map.png');
-	                });
-	            }
+	    $(document).ready(function() {
+		    $("#insertBtn").click(function() {	    	
+		    	console.log("기록완료");
+		    	// html2canvas를 사용하여 맵을 이미지로 변환
+		        /* html2canvas(document.getElementById('map')).then(function(canvas) {
+	
+		            // 변환된 캔버스를 가져오고 이미지로 저장
+		            if (navigator.msSaveBlob) {
+		                navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
+		            } else {
+		                canvas.toBlob(function(blob) {
+		                    saveAs(blob, 'map.png');
+		                });
+		            }
+		        }); */
+		    	
+	        	// 폼 제출            	
+	        	
+		    	$("#dataForm").submit();  
 	        });
-	    	
-        	// 폼 제출            	
-        	
-	    	$("#dataForm").submit();  
-        });
-	    	    
+	    }); 	    
 	    
 	    $(document).ready(function() {
             $(".back").click(function() {

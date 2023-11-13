@@ -74,7 +74,7 @@ public class mobileWebController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		System.out.println(authUser);		
 		// 강아지정보 불러오기
-		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getId());		
+		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getUserNo());		
 		dogModel.addAttribute("dogList",dogList);	
 		return  "mobileWeb/walkStart"; 				
 		// 산책로 정보 불러오기 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
@@ -128,8 +128,12 @@ public class mobileWebController {
 	public String walkInsert(@ModelAttribute MoWalkLogVo moWalkLogVo, HttpSession session){
 		System.out.println("기록");
 		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");		
-		moWalkLogVo.setUserNo(authUser.getUserNo());		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");	
+		
+		System.out.println(authUser);
+		
+		moWalkLogVo.setUserNo(authUser.getUserNo());	
+		
 		System.out.println("기록된 정보 "+ moWalkLogVo);		
 		
 		// MoWalkLogVo 테이블
