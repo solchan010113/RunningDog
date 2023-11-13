@@ -39,27 +39,20 @@
 		<!-- 상단 좌측부터는 반복문으로 강아지프로필 이미지 띄우는곳 (5개 이상이면 슬릿) -->
 		<div class="profile-container">
 			<div class="profile-circles" >
-		        <div id="pSelect" class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
-		        </div>
-		        <div id="pSelect" class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
-		        </div>
-		        <div class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/345.jpg" alt="Profile Image 3">
-		        </div>
-		        <div class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
-		        </div>
-		        <div class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
-		        </div>    
-		        <div class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
-		        </div>   
-		        <div class="profile-circle">
-		            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
-		        </div>             
+				<c:forEach items="${dogList}" var="MoDogVo">
+			        <div id="pSelect" class="profile-circle">
+			            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
+			        </div>
+			        <!-- <div id="pSelect" class="profile-circle">
+			            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
+			        </div>
+			        <div class="profile-circle">
+			            <img src="${pageContext.request.contextPath}/assets/images/345.jpg" alt="Profile Image 3">
+			        </div> 
+			        <div class="profile-circle">
+			            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
+			        </div> -->
+		        </c:forEach>            
 		    </div>
 		</div>
 		

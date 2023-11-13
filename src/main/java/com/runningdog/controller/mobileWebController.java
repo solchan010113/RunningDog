@@ -5,10 +5,14 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -16,8 +20,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.service.MoWebService;
+import com.runningdog.service.UserService;
 import com.runningdog.vo.LinePathVo;
+import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.UseTrailVo;
+import com.runningdog.vo.UserVo;
 
 @Controller
 @RequestMapping( "/m")
@@ -26,45 +33,50 @@ public class mobileWebController {
 	@Autowired
 	private MoWebService moWebService;
 	
+	@Autowired
+	private UserService userService;
+	
 		
 	// 로그인폼
 	@RequestMapping( "/loginForm")
 	public String loginForm(){
-		System.out.println("/login");
+		System.out.println("모바일 로그인폼");
 		return "mobileWeb/loginForm";
 	}
 	
-	// 로그인실행
-	@RequestMapping( "/login")
-	public String login(){
-		System.out.println("/login");
-		return "mobileWeb/map";
-	}
-	
-	// 모바일메인화면 맵실행
-	@RequestMapping( "/map")
-	public String map(Model model){
-		System.out.println("/산책시작 페이지");
-		
-		//List<UseTrailVo> trailList = moWebService.trailSelect();
-		
-		//System.out.println(trailList);
-		
+	//로그인 모바일메인화면 맵실행
+	@RequestMapping(value="/map", method = {RequestMethod.GET, RequestMethod.POST})
+	public String map(@ModelAttribute UserVo userVo,HttpSession session,
+					  Model dogModel) {
+		System.out.println("모바일 로그인");
+		// 로그인 후 세션에 삽입
+		UserVo authUser = userService.selectOneUser(userVo);		
+		session.setAttribute("authUser", authUser);	
+		// 강아지정보 불러오기
+		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getId());		
+		dogModel.addAttribute("dogList",dogList);		
+		// 산책로 정보 불러오기 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
+		//List<UseTrailVo> trailList = moWebService.trailSelect();		
+		//System.out.println(trailList);		
 		//model.addAttribute("trailList",trailList);	
-		
-		// 산책로 정보 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
-		
-		
-		// 서비스에서 요청해야할것
-		
-		// 강아지정보		
-		
+				
 		// 모임정보 (후순위)
 		
-		
+			
 		return "mobileWeb/walkStart";
 	}
 	
+	//로그아웃
+	@RequestMapping(value="/logout", method = {RequestMethod.GET, RequestMethod.POST})
+	public String logout(HttpSession session) {
+		System.out.println("모바일 로그아웃");
+		
+		//세션의 모든 값을 지움.
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+		
 	// 산책기록폼
 	@RequestMapping("/wif")
 	public String wif(@RequestParam(name = "line") String lineData, Model model,
@@ -99,7 +111,9 @@ public class mobileWebController {
 	// 기록하기
 	@RequestMapping( "/walkInsert")
 	public void walkInsert(){
-		System.out.println("/walkInsert");		
+		System.out.println("/walkInsert");
+		
+		
 		
 		// 쿼리문에서 넣어줄 것 (산책일지번호,작성시간,상태)		
 		// 회원번호

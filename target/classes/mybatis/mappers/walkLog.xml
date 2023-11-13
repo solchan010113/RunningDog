@@ -20,11 +20,21 @@
          ORDER BY co.coordno asc
          , co.coordorder asc
       ]]>
-   </select>
-   
+   </select>   
+  
    <!-- 내 강아지 가져오기 -->
    
-   
+   <select id="dogSelect"  parameterType="String" resultType="com.runningdog.vo.MoDogVo">
+      <![CDATA[
+         SELECT  us.userno as userNo 
+		         ,us.name as userName
+		         ,do.dogno as dogNo
+		         ,do.name as dogName
+	     FROM users us,dog do
+	     where us.id = #{id}
+	     and us.userno = do.userno
+      ]]>
+   </select>
    
    
 
