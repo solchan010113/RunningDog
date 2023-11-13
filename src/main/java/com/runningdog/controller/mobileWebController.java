@@ -138,12 +138,12 @@ public class mobileWebController {
 		
 		// MoWalkLogVo 테이블
 		
-		// 쿼리문에서 넣어줄 것 (산책일지번호,작성시간,상태)		
-		// 회원번호
-		// 동네번호 
-		// 모임번호 null 
-		// 시작시간
-		// 종료시간
+		// 쿼리문에서 넣어줄 것 (산책일지번호-셀렉트키,작성시간,상태)		
+		// 회원번호 O getUserNo
+		// 동네번호 O 1174010900 (강동구 천호동)
+		// 모임번호 O null 
+		// 시작시간 O startTime
+		// 종료시간 O endTime
 		// 소요시간 O
 		// 거리 O
 		// 내용
