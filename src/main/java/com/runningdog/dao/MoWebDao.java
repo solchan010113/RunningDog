@@ -23,10 +23,10 @@ public class MoWebDao {
 	}	
 	
 	// (2) 강아지정보 가져오기
-	public List<MoDogVo> dogSelect(String userId){
+	public List<MoDogVo> dogSelect(int userNo){
 		System.out.println("다오 강아지가져오기");	
-		System.out.println("다오 아이디 "+userId);	
-		List<MoDogVo> dogList = sqlSession.selectList("walkLog.dogSelect", userId);
+		System.out.println("다오 아이디 "+userNo);	
+		List<MoDogVo> dogList = sqlSession.selectList("walkLog.dogSelect", userNo);
 		System.out.println(dogList);	
 		return dogList;
 	}

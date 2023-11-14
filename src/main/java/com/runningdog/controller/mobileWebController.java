@@ -74,7 +74,7 @@ public class mobileWebController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		System.out.println(authUser);		
 		// 강아지정보 불러오기
-		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getId());		
+		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getUserNo());		
 		dogModel.addAttribute("dogList",dogList);	
 		return  "mobileWeb/walkStart"; 				
 		// 산책로 정보 불러오기 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
@@ -128,18 +128,22 @@ public class mobileWebController {
 	public String walkInsert(@ModelAttribute MoWalkLogVo moWalkLogVo, HttpSession session){
 		System.out.println("기록");
 		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");		
-		moWalkLogVo.setUserNo(authUser.getUserNo());		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");	
+		
+		System.out.println(authUser);
+		
+		moWalkLogVo.setUserNo(authUser.getUserNo());	
+		
 		System.out.println("기록된 정보 "+ moWalkLogVo);		
 		
 		// MoWalkLogVo 테이블
 		
-		// 쿼리문에서 넣어줄 것 (산책일지번호,작성시간,상태)		
-		// 회원번호
-		// 동네번호 
-		// 모임번호 null 
-		// 시작시간
-		// 종료시간
+		// 쿼리문에서 넣어줄 것 (산책일지번호-셀렉트키,작성시간,상태)		
+		// 회원번호 O getUserNo
+		// 동네번호 O 1174010900 (강동구 천호동)
+		// 모임번호 O null 
+		// 시작시간 O startTime
+		// 종료시간 O endTime
 		// 소요시간 O
 		// 거리 O
 		// 내용

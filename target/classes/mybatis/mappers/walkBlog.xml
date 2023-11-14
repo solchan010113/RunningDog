@@ -6,18 +6,34 @@
 	<!-- 쿼리문 작성 -->
 
 	<!-- 산책로 가져오기 -->
-	<select id="selectBlogOwner" parameterType="String" resultType="String">
-      <![CDATA[
-      
-      SELECT name,
-      		 userNo
-      FROM users
-      WHERE id = #{id}
-      
-      ]]>
+	<select id="selectBlogOwner" parameterType="java.util.Map" resultType="java.util.Map">
+    <![CDATA[
+    SELECT name, userNo
+    FROM users
+    WHERE code = #{paramCode}
+    ]]>
+</select>
+
+	<select id="selectOwnerNo" parameterType="int" resultType="int">
+    <![CDATA[
+    SELECT userNo
+    FROM users
+    WHERE code = #{paramCode}
+    ]]>
 	</select>
 
 
+	<select id="selectBannerImg" parameterType="int" resultType="String">
+    <![CDATA[
+    select IM.saveName as bannerSavename
+    from images IM , users US
+    where  IM.useNo = US.userNo
+    and IM.useNo = (SELECT userNo
+    FROM users
+    WHERE code = #{paramCode})
+    ]]>
+	</select>
+	
 
 	<select id="selectFollowerNum" parameterType="String" resultType="int">
       <![CDATA[
@@ -26,7 +42,7 @@
       from follow
       where followeeNo = (SELECT userNo
                             From users
-                            WHERE id = #{paramId})
+                            WHERE code = #{paramCode})
       ]]>
 	</select>
 
@@ -37,24 +53,35 @@
       from follow
       where followerNo = (SELECT userNo
                             From users
-                            WHERE id = #{paramId})
+                            WHERE code = #{paramCode})
       ]]>
 	</select>
 
 
 
-	<select id="didIFollow" resultType="int" parameterType="Map">
-      <![CDATA[
-      
-      SELECT count(followNo) as followNo 
-	  from follow
-	  where followeeNo =(SELECT userNo
-        From users
-        WHERE id = #{paramId}) and followerNo = (SELECT userNo
-                          From users
-                          WHERE id = #{authId})
-      ]]>
-	</select>
+	<select id="didIFollow" resultType="int" parameterType="java.util.Map">
+    <![CDATA[
+        SELECT count(followNo) as followNo 
+        FROM follow
+        WHERE followeeNo = #{followeeNo} AND followerNo = #{followerNo}
+    ]]>
+</select>
+
+<!-- 팔로우 추가 -->
+<insert id="insertFollow" parameterType="java.util.Map">
+    <![CDATA[
+        INSERT INTO follow (followNo, followeeNo, followerNo)
+        VALUES (seq_follow_no.NEXTVAL, #{followeeNo}, #{followerNo})
+    ]]>
+</insert>
+
+<!-- 팔로우 취소 -->
+<delete id="deleteFollow" parameterType="java.util.Map">
+    <![CDATA[
+        DELETE FROM follow
+        WHERE followeeNo = #{followeeNo} AND followerNo = #{followerNo}
+    ]]>
+</delete>
 
 	<select id="walkLogList" resultType="com.runningdog.vo.ShowLogVo" parameterType="String">
       <![CDATA[
@@ -75,7 +102,7 @@
 		where WL.userNo = US.userNo 
 		and WL.userNo = (SELECT US.userNo
 		                 From users US
-		                WHERE id = #{paramId})
+		                WHERE code = #{paramCode})
 		order by WL.walkLogNo desc
       ]]>
 	</select>
@@ -122,6 +149,33 @@
     ]]>
 </insert>
 
+<select id="getShowLogImageList" parameterType="int" resultType="com.runningdog.vo.WalkLogConImgVo">
+    <![CDATA[
+        SELECT 
+            saveName,
+            imageOrder
+        FROM images
+        WHERE useNo = #{walkLogNo} AND type = 'walkLogCon'
+        ORDER BY imageOrder ASC
+    ]]>
+</select>
+
+<delete id="deleteComment" parameterType="int">
+    <![CDATA[
+        DELETE FROM walkLogCmt WHERE walkLogCmtNo = #{no}
+    ]]>
+</delete>
+
+<select id="didIFollow2" resultType="int" parameterType="Map">
+      <![CDATA[
+      
+      SELECT count(followNo) as followNo 
+	  from follow
+	  where followeeNo =(SELECT userNo
+        From users
+        WHERE code = #{paramCode}) and followerNo = #{authUserNo}
+      ]]>
+	</select>
 
 
 
