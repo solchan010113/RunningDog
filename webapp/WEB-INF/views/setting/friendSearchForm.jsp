@@ -25,7 +25,7 @@
 
 		<div class="firstElement">
 			<h1>회원 검색</h1>
-			<div>#${requestScope.selectUser.code}</div>
+			<div>#${sessionScope.authUser.code}</div>
 		</div>
 		
 		<div class="listBox">

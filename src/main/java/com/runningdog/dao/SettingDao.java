@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.runningdog.vo.DogListVo;
+import com.runningdog.vo.DogsVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -77,34 +77,34 @@ public class SettingDao {
 	
 	
 	
-/*	강아지	*/
+/*	 강아지	*/
 	
 	//강아지 카드 리스트
-	public List<DogListVo> selectDogList(int userNo) {
+	public List<DogsVo> selectDogList(int userNo) {
 		System.out.println("SettingDao.selectDogList()");
 		
-		List<DogListVo> dogList = sqlSession.selectList("setting.selectDogList", userNo);
+		List<DogsVo> dogList = sqlSession.selectList("setting.selectDogList", userNo);
 		
 		return dogList;
 	}
 	
 	//강아지 등록
-	public int insertDog(DogListVo dogListVo) {
+	public int insertDog(DogsVo dogsVo) {
 		System.out.println("SettingDao.insertDog()");
 		
-		//System.out.println(dogListVo.getDogNo());
-		int count = sqlSession.insert("setting.insertDog", dogListVo);
+		//System.out.println(dogsVo.getDogNo());
+		int count = sqlSession.insert("setting.insertDog", dogsVo);
 		//selectkey로 추가한 값이 나옴
-		//System.out.println(dogListVo.getDogNo());
+		//System.out.println(dogsVo.getDogNo());
 		
 		return count;
 	}
 	
-	//강아지 수정 폼
-	public DogListVo selectDog(int dogNo) {
+	//강아지 수정 폼 (1마리 가져오기)
+	public DogsVo selectDog(int dogNo) {
 		System.out.println("SettingDao.selectDog()");
 
-		DogListVo dogVo = sqlSession.selectOne("setting.selectDog", dogNo);
+		DogsVo dogVo = sqlSession.selectOne("setting.selectDog", dogNo);
 		
 		return dogVo;
 	}
@@ -119,10 +119,10 @@ public class SettingDao {
 	}
 	
 	//강아지 수정
-	public int updateDog(DogListVo dogVo) {
+	public int updateDog(DogsVo dogsVo) {
 		System.out.println("SettingDao.updateDog()");
 
-		int count = sqlSession.update("setting.updateDog", dogVo);
+		int count = sqlSession.update("setting.updateDog", dogsVo);
 		
 		return count;
 	}

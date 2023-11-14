@@ -508,7 +508,6 @@ input::-webkit-inner-spin-button {
 #friendProfile .listBox .friendList{
 	width: 100%;
 	text-align: center;
-	border-bottom: 1px solid rgb(192, 192, 192);
 	box-sizing: border-box;
 }
 
@@ -593,12 +592,14 @@ input::-webkit-inner-spin-button {
 	background-color: dodgerblue;
 }
 
-#friendProfile .listBox .friendList tr th{
-	font-weight: bold;
-	padding: 7px 0;
+#friendProfile .listBox .friendList tr{
 	border-bottom: 1px solid rgb(192, 192, 192);
 }
 
+#friendProfile .listBox .friendList tr th{
+	font-weight: bold;
+	padding: 7px 0;
+}
 
 
 

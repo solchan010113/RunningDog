@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.dao.SettingDao;
-import com.runningdog.vo.DogListVo;
+import com.runningdog.vo.DogsVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -128,23 +128,23 @@ public class SettingService {
 /*   강아지   */
 	
 	//강아지 리스트
-	public List<DogListVo> selectDogList(int userNo){
+	public List<DogsVo> selectDogList(int userNo){
 		System.out.println("SettingService.selectDogList()");
 		
-		List<DogListVo> dogList = settingDao.selectDogList(userNo);
+		List<DogsVo> dogList = settingDao.selectDogList(userNo);
 		//System.out.println(dogList);
 
 		return dogList;
 	}
 	
 	//강아지 등록
-	public void insertDog(int userNo, DogListVo dogListVo, MultipartFile file) {
+	public void insertDog(int userNo, DogsVo dogsVo, MultipartFile file) {
 		System.out.println("SettingService.insertDog()");
 
 		//강아지 등록하기
-		dogListVo.setUserNo(userNo);
+		dogsVo.setUserNo(userNo);
 
-		settingDao.insertDog(dogListVo);
+		settingDao.insertDog(dogsVo);
 		
 		// 파일 null 예외처리
 		if(!file.isEmpty()){
@@ -175,7 +175,7 @@ public class SettingService {
 			
 			
 			//dog pk값
-			int dogNo = dogListVo.getDogNo();
+			int dogNo = dogsVo.getDogNo();
 			
 			//vo로 묶기
 			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
@@ -203,35 +203,17 @@ public class SettingService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//파일 등록을 안 했을 때
-		}else{
-			
-			String orgName = "default";
-			String saveName = "default";
-			String filePath = "default";
-			long fileSize = 0;
-			int dogNo = dogListVo.getDogNo();
-			
-			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
-			
-			//더미를 이미지 테이블에 저장
-			settingDao.insertImg(mainImageVo);
-		}
-		
+
+		}		
 	}
 	
 	//강아지 하나
-	public DogListVo selectDog(int dogNo){
+	public DogsVo selectDog(int dogNo){
 		System.out.println("SettingService.selectDog()");
 		
-		DogListVo dogVo = settingDao.selectDog(dogNo);
+		DogsVo dogsVo = settingDao.selectDog(dogNo);
 		
-		//이미지 가져오기
-		MainImageVo dogImg = new MainImageVo("dog", dogNo);
-		String saveName = settingDao.selectImg(dogImg);
-		dogVo.setSaveName(saveName);
-		
-		return dogVo;
+		return dogsVo;
 	}
 	
 	//강아지 삭제 update
@@ -244,12 +226,12 @@ public class SettingService {
 	}
 	
 	//강아지 정보 update
-	public void updateDog(int userNo, DogListVo dogVo, MultipartFile file){
+	public void updateDog(int userNo, DogsVo dogsVo, MultipartFile file){
 		System.out.println("SettingService.updateDog()");
 		
 		//강아지 등록하기
-		dogVo.setUserNo(userNo);
-		settingDao.updateDog(dogVo);
+		dogsVo.setUserNo(userNo);
+		settingDao.updateDog(dogsVo);
 		
 		// 파일 null 예외처리
 		if(!file.isEmpty()){
@@ -280,7 +262,7 @@ public class SettingService {
 			
 			
 			//dog pk값
-			int dogNo = dogVo.getDogNo();
+			int dogNo = dogsVo.getDogNo();
 			
 			//vo로 묶기
 			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
@@ -312,21 +294,8 @@ public class SettingService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		//파일 등록을 안 했을 때
-		}else{
-			
-			String orgName = "default";
-			String saveName = "default";
-			String filePath = "default";
-			long fileSize = 0;
-			int dogNo = dogVo.getDogNo();
-			
-			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
-			
-			//더미를 이미지 테이블에 저장
-			settingDao.insertImg(mainImageVo);
 		}
+		
 	}
 	
 	

@@ -25,7 +25,7 @@
 
 		<div class="firstElement">
 			<h1>친구 목록</h1>
-			<div>#${requestScope.selectUser.code}</div>
+			<div>#${sessionScope.authUser.code}</div>
 		</div>
 		
 		<div class="listBox">
@@ -54,6 +54,7 @@
 		            <th>동네</th>
 		            <th>친구 삭제</th>
 		        </tr>
+		        
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>만당(#78945)</td>
@@ -63,17 +64,7 @@
 					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
-			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 20%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 30%;" />
-					<col style="width: 20%;" />
-				</colgroup>
+				
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -83,17 +74,7 @@
 					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
-			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 20%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 30%;" />
-					<col style="width: 20%;" />
-				</colgroup>
+				
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -103,17 +84,7 @@
 					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 20%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 30%;" />
-					<col style="width: 20%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -123,17 +94,7 @@
 					<td><a href="" class="deleteBtn">친구 삭제</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 20%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 30%;" />
-					<col style="width: 20%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
