@@ -31,12 +31,11 @@
 		<!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="${moWalkLogVo.distance}">
 	    <!-- 소요시간데이터 -->	    
-	    <input type="hidden" name="logTime" id="timeDataInput" value="">
+	    <input type="hidden" name="logTime" id="timeDataInput" value="${moWalkLogVo.logTime}">
 	    <!-- 시작시간데이터 -->
 	    <input type="hidden" name="startTime" id="sTimeDataInput" value="${moWalkLogVo.startTime}">
 	    <!-- 종료시간데이터 -->
-	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">	
-	
+	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">		
 	</form>	 
 	   
 	<div id="allBox">
