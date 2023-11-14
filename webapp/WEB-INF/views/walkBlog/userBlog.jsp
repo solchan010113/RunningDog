@@ -130,7 +130,7 @@ function toggleFollowButton() {
 							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
-						<c:if test="${ not empty requestScope.blogInfoVo.authNo  }">
+						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
 							<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo }">
 								<button id="followButton" class="followButton" onclick="toggleFollowButton()">
 									<c:if test="${requestScope.blogInfoVo.followNo == 0}">
