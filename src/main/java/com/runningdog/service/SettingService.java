@@ -219,6 +219,17 @@ public class SettingService {
 		return dogVo;
 	}
 	
+	//강아지 삭제 update
+	public int deleteDog(int dogNo){
+		System.out.println("SettingService.deleteDog()");
+		
+		int count = settingDao.deleteDog(dogNo);
+		
+		return count;
+	}
+	
+	
+	
 	
 }
 

@@ -6,13 +6,13 @@
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
-			select  userNo
+			select  userNo,
+					code
 			from users
 			where id = #{id}
 			and password = #{password}
 		]]>
 	</select>
-	
 	
 	
 	<!-- 회원 가입 -->

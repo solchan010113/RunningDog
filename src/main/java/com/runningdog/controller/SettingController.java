@@ -201,6 +201,26 @@ public class SettingController {
 	}
 	
 	//강아지 삭제 누르면
+	@RequestMapping(value="/deleteDog", method={RequestMethod.GET, RequestMethod.POST})
+	public String deleteDog(@RequestParam(value="no") int dogNo, Model model, HttpSession session){
+		System.out.println("SettingController.deleteDog()");
+		
+		settingService.deleteDog(dogNo);
+		
+		return "redirect:/setting/dogList";
+	}
+	
+	//강아지 삭제 누르면
+	@RequestMapping(value="/updateDog", method={RequestMethod.GET, RequestMethod.POST})
+	public String updateDog(@RequestParam(value="no") int dogNo, Model model, HttpSession session){
+		System.out.println("SettingController.updateDog()");
+		
+		//settingService.updateDog(dogNo);
+		
+		return "redirect:/setting/dogList";
+	}
+	
+	
 	
 
 	

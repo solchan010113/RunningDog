@@ -100,7 +100,7 @@ public class SettingDao {
 		return count;
 	}
 	
-	//강아지 수정
+	//강아지 수정 폼
 	public DogListVo selectDog(int dogNo) {
 		System.out.println("SettingDao.selectDog()");
 
@@ -108,6 +108,17 @@ public class SettingDao {
 		
 		return dogVo;
 	}
+	
+	//강아지 삭제
+	public int deleteDog(int dogNo) {
+		System.out.println("SettingDao.deleteDog()");
+
+		int count = sqlSession.update("setting.deleteDog", dogNo);
+		
+		return count;
+	}
+	
+	
 	
 	
 }

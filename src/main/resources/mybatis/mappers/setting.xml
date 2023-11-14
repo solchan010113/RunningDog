@@ -149,7 +149,15 @@
 		]]>
 	</select>
 	
-
+	
+	<!-- 강아지 삭제 (상태 T -> F 변경) -->
+	<update id="deleteDog" parameterType="int">
+		<![CDATA[
+			update dog
+			set status = 'F'
+			where dogNo = #{dogNo}
+		]]>
+	</update>
 
 
 
