@@ -40,10 +40,23 @@
 	
 	        document.getElementById("tVal").innerHTML = th + ":" + tm + ":" + ts;
 	        
+	        // 00:00:00 값의 시간을 초값으로 바꿔주기	
+            var timeString = th + ":" + tm + ":" + ts;
+            
+            console.log("시간값 "+timeString);
+
+            // 시간 문자열을 시, 분, 초로 분리합니다.
+            var timeArray = timeString.split(':');
+
+            // 각 부분을 정수로 변환하여 총 초로 계산합니다.
+            var totalSeconds = parseInt(timeArray[0]) * 3600 + parseInt(timeArray[1]) * 60 + parseInt(timeArray[2]);
+          
 	        // 시간 인풋창으로 넘기기
-	        $("#timeDataInput").val(th + ":" + tm + ":" + ts);   
+	        $("#timeDataInput").val(totalSeconds);   
 	         
 	      }, 1000);	
+	      
+	      
 	  });
 	
 	// 아직 미사용 ------------------------------------
@@ -150,13 +163,17 @@
             $("#startButton").hide(); // 시작버튼 가리기
             $("#walkStart").show(); // 정지버튼 보이기 
             
-            let sTime = new Date().toISOString().slice(0, 16);  
+            console.log("시작버튼 클릭"); 
+            
+            // 현재 날짜 및 시간을 가져옵니다.
+			let currentDate = new Date();
+			
+			// 원하는 형식으로 날짜 및 시간을 표시합니다.
+			let sTime = currentDate.toISOString().slice(0, 16).replace("T", " ");
+			
+			console.log("시작시간" + sTime);           
             
             document.getElementById('sTimeDataInput').value = sTime;
-             
-            console.log("시작시간" + sTime);                          
-            
-            console.log("시작버튼 클릭");  
             
             // 네비게이션 기능으로 위치정보 받아오기 (3초마다 위치 업데이트)
             updateMyLocation();
@@ -172,11 +189,17 @@
             $("#startButton").show();
             $("#walkStart").hide();
             
-            let eTime = new Date().toISOString().slice(0, 16);  
+            console.log("종료버튼 클릭"); 
+            
+            // 현재 날짜 및 시간을 가져옵니다.
+			let currentDate = new Date();
+			
+			// 원하는 형식으로 날짜 및 시간을 표시합니다.
+			let eTime = currentDate.toISOString().slice(0, 16).replace("T", " ");
+			
+			console.log("종료시간" + eTime);           
             
             document.getElementById('eTimeDataInput').value = eTime;
-             
-            console.log("종료시간" + eTime);           
             
             console.log("위치정보 받아오기 중단");    
 

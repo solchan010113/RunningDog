@@ -39,21 +39,24 @@
    
    <!-- 산책기록 저장하기 -->
    <insert id="walkLogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >
- 		<selectKey resultType="int" keyProperty="walkLogNo" order="BEFORE">
-			SELECT MAX(walkLogNo)+1 FROM walkLog    
+		<selectKey resultType="int" keyProperty="walkLogNo" order="BEFORE">
+			<![CDATA[
+				SELECT seq_walkdog_no.nextVal FROM dual    
+			]]>
 		</selectKey>
       <![CDATA[
          INSERT INTO walkLog
 		 VALUES (#{walkLogNo},  
 		         #{userNo},
 		         1174010900, 
-		         null, 
+		         11111, 
+		         #{title},
 		         SYSDATE,
 		         #{startTime},
 		         #{endTime},
 		         #{logTime},
 		         #{distance},
-		         #{content},
+		         #{content, jdbcType=VARCHAR},
 		         '공개',
 		         'T'
 		         )
