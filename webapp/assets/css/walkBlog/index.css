@@ -1,4 +1,4 @@
- @charset "UTF-8";
+  @charset "UTF-8";
 
 
   .contents {
@@ -689,11 +689,24 @@ h2{
 	  font-size: 14px;
   }
   
+  .replyDateCmtBox{
+	  display: flow-root;
+	 float: right;
+	 width: 215px; 
+	 height: 58px;
+  }
+  
   .MRreplyDate{
 	  float: right;
-	  margin-top:10px;
-	  margin-right:10px;
+	  
   }
+  
+  .deleteCommentButton{
+	  float: right;
+  }
+  
+  .replyDateCmtBox
+  
   
   .MRborder{
 	  margin-top:10px;
