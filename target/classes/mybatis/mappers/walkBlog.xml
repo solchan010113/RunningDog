@@ -96,7 +96,8 @@
 		      		 WL.content,
 		      		 WL.security,
 		      		 WL.status,
-		      		 US.name
+		      		 US.name,
+		      		 WL.title
 		             
 		from walkLog WL, users US
 		where WL.userNo = US.userNo 
@@ -176,6 +177,30 @@
         WHERE code = #{paramCode}) and followerNo = #{authUserNo}
       ]]>
 	</select>
+	
+	  <select id="getMonthlyStats" parameterType="String" resultType="com.runningdog.vo.MonthlyStatsVo">
+    <![CDATA[
+        SELECT
+            COUNT(*) AS walkCountThisMonth,
+            SUM(distance) AS totalDistanceThisMonth,
+            SUM(logTime) AS totalLogTimeThisMonth
+        FROM walkLog
+        WHERE TO_CHAR(regDate, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM')
+        AND userNo = (SELECT userNo FROM users WHERE code = #{paramCode})
+    ]]>
+</select>
+
+    <!-- 전체 산책 통계 가져오기 -->
+   <select id="getTotalStats" parameterType="String" resultType="com.runningdog.vo.MonthlyStatsVo">
+    <![CDATA[
+        SELECT
+            COUNT(*) AS walkCountTotal,
+            SUM(distance) AS totalDistanceTotal,
+            SUM(logTime) AS totalLogTimeTotal
+        FROM walkLog
+        WHERE userNo = (SELECT userNo FROM users WHERE code = #{paramCode})
+    ]]>
+</select>
 
 
 
