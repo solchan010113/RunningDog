@@ -9,15 +9,50 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
 <script>
-	function toggleFollowButton() {
-		var followButton = document.getElementById("followButton");
+function toggleFollowButton() {
+    var followButton = document.getElementById("followButton");
+    var followStatus = "${requestScope.blogInfoVo.followNo}";
 
-		if (followButton.innerText === "팔로우") {
-			followButton.innerText = "팔로잉";
-		} else {
-			followButton.innerText = "팔로우";
-		}
-	}
+    if (followStatus === "0") {
+        // Follow
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+            data: {
+                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
+            },
+            success: function(response) {
+                if (response === "success") {
+                    followButton.innerText = "팔로잉";
+                } else {
+                    console.error("팔로우 실패");
+                }
+            },
+            error: function(error) {
+                console.error("팔로우 실패: " + error);
+            }
+        });
+    } else if (followStatus === "1") {
+        // Unfollow
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+            data: {
+                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
+            },
+            success: function(response) {
+                if (response === "success") {
+                    followButton.innerText = "팔로우";
+                } else {
+                    console.error("언팔로우 실패");
+                }
+            },
+            error: function(error) {
+                console.error("언팔로우 실패: " + error);
+            }
+        });
+    }
+}
 
 	function addComment(walkLogNo) {
 		var commentText = document.getElementById("commentText").value;
@@ -31,7 +66,8 @@
 				url : "${pageContext.request.contextPath}/walkBlog/addComment",
 				data : {
 					walkLogNo : walkLogNo, // 적절한 walkLogNo 전달
-					content : commentText
+					content : commentText,
+					userNo: ${blogInfoVo.authNo}
 				},
 				success : function(response) {
 					// 성공 시, 화면 갱신 등 추가 작업 가능
@@ -43,6 +79,27 @@
 			});
 		}
 	}
+	
+	function deleteComment(cmtNo) {
+        // Ajax 호출
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/deleteComment",
+            data: {
+                walkLogCmtNo: cmtNo
+            },
+            success: function(response) {
+                // 성공 시, 화면 갱신 등 추가 작업 가능
+                console.log("댓글 삭제 성공");
+                // 여기에 화면 갱신 등을 위한 코드를 추가할 수 있습니다.
+            },
+            error: function(error) {
+                console.error("댓글 삭제 실패: " + error);
+            }
+        });
+    }
+	
+	
 </script>
 </head>
 <body>
@@ -50,7 +107,7 @@
 
 
 	<div class="backgroundImg">
-		<img src="${pageContext.request.contextPath}/assets/images/산책로.png" alt="">
+		<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.bannerSavename}" alt="">
 
 	</div>
 
@@ -73,15 +130,15 @@
 							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
-
-						<c:if test="${requestScope.blogInfoVo.authId != requestScope.blogInfoVo.paramId }">
-							<button id="followButton" class="followButton" onclick="toggleFollowButton()">
-								<c:if test="${requestScope.blogInfoVo.followNo == 0}">
+						<c:if test="${ not empty requestScope.blogInfoVo.authNo  }">
+							<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo }">
+								<button id="followButton" class="followButton" onclick="toggleFollowButton()">
+									<c:if test="${requestScope.blogInfoVo.followNo == 0}">
 						팔로우
 						
 						</c:if>
-
-								<c:if test="${requestScope.blogInfoVo.followNo == 1}">
+							</c:if>
+							<c:if test="${requestScope.blogInfoVo.followNo == 1}">
 						팔로잉
 						
 						</c:if>
@@ -171,7 +228,7 @@
 											</div>
 										</div>
 
-										<c:if test="${requestScope.blogInfoVo.authId == requestScope.blogInfoVo.paramId }">
+										<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
 											<div class="modifyDelete">
 												<button class="modifyButton">수정</button>
 												<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
@@ -221,49 +278,47 @@
 
 									</div>
 
+									
+
 									<div class="MRwalkRecordSection">
 										<div class="MRwalkData">
 											<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
 										</div>
 										<div class="MRpictures">
-											<div class="MRpicture1">
-												<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-											</div>
-											<div class="MRpicture2">
-												<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-											</div>
-											<div class="MRpicture3">
-												<img src="${pageContext.request.contextPath}/assets/images/산책로.png" alt="">
-											</div>
-											<div class="MRpicture4">
-												<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-											</div>
-
+											<!-- 이미지 가져오기 -->
+											<c:forEach items="${ShowLogVo.imageList}" var="image">
+												<div class="MRpicture${image.imageOrder}">
+													<img src="${pageContext.request.contextPath}/assets/images/${image.saveName}" alt="">
+												</div>
+											</c:forEach>
 										</div>
-
-
-
-
 									</div>
+
+
 
 									<div class="MRcommentSection">
 
 										<div class="MRcomments">
 											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
-												<%-- <c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}"> --%>
-												<div class="MRcomment1">
+												<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
+													<div class="MRcomment1">
 
-													<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-													<div class="MRreplyDate">${cmt.regDate}</div>
-													<div class="MRuserIdandContent">
-														<div class="MRreplyUserId">${cmt.name}</div>
-														<div class="MRreplyContent">${cmt.content}</div>
+														<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+														<div class="replyDateCmtBox">
+														<div class="MRreplyDate">${cmt.regDate}</div>
+														<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
+															<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
+														</c:if>
+														</div>
+														<div class="MRuserIdandContent">
+															<div class="MRreplyUserId">${cmt.name}</div>
+															<div class="MRreplyContent">${cmt.content}</div>
+														</div>
+														
+
+
 													</div>
-
-
-
-												</div>
-												<%-- </c:if> --%>
+												</c:if>
 											</c:forEach>
 
 

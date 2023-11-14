@@ -43,8 +43,10 @@ public class WalkBlogController {
 		System.out.println("userBlog");
 
 		UserVo authuser = (UserVo) session.getAttribute("authUser");
-		int authUserNo = authuser.getUserNo();
-
+		System.out.println(authuser);
+		
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
 		String paramCode = code;
 
 		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
@@ -56,6 +58,7 @@ public class WalkBlogController {
 		List<ShowLogVo> walkLogList = walkBlogService.walkLogList(paramCode);
 		System.out.println(walkLogList);
 		model2.addAttribute("walkLogList", walkLogList);
+		
 		
 		
 		
@@ -91,11 +94,13 @@ public class WalkBlogController {
 	
 	@RequestMapping(value = "/addComment", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String addComment(@RequestParam("walkLogNo") int walkLogNo, @RequestParam("content") String content, HttpSession session) {
+	public String addComment(@RequestParam("walkLogNo") int walkLogNo, @RequestParam("content") String content, @RequestParam("userNo") int userNo) {
 	    
 		System.out.println("addComment");
-		UserVo authuser = (UserVo) session.getAttribute("authUser");
-	    int userNo = authuser.getUserNo();
+		/*
+		 * UserVo authuser = (UserVo) session.getAttribute("authUser"); int userNo =
+		 * authuser.getUserNo();
+		 */
 	    
 	    System.out.println("userNo는");
 	    System.out.println(userNo);
@@ -108,6 +113,24 @@ public class WalkBlogController {
 	    walkBlogService.addComment(comment);
 
 	    return "success";
+	}
+	
+	@RequestMapping(value = "/deleteComment", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteComment(@RequestParam("walkLogCmtNo") int walkLogCmtNo) {
+	    walkBlogService.deleteComment(walkLogCmtNo);
+	    return "success";
+	}
+	
+	@RequestMapping(value = "/toggleFollow", method = RequestMethod.POST)
+	@ResponseBody
+	public String toggleFollow(@RequestParam("followeeNo") int followeeNo, HttpSession session) {
+	    UserVo authuser = (UserVo) session.getAttribute("authUser");
+	    int followerNo = authuser.getUserNo();
+
+	    String result = walkBlogService.toggleFollow(followerNo, followeeNo);
+
+	    return result;
 	}
 	
 
