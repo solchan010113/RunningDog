@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.runningdog.vo.MonthlyStatsVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.WalkLogConImgVo;
@@ -21,6 +22,8 @@ public class WalkBlogDao {
 	 public Map<String, Object> selectBlogOwner(Map<String, Object> paramMap) {
 	        return sqlSession.selectOne("walkBlog.selectBlogOwner", paramMap);
 	    }
+	 
+	 
 	
 	public int  selectfollowerNum(String paramCode) {
 		
@@ -103,5 +106,19 @@ public int  didIFollow2(Map<String,Object> map) {
 public String selectBannerImg(String paramCode) {
 	// TODO Auto-generated method stub
 	return sqlSession.selectOne("walkBlog.selectBannerImg", paramCode);
+}
+
+
+
+public MonthlyStatsVo getMonthlyStats(String paramCode) {
+	
+	return sqlSession.selectOne("walkBlog.getMonthlyStats", paramCode);
+}
+
+
+
+public MonthlyStatsVo getTotalStats(String paramCode) {
+	
+	return sqlSession.selectOne("walkBlog.getTotalStats", paramCode);
 }
 }

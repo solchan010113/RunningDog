@@ -211,16 +211,16 @@ function toggleFollowButton() {
 										<div class="wrappingBox">
 											<div class="MRtitleBox">
 												<div class="MRtime">${ShowLogVo.regDate}</div>
-												<div class="MRtitle">오후 산책</div>
+												<div class="MRtitle">${ShowLogVo.title}</div>
 
 											</div>
 											<div class="MRrecordBox">
 												<div class="MRdistanceBox">
-													<div class="MRrecordData">${ShowLogVo.distance}km</div>
+													<div class="MRrecordData">${ShowLogVo.distanceFormatted}km</div>
 													<div class="MRlabel">산책거리</div>
 												</div>
 												<div class="MRtimeBox">
-													<div class="MRrecordData">0:32분</div>
+													<div class="MRrecordData">${ShowLogVo.logTimeFormatted}</div>
 													<div class="MRlabel">산책시간</div>
 												</div>
 
@@ -274,11 +274,14 @@ function toggleFollowButton() {
 
 
 										</div>
+										<div class="walkLogContent">
+										${ShowLogVo.content}
+										</div>
 
 
 									</div>
 
-									
+
 
 									<div class="MRwalkRecordSection">
 										<div class="MRwalkData">
@@ -305,16 +308,16 @@ function toggleFollowButton() {
 
 														<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 														<div class="replyDateCmtBox">
-														<div class="MRreplyDate">${cmt.regDate}</div>
-														<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
-															<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
-														</c:if>
+															<div class="MRreplyDate">${cmt.regDate}</div>
+															<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
+																<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
+															</c:if>
 														</div>
 														<div class="MRuserIdandContent">
 															<div class="MRreplyUserId">${cmt.name}</div>
 															<div class="MRreplyContent">${cmt.content}</div>
 														</div>
-														
+
 
 
 													</div>
@@ -381,63 +384,42 @@ function toggleFollowButton() {
 					</div>
 					<div class="stats">
 
-						<h3 class="statslabel">호두마루님의 기록</h3>
-						<table class="statsTable">
+						<h3 class="statslabel">${blogInfoVo.name}님의 기록</h3>
 
+						<table class="statsTable">
 							<tr>
 								<th>이번 달</th>
 							</tr>
-
-
-
-
 							<tr>
 								<td>산책횟수</td>
-								<td>1</td>
+								<td>${blogInfoVo.monthlyStatsThisMonth.walkCountThisMonth}</td>
 							</tr>
 							<tr>
 								<td>산책거리</td>
-								<td>0.55km</td>
+								<td>${blogInfoVo.monthlyStatsThisMonth.totalDistanceThisMonthFormatted}</td>
 							</tr>
-
-
 							<tr>
 								<td>산책시간</td>
-								<td>32분</td>
+								<td>${blogInfoVo.monthlyStatsThisMonth.totalLogTimeThisMonthFormatted}</td>
 							</tr>
-
-
-
-
 						</table>
 
 						<table class="statsTableAll">
-
 							<tr>
 								<th>총 기록</th>
 							</tr>
-
-
-
-
 							<tr>
 								<td>산책횟수</td>
-								<td>1</td>
+								<td>${blogInfoVo.monthlyStatsTotal.walkCountTotal}</td>
 							</tr>
 							<tr>
 								<td>산책거리</td>
-								<td>0.55km</td>
+								<td>${blogInfoVo.monthlyStatsTotal.totalDistanceTotalFormatted}</td>
 							</tr>
-
-
 							<tr>
 								<td>산책시간</td>
-								<td>32분</td>
+								<td>${blogInfoVo.monthlyStatsTotal.totalLogTimeTotalFormatted}</td>
 							</tr>
-
-
-
-
 						</table>
 					</div>
 				</div>

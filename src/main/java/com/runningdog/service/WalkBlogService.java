@@ -58,6 +58,20 @@ public class WalkBlogService {
 		blogInfoVo.setBannerSavename(walkBlogDao.selectBannerImg(paramCode));
 		System.out.println(blogInfoVo.getBannerSavename());
 		
+		blogInfoVo.setMonthlyStatsThisMonth(walkBlogDao.getMonthlyStats(paramCode));
+		blogInfoVo.setMonthlyStatsTotal(walkBlogDao.getTotalStats(paramCode));
+		
+		blogInfoVo.getMonthlyStatsThisMonth().setThisMonthStats(
+		        blogInfoVo.getMonthlyStatsThisMonth().getWalkCountThisMonth(),
+		        blogInfoVo.getMonthlyStatsThisMonth().getTotalDistanceThisMonth(),
+		        blogInfoVo.getMonthlyStatsThisMonth().getTotalLogTimeThisMonth()
+		    );
+		    blogInfoVo.getMonthlyStatsTotal().setTotalStats(
+		        blogInfoVo.getMonthlyStatsTotal().getWalkCountTotal(),
+		        blogInfoVo.getMonthlyStatsTotal().getTotalDistanceTotal(),
+		        blogInfoVo.getMonthlyStatsTotal().getTotalLogTimeTotal()
+		    );
+
 		
 		
 		return blogInfoVo; 

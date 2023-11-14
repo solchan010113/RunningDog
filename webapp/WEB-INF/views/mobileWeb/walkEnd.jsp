@@ -24,12 +24,14 @@
 </head>
 <body>
 
+	<input type="hidden" name="Time" id="tDataOutput" value="${moWalkLogVo.logTime}">
+
 	<!-- 컨트롤러로 보내서 insert할 데이터들 -->
 	<form id="dataForm" action="${pageContext.request.contextPath}/m/walkInsert" method="post">
 		<!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="${moWalkLogVo.distance}">
-	    <!-- 소요시간데이터 -->
-	    <input type="hidden" name="logTime" id="timeDataInput" value="${moWalkLogVo.logTime}">
+	    <!-- 소요시간데이터 -->	    
+	    <input type="hidden" name="logTime" id="timeDataInput" value="">
 	    <!-- 시작시간데이터 -->
 	    <input type="hidden" name="startTime" id="sTimeDataInput" value="${moWalkLogVo.startTime}">
 	    <!-- 종료시간데이터 -->
@@ -226,6 +228,7 @@
 	    $(document).ready(function() {
 		    $("#insertBtn").click(function() {	    	
 		    	console.log("기록완료");
+		    	
 		    	// html2canvas를 사용하여 맵을 이미지로 변환
 		        /* html2canvas(document.getElementById('map')).then(function(canvas) {
 	
@@ -250,7 +253,7 @@
                 // 여기에 이동할 링크를 넣어주세요
                 window.location.href = "${pageContext.request.contextPath}/m/map";
             });
-        });  	    
+        });  	
 	    
 	    
 	</script>

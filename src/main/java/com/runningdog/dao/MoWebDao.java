@@ -34,8 +34,9 @@ public class MoWebDao {
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("다오 산책기록하기");
-		System.out.println(moWalkLogVo);
-		sqlSession.insert("walkLog.walkLogInsert",moWalkLogVo);		
+		System.out.println("셀렉트키 " + moWalkLogVo);
+		sqlSession.insert("walkLog.walkLogInsert",moWalkLogVo);	
+		System.out.println("셀렉트키 " + moWalkLogVo);
 	}
 
 }

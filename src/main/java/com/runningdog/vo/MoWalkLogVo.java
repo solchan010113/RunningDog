@@ -6,10 +6,15 @@ public class MoWalkLogVo {
 	
 	private int walkLogNo; // 산책기록 번호 (사용처번호)
 	private int userNo;
+	
+	private int locationNo;
+	private int meetingNo;
+	private String title;	
+	
 	private String regDate;
 	private String startTime;
 	private String endTime;
-	private String logTime;
+	private int logTime;
 	private int distance;
 	private String content;
 	private String security;
@@ -20,11 +25,15 @@ public class MoWalkLogVo {
 	
 	public MoWalkLogVo() {}
 
-	public MoWalkLogVo(int walkLogNo, int userNo, String regDate, String startTime, String endTime, String logTime,
-			int distance, String content, String security, char status, int dogNo) {
+	public MoWalkLogVo(int walkLogNo, int userNo, int locationNo, int meetingNo, String title, String regDate,
+			String startTime, String endTime, int logTime, int distance, String content, String security, char status,
+			int dogNo) {
 		super();
 		this.walkLogNo = walkLogNo;
 		this.userNo = userNo;
+		this.locationNo = locationNo;
+		this.meetingNo = meetingNo;
+		this.title = title;
 		this.regDate = regDate;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -52,6 +61,30 @@ public class MoWalkLogVo {
 		this.userNo = userNo;
 	}
 
+	public int getLocationNo() {
+		return locationNo;
+	}
+
+	public void setLocationNo(int locationNo) {
+		this.locationNo = locationNo;
+	}
+
+	public int getMeetingNo() {
+		return meetingNo;
+	}
+
+	public void setMeetingNo(int meetingNo) {
+		this.meetingNo = meetingNo;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getRegDate() {
 		return regDate;
 	}
@@ -76,11 +109,11 @@ public class MoWalkLogVo {
 		this.endTime = endTime;
 	}
 
-	public String getLogTime() {
+	public int getLogTime() {
 		return logTime;
 	}
 
-	public void setLogTime(String logTime) {
+	public void setLogTime(int logTime) {
 		this.logTime = logTime;
 	}
 
@@ -126,11 +159,13 @@ public class MoWalkLogVo {
 
 	@Override
 	public String toString() {
-		return "MoWalkLogVo [walkLogNo=" + walkLogNo + ", userNo=" + userNo + ", regDate=" + regDate + ", startTime="
-				+ startTime + ", endTime=" + endTime + ", logTime=" + logTime + ", distance=" + distance + ", content="
-				+ content + ", security=" + security + ", status=" + status + ", dogNo=" + dogNo + "]";
+		return "MoWalkLogVo [walkLogNo=" + walkLogNo + ", userNo=" + userNo + ", locationNo=" + locationNo
+				+ ", meetingNo=" + meetingNo + ", title=" + title + ", regDate=" + regDate + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", logTime=" + logTime + ", distance=" + distance + ", content=" + content
+				+ ", security=" + security + ", status=" + status + ", dogNo=" + dogNo + "]";
 	}
 
+	
 	
 
 }

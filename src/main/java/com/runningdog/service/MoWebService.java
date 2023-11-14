@@ -31,8 +31,10 @@ public class MoWebService {
 	
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
-		System.out.println("서비스 산책기록하기");		
+		System.out.println("서비스 산책기록하기");
+		
 		moWebDao.walkLogInsert(moWalkLogVo);		
+		
 	}
 	
 
