@@ -132,7 +132,8 @@ public class SettingService {
 		System.out.println("SettingService.selectDogList()");
 		
 		List<DogListVo> dogList = settingDao.selectDogList(userNo);
-		
+		//System.out.println(dogList);
+
 		return dogList;
 	}
 	
@@ -181,6 +182,111 @@ public class SettingService {
 			//System.out.println(mainImageVo);
 
 			
+			//이미지 테이블에 저장
+			settingDao.insertImg(mainImageVo);
+			
+			
+			//파일 저장(서버쪽 하드 디스크에 저장) //////////////////////////////
+			
+			try {
+				byte[] fileData;
+				
+				fileData = file.getBytes();
+				
+				OutputStream os = new FileOutputStream(filePath);
+				BufferedOutputStream bos = new BufferedOutputStream(os);
+				
+				bos.write(fileData);
+				bos.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		//파일 등록을 안 했을 때
+		}else{
+			
+			String orgName = "default";
+			String saveName = "default";
+			String filePath = "default";
+			long fileSize = 0;
+			int dogNo = dogListVo.getDogNo();
+			
+			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
+			
+			//더미를 이미지 테이블에 저장
+			settingDao.insertImg(mainImageVo);
+		}
+		
+	}
+	
+	//강아지 하나
+	public DogListVo selectDog(int dogNo){
+		System.out.println("SettingService.selectDog()");
+		
+		DogListVo dogVo = settingDao.selectDog(dogNo);
+		
+		//이미지 가져오기
+		MainImageVo dogImg = new MainImageVo("dog", dogNo);
+		String saveName = settingDao.selectImg(dogImg);
+		dogVo.setSaveName(saveName);
+		
+		return dogVo;
+	}
+	
+	//강아지 삭제 update
+	public int deleteDog(int dogNo){
+		System.out.println("SettingService.deleteDog()");
+		
+		int count = settingDao.deleteDog(dogNo);
+		
+		return count;
+	}
+	
+	//강아지 정보 update
+	public void updateDog(int userNo, DogListVo dogVo, MultipartFile file){
+		System.out.println("SettingService.updateDog()");
+		
+		//강아지 등록하기
+		dogVo.setUserNo(userNo);
+		settingDao.updateDog(dogVo);
+		
+		// 파일 null 예외처리
+		if(!file.isEmpty()){
+			//파일 저장 디렉토리
+			String saveDir = "C:\\javaStudy\\rdimg\\dogProfile";
+			
+			//파일 관련 정보 추출 //////////////////////////
+			//오리지널 파일 명
+			String orgName = file.getOriginalFilename();
+			//System.out.println(orgName);
+			
+			//확장자
+			String exName = orgName.substring(orgName.lastIndexOf("."));
+			//System.out.println(exName);
+			
+			//저장 파일명(겹치지 않아야 함)
+			String saveName = System.currentTimeMillis() + UUID.randomUUID().toString() + exName;
+								//		 long		 	 +			String
+			//System.out.println(saveName);
+			
+			//파일 사이즈
+			long fileSize = file.getSize();
+			//System.out.println(fileSize);
+			
+			//파일 전체 경로
+			String filePath = saveDir + "\\" + saveName;
+			//System.out.println(filePath);
+			
+			
+			//dog pk값
+			int dogNo = dogVo.getDogNo();
+			
+			//vo로 묶기
+			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
+			//System.out.println(mainImageVo);
+
+			
 			//기존 사진 지우기
 			MainImageVo dogImg = new MainImageVo("dog", dogNo);
 			settingDao.deleteImg(dogImg);
@@ -206,26 +312,21 @@ public class SettingService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		//파일 등록을 안 했을 때
+		}else{
+			
+			String orgName = "default";
+			String saveName = "default";
+			String filePath = "default";
+			long fileSize = 0;
+			int dogNo = dogVo.getDogNo();
+			
+			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
+			
+			//더미를 이미지 테이블에 저장
+			settingDao.insertImg(mainImageVo);
 		}
-		
-	}
-	
-	//강아지 하나
-	public DogListVo selectDog(int dogNo){
-		System.out.println("SettingService.selectDog()");
-		
-		DogListVo dogVo = settingDao.selectDog(dogNo);
-		
-		return dogVo;
-	}
-	
-	//강아지 삭제 update
-	public int deleteDog(int dogNo){
-		System.out.println("SettingService.deleteDog()");
-		
-		int count = settingDao.deleteDog(dogNo);
-		
-		return count;
 	}
 	
 	

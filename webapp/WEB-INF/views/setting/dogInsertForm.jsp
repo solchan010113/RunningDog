@@ -30,16 +30,7 @@
 		
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
-			<c:choose>
-			    <c:when test="${requestScope.selectUser == null}">
-			   		<!-- Result값이 있다면 실행할 로직 -->
-			   		<img class="profileImg" alt="" src="">
-			    </c:when>
-			    <c:otherwise>
-					 <!-- 그렇지 않다면 실행할 로직 -->
-					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
-			    </c:otherwise>
-			</c:choose>
+				 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
 			<label for="inputFile2" class="upload-btn" id="uploadLabel">
 				<input id="inputFile2" type="file" name="file" accept="image/*">
 			    <span class="form-text" >이미지 선택</span>
@@ -75,8 +66,8 @@
 		</div>
 		
 		<div>
-			<div class="settingLabel">생일</div>
-			<input type="date" name="birth" value="">
+			<div class="settingLabel">나이</div>
+			<input class="smallBox" type="number" name="birth" value=""> 살
 		</div>
 		
 		<div class="genderSelect">
@@ -87,7 +78,7 @@
 		
 		<div>
 			<div class="settingLabel">체중</div>
-			<input id="weight" type="number" name="weight" step="0.1" value=""> kg
+			<input class="smallBox" type="number" name="weight" step="0.1" value=""> kg
 		</div>
 		
 		<!-- 이름 성별 생일 체중 not null 처리 해야 함 -->
@@ -105,12 +96,12 @@
 		
 		<div>
 			<div class="settingLabel vertialTop">성격</div>
-			<textarea name="personality" maxlength="35" placeholder="* 성격이나 성향을 간단하게 적어주세요"></textarea>
+			<input class="personality" type="text" name="personality" maxlength="22" placeholder="22자까지 입력 가능">
 		</div>
 
 		<div>
 			<div class="settingLabel vertialTop">프로필 색상</div>
-			<input type="color" name="color">
+			<input type="color" name="color" value="#D2D2D2">
 		</div>
 		
 		<div class="noBorder marginBottom">

@@ -87,15 +87,15 @@ public class SettingDao {
 		
 		return dogList;
 	}
-
+	
 	//강아지 등록
 	public int insertDog(DogListVo dogListVo) {
 		System.out.println("SettingDao.insertDog()");
 		
-		System.out.println(dogListVo.getDogNo());
+		//System.out.println(dogListVo.getDogNo());
 		int count = sqlSession.insert("setting.insertDog", dogListVo);
 		//selectkey로 추가한 값이 나옴
-		System.out.println(dogListVo.getDogNo());
+		//System.out.println(dogListVo.getDogNo());
 		
 		return count;
 	}
@@ -118,7 +118,14 @@ public class SettingDao {
 		return count;
 	}
 	
-	
+	//강아지 수정
+	public int updateDog(DogListVo dogVo) {
+		System.out.println("SettingDao.updateDog()");
+
+		int count = sqlSession.update("setting.updateDog", dogVo);
+		
+		return count;
+	}
 	
 	
 }

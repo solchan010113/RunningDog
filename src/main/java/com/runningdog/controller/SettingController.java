@@ -115,6 +115,7 @@ public class SettingController {
 	}
 	
 	
+/*    강아지    */
 	
 	//강아지 카드 (리스트)
 	@RequestMapping(value="/dogList", method={RequestMethod.GET, RequestMethod.POST})
@@ -210,20 +211,26 @@ public class SettingController {
 		return "redirect:/setting/dogList";
 	}
 	
-	//강아지 삭제 누르면
+	//강아지 업데이트
 	@RequestMapping(value="/updateDog", method={RequestMethod.GET, RequestMethod.POST})
-	public String updateDog(@RequestParam(value="no") int dogNo, Model model, HttpSession session){
+	public String updateDog(@ModelAttribute DogListVo dogVo, 
+							@RequestParam(value="file") MultipartFile file,
+							HttpSession session){
 		System.out.println("SettingController.updateDog()");
 		
-		//settingService.updateDog(dogNo);
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+				
+		settingService.updateDog(userNo, dogVo, file);
 		
 		return "redirect:/setting/dogList";
 	}
 	
 	
 	
+/*    친구    */
 
-	
 	//친구 목록
 	@RequestMapping("/friendList")
 	public String friendList(Model model){

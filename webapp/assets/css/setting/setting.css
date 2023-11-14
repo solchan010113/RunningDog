@@ -94,6 +94,10 @@
 	text-align: right;
 }
 
+#profile .personality{
+	width: 378px;
+}
+
 #profile > .imageArea *{
 	display: block;
 }
@@ -463,8 +467,8 @@ input::-webkit-inner-spin-button {
 	width: 300px;
 }
 
-#profile #weight{
-	width: 80px;
+#profile .smallBox{
+	width: 70px;
 }
 
 

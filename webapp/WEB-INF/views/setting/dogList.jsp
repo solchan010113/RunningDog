@@ -48,20 +48,27 @@
 				   	<c:forEach items="${requestScope.dogList}" var="dogListVo">
 						<div class="dogCard" style="background-color: ${dogListVo.color};">
 							<c:choose>
-							    <c:when test="${requestScope.selectUser.saveName != null && requestScope.selectUser.saveName != ''}">
+							    <c:when test="${dogListVo.saveName != null && dogListVo.saveName != '' && dogListVo.saveName != 'default'}">
 							   		<!-- Result값이 있다면 실행할 로직 -->
 							   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogListVo.saveName}">
 							    </c:when>
 							    <c:otherwise>
 									 <!-- 그렇지 않다면 실행할 로직 -->
-									 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+									 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/dog_default_img.jpg">
 							    </c:otherwise>
 							</c:choose>
 							
 							<h3>강아지 카드</h3>
 							<div>이름: ${dogListVo.dogName}</div>
-							<div>품종: ${dogListVo.kind}</div>
-							<div class="dogCardElimentL">생일: ${dogListVo.birth}</div>
+							<c:choose>
+							    <c:when test="${dogListVo.kind != null && dogListVo.kind != ''}">
+   									<div>품종: ${dogListVo.kind}</div>
+							    </c:when>
+							    <c:otherwise>
+	 								<div>품종: -</div>
+							    </c:otherwise>
+							</c:choose>
+							<div class="dogCardElimentL">나이: ${dogListVo.birth} 살</div>
 							<c:if test="${dogListVo.gender == 'female'}">
 								<div class="dogCardElimentS">성별: 여</div>
 							</c:if>
@@ -69,8 +76,26 @@
 								<div class="dogCardElimentS">성별: 남</div>
 							</c:if>
 							<div class="dogCardElimentL">체중: ${dogListVo.weight} kg</div>
-							<div class="dogCardElimentS">중성화: ${dogListVo.neuter}</div>
-							<div class="personal">성격: ${dogListVo.personality}</div>
+							<c:choose>
+							    <c:when test="${dogListVo.neuter == 'T'}">
+							   		<div class="dogCardElimentS">중성화: O</div>
+							    </c:when>
+							    <c:when test="${dogListVo.neuter == 'F'}">
+							   		<div class="dogCardElimentS">중성화: X</div>
+							    </c:when>
+							    <c:otherwise>
+									 <div class="dogCardElimentS">중성화: -</div>
+							    </c:otherwise>
+							</c:choose>
+							<c:choose>
+							    <c:when test="${dogListVo.personality != null && dogListVo.personality != ''}">
+							   		<div class="personal">성격: ${dogListVo.personality}</div>
+							    </c:when>
+							    <c:otherwise>
+									<div class="personal">성격: -</div>
+							    </c:otherwise>
+							</c:choose>
+							
 							<div class="lastElement">보호자: ${dogListVo.userName}</div>
 							
 							<!-- null + 값 예외 처리 해야 함 -->

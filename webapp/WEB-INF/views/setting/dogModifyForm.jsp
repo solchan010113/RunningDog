@@ -20,7 +20,7 @@
 	<jsp:include page="sideBar.jsp"></jsp:include>
 	
 	
-	<form action="" id="profile">
+	<form method="post" action="${pageContext.request.contextPath}/setting/updateDog" id="profile" enctype="multipart/form-data">
 	
 		<div class="firstElement">
 			<h1>강아지 정보 수정</h1>
@@ -30,35 +30,41 @@
 		<div class="imageArea">
 			<div class="settingLabel">프로필 이미지</div>
 			<c:choose>
-			    <c:when test="${dogVo.saveName != null && dogVo.saveName != ''}">
+			    <c:when test="${dogVo.saveName != null && dogVo.saveName != '' && dogVo.saveName != 'default'}">
 			   		<!-- Result값이 있다면 실행할 로직 -->
 			   		<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
 			    </c:when>
 			    <c:otherwise>
 					 <!-- 그렇지 않다면 실행할 로직 -->
-					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+					 <img class="profileImg" alt="" src="${pageContext.request.contextPath}/assets/images/dog_default_img.jpg">
 			    </c:otherwise>
 			</c:choose>
+			<label for="inputFile2" class="upload-btn" id="uploadLabel">
+				<input id="inputFile2" type="file" name="file" accept="image/*">
+			    <span class="form-text" >이미지 선택</span>
+		    </label>
 		</div>
 		
 		<div>
 			<div class="settingLabel">이름</div>
-			<input type="text" name="name" value="${dogVo.dogName}" maxlength="10">
+			<input type="text" name="dogName" value="${dogVo.dogName}" maxlength="10">
 		</div>
 		
 		<div>
-			<div class="settingLabel">생일</div>
-			<input type="date" name="date" value="${dogVo.birth}">
+			<div class="settingLabel">나이</div>
+			<input class="smallBox" type="number" name="birth" value="${dogVo.birth}"> 살
 		</div>
 		
 		<div class="genderSelect">
 			<div class="settingLabel">성별</div>
 			<c:choose>
 			    <c:when test="${dogVo.gender == 'male'}">
-			   		<input type="radio" name="gender" value="male">남
+			   		<input type="radio" name="gender" value="male" checked="checked">남
+			   		<input type="radio" name="gender" value="female">여
 			    </c:when>
-			    <c:otherwise>		
-					<input type="radio" name="gender" value="female">여
+			    <c:otherwise>	
+			    	<input type="radio" name="gender" value="male">남	
+					<input type="radio" name="gender" value="female" checked="checked">여
 			    </c:otherwise>
 			</c:choose>
 
@@ -66,7 +72,7 @@
 		
 		<div>
 			<div class="settingLabel">체중</div>
-			<input id="weight" type="number" name="weight" value="${dogVo.weight}"> kg
+			<input class="smallBox" type="number" name="weight" step="0.1" value="${dogVo.weight}"> kg
 		</div>
 		
 		<div>
@@ -76,48 +82,37 @@
 				
 		<div class="genderSelect">
 			<div class="settingLabel">중성화</div>
-			<c:if test="${dogVo.neuter == 'T'}">
-				<input type="radio" name="cast" value="T" checked="checked">했어요
-				<input type="radio" name="cast" value="F">안 했어요
-			</c:if>
-			<c:if test="${dogVo.neuter == 'F'}">
-			<input type="radio" name="cast" value="T">했어요
-				<input type="radio" name="cast" value="F" checked="checked">안 했어요
-			</c:if>
-			<c:if test="${dogVo.neuter == null || dogVo.neuter == ''}">
-				<input type="radio" name="cast" value="T">했어요
-				<input type="radio" name="cast" value="F">안 했어요
-			</c:if>
+			<c:choose>
+			    <c:when test="${dogListVo.neuter == 'T'}">
+			   		<input type="radio" name="neuter" value="T" checked="checked">했어요
+					<input type="radio" name="neuter" value="F">안 했어요
+			    </c:when>
+			    <c:when test="${dogListVo.neuter == 'F'}">
+			   		<input type="radio" name="neuter" value="T">했어요
+					<input type="radio" name="neuter" value="F" checked="checked">안 했어요
+			    </c:when>
+			    <c:otherwise>
+					<input type="radio" name="neuter" value="T">했어요
+					<input type="radio" name="neuter" value="F">안 했어요
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		<div>
 			<div class="settingLabel vertialTop">성격</div>
-			<c:choose>
-			    <c:when test="${dogVo.personality != null && dogVo.personality != ''}">
-			   		<textarea name="personality" maxlength="30">${dogVo.personality}</textarea>
-			    </c:when>
-			    <c:otherwise>
-					 <textarea name="personality" maxlength="30" placeholder="* 성격이나 성향을 간단하게 적어주세요"></textarea>
-			    </c:otherwise>
-			</c:choose>
-			
+				<input class="personality" type="text" name="personality" maxlength="22" value="${dogVo.personality}" placeholder="22자까지 입력 가능">			
 		</div>
 
 		<div>
 			<div class="settingLabel vertialTop">프로필 색상</div>
-			<c:choose>
-			    <c:when test="${dogVo.color != null && dogVo.color != ''}">
-			   		<input type="color" name="color" value="${dogVo.color}">
-			    </c:when>
-			    <c:otherwise>
-					 <input type="color" name="color">
-			    </c:otherwise>
-			</c:choose>
+			<input type="color" name="color" value="${dogVo.color}">
 		</div>
+		
+		<input type="hidden" name="dogNo" value="${dogVo.dogNo}">
 		
 		<div class="noBorder marginBottom">
 			<button type="submit" class="button">수정 완료</button>
-			<a href="${pageContext.request.contextPath}/setting/deleteDog?no=${requestScope.dogVo.dogNo}" class="button deleteBtn">강아지 삭제</a>
+			<a href="${pageContext.request.contextPath}/setting/deleteDog?no=${dogVo.dogNo}" class="button deleteBtn">강아지 삭제</a>
 		</div>
 		
 	</form>	
@@ -126,6 +121,23 @@
 
 	
 
+<script type="text/javascript">
+
+//이미지 미리보기 코드2 URL.createObjectURL()
+const input2 = $("#inputFile2");
+const img2 = $(".profileImg");
+
+input2.on('change', function() {
+	const imageSrc2 = URL.createObjectURL(input2.prop("files")[0]);
+	img2.attr("src", imageSrc2);
+	img2.on("load", function(){
+		URL.revokeObjectURL(imageSrc2);
+	});
+});
+
+
+
+</script>
 
 
 </body>

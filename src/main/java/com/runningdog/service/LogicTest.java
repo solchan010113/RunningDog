@@ -2,6 +2,7 @@ package com.runningdog.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LogicTest {
 	public static void main(String[] args) {
@@ -21,5 +22,22 @@ public class LogicTest {
 		}
 
 		System.out.println(sb);
+		
+		
+		
+		List<Integer> list = new ArrayList<>() {
+		    {
+		        add(1);
+		        add(2);
+		        add(3);
+		    }
+		};
+		
+		System.out.println(list);
+		
+		for(int i = 0; i < 8; i++) {
+			System.out.println(list.get(i));
+		}
+		
 	}
 }
