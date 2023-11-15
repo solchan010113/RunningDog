@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.runningdog.vo.DogsVo;
+import com.runningdog.vo.FriendsVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -126,6 +127,26 @@ public class SettingDao {
 		
 		return count;
 	}
+	
+	
+	
+/*	 친구		*/
+	
+	//친구 리스트
+	public List<FriendsVo> selectFriendList(int userNo) {
+		System.out.println("SettingDao.selectFriendList()");
+		
+		List<FriendsVo> friendList = sqlSession.selectList("setting.selectFriendList", userNo);
+		//System.out.println(friendList);
+		
+		return friendList;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }

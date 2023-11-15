@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.service.SettingService;
 import com.runningdog.vo.DogsVo;
+import com.runningdog.vo.FriendsVo;
 import com.runningdog.vo.UserVo;
 
 @Controller
@@ -232,9 +233,17 @@ public class SettingController {
 /*    친구    */
 
 	//친구 목록
-	@RequestMapping("/friendList")
-	public String friendList(Model model){
+	@RequestMapping(value="/friendList", method={RequestMethod.GET, RequestMethod.POST})
+	public String friendList(HttpSession session, Model model){
+	System.out.println("SettingController.friendList()");
 		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+	
+		List<FriendsVo> friendList = settingService.selectFriendList(userNo);
+		System.out.println(friendList);
+		model.addAttribute("friendList", friendList);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "fl");

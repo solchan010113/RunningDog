@@ -39,12 +39,12 @@
 			
 			<table class="friendList">
 				<colgroup>
-					<col style="width: 10%;" />
+					<col style="width: 15%;" />
 	    			<col style="width: 20%;" />
 	    			<col style="width: 10%;" />
 					<col style="width: 10%;" />
 					<col style="width: 30%;" />
-					<col style="width: 20%;" />
+					<col style="width: 15%;" />
 				</colgroup>
 				<tr>
 		            <th>프로필</th>
@@ -55,55 +55,42 @@
 		            <th>친구 삭제</th>
 		        </tr>
 		        
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>만당(#78945)</td>
-					<td>55</td>
-					<td>남</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">친구 삭제</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
-				
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>닉네임(#회원코드)</td>
-					<td>나이</td>
-					<td>성별</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">친구 삭제</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
-				
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>닉네임(#회원코드)</td>
-					<td>나이</td>
-					<td>성별</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">친구 삭제</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
-			
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>닉네임(#회원코드)</td>
-					<td>나이</td>
-					<td>성별</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">친구 삭제</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
-			
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>닉네임(#회원코드)</td>
-					<td>나이</td>
-					<td>성별</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">친구 삭제</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
+		        <c:forEach items="${requestScope.friendList}" var="friendsVo">
+			        <tr>
+						<td><img src="${pageContext.request.contextPath}/rdimg/userProfile/${friendsVo.saveName}"></td>
+						<td>${friendsVo.name}(#${friendsVo.code})</td>
+						<c:choose>
+						    <c:when test="${friendsVo.birth == null || friendsVo.birth == ''}">
+						   		<td>-</td>
+						    </c:when>
+						    <c:otherwise>
+						    	<td>${friendsVo.birth}</td>
+						    </c:otherwise>
+						</c:choose>
+						<c:choose>
+						    <c:when test="${friendsVo.gender == 'male'}">
+						   		<td>남</td>
+						    </c:when>
+						    <c:when test="${friendsVo.gender == 'female'}">
+						   		<td>여</td>
+						    </c:when>
+						    <c:otherwise>
+						    	<td>-</td>
+						    </c:otherwise>
+						</c:choose>
+						<c:choose>
+						    <c:when test="${friendsVo.locationNo == 1100000000}">
+						   		<td>${friendsVo.si}&nbsp;&nbsp;${friendsVo.gu}</td>
+						    </c:when>
+						    <c:otherwise>
+						    	<td>${friendsVo.si}&nbsp;&nbsp;${friendsVo.gu}&nbsp;&nbsp;${friendsVo.dong}</td>
+						    </c:otherwise>
+						</c:choose>
+						<td><a href="${pageContext.request.contextPath}/setting/deleteFriend?no=${friendsVo.friendNo}" class="deleteBtn">친구 삭제</a></td>
+						<!-- delete?no=${GuestVo.no} -->
+					</tr>
+		        </c:forEach>
+		        
 			</table>
 			
 			<div id="paging">

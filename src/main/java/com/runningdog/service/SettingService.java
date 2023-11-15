@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.dao.SettingDao;
 import com.runningdog.vo.DogsVo;
+import com.runningdog.vo.FriendsVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -296,6 +297,19 @@ public class SettingService {
 			}
 		}
 		
+	}
+	
+	
+	
+/*	 친구		*/
+	
+	//친구 리스트
+	public List<FriendsVo> selectFriendList(int userNo){
+		System.out.println("SettingService.selectFriendList()");
+		
+		List<FriendsVo> friendList = settingDao.selectFriendList(userNo);
+
+		return friendList;
 	}
 	
 	

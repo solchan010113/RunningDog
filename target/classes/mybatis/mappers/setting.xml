@@ -203,22 +203,26 @@
 	<select id="selectFriendList" parameterType="int" resultType="com.runningdog.vo.FriendsVo">
 		<![CDATA[
 			select  nvl(i.saveName, 'default_profile_img_white.jpg') saveName,
-			        f.appliedUserNo appliedUserNo,
+			        f.friendNo friendNo,
+			        f.appliedUserNo userNo,
 			        f.name name,
 			        f.code code,
 			        f.birth birth,
 			        f.gender gender,
 			        f.si si,
 			        f.gu gu,
-			        f.dong dong
-			from (select f.appliedUserNo,
+			        f.dong dong,
+			        f.locationNo locationNo
+			from (select f.friendNo,
+			             f.appliedUserNo,
 			             u.name,
 			             u.code,
 			             TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), to_char(u.birth,'YYYYMMDD'))/12) birth,
 			             u.gender,
 			             l.si,
 			             l.gu,
-			             l.dong
+			             l.dong,
+			             u.locationNo
 			      from friend f, users u, location l
 			      where f.applyUserNo = #{userNo}
 			      and f.appliedUserNo = u.userNo
@@ -227,14 +231,16 @@
 			        
 			      union all
 			        
-			      select f.applyUserNo,
+			      select f.friendNo,
+			             f.applyUserNo,
 			             u.name,
 			             u.code,
 			             TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), to_char(u.birth,'YYYYMMDD'))/12) birth,
 			             u.gender,
 			             l.si,
 			             l.gu,
-			             l.dong
+			             l.dong,
+			             u.locationNo
 			      from friend f, users u, location l
 			      where f.appliedUserNo = #{userNo}
 			      and f.applyUserNo = u.userNo
