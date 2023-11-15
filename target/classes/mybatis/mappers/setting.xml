@@ -280,7 +280,7 @@
 						</if>
 						<if test="'code'.equals(what)">
 						<![CDATA[
-							where f.code like '%' || trim(#{keyword}) || '%'
+							where f.code like '%' || upper(trim(#{keyword})) || '%'
 						]]>
 						</if>	
 						<![CDATA[
