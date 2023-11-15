@@ -30,19 +30,25 @@ public class WalkBlogService {
 		
 		BlogInfoVo blogInfoVo = new BlogInfoVo();
 		
-		Map<String, Object> ownerInfo = walkBlogDao.selectBlogOwner(map);
+		/*
+		 * Map<String, Object> ownerInfo = walkBlogDao.selectBlogOwner(map);
+		 * 
+		 * System.out.println(ownerInfo);
+		 * 
+		 * blogInfoVo.setName((String)ownerInfo.get("NAME"));
+		 */
 		
-		System.out.println(ownerInfo);
-		
-		 blogInfoVo.setName((String)ownerInfo.get("NAME"));
-		 System.out.println("name "+ blogInfoVo.getName());
 		 
 			/*
 			 * blogInfoVo.setOwnerNo((Integer)(ownerInfo.get("USERNO")));
+			 * 
 			 * System.out.println(blogInfoVo.getOwnerNo());
 			 */
 		 
 		blogInfoVo.setOwnerNo(walkBlogDao.selectOwnerNo(paramCode));
+		
+		blogInfoVo.setName(walkBlogDao.selectOwnerName(paramCode));
+		 System.out.println("name "+ blogInfoVo.getName());
 		blogInfoVo.setAuthNo(authUserNo);
 		System.out.println(blogInfoVo.getAuthNo());
 		blogInfoVo.setParamCode(paramCode);
@@ -143,6 +149,17 @@ public class WalkBlogService {
 	    }
 
 	    return "success";
+	}
+
+	public ShowLogVo getWalkLogByNo(int walkLogNo) {
+		
+		
+		
+		List<WalkLogConImgVo> imageList = walkBlogDao.getShowLogImageList(walkLogNo);
+		ShowLogVo walkLog = walkBlogDao.selectWalkLog(walkLogNo);
+		walkLog.setImageList(imageList);
+		
+		return  walkLog;
 	}
 
 

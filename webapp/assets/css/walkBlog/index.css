@@ -486,6 +486,11 @@ h2{
 	  
   }
   
+  .MRtitleBox > a{
+	  text-decoration: none;
+	  color : black;
+  }
+  
   .MRtime{
 	  
 	  font-size: 18px;
@@ -550,6 +555,7 @@ h2{
 
     /* 하단(border-bottom)에만 테두리를 추가합니다. */
     border-width: 0 0 2px 0;
+    margin-right: 80px;
 }
   
   .MRdogCards{
@@ -587,18 +593,22 @@ h2{
   }
   
   .modifyDelete{
+	  width: 200px;
+	  height: 17px;
 	 float: right;
+	 display: flow-root;
 	  
   }
   
   .modifyButton{
-	   background-color:grey;
+	   background-color:grey;  
     color: #fff;
     padding: 5px 10px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
     
 	  
   }
@@ -611,6 +621,8 @@ h2{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
+    margin-left: 10px;
     
 	  
   }
@@ -728,7 +740,7 @@ h2{
 	  margin-top:10px;
 	  border-style: solid;
 	 border-color:black;
-  	border-width: 0 0 1px 0 ;
+  	border-width: 0 0 2px 0 ;
   }
 
 	
