@@ -6,7 +6,7 @@
    <!-- 쿼리문 작성 --> 
    
    <!-- 산책로 가져오기 -->
-   <select id="trailSelect"  resultType="com.runningdog.vo.UseTrailVo">
+   <select id="mapTrailSelect"  resultType="com.runningdog.vo.UseTrailVo">
       <![CDATA[
          SELECT co.coordno as coordNo
 		        ,tr.trailno as trailNo
@@ -22,8 +22,7 @@
       ]]>
    </select>   
   
-   <!-- 내 강아지 가져오기 -->
-   
+   <!-- 내 강아지 가져오기 -->   
    <select id="dogSelect"  parameterType="int" resultType="com.runningdog.vo.MoDogVo">
       <![CDATA[
          SELECT  us.userno as userNo 
@@ -45,30 +44,32 @@
 			]]>
 		</selectKey>
       <![CDATA[
-         INSERT INTO walkLog
-		 VALUES (#{walkLogNo},  
-		         #{userNo},
-		         1174010900, 
-		         11111, 
-		         #{title},
-		         SYSDATE,
-		         #{startTime},
-		         #{endTime},
-		         #{logTime},
-		         #{distance},
-		         #{content, jdbcType=VARCHAR},
-		         '공개',
-		         'T'
-		         )
+	         INSERT INTO walkLog
+			 VALUES (#{walkLogNo},  
+			         #{userNo},
+			         #{locationNo}, 
+			         #{meetingNo}, 
+			         #{title, jdbcType=VARCHAR},
+			         SYSDATE,
+			         to_date(#{startTime},'YY-MM-DD HH:MI'),
+			         to_date(#{endTime},'YY-MM-DD HH:MI'),
+			         #{logTime},
+			         #{distance},
+			         #{content, jdbcType=VARCHAR},
+			         #{security},
+			         #{status}
+			         )
       ]]>
    </insert>
    
+   
+   
    <!-- 산책강아지 저장하기 -->
-   <insert id="walkedDogInsert"  parameterType="com.runningdog.vo.WalkedDogVo" >
+   <insert id="walkedDogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >
       <![CDATA[
          INSERT INTO walkedDog
-		 VALUES (seq_walkeddog_no.NEXTVAL,
-		         #{selectKey},
+		 VALUES (seq_walkeddog_no.nextVal,
+		         #{walkLogNo},
 		         #{dogNo}   
 		         )
       ]]>
@@ -87,6 +88,23 @@
 		         );
       ]]>
    </insert>
+   
+     
+   <!-- 산책로 가져오기 -->   
+   <select id="trailSelect"  parameterType="int" resultType="com.runningdog.vo.MoTrailVo">
+      <![CDATA[
+        SELECT tr.trailNo
+		       ,tr.name   
+		FROM (
+		    SELECT  trailNo
+		            ,name            
+		    FROM trail
+		    WHERE locationNo = #{locationNo} 
+		    ORDER BY name) tr
+		WHERE ROWNUM <= 3
+      ]]>
+   </select>
+   
    
 
 </mapper>

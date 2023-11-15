@@ -40,18 +40,10 @@
 		<div class="profile-container">
 			<div class="profile-circles" >
 				<c:forEach items="${dogList}" var="MoDogVo">
-			        <div id="pSelect" class="profile-circle">
+			        <div class="profile-circle choiceRed" >
 			            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
+			            <input type="hidden" name="dogNo" class="dogDate" value="${MoDogVo.dogNo}">
 			        </div>
-			        <!-- <div id="pSelect" class="profile-circle">
-			            <img src="${pageContext.request.contextPath}/assets/images/234.jpg" alt="Profile Image 2">
-			        </div>
-			        <div class="profile-circle">
-			            <img src="${pageContext.request.contextPath}/assets/images/345.jpg" alt="Profile Image 3">
-			        </div> 
-			        <div class="profile-circle">
-			            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
-			        </div> -->
 		        </c:forEach>            
 		    </div>
 		</div>
@@ -124,7 +116,9 @@
 	<!-- form으로 컨트롤러 보내기 -->
 	<form id="dataForm" action="${pageContext.request.contextPath}/m/wif" method="post">
 		<!-- 좌표데이터 -->
-	    <input type="hidden" name="line" id="lineDataInput" value="">
+	    <input type="hidden" name="line" id="lineDataInput" value="">	    
+	    <!-- 강아지데이터 -->
+	    <input type="hidden" name="dogList" id="dogDataInput" value="">	    
 	    <!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="">
 	    <!-- 소요시간데이터 -->
@@ -132,7 +126,7 @@
 	    <!-- 시작시간데이터 -->
 	    <input type="hidden" name="startTime" id="sTimeDataInput" value="">
 	    <!-- 종료시간데이터 -->
-	    <input type="hidden" name="endTime" id="eTimeDataInput" value="">
+	    <input type="hidden" name="endTime" id="eTimeDataInput" value="">	    
 	</form>
       
     <!-- js 설정 -->

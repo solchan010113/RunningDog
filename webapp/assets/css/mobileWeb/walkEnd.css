@@ -162,6 +162,11 @@
 	    align-items: center; /* 수직 가운데 정렬 */
 	}
 	
+	/* 파일 선택창 숨기기 */
+	#fileInput {
+	    display: none;
+	}
+	
 	.textBox {
 		width: 100%;
 		box-sizing: border-box;
