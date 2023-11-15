@@ -133,9 +133,9 @@ public class SettingController {
 		model.addAttribute("selectUser", selectUser);
 		
 		//강아지 리스트
-		List<DogsVo> dogList = settingService.selectDogList(userNo);
+		Map<String, List<DogsVo>> dogListMap = settingService.selectDogList(userNo);
 		//System.out.println(dogList);
-		model.addAttribute("dogList", dogList);
+		model.addAttribute("dogListMap", dogListMap);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "dl");

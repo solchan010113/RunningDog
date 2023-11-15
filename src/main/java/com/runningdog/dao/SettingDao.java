@@ -144,10 +144,10 @@ public class SettingDao {
 	}
 	
 	//친구 목록 전체 갯수
-	public int selectTotalCnt() {
+	public int selectTotalCnt(int userNo) {
 		System.out.println("SettingDao.selectTotalCnt()");
 		 
-		int totalCount = sqlSession.selectOne("setting.selectTotalCnt");
+		int totalCount = sqlSession.selectOne("setting.selectTotalCnt", userNo);
 		
 		return totalCount;
 	}
@@ -161,7 +161,14 @@ public class SettingDao {
 		return count;
 	}
 	
-	
+	//친구 강아지 목록
+	public List<DogsVo> selectFriendDogList(int userNo) {
+		System.out.println("SettingDao.selectFriendDogList()");
+		 
+		List<DogsVo> friendDogList = sqlSession.selectList("setting.selectFriendDogList", userNo);
+		
+		return friendDogList;
+	}
 	
 	
 }

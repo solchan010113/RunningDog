@@ -293,12 +293,12 @@
 	</select>
 	
 	<!-- 친구 목록 전체 갯수 -->
-	<select id="selectTotalCnt" resultType="int">
+	<select id="selectTotalCnt" parameterType="int" resultType="int">
 		<![CDATA[
 			select count(f.appliedUserNo) count
 			from (select f.appliedUserNo
 			      from friend f, users u, location l
-			      where f.applyUserNo = 1
+			      where f.applyUserNo = #{userNo}
 			      and f.appliedUserNo = u.userNo
 			      and f.status = 'T'
 			      and l.locationNo = u.locationNo
@@ -307,7 +307,7 @@
 			    
 			      select f.applyUserNo
 			      from friend f, users u, location l
-			      where f.appliedUserNo = 1
+			      where f.appliedUserNo = #{userNo}
 			      and f.applyUserNo = u.userNo
 			      and f.status = 'T'
 			      and l.locationNo = u.locationNo) f
@@ -323,7 +323,63 @@
 		]]>
 	</delete>
 	
-	
+	<!-- 친구 강아지 목록 -->
+	<select id="selectFriendDogList" parameterType="int" resultType="com.runningdog.vo.DogsVo">
+		<![CDATA[
+			select  do.dogNo dogNo,
+			        do.dogName dogName,
+			        do.birth birth,
+			        do.gender gender,
+			        do.weight weight,
+			        do.kind kind,
+			        do.neuter neuter,
+			        do.personality personality,
+			        do.color color,
+			        do.userName userName,
+			        nvl(i.saveName, 'dog_default_img.jpg') saveName
+			from   (select f.appliedUserNo userNo
+			        from friend f, users u, location l
+			        where f.applyUserNo = #{userNo}
+			        and f.appliedUserNo = u.userNo
+			        and f.status = 'T'
+			        and l.locationNo = u.locationNo
+			        
+			        union all
+			        
+			        select f.applyUserNo userNo
+			        from friend f, users u, location l
+			        where f.appliedUserNo = #{userNo}
+			        and f.applyUserNo = u.userNo
+			        and f.status = 'T'
+			        and l.locationNo = u.locationNo) fr, 
+			        (select d.userNo userNo,
+			                d.dogNo dogNo,
+			                d.name dogName, 
+			                d.birth birth,
+			                d.gender gender,
+			                d.weight weight,
+			                d.kind kind,
+			                d.neuter neuter,
+			                d.personality personality,
+			                d.color color,
+			                d.status status,
+			                u.name userName
+			        from dog d, users u
+			        where u.userNo = d.userNo
+			        and d.status != 'F'
+			        order by dogNo asc) do left outer join images i
+			on do.dogNo = i.useNo
+			and i.type = 'dog'
+			where do.userNo = fr.userNo
+		]]>
+	</select>
+
+
+
+
+
+
+
 
 </mapper>
 

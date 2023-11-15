@@ -44,8 +44,8 @@
 			<div class="dogCardBox dCB1">
 	
 			<c:choose>
-			    <c:when test="${not empty requestScope.dogList || requestScope.dogList.size() != 0}">
-				   	<c:forEach items="${requestScope.dogList}" var="dogVo">
+			    <c:when test="${not empty requestScope.dogListMap.dogList || requestScope.dogListMap.dogList.size() != 0}">
+				   	<c:forEach items="${requestScope.dogListMap.dogList}" var="dogVo">
 						<div class="dogCard" style="background-color: ${dogVo.color};">
 							<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
 							
@@ -119,11 +119,61 @@
 			<button class="leftBtn lB2"><</button>
 			
 			<div class="dogCardBox dCB2">
-	
-				<div class="dogCard emptyCard">
-					공유받은 강아지가 없어요
-				</div>
-	
+			<c:choose>
+			    <c:when test="${not empty requestScope.dogListMap.friendDogList || requestScope.dogListMap.friendDogList.size() != 0}">
+				   	<c:forEach items="${requestScope.dogListMap.friendDogList}" var="dogVo">
+						<div class="dogCard" style="background-color: ${dogVo.color};">
+							<img class="profileImg" alt="" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
+							
+							<h3>강아지 카드</h3>
+							<div>이름: ${dogVo.dogName}</div>
+							<c:choose>
+							    <c:when test="${dogVo.kind != null && dogVo.kind != ''}">
+   									<div>품종: ${dogVo.kind}</div>
+							    </c:when>
+							    <c:otherwise>
+	 								<div>품종: -</div>
+							    </c:otherwise>
+							</c:choose>
+							<div class="dogCardElimentL">나이: ${dogVo.birth} 살</div>
+							<c:if test="${dogVo.gender == 'female'}">
+								<div class="dogCardElimentS">성별: 여</div>
+							</c:if>
+							<c:if test="${dogVo.gender == 'male'}">
+								<div class="dogCardElimentS">성별: 남</div>
+							</c:if>
+							<div class="dogCardElimentL">체중: ${dogVo.weight} kg</div>
+							<c:choose>
+							    <c:when test="${dogVo.neuter == 'T'}">
+							   		<div class="dogCardElimentS">중성화: O</div>
+							    </c:when>
+							    <c:when test="${dogVo.neuter == 'F'}">
+							   		<div class="dogCardElimentS">중성화: X</div>
+							    </c:when>
+							    <c:otherwise>
+									 <div class="dogCardElimentS">중성화: -</div>
+							    </c:otherwise>
+							</c:choose>
+							<c:choose>
+							    <c:when test="${dogVo.personality != null && dogVo.personality != ''}">
+							   		<div class="personal">성격: ${dogVo.personality}</div>
+							    </c:when>
+							    <c:otherwise>
+									<div class="personal">성격: -</div>
+							    </c:otherwise>
+							</c:choose>
+							
+							<div class="lastElement">보호자: ${dogVo.userName}</div>
+						</div>
+					</c:forEach>
+			    </c:when>
+			    <c:otherwise>
+					<div class="dogCard emptyCard">
+						공유받은 강아지가 없어요
+					</div>
+			    </c:otherwise>
+			</c:choose>
+			
 			</div>
 			
 			<button class="rightBtn rB2">></button>

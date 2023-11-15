@@ -131,13 +131,20 @@ public class SettingService {
 /*   강아지   */
 	
 	//강아지 리스트
-	public List<DogsVo> selectDogList(int userNo){
+	public Map<String, List<DogsVo>> selectDogList(int userNo){
 		System.out.println("SettingService.selectDogList()");
 		
 		List<DogsVo> dogList = settingDao.selectDogList(userNo);
 		//System.out.println(dogList);
-
-		return dogList;
+		
+		List<DogsVo> friendDogList = settingDao.selectFriendDogList(userNo);
+		//System.out.println(friendDogList);
+		
+		Map<String, List<DogsVo>> dogListMap = new HashMap<String, List<DogsVo>>();
+		dogListMap.put("dogList", dogList);
+		dogListMap.put("friendDogList", friendDogList);
+		
+		return dogListMap;
 	}
 	
 	//강아지 등록
@@ -351,7 +358,7 @@ public class SettingService {
 		int pageBtnCount = 5;
 		
 		//전체 글 갯수
-		int totalCnt = settingDao.selectTotalCnt();
+		int totalCnt = settingDao.selectTotalCnt(userNo);
 		
 		//마지막 버튼 번호
 		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
