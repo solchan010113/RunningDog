@@ -20,24 +20,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 	<!-- 맵 이미지저장 -->
-	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>	
+	<!-- <script src="${pageContext.request.contextPath }/assets/js/html2canvas.js" type="text/javascript"></script> -->
+	
 </head>
 <body>
 
-	<input type="hidden" name="Time" id="tDataOutput" value="${moWalkLogVo.logTime}">
-
-	<!-- 컨트롤러로 보내서 insert할 데이터들 -->
-	<form id="dataForm" action="${pageContext.request.contextPath}/m/walkInsert" method="post">
-		<!-- 거리데이터 -->
-	    <input type="hidden" name="distance" id="distanceDataInput" value="${moWalkLogVo.distance}">
-	    <!-- 소요시간데이터 -->	    
-	    <input type="hidden" name="logTime" id="timeDataInput" value="${moWalkLogVo.logTime}">
-	    <!-- 시작시간데이터 -->
-	    <input type="hidden" name="startTime" id="sTimeDataInput" value="${moWalkLogVo.startTime}">
-	    <!-- 종료시간데이터 -->
-	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">		
-	</form>	 
-	   
 	<div id="allBox">
 	
 		<!-- 헤더박스 -->
@@ -50,18 +38,14 @@
 				<div class="record" id="text02"> 거리:${moWalkLogVo.distance}m  시간: ${moWalkLogVo.logTime} </div>
 			</div>							
 			
-		</div>
-		
+		</div>		
 			
 		<!-- 컨텐츠 모음 -->
 		<div class="content" >
 		
 			<!-- 기록된 이동기록이 뜨는 맵 -->
-			<div id="map"></div>
-			
-			<!-- 좌표데이터 -->
-	    	<input type="hidden" name="line" id="lineDataInput" value="">
-			
+			<div id="map"></div>			
+	
 			<!-- 기록된 라인과 일치율이 높은 산책로 사진 3개 -->
 			<div class="mapImages" >
 				<div class="mapNameBox">
@@ -101,33 +85,25 @@
 			<td colspan="1"><textarea  class="textBox" name="content" rows="4" placeholder="내용을 입력해주세요." value="" ></textarea></td>
 			
 			<!-- 체크박스라인 -->
-			<div class="checkBox">
-			
-				<i class="fa-solid fa-unlock-keyhole"></i>
-				
-				<div> &nbsp; 비공개로 게시</div>
-				
+			<div class="checkBox">			
+				<i class="fa-solid fa-unlock-keyhole"></i>				
+				<div> &nbsp; 비공개로 게시</div>				
 				<label class="switch-button">
 					<input type="checkbox"  id="privacyCheckbox" />
 				    <span class="onoff-switch"></span>
 				</label>
 			</div>
 			
-			<!-- <div class="checkBox">
-			
-				<i class="fa-brands fa-instagram"></i>
-				
-				<div> &nbsp; Instagram에 게시</div>
-				
+			<!-- <div class="checkBox">			
+				<i class="fa-brands fa-instagram"></i>				
+				<div> &nbsp; Instagram에 게시</div>				
 				<label class="switch-button">
 					<input type="checkbox"/>
 				    <span class="onoff-switch"></span>
-				</label>
-				
+				</label>				
 			</div> -->
-		</div>
-		
-		
+			
+		</div>	
 		
 		<!-- 작성하기 버튼 -->
 		<div class="lastButton">
@@ -229,7 +205,8 @@
 	        position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
 	        map: map
 	    });
-	    	    
+	    
+	    
 	    // 기록하기
 	    $(document).ready(function() {
 	    	
@@ -254,10 +231,26 @@
 	            console.log("첨부된 파일" + files);
 	        });
 	    	
-		    $("#insertBtn").click(function() {	    	
-		    	console.log("기록완료");
+	    	
+		    $("#insertBtn").click(function() {
 		    	
-		    	//sendLinePathToController(); 
+		    	 event.preventDefault();
+		    	   
+		    	 /*캡쳐하기 */
+		    	 let captureHtml = $("#index")[0];
+		    	 
+		    	 html2canvas(captureHtml).then(function(canvas) {   
+			    	 canvas.toBlob(function(blob){
+		    		 /* 다른 데이터 수집 */
+	    	         let content = $("#content").val()	
+	    	         let formData = new FormData();
+	    	         formData.append('mapImg', blob, 'mapImg.png');
+	    	         formData.append('content', content);	
+			    	 })
+		    	 });
+		    	 
+		    	
+		    	console.log("기록완료");
 		    	
 		    	console.log("기록된 위치 재확인 1 : " + polylinePath);
 		    	console.log("기록된 위치 재확인 2 : " + jsonString);
@@ -293,13 +286,6 @@
 					        logTime: logTime,
 					        distance: distance
 					    }),
-		               /* data: {line: jsonString,
-		            	      startTime: startTime,
-		            	      endTime: endTime,
-		            	      logTime: logTime,
-		            	      distance: distance
-		            	      }, */
-		               //traditional: true,
 		               success: function (response) {
 		                  console.log("기록완료");
 		                  window.location.href = "${pageContext.request.contextPath}/m/map";
@@ -309,10 +295,10 @@
 		               }
 		        });
 		    	
-	        	// 폼 제출 
-		    	//$("#dataForm").submit();  
+		    	
 	        });
-	    }); 	    
+	    }); 
+		    
 	    
 	    // 기록하지 않음
 	    $(document).ready(function() {
@@ -321,43 +307,6 @@
                 window.location.href = "${pageContext.request.contextPath}/m/map";
             });
         }); 
-	    
-	    // 라인 컨트롤러로 넘기기
-        function sendLinePathToController(jsonString) {
-             // Replace 'your_controller_url' with the actual URL of your controller
-             console.log("기록된 위치 재확인 : " + jsonString);
-             
-           /*   // JavaScript에서 데이터를 linePathVo와 일치하는 구조로 변환 (x와 y 제외)
-             const linePathData = linePath.map(function (point) {
-               return {
-                 lat: point._lat,
-                 lng: point._lng
-               };
-             });
-             
-             // JSON형식으로 변환하기
-             const jsonData = JSON.stringify(linePathData);
-             
-             console.log("기록된 위치 데이터 : " + jsonData);
-
-             $.ajax({
-               type: 'POST',
-               url: "${pageContext.request.contextPath}/m/walkInsert",
-             contentType : "application/json",
-               // data: { linePath: JSON.stringify(linePath) },
-               data: jsonData, 
-               //traditional: true,
-               success: function (response) {
-                  console.log("기록완료");
-                  window.location.href = "${pageContext.request.contextPath}/m/map";
-               },
-               error: function (error) {
-                 console.error('Error sending data to the controller:', error);
-               }
-             }); */
-             
-           }
-	  
 	    
 	</script>
 	
