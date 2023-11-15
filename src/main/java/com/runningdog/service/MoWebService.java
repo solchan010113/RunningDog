@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UseTrailVo;
 
@@ -35,6 +36,12 @@ public class MoWebService {
 		
 		moWebDao.walkLogInsert(moWalkLogVo);		
 		
+	}
+	
+	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
+	public List<MoTrailVo> trailSelect(int locationNo){
+		System.out.println("서비스 산책로 3개 불러오기");			
+		return moWebDao.trailSelect(locationNo);					
 	}
 	
 

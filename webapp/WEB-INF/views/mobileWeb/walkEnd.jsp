@@ -31,12 +31,11 @@
 		<!-- 거리데이터 -->
 	    <input type="hidden" name="distance" id="distanceDataInput" value="${moWalkLogVo.distance}">
 	    <!-- 소요시간데이터 -->	    
-	    <input type="hidden" name="logTime" id="timeDataInput" value="">
+	    <input type="hidden" name="logTime" id="timeDataInput" value="${moWalkLogVo.logTime}">
 	    <!-- 시작시간데이터 -->
 	    <input type="hidden" name="startTime" id="sTimeDataInput" value="${moWalkLogVo.startTime}">
 	    <!-- 종료시간데이터 -->
-	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">	
-	
+	    <input type="hidden" name="endTime" id="eTimeDataInput" value="${moWalkLogVo.endTime}">		
 	</form>	 
 	   
 	<div id="allBox">
@@ -72,25 +71,31 @@
 					<div class="mapImageBox">
 						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
 						<i id="likeIcon" class="fa-solid fa-heart"></i>
-						<div class="mapName"> 산책로 이름 </div>
+						<div class="mapName"> ${trailList[0].name} </div>
+						<input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
 						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
 						<i id="likeIcon" class="fa-regular fa-heart"></i>
-						<div class="mapName"> 산책로 이름 </div>
+						<div class="mapName"> ${trailList[1].name} </div>
+						<input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
 						<img id="mapImageClick" class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
 						<i id="likeIcon" class="fa-solid fa-heart"></i>
-						<div class="mapName"> 산책로 이름 </div>
+						<div class="mapName"> ${trailList[2].name} </div>
+						<input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
 			        </div>
 				</div>				
 			</div>
 			
 			<!-- 파일첨부 버튼 -->
-			<div class="pictures"> 
-				<i class="fa-regular fa-image"></i>&nbsp; 사진첨부
-			</div>	
+			<div class="pictures">
+			    <label for="fileInput">
+			        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
+			    </label>
+			    <input type="file" id="fileInput" />
+			</div>
 			
 			<!-- 텍스트작성박스 -->
 			<td colspan="1"><textarea  class="textBox" name="content" rows="4" placeholder="내용을 입력해주세요." value="" ></textarea></td>
@@ -103,7 +108,7 @@
 				<div> &nbsp; 비공개로 게시</div>
 				
 				<label class="switch-button">
-					<input type="checkbox"/>
+					<input type="checkbox"  id="privacyCheckbox" />
 				    <span class="onoff-switch"></span>
 				</label>
 			</div>
@@ -151,7 +156,9 @@
 		
 	</div>
 	
-	
+	<!-- js 설정
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/walkEnd.js"></script>	  
+    -->
 	
 	<script th:inline="javascript">
 	
@@ -222,39 +229,135 @@
 	        position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
 	        map: map
 	    });
-	    
-	    $("#lineDataInput").val(polylinePath);
-	    
+	    	    
+	    // 기록하기
 	    $(document).ready(function() {
+	    	
+	    	// 체크박스 상태 변경 감지
+	        $('#privacyCheckbox').change(function() {
+	            // 체크박스가 체크되어 있으면 '비공개', 그렇지 않으면 '공개'를 콘솔에 출력
+	            var status = this.checked ? '비공개' : '공개';
+	            console.log(status);
+	        });
+	    		    	
+	    	
+	    	$('#fileInput').change(function() {
+	            // 최대 4개의 파일을 저장할 배열
+	            var files = [];
+
+	            // 선택된 파일들을 배열에 추가 (최대 4개까지)
+	            for (var i = 0; i < Math.min(this.files.length, 4); i++) {
+	                files.push(this.files[i]);
+	            }
+
+	            // 파일 배열을 컨트롤러로 전송할 수 있음
+	            console.log("첨부된 파일" + files);
+	        });
+	    	
 		    $("#insertBtn").click(function() {	    	
 		    	console.log("기록완료");
 		    	
-		    	// html2canvas를 사용하여 맵을 이미지로 변환
-		        /* html2canvas(document.getElementById('map')).then(function(canvas) {
-	
-		            // 변환된 캔버스를 가져오고 이미지로 저장
-		            if (navigator.msSaveBlob) {
-		                navigator.msSaveBlob(canvas.msToBlob(), 'map.png');
-		            } else {
-		                canvas.toBlob(function(blob) {
-		                    saveAs(blob, 'map.png');
-		                });
-		            }
-		        }); */
+		    	//sendLinePathToController(); 
 		    	
-	        	// 폼 제출            	
-	        	
-		    	$("#dataForm").submit();  
+		    	console.log("기록된 위치 재확인 1 : " + polylinePath);
+		    	console.log("기록된 위치 재확인 2 : " + jsonString);
+		    	
+		    	console.log("기록된 위치 재확인 3 : " + '${lineList}');		    	
+		    	
+		    	console.log("산책한 강아지 정보 : " + '${dogNoList}');
+		    	
+		    	console.log("시작시간 : " + '${moWalkLogVo.startTime}');
+		    	var startTime = '${moWalkLogVo.startTime}';
+		    	
+		    	console.log("종료시간 : " + '${moWalkLogVo.endTime}');
+		    	var endTime = '${moWalkLogVo.endTime}';
+		    	
+		    	console.log("소요시간 : " + '${moWalkLogVo.logTime}');
+		    	var logTime = ${moWalkLogVo.logTime};
+		    	
+		    	console.log("거리 : " + '${moWalkLogVo.distance}');
+		    	var distance = ${moWalkLogVo.distance};
+		    	
+		    	var content = $('.textBox').val();
+		    	console.log("글내용 : " + content);
+		    	
+		    	$.ajax({
+		               type: 'POST',
+		               url: "${pageContext.request.contextPath}/m/walkInsert",
+		             contentType : "application/json",
+		               // data: { linePath: JSON.stringify(linePath) },
+					    data: JSON.stringify({
+					        line: polylinePath,
+					        startTime: startTime,
+					        endTime: endTime,
+					        logTime: logTime,
+					        distance: distance
+					    }),
+		               /* data: {line: jsonString,
+		            	      startTime: startTime,
+		            	      endTime: endTime,
+		            	      logTime: logTime,
+		            	      distance: distance
+		            	      }, */
+		               //traditional: true,
+		               success: function (response) {
+		                  console.log("기록완료");
+		                  window.location.href = "${pageContext.request.contextPath}/m/map";
+		               },
+		               error: function (error) {
+		                 console.error('Error sending data to the controller:', error);
+		               }
+		        });
+		    	
+	        	// 폼 제출 
+		    	//$("#dataForm").submit();  
 	        });
 	    }); 	    
 	    
+	    // 기록하지 않음
 	    $(document).ready(function() {
             $(".back").click(function() {
                 // 여기에 이동할 링크를 넣어주세요
                 window.location.href = "${pageContext.request.contextPath}/m/map";
             });
-        });  	
+        }); 
 	    
+	    // 라인 컨트롤러로 넘기기
+        function sendLinePathToController(jsonString) {
+             // Replace 'your_controller_url' with the actual URL of your controller
+             console.log("기록된 위치 재확인 : " + jsonString);
+             
+           /*   // JavaScript에서 데이터를 linePathVo와 일치하는 구조로 변환 (x와 y 제외)
+             const linePathData = linePath.map(function (point) {
+               return {
+                 lat: point._lat,
+                 lng: point._lng
+               };
+             });
+             
+             // JSON형식으로 변환하기
+             const jsonData = JSON.stringify(linePathData);
+             
+             console.log("기록된 위치 데이터 : " + jsonData);
+
+             $.ajax({
+               type: 'POST',
+               url: "${pageContext.request.contextPath}/m/walkInsert",
+             contentType : "application/json",
+               // data: { linePath: JSON.stringify(linePath) },
+               data: jsonData, 
+               //traditional: true,
+               success: function (response) {
+                  console.log("기록완료");
+                  window.location.href = "${pageContext.request.contextPath}/m/map";
+               },
+               error: function (error) {
+                 console.error('Error sending data to the controller:', error);
+               }
+             }); */
+             
+           }
+	  
 	    
 	</script>
 	
