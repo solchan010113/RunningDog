@@ -54,7 +54,7 @@ public class UserController {
 		System.out.println("UsersController.login()");
 		
 		UserVo authUser = userService.selectOneUser(userVo);
-		//userNo, name, code
+		//userNo, code
 		
 		session.setAttribute("authUser", authUser);
 		//세션은 web 전용이므로 controller에서 처리한다.

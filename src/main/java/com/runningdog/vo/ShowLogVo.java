@@ -10,12 +10,16 @@ public class ShowLogVo {
 	private String regDate;
 	private String startTime;
 	private String endTime;
-	private String logTime;
-	private int distance;
+	private long logTime;
+	private double distance;
+	private String distanceFormatted;
+	private String logTimeFormatted;
+	
 	private String content;
 	private String security;
 	private char status;
 	private String name;
+	private String title;
 
 	private List<ShowLogCmtVo> showLogCmtList;
 	private List<WalkLogConImgVo> imageList;
@@ -25,8 +29,9 @@ public class ShowLogVo {
 
 
 	public ShowLogVo(int walkLogNo, int userNo, int locationNo, String regDate, String startTime, String endTime,
-			String logTime, int distance, String content, String security, char status, String name,
-			List<ShowLogCmtVo> showLogCmtList, List<WalkLogConImgVo> imageList) {
+			long logTime, double distance, String distanceFormatted, String logTimeFormatted, String content,
+			String security, char status, String name, String title, List<ShowLogCmtVo> showLogCmtList,
+			List<WalkLogConImgVo> imageList) {
 		super();
 		this.walkLogNo = walkLogNo;
 		this.userNo = userNo;
@@ -36,12 +41,20 @@ public class ShowLogVo {
 		this.endTime = endTime;
 		this.logTime = logTime;
 		this.distance = distance;
+		this.distanceFormatted = distanceFormatted;
+		this.logTimeFormatted = logTimeFormatted;
 		this.content = content;
 		this.security = security;
 		this.status = status;
 		this.name = name;
+		this.title = title;
 		this.showLogCmtList = showLogCmtList;
 		this.imageList = imageList;
+	}
+	
+	public void setDistance(double distance) {
+	    this.distance = distance;
+	    this.distanceFormatted = String.format("%.2f", distance / 1000.0); // 미터를 킬로미터로 변환하고 소수점 둘째 자리까지 표시
 	}
 
 
@@ -105,23 +118,46 @@ public class ShowLogVo {
 	}
 
 
-	public String getLogTime() {
+	public long getLogTime() {
 		return logTime;
 	}
-
-
-	public void setLogTime(String logTime) {
-		this.logTime = logTime;
+	
+	private String formatLogTime(long seconds) {
+	    long hours = seconds / 3600;
+	    long minutes = (seconds % 3600) / 60;
+	    return String.format("%d시간 %02d분", hours, minutes);
 	}
 
 
-	public int getDistance() {
+	public void setLogTime(long logTime) {
+	    this.logTime = logTime;
+	    this.logTimeFormatted = formatLogTime(logTime);
+	}
+
+	public double getDistance() {
 		return distance;
 	}
 
 
-	public void setDistance(int distance) {
-		this.distance = distance;
+	
+
+	public String getDistanceFormatted() {
+		return distanceFormatted;
+	}
+
+
+	public void setDistanceFormatted(String distanceFormatted) {
+		this.distanceFormatted = distanceFormatted;
+	}
+
+
+	public String getLogTimeFormatted() {
+		return logTimeFormatted;
+	}
+
+
+	public void setLogTimeFormatted(String logTimeFormatted) {
+		this.logTimeFormatted = logTimeFormatted;
 	}
 
 
@@ -165,6 +201,16 @@ public class ShowLogVo {
 	}
 
 
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
 	public List<ShowLogCmtVo> getShowLogCmtList() {
 		return showLogCmtList;
 	}
@@ -189,10 +235,13 @@ public class ShowLogVo {
 	public String toString() {
 		return "ShowLogVo [walkLogNo=" + walkLogNo + ", userNo=" + userNo + ", locationNo=" + locationNo + ", regDate="
 				+ regDate + ", startTime=" + startTime + ", endTime=" + endTime + ", logTime=" + logTime + ", distance="
-				+ distance + ", content=" + content + ", security=" + security + ", status=" + status + ", name=" + name
-				+ ", showLogCmtList=" + showLogCmtList + ", imageList=" + imageList + "]";
+				+ distance + ", distanceFormatted=" + distanceFormatted + ", logTimeFormatted=" + logTimeFormatted
+				+ ", content=" + content + ", security=" + security + ", status=" + status + ", name=" + name
+				+ ", title=" + title + ", showLogCmtList=" + showLogCmtList + ", imageList=" + imageList + "]";
 	}
 
+
+	
 
 	
 	

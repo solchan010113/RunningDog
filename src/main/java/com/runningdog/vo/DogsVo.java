@@ -1,6 +1,8 @@
 package com.runningdog.vo;
 
-public class DogListVo {
+
+//강아지 관련 처리하는 Vo
+public class DogsVo {
 
 	private int dogNo;
 	private String dogName;
@@ -17,12 +19,12 @@ public class DogListVo {
 	private String saveName;
 	
 	
-	public DogListVo() {
+	public DogsVo() {
 		
 	}
 
 	
-	public DogListVo(int dogNo, String dogName, String birth, String gender, float weight, String kind, String neuter,
+	public DogsVo(int dogNo, String dogName, String birth, String gender, float weight, String kind, String neuter,
 			String personality, String color, char status, String userName, int userNo, String saveName) {
 		super();
 		this.dogNo = dogNo;

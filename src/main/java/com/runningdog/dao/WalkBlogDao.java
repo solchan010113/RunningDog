@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.runningdog.vo.MonthlyStatsVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.WalkLogConImgVo;
@@ -18,9 +19,11 @@ public class WalkBlogDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	 public Map<String, Object> selectBlogOwner(Map<String, Object> paramMap) {
-	        return sqlSession.selectOne("walkBlog.selectBlogOwner", paramMap);
-	    }
+	/*
+	 * public Map<String, Object> selectBlogOwner(Map<String, Object> paramMap) {
+	 * return sqlSession.selectOne("walkBlog.selectBlogOwner", paramMap); }
+	 */
+	 
 	
 	public int  selectfollowerNum(String paramCode) {
 		
@@ -82,26 +85,61 @@ public class WalkBlogDao {
 	    sqlSession.delete("walkBlog.deleteComment", walkLogCmtNo);
 	}
 
-public int  didIFollow2(Map<String,Object> map) {
-		
-		System.out.println("didIFollow");
-		
-		int fno = sqlSession.selectOne("walkBlog.didIFollow2", map);
-		
-		
-		if(fno == 0) {
-			return 0;
-		}
-		else {
-			return 1;
-		}
+	/*
+	 * public int didIFollow2(Map<String,Object> map) {
+	 * 
+	 * System.out.println("didIFollow");
+	 * 
+	 * int fno = sqlSession.selectOne("walkBlog.didIFollow2", map);
+	 * 
+	 * 
+	 * if(fno == 0) { return 0; } else { return 1; }
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 	
-	
+	public int didIFollow2(Map<String, Object> map) {
+	    System.out.println("didIFollow");
+	    Integer fno = sqlSession.selectOne("walkBlog.didIFollow2", map);
 
-}
+	    if (fno == null) {
+	        return 0;
+	    } else {
+	        return fno; // Integer를 int로 반환하는 것이 가능합니다.
+	    }
+	}
 
 public String selectBannerImg(String paramCode) {
 	// TODO Auto-generated method stub
 	return sqlSession.selectOne("walkBlog.selectBannerImg", paramCode);
+}
+
+
+
+public MonthlyStatsVo getMonthlyStats(String paramCode) {
+	
+	return sqlSession.selectOne("walkBlog.getMonthlyStats", paramCode);
+}
+
+
+
+public MonthlyStatsVo getTotalStats(String paramCode) {
+	
+	return sqlSession.selectOne("walkBlog.getTotalStats", paramCode);
+}
+
+
+
+public String selectOwnerName(String paramCode) {
+	return sqlSession.selectOne("walkBlog.selectBlogOwnerName", paramCode);
+	
+}
+
+
+public ShowLogVo selectWalkLog(int walkLogNo) {
+	
+	return sqlSession.selectOne("walkBlog.selectWalkLog", walkLogNo);
 }
 }

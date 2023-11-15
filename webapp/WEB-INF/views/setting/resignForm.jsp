@@ -24,7 +24,7 @@
 	
 		<div class="firstElement">
 			<h1>회원탈퇴</h1>
-			<div>#${requestScope.selectUser.code}</div>
+			<div>#${sessionScope.authUser.code}</div>
 		</div>
 		
 		<div class="warningBox">

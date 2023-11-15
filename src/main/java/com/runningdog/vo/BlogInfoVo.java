@@ -16,12 +16,18 @@ public class BlogInfoVo {
 	
 	private int followNo;
 	
+	private MonthlyStatsVo monthlyStatsThisMonth;
+	private MonthlyStatsVo monthlyStatsTotal;
+	
 	
 	public BlogInfoVo() {}
 
 
+
+
 	public BlogInfoVo(int no, String name, String userSavename, String bannerSavename, int authNo, int ownerNo,
-			String paramCode, int followerNum, int followingNum, int followNo) {
+			String paramCode, int followerNum, int followingNum, int followNo, MonthlyStatsVo monthlyStatsThisMonth,
+			MonthlyStatsVo monthlyStatsTotal) {
 		super();
 		this.no = no;
 		this.name = name;
@@ -33,7 +39,39 @@ public class BlogInfoVo {
 		this.followerNum = followerNum;
 		this.followingNum = followingNum;
 		this.followNo = followNo;
+		this.monthlyStatsThisMonth = monthlyStatsThisMonth;
+		this.monthlyStatsTotal = monthlyStatsTotal;
 	}
+
+
+
+
+	public MonthlyStatsVo getMonthlyStatsThisMonth() {
+		return monthlyStatsThisMonth;
+	}
+
+
+
+
+	public void setMonthlyStatsThisMonth(MonthlyStatsVo monthlyStatsThisMonth) {
+		this.monthlyStatsThisMonth = monthlyStatsThisMonth;
+	}
+
+
+
+
+	public MonthlyStatsVo getMonthlyStatsTotal() {
+		return monthlyStatsTotal;
+	}
+
+
+
+
+	public void setMonthlyStatsTotal(MonthlyStatsVo monthlyStatsTotal) {
+		this.monthlyStatsTotal = monthlyStatsTotal;
+	}
+
+
 
 
 	public int getNo() {

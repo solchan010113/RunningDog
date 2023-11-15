@@ -25,30 +25,30 @@
 
 		<div class="firstElement">
 			<h1>회원 검색</h1>
-			<div>#${requestScope.selectUser.code}</div>
+			<div>#${sessionScope.authUser.code}</div>
 		</div>
 		
 		<div class="listBox">
 		
-			<form action="" method="get" id="searchUser">
+			<form action="${pageContext.request.contextPath}/setting/userList" method="post" id="searchUser">
 				<div class="searchBox">
-					<select name="select" id="searchUser">
-						<option value="nickname">닉네임</option>
-						<option value="birth">회원코드</option>
+					<select name="what" id="searchUser">
+						<option value="name">닉네임</option>
+						<option value="code">회원코드</option>
 					</select>
-					<input type="number" name="user_code" placeholder="회원 코드로 검색">
+					<input type="text" name="keyword">
 					<button type="submit" class="button" id="searchBtn">검색</button>
 				</div>
 			</form>
 			
 			<table class="friendList">
 				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 25%;" />
+					<col style="width: 15%;" />
+	    			<col style="width: 20%;" />
 	    			<col style="width: 10%;" />
 					<col style="width: 10%;" />
-					<col style="width: 35%;" />
-					<col style="width: 10%;" />
+					<col style="width: 30%;" />
+					<col style="width: 15%;" />
 				</colgroup>
 				<tr>
 		            <th>프로필</th>

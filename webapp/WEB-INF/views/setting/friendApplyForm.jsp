@@ -25,7 +25,7 @@
 
 		<div class="firstElement">
 			<h1>내가 한 신청</h1>
-			<div>#${requestScope.selectUser.code}</div>
+			<div>#${sessionScope.authUser.code}</div>
 		</div>
 		
 		<div class="listBox">
@@ -35,12 +35,12 @@
 
 			<table class="friendList">
 				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 22%;" />
+					<col style="width: 15%;" />
+	    			<col style="width: 20%;" />
 	    			<col style="width: 10%;" />
 					<col style="width: 10%;" />
-					<col style="width: 32%;" />
-					<col style="width: 16%;" />
+					<col style="width: 30%;" />
+					<col style="width: 15%;" />
 				</colgroup>
 				<tr>
 		            <th>프로필</th>
@@ -59,17 +59,7 @@
 					<td><a href="" class="deleteBtn">취소</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 22%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 32%;" />
-					<col style="width: 16%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -79,17 +69,7 @@
 					<td><a href="" class="deleteBtn">취소</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 22%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 32%;" />
-					<col style="width: 16%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -99,17 +79,7 @@
 					<td><a href="" class="deleteBtn">취소</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 22%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 32%;" />
-					<col style="width: 16%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>
@@ -119,17 +89,7 @@
 					<td><a href="" class="deleteBtn">취소</a></td>
 					<!-- delete?no=${GuestVo.no} -->
 				</tr>
-			</table>
 			
-			<table class="friendList">
-				<colgroup>
-					<col style="width: 10%;" />
-	    			<col style="width: 22%;" />
-	    			<col style="width: 10%;" />
-					<col style="width: 10%;" />
-					<col style="width: 32%;" />
-					<col style="width: 16%;" />
-				</colgroup>
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
 					<td>닉네임(#회원코드)</td>

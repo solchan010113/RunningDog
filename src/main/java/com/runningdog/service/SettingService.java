@@ -4,7 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.dao.SettingDao;
-import com.runningdog.vo.DogListVo;
+import com.runningdog.vo.DogsVo;
+import com.runningdog.vo.FriendsVo;
 import com.runningdog.vo.MainImageVo;
 import com.runningdog.vo.UserVo;
 
@@ -128,23 +131,30 @@ public class SettingService {
 /*   강아지   */
 	
 	//강아지 리스트
-	public List<DogListVo> selectDogList(int userNo){
+	public Map<String, List<DogsVo>> selectDogList(int userNo){
 		System.out.println("SettingService.selectDogList()");
 		
-		List<DogListVo> dogList = settingDao.selectDogList(userNo);
+		List<DogsVo> dogList = settingDao.selectDogList(userNo);
 		//System.out.println(dogList);
-
-		return dogList;
+		
+		List<DogsVo> friendDogList = settingDao.selectFriendDogList(userNo);
+		//System.out.println(friendDogList);
+		
+		Map<String, List<DogsVo>> dogListMap = new HashMap<String, List<DogsVo>>();
+		dogListMap.put("dogList", dogList);
+		dogListMap.put("friendDogList", friendDogList);
+		
+		return dogListMap;
 	}
 	
 	//강아지 등록
-	public void insertDog(int userNo, DogListVo dogListVo, MultipartFile file) {
+	public void insertDog(int userNo, DogsVo dogsVo, MultipartFile file) {
 		System.out.println("SettingService.insertDog()");
 
 		//강아지 등록하기
-		dogListVo.setUserNo(userNo);
+		dogsVo.setUserNo(userNo);
 
-		settingDao.insertDog(dogListVo);
+		settingDao.insertDog(dogsVo);
 		
 		// 파일 null 예외처리
 		if(!file.isEmpty()){
@@ -175,7 +185,7 @@ public class SettingService {
 			
 			
 			//dog pk값
-			int dogNo = dogListVo.getDogNo();
+			int dogNo = dogsVo.getDogNo();
 			
 			//vo로 묶기
 			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
@@ -203,35 +213,17 @@ public class SettingService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//파일 등록을 안 했을 때
-		}else{
-			
-			String orgName = "default";
-			String saveName = "default";
-			String filePath = "default";
-			long fileSize = 0;
-			int dogNo = dogListVo.getDogNo();
-			
-			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
-			
-			//더미를 이미지 테이블에 저장
-			settingDao.insertImg(mainImageVo);
-		}
-		
+
+		}		
 	}
 	
 	//강아지 하나
-	public DogListVo selectDog(int dogNo){
+	public DogsVo selectDog(int dogNo){
 		System.out.println("SettingService.selectDog()");
 		
-		DogListVo dogVo = settingDao.selectDog(dogNo);
+		DogsVo dogsVo = settingDao.selectDog(dogNo);
 		
-		//이미지 가져오기
-		MainImageVo dogImg = new MainImageVo("dog", dogNo);
-		String saveName = settingDao.selectImg(dogImg);
-		dogVo.setSaveName(saveName);
-		
-		return dogVo;
+		return dogsVo;
 	}
 	
 	//강아지 삭제 update
@@ -244,12 +236,12 @@ public class SettingService {
 	}
 	
 	//강아지 정보 update
-	public void updateDog(int userNo, DogListVo dogVo, MultipartFile file){
+	public void updateDog(int userNo, DogsVo dogsVo, MultipartFile file){
 		System.out.println("SettingService.updateDog()");
 		
 		//강아지 등록하기
-		dogVo.setUserNo(userNo);
-		settingDao.updateDog(dogVo);
+		dogsVo.setUserNo(userNo);
+		settingDao.updateDog(dogsVo);
 		
 		// 파일 null 예외처리
 		if(!file.isEmpty()){
@@ -280,7 +272,7 @@ public class SettingService {
 			
 			
 			//dog pk값
-			int dogNo = dogVo.getDogNo();
+			int dogNo = dogsVo.getDogNo();
 			
 			//vo로 묶기
 			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
@@ -312,22 +304,118 @@ public class SettingService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		//파일 등록을 안 했을 때
-		}else{
-			
-			String orgName = "default";
-			String saveName = "default";
-			String filePath = "default";
-			long fileSize = 0;
-			int dogNo = dogVo.getDogNo();
-			
-			MainImageVo mainImageVo = new MainImageVo(orgName, saveName, filePath, fileSize, "dog", dogNo); 
-			
-			//더미를 이미지 테이블에 저장
-			settingDao.insertImg(mainImageVo);
 		}
+		
 	}
+	
+	
+	
+/*	 친구		*/
+	
+	//친구 리스트
+	public Map<String, Object> selectFriendList(int userNo, String what, String keyword, int crtPage){
+		System.out.println("SettingService.selectFriendList()");
+		
+		///////////////// 리스트 가져오기 ///////////////////////
+				
+		//페이지당 글 갯수
+		int listCnt = 5;	//한 페이지에 출력되는 글 갯수
+		
+		//현제 페이지	crtPage 파라미터 받는다
+		//int crtPage = 1;
+		crtPage = (crtPage>0) ? crtPage : (crtPage = 1);
+		
+		//시작 글 번호
+		int startRNum = (crtPage-1)*listCnt + 1;
+		
+		//끝 글 번호
+		int endRNum = (startRNum+listCnt) - 1;
+		
+		/*
+		 listCnt = 7	listCnt = 10
+		 1	1	7		1	1	10
+		 2	8	14		2	11	20
+		 3	15	21		3	21	30
+		 */
+		
+		//System.out.println(crtPage+", "+startRNum +", "+endRNum);
+				
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("userNo", userNo);
+		pageMap.put("keyword", keyword);
+		pageMap.put("what", what);
+		pageMap.put("startRNum", startRNum);
+		pageMap.put("endRNum", endRNum);
+		
+		List<FriendsVo> friendList = settingDao.selectFriendList(pageMap);
+		
+		///////////////////////////////////////////////
+		
+		///////////////// 페이징 계산 ///////////////////////
+		
+		
+		//페이지당 버튼 갯수
+		int pageBtnCount = 5;
+		
+		//전체 글 갯수
+		int totalCnt = settingDao.selectTotalCnt(userNo);
+		
+		//마지막 버튼 번호
+		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
+								//올림 함수 //(현재 페이지 / 페이지당 버튼 갯수) * 페이지당 버튼 갯수
+		//시작 버튼 번호
+		int startPageBtnNo = (endPageBtnNo - pageBtnCount)+1;
+		
+		//System.out.println(crtPage+", "+startPageBtnNo +", "+endPageBtnNo);
+		
+		//다음 화살표 유무
+		boolean next = false;
+		if(listCnt * endPageBtnNo < totalCnt) {
+			next = true;
+			
+		}else {	//다음 버튼이 없을(false) 때 endPageBtnNo를 다시 계산
+			endPageBtnNo = (int) Math.ceil(totalCnt/(double)listCnt);
+										/* 157/10.0 => 15.7 => 16 */
+		}
+		
+		//이전 화살표 유무
+		boolean prev = false;
+		if(startPageBtnNo != 1) {
+			prev = true;
+		}
+		
+		/*
+		System.out.println("===============================");
+		System.out.println("crtPage: "+crtPage);
+		System.out.println(startPageBtnNo);
+		System.out.println(endPageBtnNo);
+		System.out.println(prev);
+		System.out.println(next);
+		System.out.println("===============================");
+		*/
+		
+		Map<String, Object> friendMap = new HashMap<String, Object>();
+		friendMap.put("startPageBtnNo", startPageBtnNo);
+		friendMap.put("endPageBtnNo", endPageBtnNo);
+		friendMap.put("prev", prev);
+		friendMap.put("next", next);
+		friendMap.put("friendList", friendList);
+		
+		return friendMap;
+	}
+	
+	//친구 삭제
+	public int deleteFriend(int friendNo, int userNo){
+		System.out.println("SettingService.deleteFriend()");
+		
+		FriendsVo friendsVo = new FriendsVo(friendNo, userNo);
+		
+		int count = settingDao.deleteFriend(friendsVo);
+		
+		return count;
+	}
+	
+	
 	
 	
 	
