@@ -21,6 +21,11 @@ public class FriendsVo {
 	public FriendsVo() {
 		
 	}
+	
+	public FriendsVo(int friendNo, int userNo) {
+		this.friendNo = friendNo;
+		this.userNo = userNo;
+	}
 
 	public FriendsVo(String saveName, int friendNo, int userNo, int applyUserNo, int appliedUserNo, String name,
 			String code, String birth, String gender, String si, String gu, String dong, int locationNo) {

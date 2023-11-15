@@ -1,6 +1,7 @@
 package com.runningdog.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,19 +133,33 @@ public class SettingDao {
 	
 /*	 친구		*/
 	
-	//친구 리스트
-	public List<FriendsVo> selectFriendList(int userNo) {
+	//친구 리스트 (검색 + 페이징)
+	public List<FriendsVo> selectFriendList(Map<String, Object> pageMap) {
 		System.out.println("SettingDao.selectFriendList()");
 		
-		List<FriendsVo> friendList = sqlSession.selectList("setting.selectFriendList", userNo);
+		List<FriendsVo> friendList = sqlSession.selectList("setting.selectFriendList", pageMap);
 		//System.out.println(friendList);
 		
 		return friendList;
 	}
 	
+	//친구 목록 전체 갯수
+	public int selectTotalCnt() {
+		System.out.println("SettingDao.selectTotalCnt()");
+		 
+		int totalCount = sqlSession.selectOne("setting.selectTotalCnt");
+		
+		return totalCount;
+	}
 	
-	
-	
+	//친구 삭제
+	public int deleteFriend(FriendsVo friendsVo) {
+		System.out.println("SettingDao.deleteFriend()");
+
+		int count = sqlSession.delete("setting.deleteFriend", friendsVo);
+		
+		return count;
+	}
 	
 	
 	

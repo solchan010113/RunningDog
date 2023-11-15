@@ -66,7 +66,7 @@
 				selected
 			</c:if>
 			">   	
-			<a href="${pageContext.request.contextPath}/setting/friendList">친구</a>
+			<a href="${pageContext.request.contextPath}/setting/friendList?crtPage=1">친구</a>
 		</li>
 		
 		<!-- 친구 목록 -->	
@@ -75,7 +75,7 @@
 				selectedBold 
 			</c:if>
 			">   	
-			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendList">친구 목록</a>
+			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendList?crtPage=1">친구 목록</a>
 		</li>
 		
 		<!-- 친구 신청 받은 거 -->	

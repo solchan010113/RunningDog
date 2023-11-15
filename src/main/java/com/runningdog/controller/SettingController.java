@@ -1,6 +1,7 @@
 package com.runningdog.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -204,7 +205,7 @@ public class SettingController {
 	
 	//강아지 삭제 누르면
 	@RequestMapping(value="/deleteDog", method={RequestMethod.GET, RequestMethod.POST})
-	public String deleteDog(@RequestParam(value="no") int dogNo, Model model, HttpSession session){
+	public String deleteDog(@RequestParam(value="no") int dogNo){
 		System.out.println("SettingController.deleteDog()");
 		
 		settingService.deleteDog(dogNo);
@@ -232,25 +233,44 @@ public class SettingController {
 	
 /*    친구    */
 
-	//친구 목록
+	//친구 목록 (검색 O, 페이징 O)
 	@RequestMapping(value="/friendList", method={RequestMethod.GET, RequestMethod.POST})
-	public String friendList(HttpSession session, Model model){
+	public String friendList(@RequestParam(value="what", required=false, defaultValue="") String what,
+							 @RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+							 @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+							 HttpSession session, Model model){
 	System.out.println("SettingController.friendList()");
 		
 		//세션에서 getUserNo
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		int userNo = authUser.getUserNo();
 	
-		List<FriendsVo> friendList = settingService.selectFriendList(userNo);
-		System.out.println(friendList);
-		model.addAttribute("friendList", friendList);
+		Map<String, Object> friendMap = settingService.selectFriendList(userNo, what, keyword, crtPage);
+		//System.out.println(friendList);
+		model.addAttribute("friendMap", friendMap);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "fl");
 		
 		return "setting/friendList";
 	}
+	
+	//친구 삭제
+	@ResponseBody
+	@RequestMapping(value="/deleteFriend", method={RequestMethod.GET, RequestMethod.POST})
+	public int deleteFriend(@RequestParam(value="friendNo") int friendNo,
+			 				   HttpSession session){
+		System.out.println("SettingController.deleteFriend()");
 
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		int count = settingService.deleteFriend(friendNo, userNo);
+		
+		return count;
+	}
+	
 	//내가 받은 신청
 	@RequestMapping("/friendAppliedForm")
 	public String friendApplied(Model model){

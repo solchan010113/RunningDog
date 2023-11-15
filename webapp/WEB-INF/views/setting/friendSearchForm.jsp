@@ -30,13 +30,13 @@
 		
 		<div class="listBox">
 		
-			<form action="" method="get" id="searchUser">
+			<form action="${pageContext.request.contextPath}/setting/userList" method="post" id="searchUser">
 				<div class="searchBox">
-					<select name="select" id="searchUser">
-						<option value="nickname">닉네임</option>
-						<option value="birth">회원코드</option>
+					<select name="what" id="searchUser">
+						<option value="name">닉네임</option>
+						<option value="code">회원코드</option>
 					</select>
-					<input type="number" name="user_code" placeholder="회원 코드로 검색">
+					<input type="text" name="keyword">
 					<button type="submit" class="button" id="searchBtn">검색</button>
 				</div>
 			</form>

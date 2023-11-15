@@ -526,14 +526,15 @@ input::-webkit-inner-spin-button {
 
 #friendProfile #paging {
 	margin: 0px auto;
-	width: 420px;
-	border: none;
+	width: 280px;
 	margin-top: 30px;
-	text-align: center;
 }
 
 #friendProfile #paging ul {
 	margin: 10px 5px 10px 5px;
+	height: 30px;
+	display: flex;
+    justify-content: center;
 }
 
 #friendProfile #paging ul > li{
@@ -544,7 +545,14 @@ input::-webkit-inner-spin-button {
 #friendProfile #paging ul > li a{
 	color: #212529;
 	text-decoration: none;
+	font-size: 18px;
 }
+
+#friendProfile #paging ul > li.active{
+	font-size: 18px;
+	font-weight: bold;
+}
+
 
 #friendProfile .listBox {
 	width: 100%;

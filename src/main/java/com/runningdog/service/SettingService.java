@@ -4,7 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -304,13 +306,109 @@ public class SettingService {
 /*	 친구		*/
 	
 	//친구 리스트
-	public List<FriendsVo> selectFriendList(int userNo){
+	public Map<String, Object> selectFriendList(int userNo, String what, String keyword, int crtPage){
 		System.out.println("SettingService.selectFriendList()");
 		
-		List<FriendsVo> friendList = settingDao.selectFriendList(userNo);
-
-		return friendList;
+		///////////////// 리스트 가져오기 ///////////////////////
+				
+		//페이지당 글 갯수
+		int listCnt = 5;	//한 페이지에 출력되는 글 갯수
+		
+		//현제 페이지	crtPage 파라미터 받는다
+		//int crtPage = 1;
+		crtPage = (crtPage>0) ? crtPage : (crtPage = 1);
+		
+		//시작 글 번호
+		int startRNum = (crtPage-1)*listCnt + 1;
+		
+		//끝 글 번호
+		int endRNum = (startRNum+listCnt) - 1;
+		
+		/*
+		 listCnt = 7	listCnt = 10
+		 1	1	7		1	1	10
+		 2	8	14		2	11	20
+		 3	15	21		3	21	30
+		 */
+		
+		//System.out.println(crtPage+", "+startRNum +", "+endRNum);
+				
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("userNo", userNo);
+		pageMap.put("keyword", keyword);
+		pageMap.put("what", what);
+		pageMap.put("startRNum", startRNum);
+		pageMap.put("endRNum", endRNum);
+		
+		List<FriendsVo> friendList = settingDao.selectFriendList(pageMap);
+		
+		///////////////////////////////////////////////
+		
+		///////////////// 페이징 계산 ///////////////////////
+		
+		
+		//페이지당 버튼 갯수
+		int pageBtnCount = 5;
+		
+		//전체 글 갯수
+		int totalCnt = settingDao.selectTotalCnt();
+		
+		//마지막 버튼 번호
+		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
+								//올림 함수 //(현재 페이지 / 페이지당 버튼 갯수) * 페이지당 버튼 갯수
+		//시작 버튼 번호
+		int startPageBtnNo = (endPageBtnNo - pageBtnCount)+1;
+		
+		//System.out.println(crtPage+", "+startPageBtnNo +", "+endPageBtnNo);
+		
+		//다음 화살표 유무
+		boolean next = false;
+		if(listCnt * endPageBtnNo < totalCnt) {
+			next = true;
+			
+		}else {	//다음 버튼이 없을(false) 때 endPageBtnNo를 다시 계산
+			endPageBtnNo = (int) Math.ceil(totalCnt/(double)listCnt);
+										/* 157/10.0 => 15.7 => 16 */
+		}
+		
+		//이전 화살표 유무
+		boolean prev = false;
+		if(startPageBtnNo != 1) {
+			prev = true;
+		}
+		
+		/*
+		System.out.println("===============================");
+		System.out.println("crtPage: "+crtPage);
+		System.out.println(startPageBtnNo);
+		System.out.println(endPageBtnNo);
+		System.out.println(prev);
+		System.out.println(next);
+		System.out.println("===============================");
+		*/
+		
+		Map<String, Object> friendMap = new HashMap<String, Object>();
+		friendMap.put("startPageBtnNo", startPageBtnNo);
+		friendMap.put("endPageBtnNo", endPageBtnNo);
+		friendMap.put("prev", prev);
+		friendMap.put("next", next);
+		friendMap.put("friendList", friendList);
+		
+		return friendMap;
 	}
+	
+	//친구 삭제
+	public int deleteFriend(int friendNo, int userNo){
+		System.out.println("SettingService.deleteFriend()");
+		
+		FriendsVo friendsVo = new FriendsVo(friendNo, userNo);
+		
+		int count = settingDao.deleteFriend(friendsVo);
+		
+		return count;
+	}
+	
+	
 	
 	
 	
