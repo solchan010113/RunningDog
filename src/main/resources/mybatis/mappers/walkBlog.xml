@@ -6,9 +6,9 @@
 	<!-- 쿼리문 작성 -->
 
 	<!-- 산책로 가져오기 -->
-	<select id="selectBlogOwner" parameterType="java.util.Map" resultType="java.util.Map">
+	<select id="selectBlogOwnerName" parameterType="int" resultType="String">
     <![CDATA[
-    SELECT name, userNo
+    SELECT name
     FROM users
     WHERE code = #{paramCode}
     ]]>
@@ -201,6 +201,30 @@
         WHERE userNo = (SELECT userNo FROM users WHERE code = #{paramCode})
     ]]>
 </select>
+
+<select id="selectWalkLog" resultType="com.runningdog.vo.ShowLogVo" parameterType="int">
+      <![CDATA[
+		select       WL.walkLogNo,
+		       		 US.userNo,
+		       	  	 WL.locationNo,
+		       		 TO_CHAR(WL.regDate, '""YYYY"년 "MM"월 "DD"일 "HH24"시 "MI"분"') regDate,
+		       		 WL.startTime,
+		      		 WL.endTime,
+		      		 WL.logTime,
+		      		 WL.distance,
+		      		 WL.content,
+		      		 WL.security,
+		      		 WL.status,
+		      		 US.name,
+		      		 WL.title
+		             
+		from walkLog WL, users US
+		where WL.userNo = US.userNo 
+		and WL.walkLogNo = #{walkLogNo}
+		
+      ]]>
+	</select>
+
 
 
 

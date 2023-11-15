@@ -70,6 +70,35 @@ public class WalkBlogController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/{code}/{walkLogNo}", method = RequestMethod.GET)
+	public String viewWalkLog(@PathVariable(value = "code") String code, 
+	                          @PathVariable(value = "walkLogNo") int walkLogNo,
+	                          Model model, Model model2, HttpSession session) {
+		
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authuser);
+		
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
+		String paramCode = code;
+
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+
+		System.out.println(blogInfoVo);
+
+		model.addAttribute("blogInfoVo", blogInfoVo);
+		
+	    // 특정 walkLog를 검색하고 모델에 설정하는 로직
+	    ShowLogVo walkLog = walkBlogService.getWalkLogByNo(walkLogNo);
+	    model2.addAttribute("walkLog", walkLog);
+	    
+	    // 모델에 필요한 다른 속성 추가
+	    
+	    return "walkBlog/walkLogDetail"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
+	}
+	
+	
 
 	@RequestMapping(value = "detail")
 	public String detail() {

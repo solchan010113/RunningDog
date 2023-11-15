@@ -268,8 +268,8 @@
 					<div class="category">
 						<div class="tab record active">산책기록</div>
 
-						<div class="tab meeting">산책모임</div>
-						<div class="tab following">팔로잉</div>
+						<div class="tab meeting"></div>
+						<div class="tab following"></div>
 						<div class="tab blank"></div>
 					</div>
 
@@ -278,156 +278,117 @@
 
 
 
-						<c:forEach items="${walkLogList}" var="ShowLogVo">
-							<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
-								<div class="mainRecord1">
 
 
-									<div class="MRprofileBox">
-
-										<div class="MRprofileWrapper1">
-											<div class="MRprofileImg1">
-												<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-											</div>
-
-											<div class="MRuserName1">${ShowLogVo.name}</div>
-										</div>
-										<div class="wrappingBox">
-											<%-- <div class="MRtitleBox">
-												<div class="MRtime">${ShowLogVo.regDate}</div>
-												<div class="MRtitle">${ShowLogVo.title}</div>
-
-											</div> --%>
-											<div class="MRtitleBox">
-												<div class="MRtime">${ShowLogVo.regDate}</div>
-												<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}">
-													<div class="MRtitle">${ShowLogVo.title}</div>
-												</a>
-											</div>
-											<div class="MRrecordBox">
-												<div class="MRdistanceBox">
-													<div class="MRrecordData">${ShowLogVo.distanceFormatted}km</div>
-													<div class="MRlabel">산책거리</div>
-												</div>
-												<div class="MRtimeBox">
-													<div class="MRrecordData">${ShowLogVo.logTimeFormatted}</div>
-													<div class="MRlabel">산책시간</div>
-												</div>
+						<div class="mainRecord1">
 
 
-											</div>
-										</div>
+							<div class="MRprofileBox">
 
-										<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
-											<div class="modifyDelete">
-											<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
-												<button class="modifyButton">수정</button>
-											
-												<!-- <button class="deleteButton">삭제</button> -->
-
-												<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">정말 삭제하시겠습니까?</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-																<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/walkBlog/delete?no=${ShowLogVo.walkLogNo}'">삭제</button>
-															</div>
-														</div>
-													</div>
-												</div>
-
-											</div>
-										</c:if>
-										<div class="MRdogCardBox">
-
-											<div class="MRpartnerDoglabel">함께한 강아지</div>
-											<div class="MRdogCards">
-												<div class="MRdogCard1">
-													<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-													<div class="MRdogName">마루</div>
-												</div>
-												<div class="MRdogCard2">
-													<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-													<div class="MRdogName">연탄</div>
-												</div>
-												<div class="MRdogCard3">
-													<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-													<div class="MRdogName">도지</div>
-												</div>
-
-											</div>
-
-
-
-										</div>
-										<div class="walkLogContent">${ShowLogVo.content}</div>
-
-
+								<div class="MRprofileWrapper1">
+									<div class="MRprofileImg1">
+										<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
 									</div>
 
-
-
-									<div class="MRwalkRecordSection">
-										<div class="MRwalkData">
-											<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
-										</div>
-										<div class="MRpictures">
-											<!-- 이미지 가져오기 -->
-											<c:forEach items="${ShowLogVo.imageList}" var="image">
-												<div class="MRpicture${image.imageOrder}">
-													<img src="${pageContext.request.contextPath}/assets/images/${image.saveName}" alt="">
-												</div>
-											</c:forEach>
-										</div>
-									</div>
-
-
-
-									<div class="MRcommentSection">
-
-										<div class="MRcomments">
-											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
-												<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
-													<div class="MRcomment1">
-
-														<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-														<div class="replyDateCmtBox">
-															<div class="MRreplyDate">${cmt.regDate}</div>
-															<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
-																<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
-															</c:if>
-														</div>
-														<div class="MRuserIdandContent">
-															<div class="MRreplyUserId">${cmt.name}</div>
-															<div class="MRreplyContent">${cmt.content}</div>
-														</div>
-
-
-
-													</div>
-												</c:if>
-											</c:forEach>
-
-
-										</div>
-										<div class="MRcommentInputBox">
-											<div class="MRinput-group">
-												<textarea id="commentText" class="form-control" aria-label="With textarea"></textarea>
-											</div>
-											<button class="MRreplyButton" onclick="addComment('${ShowLogVo.walkLogNo}')">등록</button>
-										</div>
-
-
-									</div>
-									<div class="MRborder"></div>
+									<div class="MRuserName1">${walkLog.name}</div>
 								</div>
-							</c:if>
-						</c:forEach>
+								<div class="wrappingBox">
+									<div class="MRtitleBox">
+										<div class="MRtime">${walkLog.regDate}</div>
+										<div class="MRtitle">${walkLog.title}</div>
+
+									</div>
+
+									<div class="MRrecordBox">
+										<div class="MRdistanceBox">
+											<div class="MRrecordData">${walkLog.distanceFormatted}km</div>
+											<div class="MRlabel">산책거리</div>
+										</div>
+										<div class="MRtimeBox">
+											<div class="MRrecordData">${walkLog.logTimeFormatted}</div>
+											<div class="MRlabel">산책시간</div>
+										</div>
+
+
+									</div>
+								</div>
+								<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo }">
+								<div class="modifyDelete"></div>
+								</c:if>
+								<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
+									<div class="modifyDelete">
+										<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
+										<button class="modifyButton">수정</button>
+										<!-- <button class="deleteButton">삭제</button> -->
+
+										<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">정말 삭제하시겠습니까?</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+														<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/walkBlog/delete?no=${walkLog.walkLogNo}'">삭제</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</c:if>
+								<div class="MRdogCardBox">
+
+									<div class="MRpartnerDoglabel">함께한 강아지</div>
+									<div class="MRdogCards">
+										<div class="MRdogCard1">
+											<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+											<div class="MRdogName">마루</div>
+										</div>
+										<div class="MRdogCard2">
+											<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
+											<div class="MRdogName">연탄</div>
+										</div>
+										<div class="MRdogCard3">
+											<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
+											<div class="MRdogName">도지</div>
+										</div>
+
+									</div>
+
+
+
+								</div>
+								<div class="walkLogContent">${walkLog.content}</div>
+
+
+							</div>
+
+
+
+							<div class="MRwalkRecordSection">
+								<div class="MRwalkData">
+									<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
+								</div>
+								<div class="MRpictures">
+									<!-- 이미지 가져오기 -->
+									<c:forEach items="${walkLog.imageList}" var="image">
+										<div class="MRpicture${image.imageOrder}">
+											<img src="${pageContext.request.contextPath}/assets/images/${image.saveName}" alt="">
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+
+
+
+
+							<div class="MRborder"></div>
+						</div>
+
+
 					</div>
 
 
