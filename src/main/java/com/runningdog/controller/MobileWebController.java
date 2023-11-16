@@ -30,6 +30,7 @@ import com.runningdog.service.MoWebService;
 import com.runningdog.service.UserService;
 import com.runningdog.vo.LinePathVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoImagesVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UserVo;
@@ -205,10 +206,15 @@ public class MobileWebController {
 
 	// 이미지저장기록하기
 	@RequestMapping( "/walkInsert3")
-	public String walkInsert3(@ModelAttribute MoWalkLogVo moWalkLogVo){ 
+	public String walkInsert3(@ModelAttribute MoWalkLogVo moWalkLogVo,
+			                  @ModelAttribute List<MoImagesVo> moImagesVo){ 
 		System.out.println("walkInsert3");
 		
 		System.out.println(moWalkLogVo.getMapImg().getOriginalFilename());
+		
+		System.out.println(moImagesVo.get(0).getImages().getOriginalFilename());
+		System.out.println(moImagesVo.get(1).getImages().getOriginalFilename());
+		
 		
 		
 		//(2)파일저장(서버쪽 하드디스크에 저장)///////////////////////////////////////////////////
@@ -225,7 +231,23 @@ public class MobileWebController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+	    }
+		
+		//(3)파일저장(서버쪽 하드디스크에 저장)///////////////////////////////////////////////////
+		try {
+			byte[] fileData;
+			fileData = moImagesVo.get(0).getImages().getBytes();
+			 
+			OutputStream os = new FileOutputStream("C:\\javaStudy\\upload\\bbb11111.png");
+			BufferedOutputStream bos = new BufferedOutputStream(os);
+			 
+			bos.write(fileData);
+			bos.close();
+		     
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	    }
 		
 		 return "";
 	}	

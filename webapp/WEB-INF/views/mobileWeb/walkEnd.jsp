@@ -74,11 +74,15 @@
 			</div>
 			
 			<!-- 파일첨부 버튼 -->
-			<div class="pictures">
-			    <label for="fileInput">
-			        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
-			    </label>
-			    <input type="file" id="fileInput" />
+			<div class="fileForm">
+				<div class="pictures">
+				    <label for="fileInput">
+				        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
+				    </label>
+				    <input type="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
+				    			    
+				</div>
+				<div class="file-list"></div>
 			</div>
 			
 			<!-- 텍스트작성박스 -->
@@ -159,10 +163,6 @@
 	        var lng = lineList[i].lng;
 	        polylinePath.push(new naver.maps.LatLng(lat, lng)); */
 	    }
-	    
-	    console.log("내 이동 경로 표시 : " + polylinePath);	  
-	    
-	    
 	  
 		// 중간 지점을 계산
 		var totalLat = 0;
@@ -186,8 +186,8 @@
 			scaleControl : false,
 			caleControl: false,
 	        logoControl: false
-	    });
-
+	    });	    
+	   
 	    //위의 배열을 이용해 라인 그리기
 	    var polyline = new naver.maps.Polyline({
 	        path: polylinePath,      //선 위치 변수배열
@@ -207,39 +207,112 @@
 	    var marker = new naver.maps.Marker({
 	        position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
 	        map: map
+	    }); // 지도 관련 함수들
+	    
+//----------------------------------------------------------------------
+// 파일 선택이 변경되었을 때 실행되는 함수
+	$('#fileInput').on('change', function (event) {
+	    // 선택된 파일 목록을 가져옵니다.
+	    var fileList = event.target.files;
+	
+	    // 선택된 파일 목록을 표시할 엘리먼트를 선택합니다.
+	    var fileListContainer = $('#fileList');
+	
+	    // 선택된 파일 목록을 초기화합니다.
+	    fileListContainer.empty();
+	
+	    // 선택된 각 파일에 대해 반복하여 정보를 표시합니다.
+	    $.each(fileList, function (index, file) {
+	        var fileItem = $('<div>').text('첨부파일이름: ' + file.name + ', 크기: ' + file.size + '바이트');
+	        fileListContainer.append(fileItem);
 	    });
+	});
+    
+	//----------------------------------------------------------------------
 	    
-	    
-	    // 기록하기
-	    $(document).ready(function() {
-	    	
-	    	// 체크박스 상태 변경 감지
-	        $('#privacyCheckbox').change(function() {
-	            // 체크박스가 체크되어 있으면 '비공개', 그렇지 않으면 '공개'를 콘솔에 출력
-	            var status = this.checked ? '비공개' : '공개';
-	            console.log(status);
-	        });
-	    		    	
-	    	
-	    	$('#fileInput').change(function() {
-	            // 최대 4개의 파일을 저장할 배열
-	            var files = [];
+	let fileNo = 0;
+	let filesArr = new Array();
 
-	            // 선택된 파일들을 배열에 추가 (최대 4개까지)
-	            for (var i = 0; i < Math.min(this.files.length, 4); i++) {
-	                files.push(this.files[i]);
+	/* 첨부파일 추가 */
+	function addFile(obj){
+		let maxFileCnt = 4;   // 첨부파일 최대 개수
+		let attFileCnt = $('.filebox').length; // 기존 추가된 첨부파일 개수
+		let remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+		let curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+
+	    // 첨부파일 개수 확인
+	    if (curFileCnt > remainFileCnt) {
+	        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+	    } else {
+	        for (const file of obj.files) {
+	            // 첨부파일 검증
+	            if (validation(file)) {
+	                // 파일 배열에 담기
+	                let reader = new FileReader();
+	                reader.onload = function () {
+	                    filesArr.push(file);
+	                };
+	                reader.readAsDataURL(file);
+	                
+	             	// 목록 추가
+	                let htmlData = '';
+	                htmlData += '<div class="filebox" id="file' + fileNo + '">';
+	                htmlData += '   <p class="name">' + file.name + '</p>';
+	                htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+	                htmlData += '</div>';
+	                $('.file-list').append(htmlData);
+	                fileNo++;
+	                
+	            } else {
+	                continue;
 	            }
+	        }
+	    }
+	    // 초기화
+	    $('input[type=file]').val('');
+	}
 
-	            // 파일 배열을 컨트롤러로 전송할 수 있음
-	            console.log("첨부된 파일" + files);
-	        });
-	    });
+	/* 첨부파일 검증 */
+	function validation(obj){
+	    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+	    if (obj.name.length > 100) {
+	        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+	        return false;
+	    } else if (obj.size > (100 * 1024 * 1024)) {
+	        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
+	        return false;
+	    } else if (obj.name.lastIndexOf('.') == -1) {
+	        alert("확장자가 없는 파일은 제외되었습니다.");
+	        return false;
+	    } else if (!fileTypes.includes(obj.type)) {
+	        alert("첨부가 불가능한 파일은 제외되었습니다.");
+	        return false;
+	    } else {
+	        return true;
+	    }
+	}
+
+	/* 첨부파일 삭제 */
+	function deleteFile(num) {
+	    $("#file" + num).remove();
+	    filesArr[num].is_delete = true;
+	}
+
+	    
+//----------------------------------------------------------------------
 	    
 	    
 
 /* 기록하기버튼 클릭할때 */	    	
 $("#insertBtn").on("click", function(){
 	console.log("기록하기버튼 클릭");
+
+    // 체크박스가 체크되어 있으면 '비공개', 그렇지 않으면 '공개'를 콘솔에 출력
+    let status = this.checked ? '비공개' : '공개';   
+
+	console.log("공개 여부 " + status);		
+	
+	//----------------------------------------------------------------
 	
 	//텍스트데이타 보내기
 	/* 시작시간 */
@@ -277,23 +350,46 @@ $("#insertBtn").on("click", function(){
 			console.log(moWalkLogVo.walkLogNo);
         	
         	//////////////////////////
+        	
         	//이미지전송 ajax
            	/*캡쳐하기 */
-        	let captureHtml = $(".content")[0];
+           	
+           	
+        	let captureHtml = $(".map")[0];
         	html2canvas(captureHtml).then(function(canvas){
         		canvas.toBlob(function(blob){
         			let formData = new FormData();
              		formData.append('walkLogNo', moWalkLogVo.walkLogNo);
              		formData.append('mapImg', blob, 'mapImg.png');
              		
+             		//------------------------------------
+             		
+					// 사진첨부파일들 담기
+				    let form = $(".fileForm")[0];
+				    let formData2 = new FormData(form);
+				    for (let i = 0; i < filesArr.length; i++) {
+				        // 삭제되지 않은 파일만 폼데이터에 담기
+				        if (!filesArr[i].is_delete) {
+				            formData.append("attach_file", filesArr[i]);
+				        }
+				    }
+					
+					//------------------------------------
+             		
              		$.ajax({
     					url : "${pageContext.request.contextPath}/m/walkInsert3",      
     			        type : "post",
     		            /* contentType : "application/json", */
     		            data : formData, 
+    		            	   formData2,
     		            processData: false,
     		            contentType: false,
-    		               
+    		            //------------------
+    		            async: true,
+    			        timeout: 30000,
+    			        cache: false,
+    			        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
+    		            //------------------
     		            dataType : "json",
     		            success : function(result){
     		               /*성공시 처리해야될 코드 작성*/
@@ -318,17 +414,15 @@ $("#insertBtn").on("click", function(){
 });/*//기록하기버튼 클릭할때 */
 	
 
-
-
-		    
-	    
-	    // 기록하지 않음
-	    $(document).ready(function() {
-            $(".back").click(function() {
-                // 여기에 이동할 링크를 넣어주세요
-                window.location.href = "${pageContext.request.contextPath}/m/map";
-            });
-        }); 
+//-------------------------------------------------------------------------------
+		    	    
+	// 기록하지 않음
+	$(document).ready(function() {
+	    $(".back").click(function() {
+	        // 여기에 이동할 링크를 넣어주세요
+	        window.location.href = "${pageContext.request.contextPath}/m/map";
+	    });
+	}); 
 	    
 	</script>
 	
