@@ -39,8 +39,7 @@ public class MoWebDao {
 		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setSecurity("공개"); // 공개유무
 		moWalkLogVo.setStatus('T');		
-		
-		moWalkLogVo.setDogNo(1);		
+			
 		System.out.println("셀렉트키 " + moWalkLogVo);				
 		sqlSession.insert("walkLog.walkLogInsert",moWalkLogVo);	
 		System.out.println("셀렉트키 " + moWalkLogVo);
