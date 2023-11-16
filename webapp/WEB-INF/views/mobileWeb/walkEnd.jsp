@@ -20,8 +20,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 	<!-- 맵 이미지저장 -->
-	<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>	
-	<!-- <script src="${pageContext.request.contextPath }/assets/js/html2canvas.js" type="text/javascript"></script> -->
+	<!-- <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script> -->	
+	<script src="${pageContext.request.contextPath }/assets/js/html2canvas.js" type="text/javascript"></script>
 	
 </head>
 <body>
@@ -136,8 +136,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/walkEnd.js"></script>	  
     -->
 	
-	<script th:inline="javascript">
-	
+	<script>
 		// 날짜표시
 		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 	    document.getElementById("text02").innerHTML = new Date().toLocaleDateString('ko-KR', options);
@@ -152,9 +151,13 @@
 	    
 	    // lineList의 각 항목을 polylinePath 배열에 추가
 	    for (var i = 0; i < lineList.length; i++) {
-	        var lat = lineList[i].lat;
+	        let xy={}
+	        xy.x = lineList[i].lng;  // x값 (경도)
+	        xy.y = lineList[i].lat;  // y값 (위도)
+	        polylinePath.push(xy);
+	    /* 	var lat = lineList[i].lat;
 	        var lng = lineList[i].lng;
-	        polylinePath.push(new naver.maps.LatLng(lat, lng));
+	        polylinePath.push(new naver.maps.LatLng(lat, lng)); */
 	    }
 	    
 	    console.log("내 이동 경로 표시 : " + polylinePath);	  
@@ -230,74 +233,93 @@
 	            // 파일 배열을 컨트롤러로 전송할 수 있음
 	            console.log("첨부된 파일" + files);
 	        });
-	    	
-	    	
-		    $("#insertBtn").click(function() {
-		    	
-		    	 event.preventDefault();
-		    	   
-		    	 /*캡쳐하기 */
-		    	 let captureHtml = $("#index")[0];
-		    	 
-		    	 html2canvas(captureHtml).then(function(canvas) {   
-			    	 canvas.toBlob(function(blob){
-		    		 /* 다른 데이터 수집 */
-	    	         let content = $("#content").val()	
-	    	         let formData = new FormData();
-	    	         formData.append('mapImg', blob, 'mapImg.png');
-	    	         formData.append('content', content);	
-			    	 })
-		    	 });
-		    	 
-		    	
-		    	console.log("기록완료");
-		    	
-		    	console.log("기록된 위치 재확인 1 : " + polylinePath);
-		    	console.log("기록된 위치 재확인 2 : " + jsonString);
-		    	
-		    	console.log("기록된 위치 재확인 3 : " + '${lineList}');		    	
-		    	
-		    	console.log("산책한 강아지 정보 : " + '${dogNoList}');
-		    	
-		    	console.log("시작시간 : " + '${moWalkLogVo.startTime}');
-		    	var startTime = '${moWalkLogVo.startTime}';
-		    	
-		    	console.log("종료시간 : " + '${moWalkLogVo.endTime}');
-		    	var endTime = '${moWalkLogVo.endTime}';
-		    	
-		    	console.log("소요시간 : " + '${moWalkLogVo.logTime}');
-		    	var logTime = ${moWalkLogVo.logTime};
-		    	
-		    	console.log("거리 : " + '${moWalkLogVo.distance}');
-		    	var distance = ${moWalkLogVo.distance};
-		    	
-		    	var content = $('.textBox').val();
-		    	console.log("글내용 : " + content);
-		    	
-		    	$.ajax({
-		               type: 'POST',
-		               url: "${pageContext.request.contextPath}/m/walkInsert",
-		             contentType : "application/json",
-		               // data: { linePath: JSON.stringify(linePath) },
-					    data: JSON.stringify({
-					        line: polylinePath,
-					        startTime: startTime,
-					        endTime: endTime,
-					        logTime: logTime,
-					        distance: distance
-					    }),
-		               success: function (response) {
-		                  console.log("기록완료");
-		                  window.location.href = "${pageContext.request.contextPath}/m/map";
-		               },
-		               error: function (error) {
-		                 console.error('Error sending data to the controller:', error);
-		               }
-		        });
-		    	
-		    	
-	        });
-	    }); 
+	    });
+	    
+	    
+
+/* 기록하기버튼 클릭할때 */	    	
+$("#insertBtn").on("click", function(){
+	console.log("기록하기버튼 클릭");
+	
+	//텍스트데이타 보내기
+	/* 시작시간 */
+	let startTime = '${moWalkLogVo.startTime}';
+	
+	/* 종료시간 */
+	let endTime = '${moWalkLogVo.endTime}';
+	
+	/* 산책한 강아지번호 리스트 */
+	let dogNoList = "${dogNoList}".split(",");
+	console.log(dogNoList);
+	
+	/* 좌표리스트 */
+	console.log(polylinePath);
+	
+	
+	/* 1개로 묶기 */
+	let dataVo = {
+		startTime: startTime,
+		endTime: endTime,
+		dogNoList: dogNoList,
+		polylinePath: polylinePath
+	}
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/m/walkInsert2",      
+        type : "post",
+        contentType : "application/json",
+        data : JSON.stringify(dataVo), 
+        
+        async: false,
+        dataType : "json",
+        success : function(moWalkLogVo){
+        	/*성공시 처리해야될 코드 작성*/
+			console.log(moWalkLogVo.walkLogNo);
+        	
+        	//////////////////////////
+        	//이미지전송 ajax
+           	/*캡쳐하기 */
+        	let captureHtml = $(".content")[0];
+        	html2canvas(captureHtml).then(function(canvas){
+        		canvas.toBlob(function(blob){
+        			let formData = new FormData();
+             		formData.append('walkLogNo', moWalkLogVo.walkLogNo);
+             		formData.append('mapImg', blob, 'mapImg.png');
+             		
+             		$.ajax({
+    					url : "${pageContext.request.contextPath}/m/walkInsert3",      
+    			        type : "post",
+    		            /* contentType : "application/json", */
+    		            data : formData, 
+    		            processData: false,
+    		            contentType: false,
+    		               
+    		            dataType : "json",
+    		            success : function(result){
+    		               /*성공시 처리해야될 코드 작성*/
+    		               console.log(result);
+    		            
+    		            },
+    		            error : function(XHR, status, error) {
+    		               console.error(status + " : " + error);
+    		            }
+    		        });
+        		});
+        	});
+        	
+        	//////////////////////////////
+        	
+        },/* success */
+        error : function(XHR, status, error) {
+           console.error(status + " : " + error);
+        }
+	}); /* ajax */
+
+});/*//기록하기버튼 클릭할때 */
+	
+
+
+
 		    
 	    
 	    // 기록하지 않음
