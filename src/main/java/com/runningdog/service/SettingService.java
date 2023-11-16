@@ -415,10 +415,87 @@ public class SettingService {
 		return count;
 	}
 	
+	//내가 받은 신청
+	public Map<String, Object> selectAppliedList(int userNo, int crtPage){
+		System.out.println("SettingService.selectAppliedList()");
+		
+		//////////////// 리스트 //////////////////
+		
+		//페이지당 글 갯수
+		int listCnt = 5;	//한 페이지에 출력되는 글 갯수
+		
+		//현제 페이지	crtPage 파라미터 받는다
+		//int crtPage = 1;
+		crtPage = (crtPage>0) ? crtPage : (crtPage = 1);
+		
+		//시작 글 번호
+		int startRNum = (crtPage-1)*listCnt + 1;
+		
+		//끝 글 번호
+		int endRNum = (startRNum+listCnt) - 1;
+
+		//System.out.println(crtPage+", "+startRNum +", "+endRNum);
+				
+		Map<String, Integer> fMap = new HashMap<String, Integer>();
+		fMap.put("userNo", userNo);
+		fMap.put("startRNum", startRNum);
+		fMap.put("endRNum", endRNum);
+		
+		List<FriendsVo> appliedList = settingDao.selectAppliedList(fMap);
+		
+		///////////////// 페이징 계산 ///////////////////////
+		
+		//페이지당 버튼 갯수
+		int pageBtnCount = 5;
+		
+		//전체 글 갯수
+		int totalCnt = settingDao.selectappliedTotalCnt(userNo);
+		
+		//마지막 버튼 번호
+		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
+								//올림 함수 //(현재 페이지 / 페이지당 버튼 갯수) * 페이지당 버튼 갯수
+		//시작 버튼 번호
+		int startPageBtnNo = (endPageBtnNo - pageBtnCount)+1;
+		
+		//System.out.println(crtPage+", "+startPageBtnNo +", "+endPageBtnNo);
+		
+		//다음 화살표 유무
+		boolean next = false;
+		if(listCnt * endPageBtnNo < totalCnt) {
+			next = true;
+			
+		}else {	//다음 버튼이 없을(false) 때 endPageBtnNo를 다시 계산
+			endPageBtnNo = (int) Math.ceil(totalCnt/(double)listCnt);
+										/* 157/10.0 => 15.7 => 16 */
+		}
+		
+		//이전 화살표 유무
+		boolean prev = false;
+		if(startPageBtnNo != 1) {
+			prev = true;
+		}
+
+		Map<String, Object> friendMap = new HashMap<String, Object>();
+		friendMap.put("startPageBtnNo", startPageBtnNo);
+		friendMap.put("endPageBtnNo", endPageBtnNo);
+		friendMap.put("prev", prev);
+		friendMap.put("next", next);
+		friendMap.put("appliedList", appliedList);
+		
+		return friendMap;
+	}
 	
 	
-	
-	
+	//친구 수락
+	public int acceptFriend(int friendNo, int userNo){
+		System.out.println("SettingService.deleteFriend()");
+		
+		FriendsVo friendsVo = new FriendsVo(friendNo, userNo);
+		
+		int count = settingDao.acceptFriend(friendsVo);
+		
+		return count;
+	}
 	
 }
 

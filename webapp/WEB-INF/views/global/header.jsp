@@ -20,7 +20,7 @@
 		<nav>
 			<ul>
 				<li class="logo">
-					<a><img src="${pageContext.request.contextPath}/assets/images/logo.png"></a>
+					<a href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/assets/images/logo.png"></a>
 				</li>
 				<li>
 					<div class="dropdown">

@@ -171,6 +171,39 @@ public class SettingDao {
 	}
 	
 	
+	//내가 받은 신청
+	public List<FriendsVo> selectAppliedList(Map<String, Integer> fMap) {
+		System.out.println("SettingDao.selectAppliedList()");
+		
+		List<FriendsVo> appliedList = sqlSession.selectList("setting.selectAppliedList", fMap);
+		//System.out.println(friendList);
+		
+		return appliedList;
+	}
+	
+	//내가 받은 신청 전체 갯수
+	public int selectappliedTotalCnt(int userNo) {
+		System.out.println("SettingDao.selectappliedTotalCnt()");
+		 
+		int appliedCount = sqlSession.selectOne("setting.selectappliedTotalCnt", userNo);
+		
+		return appliedCount;
+	}
+	
+	
+	//친구 수락
+	public int acceptFriend(FriendsVo friendsVo) {
+		System.out.println("SettingDao.acceptFriend()");
+
+		int count = sqlSession.update("setting.acceptFriend", friendsVo);
+		
+		return count;
+	}
+	
+	
+	
+	
+	
 }
 
 

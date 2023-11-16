@@ -84,7 +84,7 @@
 				selectedBold 
 			</c:if>
 			">   	
-			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendAppliedForm">내가 받은 신청</a>
+			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendAppliedList?crtPage=1">내가 받은 신청</a>
 		</li>
 		
 		<!-- 친구 신청 한 거 -->	
@@ -93,7 +93,7 @@
 				selectedBold 
 			</c:if>
 			">   	
-			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApplyForm">내가 한 신청</a>
+			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendApplyList?crtPage=1">내가 한 신청</a>
 		</li>
 		
 		<!-- 친구 검색 -->	
@@ -102,7 +102,7 @@
 				selectedBold 
 			</c:if>
 			">   	
-			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearchForm">회원 검색</a>
+			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearchForm?crtPage=1">회원 검색</a>
 		</li>
 		
 		
