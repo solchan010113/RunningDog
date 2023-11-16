@@ -142,4 +142,13 @@ public ShowLogVo selectWalkLog(int walkLogNo) {
 	
 	return sqlSession.selectOne("walkBlog.selectWalkLog", walkLogNo);
 }
+
+
+public void updateTitleContent(ShowLogVo walkLogVo) {
+	
+	System.out.println("dao.updateWalkLog");
+	System.out.println(walkLogVo);
+	sqlSession.update("walkBlog.updateTitleContent", walkLogVo);
+	
+}
 }
