@@ -86,16 +86,7 @@
 						<!-- delete?no=${GuestVo.no} -->
 					</tr>
 		        </c:forEach>
-			
-				<tr>
-					<td><img src="${pageContext.request.contextPath}/assets/images/Yoshi.jpg"></td>
-					<td>닉네임(#회원코드)</td>
-					<td>나이</td>
-					<td>성별</td>
-					<td>서울특별시 강동구 천호동</td>
-					<td><a href="" class="deleteBtn">취소</a></td>
-					<!-- delete?no=${GuestVo.no} -->
-				</tr>
+
 			</table>
 			
 			<div id="paging">
@@ -126,6 +117,58 @@
 	</div>
 	
 </div>
+
+
+
+
+<script type="text/javascript">
+
+//친구 삭제 (ajax)
+$(".deleteBtn").on("click", function(){
+	
+	let $this = $(this);
+	let friendNo = parseInt($this.data("friendno"));
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath}/setting/deleteFriend",
+		type : "post",
+		//보낼 때
+		/* contentType : "application/json", */
+		data : {friendNo: friendNo},
+
+		//받을 때
+		dataType : "text",
+		success : function(count){
+			
+			if(count == "1"){
+				alert("신청 취소");
+				$("#t"+friendNo).remove();
+			}else{
+				alert("취소 실패");
+			}
+
+		},
+     
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+	
+});
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
 
 </body>
 </html>
