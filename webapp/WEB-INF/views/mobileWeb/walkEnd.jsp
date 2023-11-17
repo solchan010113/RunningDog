@@ -18,10 +18,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 	<script src="https://kit.fontawesome.com/109d7bd609.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-	<!-- 맵 이미지저장 -->
-	<!-- <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script> -->	
-	<script src="${pageContext.request.contextPath }/assets/js/html2canvas.js" type="text/javascript"></script>
 	
 </head>
 <body>
@@ -82,7 +78,8 @@
 				    <input type="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
 				    			    
 				</div>
-				<div class="file-list"></div>
+				
+				<div class="file-list"></div>				
 			</div>
 			
 			<!-- 텍스트작성박스 -->
@@ -270,8 +267,8 @@
 	    }
 	    // 초기화
 	    $('input[type=file]').val('');
-	}
-
+	}		  
+    
 	/* 첨부파일 검증 */
 	function validation(obj){
 	    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
@@ -297,6 +294,19 @@
 	    $("#file" + num).remove();
 	    filesArr[num].is_delete = true;
 	}
+	
+	let security; // 변수를 선언    
+ 	// 페이지 로드 시 초기값 설정 (기본적으로 공개로 설정)
+    security = '공개';
+    console.log('초기 security 값:', security);
+    
+    $('#privacyCheckbox').change(function() {
+	    // 체크박스가 체크되었는지 여부에 따라 security 변수에 값을 할당
+	    security = this.checked ? '비공개' : '공개';
+	    // 테스트를 위해 console에 출력
+	    console.log('현재 security 값:', security);
+	});
+
 
 	    
 //----------------------------------------------------------------------
@@ -305,37 +315,51 @@
 
 /* 기록하기버튼 클릭할때 */	    	
 $("#insertBtn").on("click", function(){
-	console.log("기록하기버튼 클릭");
-
-    // 체크박스가 체크되어 있으면 '비공개', 그렇지 않으면 '공개'를 콘솔에 출력
-    let status = this.checked ? '비공개' : '공개';   
-
-	console.log("공개 여부 " + status);		
+	console.log("기록하기버튼 클릭");	
+	//----------텍스트데이타 보내기---------------------------------		
+	/* 1.동네번호 */  // 동네번호 가져오기 보류 
+	/* 2.모임번호 */  // 모임번호 가져오기 보류	
+	/* 산책일지번호,회원번호,제목,작성시간,상태는 컨트롤러 이후 */	
 	
-	//----------------------------------------------------------------
-	
-	//텍스트데이타 보내기
-	/* 시작시간 */
+	/* 3.시작시간 */
 	let startTime = '${moWalkLogVo.startTime}';
-	
-	/* 종료시간 */
+	console.log("시작시간 " + startTime);	
+	/* 4.종료시간 */
 	let endTime = '${moWalkLogVo.endTime}';
-	
-	/* 산책한 강아지번호 리스트 */
+	console.log("종료시간 " + endTime);	
+	/* 5.소요시간 */
+	let logTime = '${moWalkLogVo.logTime}';
+	console.log("소요시간 " + logTime);	
+	/* 6.거리 */
+	let distance = '${moWalkLogVo.distance}';
+	console.log("거리 " + distance);	
+	/* 7.내용 */
+	let content = $(".textBox").val();
+	console.log("내용 " + content);	
+	/* 8.공개여부 */  
+    // 체크박스의 변경을 감지하는 함수    
+    console.log('현재 security 값:', security);
+    
+	/* 9.산책한 강아지번호 리스트 */
 	let dogNoList = "${dogNoList}".split(",");
 	console.log(dogNoList);
 	
-	/* 좌표리스트 */
-	console.log(polylinePath);
+	/* 10.좌표리스트 */
+	console.log(polylinePath);	
 	
+	/* 11.선택한 산책로 정보 */
 	
 	/* 1개로 묶기 */
 	let dataVo = {
 		startTime: startTime,
 		endTime: endTime,
+		logTime: logTime,
+		distance: distance,
+		content: content,
+		security: security,
 		dogNoList: dogNoList,
 		polylinePath: polylinePath
-	}
+	}	
 	
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert2",      
@@ -343,7 +367,7 @@ $("#insertBtn").on("click", function(){
         contentType : "application/json",
         data : JSON.stringify(dataVo), 
         
-        async: false,
+        async: false, // ajax 동기화
         dataType : "json",
         success : function(moWalkLogVo){
         	/*성공시 처리해야될 코드 작성*/
@@ -354,57 +378,24 @@ $("#insertBtn").on("click", function(){
         	//이미지전송 ajax
            	/*캡쳐하기 */
            	
-           	
-        	let captureHtml = $(".map")[0];
-        	html2canvas(captureHtml).then(function(canvas){
-        		canvas.toBlob(function(blob){
-        			let formData = new FormData();
-             		formData.append('walkLogNo', moWalkLogVo.walkLogNo);
-             		formData.append('mapImg', blob, 'mapImg.png');
-             		
-             		//------------------------------------
-             		
-					// 사진첨부파일들 담기
-				    let form = $(".fileForm")[0];
-				    let formData2 = new FormData(form);
-				    for (let i = 0; i < filesArr.length; i++) {
-				        // 삭제되지 않은 파일만 폼데이터에 담기
-				        if (!filesArr[i].is_delete) {
-				            formData.append("attach_file", filesArr[i]);
-				        }
-				    }
-					
-					//------------------------------------
-             		
-             		$.ajax({
-    					url : "${pageContext.request.contextPath}/m/walkInsert3",      
-    			        type : "post",
-    		            /* contentType : "application/json", */
-    		            data : formData, 
-    		            	   formData2,
-    		            processData: false,
-    		            contentType: false,
-    		            //------------------
-    		            async: true,
-    			        timeout: 30000,
-    			        cache: false,
-    			        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-    		            //------------------
-    		            dataType : "json",
-    		            success : function(result){
-    		               /*성공시 처리해야될 코드 작성*/
-    		               console.log(result);
-    		            
-    		            },
-    		            error : function(XHR, status, error) {
-    		               console.error(status + " : " + error);
-    		            }
-    		        });
-        		});
-        	});
+           	//------------------------------------
+            console.log(filesArr);	
         	
-        	//////////////////////////////
-        	
+			// 사진첨부파일들 담기
+		    let form = $(".fileForm")[0];
+		    console.log("첨부된 파일들 "+ form);
+			
+		    let formData2 = new FormData(form);
+		    console.log("첨부된 파일들 "+ formData2);
+		    
+		    for (let i = 0; i < filesArr.length; i++) {
+		        // 삭제되지 않은 파일만 폼데이터에 담기
+		        if (!filesArr[i].is_delete) {
+		            formData2.append("images", filesArr[i]);
+		        }
+		    }
+		    console.log("첨부된 파일들 "+ formData2);
+		    
         },/* success */
         error : function(XHR, status, error) {
            console.error(status + " : " + error);

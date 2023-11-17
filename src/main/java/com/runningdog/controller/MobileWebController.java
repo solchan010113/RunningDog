@@ -57,13 +57,7 @@ public class MobileWebController {
 	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("모바일 로그인");
 		// 로그인 후 세션에 삽입
-
-		System.out.println(userVo);
-
 		UserVo authUser = userService.selectOneUser(userVo);
-
-		System.out.println(authUser);
-
 		if (authUser != null) {
 			session.setAttribute("authUser", authUser);
 			return "redirect:map";
@@ -77,7 +71,6 @@ public class MobileWebController {
 	public String map(HttpSession session, Model dogModel) {
 		System.out.println("모바일 산책창");
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		System.out.println(authUser);
 		// 강아지정보 불러오기
 		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getUserNo());
 
@@ -150,7 +143,7 @@ public class MobileWebController {
 		return "mobileWeb/walkEnd"; // wif 페이지로 이동
 	}
 
-	// 기록하기
+	// 기록하기 (나중에 삭제)
 	@RequestMapping("/walkInsert")
 	public String walkInsert(@ModelAttribute MoWalkLogVo moWalkLogVo, HttpSession session, // 산책기록,세션
 			@RequestParam(name = "line") String lineData, // 좌표리스트 문자열
@@ -190,17 +183,33 @@ public class MobileWebController {
 		return "redirect:map";
 	}
 
-	// 텍스트기록하기
+	// 텍스트기록하기 (이거 사용)
 	@ResponseBody
 	@RequestMapping("/walkInsert2")
-	public MoWalkLogVo walkInsert2(@RequestBody MoWalkLogVo moWalkLogVo) {
-		System.out.println("walkInsert2");
-
+	public MoWalkLogVo walkInsert2(@RequestBody MoWalkLogVo moWalkLogVo, HttpSession session) {
+		System.out.println("산책기록하기 walkInsert2");
+		
 		System.out.println(moWalkLogVo);
 		System.out.println(moWalkLogVo.getPolylinePath().size());
-
-		moWalkLogVo.setWalkLogNo(34);
-
+		// 세션에서 유저정보 가져오기
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authUser);
+		// 유저번호 산책Vo에 세팅
+		moWalkLogVo.setUserNo(authUser.getUserNo());
+		System.out.println("기록된 정보 " + moWalkLogVo);
+		int walkLogNo = moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환
+		
+		System.out.println("셀렉트키가 포함된 산책기록 : "+moWalkLogVo);	
+		System.out.println("셀렉트키 : "+walkLogNo);	
+		
+		// 셀렉트키 가져오기 완료
+		
+		// 산책한 강아지 리스트 저장
+		
+		// 좌표리스트 넣어서 저장
+		
+		// 첨부이미지들 넣어서 저장		
+		
 		return moWalkLogVo;
 	}
 
@@ -210,10 +219,13 @@ public class MobileWebController {
 			                  @ModelAttribute List<MoImagesVo> moImagesVo){ 
 		System.out.println("walkInsert3");
 		
-		System.out.println(moWalkLogVo.getMapImg().getOriginalFilename());
+		System.out.println("맵캡쳐이미지 "+moWalkLogVo.getMapImg().getOriginalFilename());
 		
-		System.out.println(moImagesVo.get(0).getImages().getOriginalFilename());
-		System.out.println(moImagesVo.get(1).getImages().getOriginalFilename());
+		
+		System.out.println("첨부이미지리스트 "+moImagesVo);
+		
+		System.out.println("첨부이미지1 "+moImagesVo.get(0).getImages().getOriginalFilename());
+		System.out.println("첨부이미지2 "+moImagesVo.get(1).getImages().getOriginalFilename());
 		
 		
 		
@@ -251,10 +263,18 @@ public class MobileWebController {
 		
 		 return "";
 	}	
+//------------------------------------------------------------------------------------------
+	// 텍스트기록하기
+		@RequestMapping("/walkMap")
+		public String walkMap() {			
+			System.out.println("walkMap");
+			
+			
+			
+		return "mobileWeb/walkMap";
+		}
 	
-	
-	
-	
+//------------------------------------------------------------------------------------------	
 	
 	/*
 	 * // 산책기록 보내기
