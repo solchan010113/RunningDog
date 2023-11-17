@@ -78,7 +78,7 @@
 					    <label for="fileInput">
 					        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
 					    </label>
-					    <input type="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
+					    <input type="file" name="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
 					    			    
 					</div>
 					
@@ -364,12 +364,7 @@ $("#insertBtn").on("click", function(){
 		dogNoList: dogNoList,
 		polylinePath: polylinePath
 	}	
-	
-	// Form 데이터 가져오기
-    var form = $('#form')[0];
-    var formData = new FormData(form);  
-    // dataVo를 JSON 문자열로 변환하여 FormData 객체에 추가
-    formData.append("dataVo", JSON.stringify(dataVo));
+	    
     
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert2",      
@@ -382,6 +377,16 @@ $("#insertBtn").on("click", function(){
         success : function(moWalkLogVo){
         	/*성공시 처리해야될 코드 작성*/
 			console.log(moWalkLogVo.walkLogNo);        	
+			console.log("파일 저장 중......");
+        	
+        	
+        	
+        	//ajax 첨부파일 저장
+        	//for
+        	//url  ---> 청부파 1개씩 일받아서저장 해주는 일...
+        	
+        	
+        	
         	
            	/* //------------------------------------
             console.log(filesArr);	
@@ -408,6 +413,8 @@ $("#insertBtn").on("click", function(){
         }
 	}); /* ajax */
 
+    
+    
 });/*//기록하기버튼 클릭할때 */
 	
 

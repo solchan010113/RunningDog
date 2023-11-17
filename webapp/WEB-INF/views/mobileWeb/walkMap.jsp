@@ -12,8 +12,8 @@
 
 	<style>
 		#map {
-			width: 800px;
-			height: 400px;
+			width: 745px;
+			height: 380px;
 		}
 	</style>
 
@@ -37,6 +37,7 @@
 
 	// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱
     var jsonString = '${lineList}'; // JSON 형식의 문자열
+    	    	
 	var lineList = JSON.parse(jsonString);
     
     // lineList의 각 항목을 polylinePath 배열에 추가

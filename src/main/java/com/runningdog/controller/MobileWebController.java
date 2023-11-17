@@ -36,8 +36,6 @@ import com.runningdog.vo.MoImagesVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UserVo;
-import com.runningdog.vo.WalkedDogVo;
-import com.runningdog.vo.XYVo;
 
 @Controller
 @RequestMapping("/m")
@@ -194,51 +192,30 @@ public class MobileWebController {
 		System.out.println("산책기록하기 walkInsert2");		
 		// 세션에서 유저정보 가져오기
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
 		// 유저번호 산책Vo에 세팅
 		moWalkLogVo.setUserNo(authUser.getUserNo());		
-		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환		
-		System.out.println("셀렉트키가 포함된 산책기록 : "+moWalkLogVo);	
-		System.out.println("셀렉트키 : "+ moWalkLogVo.getWalkLogNo());		
+		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환	
 		
-		// 산책한 강아지 리스트 저장 ------------------------------------------------------
-		System.out.println("강아지리스트 : "+moWalkLogVo.getDogNoList());
-		for (Integer dogNo : moWalkLogVo.getDogNoList()) {
-            MoDogVo moDogVo = new MoDogVo();
-            moDogVo.setDogNo(dogNo);
-            System.out.println("개번호확인 : "+ moDogVo);	
-            // 한땀한땀 뜯어낸 강아지번호값을 DB로 보내서 저장하기 
-        }
 		
-		// 좌표리스트 넣어서 저장 ------------------------------------------------------
-		System.out.println("좌표리스트 : "+moWalkLogVo.getPolylinePath());	
-        // XYVo 리스트를 순회하면서 CoordsVo로 변환 후 리스트에 추가
-		// coordOrder 변수를 1부터 시작
-        int coordOrder = 1;
-        
-        for (XYVo xyVo : moWalkLogVo.getPolylinePath()) {
-            CoordsVo coordsVo = new CoordsVo();
-            coordsVo.setLat(xyVo.getY());  // XYVo의 Y값을 CoordsVo의 lat으로 설정
-            coordsVo.setLng(xyVo.getX());  // XYVo의 X값을 CoordsVo의 lng으로 설정
-            coordsVo.setCoordOrder(coordOrder);
-            // 리스트에 추가
-            // coordOrder를 1씩 증가
-            coordOrder++;
-            System.out.println("좌표확인 : "+ coordsVo);	
-            // 한땀한땀 뜯어낸 좌표값을 DB로 보내서 저장하기     
-        }        
 		// 첨부이미지들 넣어서 저장	 ------------------------------------------------------
-        
-        
-        //return "mobileWeb/walkMap";         
+        //return "mobileWeb/walkMap";       
         
 		return moWalkLogVo;
 	}
+	
+	
+	
+	
 
 	// 이미지저장기록하기
 	@RequestMapping( "/walkInsert3")
 	public String walkInsert3(@ModelAttribute MoWalkLogVo moWalkLogVo,
 			                  @ModelAttribute List<MoImagesVo> moImagesVo){ 
-		System.out.println("walkInsert3");
+		//System.out.println("walkInsert3");
+		//파일+workLisgNo
+		//파일1개 저장...
+		
 		
 		System.out.println("맵캡쳐이미지 "+moWalkLogVo.getMapImg().getOriginalFilename());
 		
@@ -287,10 +264,28 @@ public class MobileWebController {
 //------------------------------------------------------------------------------------------
 	// 맵 캡쳐하는 페이지
 	@RequestMapping("/walkMap")
-	public String walkMap() {			
-		System.out.println("walkMap");
+	public String walkMap(@RequestParam(name = "walkLogNo") int walkLogNo, Model model) {			
+		System.out.println("walkMap");	
 		
+		System.out.println(walkLogNo);
 		
+		List<CoordsVo> coordList = moWebService.mapSelect(walkLogNo);
+		
+		// CoordsVo를 JSON 문자열로 변환하여 모델에 추가
+        StringBuilder jsonBuilder = new StringBuilder("[");
+        for (CoordsVo coordVo : coordList) {
+            if (jsonBuilder.length() > 1) {
+                jsonBuilder.append(",");
+            }
+            jsonBuilder.append("{\"lat\":").append(coordVo.getLat()).append(",\"lng\":").append(coordVo.getLng()).append("}");
+        }
+        jsonBuilder.append("]");
+
+        System.out.println(jsonBuilder.toString());
+
+        model.addAttribute("lineList", jsonBuilder.toString());	
+        
+        
 		
 	return "mobileWeb/walkMap";
 	}

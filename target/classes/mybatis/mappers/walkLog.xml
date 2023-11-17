@@ -64,7 +64,7 @@
    
    
    <!-- 산책강아지 저장하기 -->
-   <insert id="walkedDogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >
+   <insert id="walkedDogInsert"  parameterType="com.runningdog.vo.MoWalkedDogVo" >
       <![CDATA[
          INSERT INTO walkedDog
 		 VALUES (seq_walkeddog_no.nextVal,
@@ -81,12 +81,28 @@
 		 VALUES (seq_coords_no.NEXTVAL,
 		         #{coordOrder},
 		         'walkLog',
-		         #{selectKey},
+		         #{useNo},
 		         #{lng},
 		         #{lat}
-		         );
+		         )
       ]]>
    </insert>
+   
+   <!-- 좌표값 가져오기 (캡쳐용) -->   
+   <select id="mapSelect"  parameterType="int" resultType="com.runningdog.vo.CoordsVo">
+      <![CDATA[
+        SELECT  coordorder
+		        ,lat
+		        ,lng
+		FROM coords
+		where type = 'walkLog' 
+		and useno = #{walkLogNo} 
+		ORDER BY coordorder asc
+      ]]>
+   </select>
+   
+   
+   
    
      
    <!-- 산책로 가져오기 -->   
