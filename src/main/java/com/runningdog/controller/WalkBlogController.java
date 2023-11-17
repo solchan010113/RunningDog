@@ -7,11 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.runningdog.service.WalkBlogService;
 import com.runningdog.vo.BlogInfoVo;
@@ -98,6 +100,46 @@ public class WalkBlogController {
 	    return "walkBlog/walkLogDetail"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
 	}
 	
+	@RequestMapping(value = "/{code}/{walkLogNo}/modifyForm", method = RequestMethod.GET)
+	public String showModifyForm(
+	    @PathVariable(value = "code") String code,
+	    @PathVariable(value = "walkLogNo") int walkLogNo,
+	    Model model, Model model2,
+	    HttpSession session
+	) {
+		System.out.println("modifyForm");
+		
+	    // 필요한 정보 가져오기
+	    UserVo authuser = (UserVo) session.getAttribute("authUser");
+	    int authUserNo = (authuser != null) ? authuser.getUserNo() : 0;
+
+	    BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(code, authUserNo);
+	    model.addAttribute("blogInfoVo", blogInfoVo);
+
+	    // 선택한 WalkLog에 대한 정보를 추가
+	    ShowLogVo walkLog = walkBlogService.getWalkLogByNo(walkLogNo);
+	    model2.addAttribute("walkLog", walkLog);
+
+	    return "walkBlog/walkLogModifyForm";
+	}
+	
+	@RequestMapping(value="/{code}/{walkLogNo}/modify", method= {RequestMethod.GET, RequestMethod.POST})
+	public String modify(@PathVariable(value = "code") String code, @PathVariable(value = "walkLogNo") int walkLogNo,  @ModelAttribute ShowLogVo walkLogVo) {
+		
+		System.out.println("WalkBLogController.modify()");
+		
+		
+		walkBlogService.updateWalkLog(walkLogVo);
+		
+		
+		
+		return "redirect:/walkBlog/" + code +"/" +walkLogNo;
+		
+		
+	}
+	
+	
+	
 	
 
 	@RequestMapping(value = "detail")
@@ -161,6 +203,7 @@ public class WalkBlogController {
 
 	    return result;
 	}
+	
 	
 
 }

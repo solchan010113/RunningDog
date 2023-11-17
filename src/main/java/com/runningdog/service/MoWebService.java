@@ -33,9 +33,7 @@ public class MoWebService {
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("서비스 산책기록하기");
-		
-		moWebDao.walkLogInsert(moWalkLogVo);		
-		
+		moWebDao.walkLogInsert(moWalkLogVo);			
 	}
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)

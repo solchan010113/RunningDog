@@ -283,3 +283,16 @@
 	    background-color: rgb(114, 114, 114);
 	}
 	
+	/* 첨부파일 */
+	.file-list .filebox p {
+	    font-size: 14px;
+	    margin-top: 10px;
+	    display: inline-block;
+	}
+	.file-list .filebox .delete i{
+	    color: #ff5353;
+	    margin-left: 5px;
+	}
+	
+	
+	
