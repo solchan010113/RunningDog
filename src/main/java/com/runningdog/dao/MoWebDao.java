@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.runningdog.vo.MoDogVo;
@@ -34,17 +33,16 @@ public class MoWebDao {
 	}
 	
 	// (3) 산책기록하기
-	public int walkLogInsert(MoWalkLogVo moWalkLogVo){
+	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("다오 산책기록하기");
 		moWalkLogVo.setLocationNo(1174010900); // 동네번호
 		moWalkLogVo.setMeetingNo(0); // 모임번호
-		moWalkLogVo.setStatus('T');		
+		moWalkLogVo.setStatus('T');	
+		moWalkLogVo.setStartTime("2023-11-17 11:31");
+		moWalkLogVo.setEndTime("2023-11-17 11:45");
 			
-		System.out.println("셀렉트키 " + moWalkLogVo);	              
-	   int result = sqlSession.insert("walkLog.walkLogInsert", moWalkLogVo);
-	   // 생성된 키값 얻기
-	   int walkLogNo = moWalkLogVo.getWalkLogNo();
-	   return walkLogNo;
+		System.out.println("셀렉트키 받기 전 " + moWalkLogVo);	              
+		sqlSession.insert("walkLog.walkLogInsert", moWalkLogVo);
 	}
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)

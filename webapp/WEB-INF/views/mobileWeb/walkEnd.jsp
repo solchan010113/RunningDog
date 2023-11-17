@@ -71,15 +71,19 @@
 			
 			<!-- 파일첨부 버튼 -->
 			<div class="fileForm">
-				<div class="pictures">
-				    <label for="fileInput">
-				        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
-				    </label>
-				    <input type="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
-				    			    
-				</div>
-				
-				<div class="file-list"></div>				
+			
+				<form id="form" class="form-horizontal" role="form" method="post"
+					  enctype="multipart/form-data" action="${pageContext.request.contextPath}/m//walkInsert2">
+					<div class="pictures">
+					    <label for="fileInput">
+					        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
+					    </label>
+					    <input type="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
+					    			    
+					</div>
+					
+					<div class="file-list"></div>	
+				</form>			
 			</div>
 			
 			<!-- 텍스트작성박스 -->
@@ -361,40 +365,42 @@ $("#insertBtn").on("click", function(){
 		polylinePath: polylinePath
 	}	
 	
+	// Form 데이터 가져오기
+    var form = $('#form')[0];
+    var formData = new FormData(form);  
+    // dataVo를 JSON 문자열로 변환하여 FormData 객체에 추가
+    formData.append("dataVo", JSON.stringify(dataVo));
+    
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert2",      
         type : "post",
         contentType : "application/json",
-        data : JSON.stringify(dataVo), 
-        
+        data : JSON.stringify(dataVo),
+       
         async: false, // ajax 동기화
         dataType : "json",
         success : function(moWalkLogVo){
         	/*성공시 처리해야될 코드 작성*/
-			console.log(moWalkLogVo.walkLogNo);
+			console.log(moWalkLogVo.walkLogNo);        	
         	
-        	//////////////////////////
-        	
-        	//이미지전송 ajax
-           	/*캡쳐하기 */
-           	
-           	//------------------------------------
+           	/* //------------------------------------
             console.log(filesArr);	
         	
 			// 사진첨부파일들 담기
 		    let form = $(".fileForm")[0];
 		    console.log("첨부된 파일들 "+ form);
 			
-		    let formData2 = new FormData(form);
-		    console.log("첨부된 파일들 "+ formData2);
+		    let formData = new FormData(form);
+		    console.log("첨부된 파일들 "+ formData);
 		    
 		    for (let i = 0; i < filesArr.length; i++) {
 		        // 삭제되지 않은 파일만 폼데이터에 담기
 		        if (!filesArr[i].is_delete) {
-		            formData2.append("images", filesArr[i]);
+		            formDat2.append("images", filesArr[i]);
 		        }
 		    }
-		    console.log("첨부된 파일들 "+ formData2);
+		    console.log("첨부된 파일들 "+ formData);
+		    console.log("첨부된 파일들 "+ filesArr); */
 		    
         },/* success */
         error : function(XHR, status, error) {

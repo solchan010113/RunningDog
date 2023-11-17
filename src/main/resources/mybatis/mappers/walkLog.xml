@@ -37,8 +37,7 @@
    
    
    <!-- 산책기록 저장하기 -->
-   <insert id="walkLogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" 
-   		   useGeneratedKeys="true" keyProperty="walkLogNo" >
+   <insert id="walkLogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >
 		<selectKey resultType="int" keyProperty="walkLogNo" order="BEFORE">
 			<![CDATA[
 				SELECT seq_walkdog_no.nextVal FROM dual    
@@ -61,8 +60,7 @@
 			         #{status}
 			         )
       ]]>
-   </insert>
-   
+   </insert>   
    
    
    <!-- 산책강아지 저장하기 -->
