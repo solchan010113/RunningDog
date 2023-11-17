@@ -1,8 +1,16 @@
 package com.runningdog.service;
 
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +21,6 @@ import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
 import com.runningdog.vo.UseTrailVo;
-import com.runningdog.vo.WalkedDogVo;
 import com.runningdog.vo.XYVo;
 
 @Service	
@@ -76,7 +83,10 @@ public class MoWebService {
         }       
 		
 		//캡쳐이미지
+        //리턴되는게 파일 경로+이름
+        mapImgSave(walkLogNo);
         
+        //캡쳐이미지 정보(경로   , walkLogNo)   
 		
 		//첨부파일처리X
 		
@@ -94,5 +104,38 @@ public class MoWebService {
 		return moWebDao.trailSelect(locationNo);					
 	}
 	
+	
+	
+	/* 셀레리움으로 화면캡쳐하기 */
+	private String mapImgSave(int walkLogNo) {
+		// Set the path of the chromedriver executable
+		String path = System.getProperty("user.dir");
+        System.out.println("현재 작업 경로: " + path);
+
+		
+        System.setProperty("webdriver.chrome.driver", "C:\\javaStudy\\RunningDog\\webapp\\assets\\driver\\chromedriver.exe");
+
+        // Create a new instance of the Chrome driver
+        WebDriver driver = new ChromeDriver();
+
+        // Go to the webpage that you want to capture
+        driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo);
+        driver.manage().window().setSize(new Dimension(745+16, 380+140));
+ 
+        String savePath = null;
+        try {
+            // 캡쳐 코드
+        	savePath = "C:\\javaStudy\\upload\\mapImg\\" + System.currentTimeMillis()+UUID.randomUUID().toString()+".jpg";
+            File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(srcFile, new File(savePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Close the browser
+        //driver.quit();
+      
+		return savePath;
+	}
 
 }
