@@ -37,7 +37,7 @@
 				<div class="profileWrapper">
 					<div class="wrap">
 						<div class="profileImg">
-							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+							<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.userSavename}" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
 						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
@@ -59,22 +59,13 @@
 					<div class="mainDogCard">
 						<div class="coworkingDog">산책 파트너</div>
 						<div class="maindogCardBox">
+							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
 							<div class="mainDogCard1">
-								<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-								<div class="mainDogCardName">마루</div>
+								<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
+								<div class="mainDogCardName">${blogDogVo.name}</div>
 							</div>
-							<div class="mainDogCard2">
-								<img src="${pageContext.request.contextPath}/assets/images/리트리버.png" alt="">
-								<div class="mainDogCardName">리트리버</div>
-							</div>
-							<div class="mainDogCard3">
-								<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-								<div class="mainDogCardName">도지</div>
-							</div>
-							<div class="mainDogCard4">
-								<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-								<div class="mainDogCardName">연탄</div>
-							</div>
+							
+							</c:forEach>
 						</div>
 
 
