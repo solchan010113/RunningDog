@@ -102,7 +102,7 @@
 				selectedBold 
 			</c:if>
 			">   	
-			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/friendSearchForm?crtPage=1">회원 검색</a>
+			<a class="setting_sub" href="${pageContext.request.contextPath}/setting/userSearch?crtPage=0">친구 신청</a>
 		</li>
 		
 		

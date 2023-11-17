@@ -30,7 +30,7 @@
 		
 		<div class="listBox">
 		
-			<form action="${pageContext.request.contextPath}/setting/friendList" method="post" id="searchUser">
+			<form action="${pageContext.request.contextPath}/setting/friendList?crtPage=1" method="post" id="searchUser">
 				<div class="searchBox">
 					<select name="what" id="searchUser">
 						<option value="name">닉네임</option>
@@ -100,24 +100,25 @@
 			<div id="paging">
 				<ul>
 					<c:if test="${friendMap.prev}">
-						<li><a href="${pageContext.request.contextPath}/setting/friendList?crtPage=${friendMap.startPageBtnNo-1}">◀</a></li>
+						<li><a href="${pageContext.request.contextPath}/setting/friendList?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${friendMap.startPageBtnNo-1}">◀</a></li>
 					</c:if>
 					
 					<c:forEach begin="${friendMap.startPageBtnNo}" end="${friendMap.endPageBtnNo}" step="1" var="page">
 						<c:choose>
 							<c:when test="${param.crtPage == page}">
-								<li class="active"><a href="${pageContext.request.contextPath}/setting/friendList?crtPage=${page}">${page}</a></li>										
+								<li class="active"><a href="${pageContext.request.contextPath}/setting/friendList?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${page}">${page}</a></li>										
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath}/setting/friendList?crtPage=${page}">${page}</a></li>
+								<li><a href="${pageContext.request.contextPath}/setting/friendList?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 						
 					</c:forEach>
 					
 					<c:if test="${friendMap.next}">
-						<li><a href="${pageContext.request.contextPath}/setting/friendList?crtPage=${friendMap.endPageBtnNo+1}">▶</a></li>
+						<li><a href="${pageContext.request.contextPath}/setting/friendList?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${friendMap.endPageBtnNo+1}">▶</a></li>
 					</c:if>
+
 				</ul>
 			</div>
 			

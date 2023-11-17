@@ -20,7 +20,7 @@
 	<jsp:include page="sideBar.jsp"></jsp:include>
 	
 	
-	<form action="" id="profile">
+	<form action="${pageContext.request.contextPath}/setting/resign" id="profile">
 	
 		<div class="firstElement">
 			<h1>회원탈퇴</h1>
@@ -30,14 +30,14 @@
 		<div class="warningBox">
 			<div class="warning">
 				<span>* 사용 중인 아이디는 탈퇴 후 재사용 및 복구가 불가능합니다.</span>
-				<span>* 패밀리가 등록되어 있을 경우 탈퇴가 불가능합니다.</span>
+				<span>* 친구가 있을 경우 자동으로 해제됩니다.</span>
 				<span class="lastSpan">회원탈퇴를 위해 비밀번호를 입력해주세요.</span>
 			</div>
 		</div>
 		<div class="noBottomStyle">
 			<div class="resignLabel selectedBold">아이디</div>
-			<div>test1234</div>
-			<input type="hidden" name="id" value="아이디 불러오기">
+			<div>${requestScope.selectUser.id}</div>
+			<input type="hidden" name="id" value="${requestScope.selectUser.id}">
 		</div>	
 		<div>
 			<div class="resignLabel selectedBold">비밀번호</div>

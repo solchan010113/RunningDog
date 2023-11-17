@@ -274,7 +274,7 @@ public class SettingController {
 	
 	//내가 받은 신청
 	@RequestMapping(value="/friendAppliedList", method={RequestMethod.GET, RequestMethod.POST})
-	public String appliedList(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+	public String friendAppliedList(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
 			 				  HttpSession session, Model model){
 		System.out.println("SettingController.appliedList()");
 		
@@ -311,7 +311,7 @@ public class SettingController {
 	
 	//내가 한 신청
 	@RequestMapping(value="/friendApplyList", method={RequestMethod.GET, RequestMethod.POST})
-	public String applyList(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+	public String friendApplyList(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
 			 				  HttpSession session, Model model){
 		System.out.println("SettingController.friendApplyList()");
 		
@@ -330,10 +330,32 @@ public class SettingController {
 	}
 	
 	
-	//회원 검색
-	@RequestMapping("/friendSearchForm")
-	public String friendSearch(Model model){
+	//회원 검색 폼
+	@RequestMapping(value="/userSearch", method={RequestMethod.GET, RequestMethod.POST})
+	public String friendSearchForm(HttpSession session, Model model){
+		System.out.println("SettingController.friendSearchForm()");
+
+		//사이드 바 색칠용
+		model.addAttribute("crtMenu", "fs");
 		
+		return "setting/friendSearchForm";
+	}
+	
+	//회원 검색 기능
+	@RequestMapping(value="/friendSearchForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String userSearch(@RequestParam(value="what", required=false, defaultValue="") String what,
+								   @RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+								   @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+			 				       HttpSession session, Model model){
+		System.out.println("SettingController.userSearch()");
+		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+	
+		Map<String, Object> friendMap = settingService.selectUserList(userNo, what, keyword, crtPage);
+		//System.out.println(friendList);
+		model.addAttribute("friendMap", friendMap);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "fs");
@@ -341,18 +363,62 @@ public class SettingController {
 		return "setting/friendSearchForm";
 	}
 	
+	//친구 수락
+	@ResponseBody
+	@RequestMapping(value="/insertFriend", method={RequestMethod.GET, RequestMethod.POST})
+	public int insertFriend(@RequestParam(value="userNo") int userNo,
+			 				HttpSession session){
+		System.out.println("SettingController.insertFriend()");
 
-	
-	//회원 탈퇴
-	@RequestMapping("/resignForm")
-	public String resign(Model model){
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int authUserNo = authUser.getUserNo();
 		
+		int count = settingService.insertFriend(userNo, authUserNo);
+		
+		return count;
+	}
+	
+
+//////////////////////
+/*    탈퇴    */
+//////////////////////
+	
+	//회원 탈퇴 폼
+	@RequestMapping(value="/resignForm", method={RequestMethod.GET, RequestMethod.POST})
+	public String resignForm(HttpSession session, Model model){
+		System.out.println("SettingController.resignForm()");
+
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		//그걸로 db 검색
+		UserVo selectUser = settingService.selectUser(userNo);
+		//System.out.println(selectUser);
+		
+		model.addAttribute("selectUser", selectUser);
 		
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "r");
 		
 		return "setting/resignForm";
 	}
+	
+	//회원 탈퇴 기능
+	@RequestMapping(value="/resign", method={RequestMethod.GET, RequestMethod.POST})
+	public String resign(HttpSession session, @ModelAttribute UserVo userVo){
+		System.out.println("SettingController.resign()");
+
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		settingService.resign(userNo, userVo);
+		
+		return "redirect:/loginForm";
+	}
+	
 	
 }
 

@@ -310,7 +310,9 @@ public class SettingService {
 	
 	
 	
-/*	 친구		*/
+//////////////////////
+/*    친구    */
+//////////////////////
 	
 	//친구 리스트
 	public Map<String, Object> selectFriendList(int userNo, String what, String keyword, int crtPage){
@@ -358,7 +360,7 @@ public class SettingService {
 		int pageBtnCount = 5;
 		
 		//전체 글 갯수
-		int totalCnt = settingDao.selectTotalCnt(userNo);
+		int totalCnt = settingDao.selectTotalCnt(pageMap);
 		
 		//마지막 버튼 번호
 		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
@@ -399,6 +401,8 @@ public class SettingService {
 		friendMap.put("endPageBtnNo", endPageBtnNo);
 		friendMap.put("prev", prev);
 		friendMap.put("next", next);
+		friendMap.put("keyword", keyword);
+		friendMap.put("what", what);
 		friendMap.put("friendList", friendList);
 		
 		return friendMap;
@@ -503,7 +507,7 @@ public class SettingService {
 		//////////////// 리스트 //////////////////
 		
 		//페이지당 글 갯수
-		int listCnt = 2;	//한 페이지에 출력되는 글 갯수
+		int listCnt = 5;	//한 페이지에 출력되는 글 갯수
 		
 		//현제 페이지	crtPage 파라미터 받는다
 		//int crtPage = 1;
@@ -527,7 +531,7 @@ public class SettingService {
 		///////////////// 페이징 계산 ///////////////////////
 		
 		//페이지당 버튼 갯수
-		int pageBtnCount = 2;
+		int pageBtnCount = 5;
 		
 		//전체 글 갯수
 		int totalCnt = settingDao.selectApplyTotalCnt(userNo);
@@ -567,14 +571,124 @@ public class SettingService {
 	}
 	
 	
+	//유저 검색
+	public Map<String, Object> selectUserList(int userNo, String what, String keyword, int crtPage){
+		System.out.println("SettingService.selectUserList()");
+		
+		///////////////// 리스트 가져오기 ///////////////////////
+				
+		//페이지당 글 갯수
+		int listCnt = 5;	//한 페이지에 출력되는 글 갯수
+		
+		//현제 페이지	crtPage 파라미터 받는다
+		//int crtPage = 1;
+		crtPage = (crtPage>0) ? crtPage : (crtPage = 1);
+		
+		//시작 글 번호
+		int startRNum = (crtPage-1)*listCnt + 1;
+		
+		//끝 글 번호
+		int endRNum = (startRNum+listCnt) - 1;
+
+		//System.out.println(crtPage+", "+startRNum +", "+endRNum);
+				
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("keyword", keyword);
+		pageMap.put("what", what);
+		pageMap.put("userNo", userNo);
+		pageMap.put("startRNum", startRNum);
+		pageMap.put("endRNum", endRNum);
+		
+		List<FriendsVo> userList = settingDao.selectUserList(pageMap);
+		
+		///////////////// 페이징 계산 ///////////////////////
+		
+		//페이지당 버튼 갯수
+		int pageBtnCount = 5;
+		
+		//전체 글 갯수
+		int totalCnt = settingDao.selectUserTotalCnt(pageMap);
+		
+		//마지막 버튼 번호
+		int endPageBtnNo = (int) Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount;
+								//올림 함수 //(현재 페이지 / 페이지당 버튼 갯수) * 페이지당 버튼 갯수
+		//시작 버튼 번호
+		int startPageBtnNo = (endPageBtnNo - pageBtnCount)+1;
+		
+		//System.out.println(crtPage+", "+startPageBtnNo +", "+endPageBtnNo);
+		
+		//다음 화살표 유무
+		boolean next = false;
+		if(listCnt * endPageBtnNo < totalCnt) {
+			next = true;
+			
+		}else {	//다음 버튼이 없을(false) 때 endPageBtnNo를 다시 계산
+			endPageBtnNo = (int) Math.ceil(totalCnt/(double)listCnt);
+										/* 157/10.0 => 15.7 => 16 */
+		}
+		
+		//이전 화살표 유무
+		boolean prev = false;
+		if(startPageBtnNo != 1) {
+			prev = true;
+		}
+
+		Map<String, Object> friendMap = new HashMap<String, Object>();
+		friendMap.put("startPageBtnNo", startPageBtnNo);
+		friendMap.put("endPageBtnNo", endPageBtnNo);
+		friendMap.put("prev", prev);
+		friendMap.put("next", next);
+		friendMap.put("keyword", keyword);
+		friendMap.put("what", what);
+		friendMap.put("userList", userList);
+		
+		return friendMap;
+	}
 	
 	
+	//친구 신청
+	public int insertFriend(int userNo, int authUserNo) {
+		System.out.println("SettingService.selectUser()");
+		
+		FriendsVo fVo = new FriendsVo();
+		fVo.setAppliedUserNo(userNo);
+		fVo.setApplyUserNo(authUserNo);
+		
+		//이미 있는 신청인지 확인
+		int count = settingDao.selectRequest(fVo);
+		
+		//결과 반환용
+		int icount = 0;
+				
+		if(count == 0) {
+			icount = settingDao.insertFriend(fVo);
+			
+			return icount;
+		}else {
+			
+			return icount;
+		}
+	}
 	
+	//친구 신청
+		public int resign(int userNo, UserVo userVo) {
+			System.out.println("SettingService.resign()");
 	
-	
-	
-	
-	
+			userVo.setUserNo(userNo);
+			
+			int count = settingDao.resign(userVo);
+			int icount = 0;
+			
+			if(count == 1) {
+				icount = settingDao.resignf(userNo);
+				
+				return icount;
+			}else {
+				
+				return icount;
+			}
+		}
+		
 }
 
 

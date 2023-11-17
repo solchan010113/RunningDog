@@ -144,10 +144,10 @@ public class SettingDao {
 	}
 	
 	//친구 목록 전체 갯수
-	public int selectTotalCnt(int userNo) {
+	public int selectTotalCnt(Map<String, Object> pageMap) {
 		System.out.println("SettingDao.selectTotalCnt()");
 		 
-		int totalCount = sqlSession.selectOne("setting.selectTotalCnt", userNo);
+		int totalCount = sqlSession.selectOne("setting.selectTotalCnt", pageMap);
 		
 		return totalCount;
 	}
@@ -221,12 +221,68 @@ public class SettingDao {
 	}
 	
 	
+	//유저 리스트 (검색 + 페이징)
+	public List<FriendsVo> selectUserList(Map<String, Object> pageMap) {
+		System.out.println("SettingDao.selectUserList()");
+		
+		List<FriendsVo> friendList = sqlSession.selectList("setting.selectUserList", pageMap);
+		//System.out.println(friendList);
+		
+		return friendList;
+	}
+	
+	//유저 목록 전체 갯수
+	public int selectUserTotalCnt(Map<String, Object> pageMap) {
+		System.out.println("SettingDao.selectUserTotalCnt()");
+		 
+		int totalCount = sqlSession.selectOne("setting.selectUserTotalCnt", pageMap);
+		
+		return totalCount;
+	}
 	
 	
+	//존재하는 신청인지 select
+	public int selectRequest(FriendsVo friendsVo) {
+		System.out.println("SettingDao.selectRequest()");
+		 
+		int exist = sqlSession.selectOne("setting.selectRequest", friendsVo);
+		
+		return exist;
+	}
+	
+	//친구 등록
+	public int insertFriend(FriendsVo friendsVo) {
+		System.out.println("SettingDao.insertFriend()");
+
+		int count = sqlSession.insert("setting.insertFriend", friendsVo);
+		
+		return count;
+	}
+	
+	
+	
+/////탈퇴/////
+	
+	//회원 탈퇴
+	public int resign(UserVo userVo) {
+		System.out.println("SettingDao.resign()");
+
+		int count = sqlSession.update("setting.resign", userVo);
+		
+		return count;
+	}
+	
+	//회원 탈퇴 친구 삭제
+	public int resignf(int userNo) {
+		System.out.println("SettingDao.resignf()");
+
+		int count = sqlSession.delete("setting.resignf", userNo);
+		
+		return count;
+	}
+
 	
 }
-
-
 
 
 

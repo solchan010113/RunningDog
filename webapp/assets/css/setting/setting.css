@@ -553,6 +553,10 @@ input::-webkit-inner-spin-button {
 	font-weight: bold;
 }
 
+#friendProfile .hidePaging{
+	display: none;
+}
+
 
 #friendProfile .listBox {
 	width: 100%;
@@ -610,6 +614,14 @@ input::-webkit-inner-spin-button {
 }
 
 
+#friendProfile .listBox .dummyTable{
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	padding-top: 40px;
+	color: rgb(140, 140, 140);;
+}
 
 
 /* 회원탈퇴 */
@@ -620,6 +632,7 @@ input::-webkit-inner-spin-button {
 }
 
 #profile .warningBox .warning span{
+	width: 100%;
 	margin-bottom: 25px;
 	font-weight: bold;
 	color: red;

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>패밀리 신청</title>
+<title>내가 한 신청</title>
 <link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/setting/setting.css" rel="stylesheet" type="text/css">
 
@@ -92,23 +92,23 @@
 			<div id="paging">
 				<ul>
 					<c:if test="${friendMap.prev}">
-						<li><a href="${pageContext.request.contextPath}/setting/friendAppliyList?crtPage=${friendMap.startPageBtnNo-1}">◀</a></li>
+						<li><a href="${pageContext.request.contextPath}/setting/friendApplyList?crtPage=${friendMap.startPageBtnNo-1}">◀</a></li>
 					</c:if>
 					
 					<c:forEach begin="${friendMap.startPageBtnNo}" end="${friendMap.endPageBtnNo}" step="1" var="page">
 						<c:choose>
 							<c:when test="${param.crtPage == page}">
-								<li class="active"><a href="${pageContext.request.contextPath}/setting/friendAppliyList?crtPage=${page}">${page}</a></li>										
+								<li class="active"><a href="${pageContext.request.contextPath}/setting/friendApplyList?crtPage=${page}">${page}</a></li>										
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath}/setting/friendAppliyList?crtPage=${page}">${page}</a></li>
+								<li><a href="${pageContext.request.contextPath}/setting/friendApplyList?crtPage=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 						
 					</c:forEach>
 					
 					<c:if test="${friendMap.next}">
-						<li><a href="${pageContext.request.contextPath}/setting/friendAppliyList?crtPage=${friendMap.endPageBtnNo+1}">▶</a></li>
+						<li><a href="${pageContext.request.contextPath}/setting/friendApplyList?crtPage=${friendMap.endPageBtnNo+1}">▶</a></li>
 					</c:if>
 				</ul>
 			</div>
