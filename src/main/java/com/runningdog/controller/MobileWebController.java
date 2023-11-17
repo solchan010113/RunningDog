@@ -285,7 +285,6 @@ public class MobileWebController {
 
         model.addAttribute("lineList", jsonBuilder.toString());	
         
-        
 		
 	return "mobileWeb/walkMap";
 	}
