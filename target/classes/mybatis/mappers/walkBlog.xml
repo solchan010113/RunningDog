@@ -31,6 +31,7 @@
     and IM.useNo = (SELECT userNo
     FROM users
     WHERE code = #{paramCode})
+    and type = 'walkBlog'
     ]]>
 	</select>
 	
@@ -235,6 +236,63 @@
 	
 	
 	</update>
+	
+	<select id="getBlogDogList" parameterType="int" resultType="com.runningdog.vo.BlogDogVo">
+    <![CDATA[
+        SELECT 
+        	DG.name,
+            DG.status,
+            DG.dogNo
+            FROM dog DG, users US
+            WHERE DG.userNo = US.userNo
+            and DG.userNo = (SELECT userNo
+                           FROM users 
+                           WHERE code = #{paramCode})
+    ]]>
+</select>
+
+ <select id="getDogSaveName" parameterType="int" resultType="String">
+    <![CDATA[
+    select IM.saveName 
+    from images IM , dog DG
+    where  IM.useNo = DG.dogNo
+    and  IM.useNo = #{dogNo}
+    and type = 'dog'
+    ]]>
+	</select> 
+	
+ 	<select id="getUserSavename" parameterType="String" resultType="String">
+    <![CDATA[
+    select IM.saveName 
+    from images IM , users US
+    where  IM.useNo = US.userNo
+    and  IM.useNo = (SELECT userNo
+                           FROM users 
+                           WHERE code = #{paramCode})
+    and type = 'users'
+    ]]>
+	</select>
+	
+	<select id="getFriendDogList" parameterType="String" resultType="com.runningdog.vo.BlogDogVo">
+    <![CDATA[
+			SELECT 
+        	DG.name,
+            DG.status,
+            DG.dogNo
+            FROM dog DG, users US
+            WHERE DG.userNo = US.userNo
+            and (DG.userNo IN (SELECT applieduserNo
+                           FROM friend 
+                           WHERE applyuserNo = (SELECT userNo
+                                                FROM users
+                                                WHERE code = #{paramCode}))
+            or  DG.userNo IN (SELECT applyuserNo
+                           FROM friend
+                           WHERE applieduserNo = (SELECT userNo
+                                                FROM users
+                                                WHERE code = #{paramCode})))
+    ]]>
+</select>
 
 
 

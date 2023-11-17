@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.runningdog.vo.BlogDogVo;
 import com.runningdog.vo.MonthlyStatsVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
@@ -150,5 +151,30 @@ public void updateTitleContent(ShowLogVo walkLogVo) {
 	System.out.println(walkLogVo);
 	sqlSession.update("walkBlog.updateTitleContent", walkLogVo);
 	
+}
+
+
+public List<BlogDogVo> getBlogDogList(String paramCode) {
+	
+	return sqlSession.selectList("walkBlog.getBlogDogList", paramCode);
+}
+
+
+public String getDogSaveName(int dogNo) {
+	
+	
+	return sqlSession.selectOne("walkBlog.getDogSaveName", dogNo);
+}
+
+
+public String getUserSavename(String paramCode) {
+	
+	return sqlSession.selectOne("walkBlog.getUserSavename", paramCode);
+}
+
+
+public List<BlogDogVo> getFriendDogList(String paramCode) {
+	
+	return sqlSession.selectList("walkBlog.getFriendDogList", paramCode);
 }
 }

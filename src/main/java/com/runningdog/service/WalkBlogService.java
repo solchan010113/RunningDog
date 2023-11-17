@@ -1,20 +1,14 @@
 package com.runningdog.service;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 
 import com.runningdog.dao.WalkBlogDao;
+import com.runningdog.vo.BlogDogVo;
 import com.runningdog.vo.BlogInfoVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
@@ -53,13 +47,14 @@ public class WalkBlogService {
 			 */
 		 
 		blogInfoVo.setOwnerNo(walkBlogDao.selectOwnerNo(paramCode));
+		blogInfoVo.setUserSavename(walkBlogDao.getUserSavename(paramCode));
 		
 		blogInfoVo.setName(walkBlogDao.selectOwnerName(paramCode));
-		 System.out.println("name "+ blogInfoVo.getName());
+		 
 		blogInfoVo.setAuthNo(authUserNo);
-		System.out.println(blogInfoVo.getAuthNo());
+		
 		blogInfoVo.setParamCode(paramCode);
-		System.out.println(blogInfoVo);
+		
 		
 		blogInfoVo.setFollowerNum(walkBlogDao.selectfollowerNum(paramCode));
 		
@@ -69,7 +64,7 @@ public class WalkBlogService {
 		blogInfoVo.setFollowNo(walkBlogDao.didIFollow2(map));
 		
 		blogInfoVo.setBannerSavename(walkBlogDao.selectBannerImg(paramCode));
-		System.out.println(blogInfoVo.getBannerSavename());
+	
 		
 		blogInfoVo.setMonthlyStatsThisMonth(walkBlogDao.getMonthlyStats(paramCode));
 		blogInfoVo.setMonthlyStatsTotal(walkBlogDao.getTotalStats(paramCode));
@@ -86,7 +81,32 @@ public class WalkBlogService {
 		    );
 
 		
-		
+		    
+		   List<BlogDogVo> blogDogList =  walkBlogDao.getBlogDogList(paramCode);
+		    
+		   for (BlogDogVo blogDog : blogDogList) {
+	             
+	            blogDog.setSaveName(walkBlogDao.getDogSaveName(blogDog.getDogNo()));
+	        }
+		   
+		   List<BlogDogVo> friendDogList =  walkBlogDao.getFriendDogList(paramCode);
+		    
+		   for (BlogDogVo blogDog : blogDogList) {
+	             
+	            blogDog.setSaveName(walkBlogDao.getDogSaveName(blogDog.getDogNo()));
+	        }
+		   
+		   
+		   
+		   
+		   
+		   
+		   blogInfoVo.setBlogDogList(blogDogList); 
+		    
+		    
+			System.out.println(blogInfoVo.getBannerSavename());
+			System.out.println(blogInfoVo.getUserSavename());
+			System.out.println(blogInfoVo.getBlogDogList());
 		return blogInfoVo; 
 	}
 
@@ -110,21 +130,13 @@ public class WalkBlogService {
 		
 		
        
-		/*
-		 * //1번글에는 1번댓글 리스트 가져오기
-		 * 
-		 * int walkLogNo= walkLogList.get(0).getWalkLogNo() 3
-		 * 
-		 * 3번글의 댓글리스트<-> getCmtList(3) walkLogNo.get(0).setShowLogCmtList(3번글의 댓글리스트);
-		 * 
-		 * 
-		 * 
-		 * no
-		 */
+	
 		
 		
 		return walkLogList;
 	}
+	
+	
 
 	public void deleteWalkLog(int no) {
 		
