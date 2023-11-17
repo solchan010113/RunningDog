@@ -102,9 +102,7 @@ public class MoWebService {
 	public List<MoTrailVo> trailSelect(int locationNo){
 		System.out.println("서비스 산책로 3개 불러오기");			
 		return moWebDao.trailSelect(locationNo);					
-	}
-	
-	
+	}	
 	
 	/* 셀레리움으로 화면캡쳐하기 */
 	private String mapImgSave(int walkLogNo) {
@@ -120,7 +118,7 @@ public class MoWebService {
 
         // Go to the webpage that you want to capture
         driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo);
-        driver.manage().window().setSize(new Dimension(745+16, 380+140));
+        driver.manage().window().setSize(new Dimension(745+16, 380+138));
  
         String savePath = null;
         try {

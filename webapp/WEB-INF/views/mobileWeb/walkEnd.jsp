@@ -128,7 +128,7 @@
 		      </div>
 		     
 		      <div class="modal-footer">
-		        <button type="button"  class="btn btn-primary">확인</button>
+		        <button type="button"  class="btn btn-primary" id="confirmButton" >확인</button>
 		      </div>
 		    </div>
 		  </div>
@@ -367,7 +367,7 @@ $("#insertBtn").on("click", function(){
 	    
     
 	$.ajax({
-		url : "${pageContext.request.contextPath}/m/walkInsert2",      
+		url : "${pageContext.request.contextPath}/m/walkInsert",      
         type : "post",
         contentType : "application/json",
         data : JSON.stringify(dataVo),
@@ -376,36 +376,47 @@ $("#insertBtn").on("click", function(){
         dataType : "json",
         success : function(moWalkLogVo){
         	/*성공시 처리해야될 코드 작성*/
-			console.log(moWalkLogVo.walkLogNo);        	
+        	let walkLogNo = moWalkLogVo.walkLogNo;        	
+			console.log(walkLogNo);        	
 			console.log("파일 저장 중......");
-        	
-        	
-        	
-        	//ajax 첨부파일 저장
-        	//for
-        	//url  ---> 청부파 1개씩 일받아서저장 해주는 일...
-        	
-        	
-        	
-        	
-           	/* //------------------------------------
-            console.log(filesArr);	
-        	
-			// 사진첨부파일들 담기
-		    let form = $(".fileForm")[0];
-		    console.log("첨부된 파일들 "+ form);
+			console.log(filesArr);	
 			
-		    let formData = new FormData(form);
-		    console.log("첨부된 파일들 "+ formData);
-		    
-		    for (let i = 0; i < filesArr.length; i++) {
-		        // 삭제되지 않은 파일만 폼데이터에 담기
-		        if (!filesArr[i].is_delete) {
-		            formDat2.append("images", filesArr[i]);
+			// 파일 업로드 함수
+		    function uploadFile(index) {
+		        if (index < filesArr.length) {
+		            // 삭제되지 않은 파일만 폼데이터에 담기
+		            if (!filesArr[index].is_delete) {
+		                let formData = new FormData();
+		                formData.append("image", filesArr[index]);	
+		                formData.append("walkLogNo", walkLogNo); // walkLogNo를 FormData에 추가
+
+		                $.ajax({
+		                    url: "${pageContext.request.contextPath}/m/imagesInsert",
+		                    type: "post",
+		                    data: formData,
+		                    processData: false,  // 데이터 처리 방식을 설정
+		                    contentType: false,  // 컨텐츠 타입을 설정
+		                    success: function (result) {
+		                        console.log("파일 저장 완료");		                        		                        
+		                        // 다음 파일 업로드 호출
+		                        uploadFile(index + 1);
+		                    },
+		                    error: function (XHR, status, error) {
+		                        console.error(status + " : " + error);
+		                    }
+		                });
+		            } else {
+		                // 삭제된 파일은 건너뛰고 다음 파일 업로드 호출
+		                uploadFile(index + 1);
+		            }
+		        } else {
+		            // 파일 업로드가 끝난 후에 처리할 코드 작성
+		            console.log("파일 업로드 완료");
 		        }
 		    }
-		    console.log("첨부된 파일들 "+ formData);
-		    console.log("첨부된 파일들 "+ filesArr); */
+
+		    // 첫 번째 파일 업로드 호출
+		    uploadFile(0);			
 		    
         },/* success */
         error : function(XHR, status, error) {
@@ -420,13 +431,21 @@ $("#insertBtn").on("click", function(){
 
 //-------------------------------------------------------------------------------
 		    	    
-	// 기록하지 않음
-	$(document).ready(function() {
-	    $(".back").click(function() {
-	        // 여기에 이동할 링크를 넣어주세요
-	        window.location.href = "${pageContext.request.contextPath}/m/map";
-	    });
-	}); 
+	// 기록하지 않음	
+    $(".back").on("click", function() {
+        // 여기에 이동할 링크를 넣어주세요
+        window.location.href = "${pageContext.request.contextPath}/m/map";
+    });	
+	
+	// 버튼 클릭 이벤트 리스너 추가  
+    $("#confirmButton").on("click", function() {
+        // 다른 페이지로 이동할 URL을 여기에 입력
+        var newPageURL = "${pageContext.request.contextPath}/m/map";  // 원하는 페이지 URL로 변경
+        // 페이지 리디렉션
+        window.location.href = newPageURL;
+    });
+   
+	
 	    
 	</script>
 	
