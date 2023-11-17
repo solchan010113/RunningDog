@@ -224,6 +224,17 @@
 		
       ]]>
 	</select>
+	
+	<update id="updateTitleContent" parameterType="com.runningdog.vo.ShowLogVo">
+	<![CDATA[
+	update walkLog	
+	set title = #{title},
+		content = #{content}
+	where walkLogNo = #{walkLogNo}
+	]]>
+	
+	
+	</update>
 
 
 

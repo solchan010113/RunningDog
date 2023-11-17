@@ -634,6 +634,12 @@ h2{
 	  margin-top: 10px;
   }
   
+  .contentModify{
+	  width: 100%;
+	  
+	  
+  }
+  
   .MRwalkRecordSection{
 	  padding:10px;
 	  margin-top: 10px;
@@ -656,6 +662,12 @@ h2{
   
   .MRpictures {
 	  display: flow-root;
+	  
+  }
+  
+  .picHidden {
+	  display: none;
+	  
   }
   
   .MRpictures img{

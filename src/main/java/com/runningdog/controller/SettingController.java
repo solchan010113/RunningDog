@@ -256,7 +256,7 @@ public class SettingController {
 		return "setting/friendList";
 	}
 	
-	//친구 삭제
+	//친구 삭제 + 거부 + 취소
 	@ResponseBody
 	@RequestMapping(value="/deleteFriend", method={RequestMethod.GET, RequestMethod.POST})
 	public int deleteFriend(@RequestParam(value="friendNo") int friendNo,
@@ -310,15 +310,25 @@ public class SettingController {
 	
 	
 	//내가 한 신청
-	@RequestMapping("/friendApplyList")
-	public String friendApply(Model model){
+	@RequestMapping(value="/friendApplyList", method={RequestMethod.GET, RequestMethod.POST})
+	public String applyList(@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+			 				  HttpSession session, Model model){
+		System.out.println("SettingController.friendApplyList()");
 		
+		//세션에서 getUserNo
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+	
+		Map<String, Object> friendMap = settingService.selectApplyList(userNo, crtPage);
 		
+		model.addAttribute("friendMap", friendMap);
+				
 		//사이드 바 색칠용
 		model.addAttribute("crtMenu", "fa");
 		
 		return "setting/friendApplyList";
 	}
+	
 	
 	//회원 검색
 	@RequestMapping("/friendSearchForm")
