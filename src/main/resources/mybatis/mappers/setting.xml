@@ -375,23 +375,22 @@
 			        and f.applyUserNo = u.userNo
 			        and f.status = 'T'
 			        and l.locationNo = u.locationNo
-			        and u.status = 'T') fr, 
-			        (select d.userNo userNo,
-			                d.dogNo dogNo,
-			                d.name dogName, 
-			                d.birth birth,
-			                d.gender gender,
-			                d.weight weight,
-			                d.kind kind,
-			                d.neuter neuter,
-			                d.personality personality,
-			                d.color color,
-			                d.status status,
-			                u.name userName
-			        from dog d, users u
-			        where u.userNo = d.userNo
-			        and d.status != 'F'
-			        order by dogNo asc) do left outer join images i
+			        and u.status = 'T') fr, (select d.userNo userNo,
+							                d.dogNo dogNo,
+							                d.name dogName, 
+							                d.birth birth,
+							                d.gender gender,
+							                d.weight weight,
+							                d.kind kind,
+							                d.neuter neuter,
+							                d.personality personality,
+							                d.color color,
+							                d.status status,
+							                u.name userName
+							        from dog d, users u
+							        where u.userNo = d.userNo
+							        and d.status != 'F'
+							        order by dogNo asc) do left outer join images i
 			on do.dogNo = i.useNo
 			and i.type = 'dog'
 			where do.userNo = fr.userNo

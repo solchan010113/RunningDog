@@ -60,7 +60,7 @@
 		        </tr>
 
 		        <c:forEach items="${requestScope.friendMap.userList}" var="friendsVo">
-			        <tr id="t${friendsVo.userNo}">
+			        <tr>
 						<td><img src="${pageContext.request.contextPath}/rdimg/userProfile/${friendsVo.saveName}"></td>
 						<td>${friendsVo.name}(#${friendsVo.code})</td>
 						<c:choose>
@@ -90,7 +90,7 @@
 						    	<td>${friendsVo.si}&nbsp;&nbsp;${friendsVo.gu}&nbsp;&nbsp;${friendsVo.dong}</td>
 						    </c:otherwise>
 						</c:choose>
-						<td><button id="t${friendsVo.userNo}" data-userno="${friendsVo.userNo}" class="deleteBtn okBtn">친구 신청</button></td>
+						<td  id="t${friendsVo.userNo}"><button id="btn${friendsVo.userNo}" data-userno="${friendsVo.userNo}" class="deleteBtn okBtn">친구 신청</button></td>
 						<!-- delete?no=${GuestVo.no} -->
 					</tr>
 		        </c:forEach>
@@ -160,7 +160,8 @@ $(".okBtn").on("click", function(){
 			
 			if(count == "1"){
 				alert("친구 신청 성공");
- 				$("#t"+userNo).remove();
+ 				$("#btn"+userNo).remove();
+				$("#t"+userNo).text("진행 중");
 			}else{
 				alert("친구 신청 실패");
 			}

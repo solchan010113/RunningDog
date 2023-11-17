@@ -142,7 +142,8 @@ $(".deleteBtn").on("click", function(){
 			
 			if(count == "1"){
 				alert("신청 취소");
-				$("#t"+friendNo).remove();
+				//$("#t"+friendNo).remove();
+				location.reload(true);
 			}else{
 				alert("취소 실패");
 			}

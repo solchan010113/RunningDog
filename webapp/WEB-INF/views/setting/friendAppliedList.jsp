@@ -146,7 +146,8 @@ $(".noBtn").on("click", function(){
 			
 			if(count == "1"){
 				alert("삭제 성공");
-				$("#t"+friendNo).remove();
+				//$("#t"+friendNo).remove();
+				location.reload(true);
 			}else{
 				alert("삭제 실패");
 			}
