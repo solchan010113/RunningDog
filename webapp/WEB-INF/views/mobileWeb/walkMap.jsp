@@ -9,20 +9,24 @@
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b9b0wee2jf"></script>
     <!-- js -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
-
+	<!-- css -->
+	<link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">	
+		
 	<style>
+		
+		
+	
 		#map {
-			width: 800px;
-			height: 400px;
+			width: 745px;
+			height: 380px;
 		}
+		
 	</style>
 
 
 </head>
 
 <body>
-	
-	hello
 	
 	<!-- 기록된 이동기록이 뜨는 맵 -->
 	<div id="map"></div>
@@ -37,6 +41,7 @@
 
 	// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱
     var jsonString = '${lineList}'; // JSON 형식의 문자열
+    	    	
 	var lineList = JSON.parse(jsonString);
     
     // lineList의 각 항목을 polylinePath 배열에 추가

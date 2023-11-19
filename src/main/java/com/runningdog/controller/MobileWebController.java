@@ -13,6 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,8 +38,6 @@ import com.runningdog.vo.MoImagesVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UserVo;
-import com.runningdog.vo.WalkedDogVo;
-import com.runningdog.vo.XYVo;
 
 @Controller
 @RequestMapping("/m")
@@ -45,9 +45,6 @@ public class MobileWebController {
 
 	@Autowired
 	private MoWebService moWebService;
-
-	@Autowired
-	private UserService userService;
 
 	// 로그인폼
 	@RequestMapping("/loginForm")
@@ -61,7 +58,8 @@ public class MobileWebController {
 	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("모바일 로그인");
 		// 로그인 후 세션에 삽입
-		UserVo authUser = userService.selectOneUser(userVo);
+		UserVo authUser = moWebService.selectOneUser(userVo);
+		System.out.println(authUser);
 		if (authUser != null) {
 			session.setAttribute("authUser", authUser);
 			return "redirect:map";
@@ -147,199 +145,88 @@ public class MobileWebController {
 		return "mobileWeb/walkEnd"; // wif 페이지로 이동
 	}
 
-	// 기록하기 (나중에 삭제)
+	// 산책 기록하기
+	@ResponseBody
 	@RequestMapping("/walkInsert")
-	public String walkInsert(@ModelAttribute MoWalkLogVo moWalkLogVo, HttpSession session, // 산책기록,세션
-			@RequestParam(name = "line") String lineData, // 좌표리스트 문자열
-			@RequestParam(name = "dog") String dogData, // 산책강아지리스트 문자열
-			@RequestParam(name = "mapImage") MultipartFile mapImageData, // 맵이미지
-			@RequestParam(name = "images") List<MultipartFile> imagesData, // 첨부이미지리스트 문자열
-			@RequestParam(name = "trail") int trailData // 첨부이미지리스트 문자열
-	) {
-		System.out.println("기록적용");
-
+	public MoWalkLogVo walkInsert(@RequestBody MoWalkLogVo moWalkLogVo, HttpSession session) {
+		System.out.println("산책기록하기 walkInsert");
 		// 세션에서 유저정보 가져오기
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		System.out.println(authUser);
 		// 유저번호 산책Vo에 세팅
 		moWalkLogVo.setUserNo(authUser.getUserNo());
-		System.out.println("기록된 정보 " + moWalkLogVo);
+		System.out.println(authUser.getUserNo());
 		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환
-
-		// CoordsVo 테이블
-		// 좌표
-		System.out.println("좌표리스트 " + lineData);
-
-		// 산책한강아지
-		System.out.println("강아지리스트 " + dogData);
-
-		// ImagesVo 테이블
-		// 맵사진
-		System.out.println("맵이미지 " + mapImageData);
-
-		// 첨부사진
-		System.out.println("이미지리스트 " + imagesData);
-
-		// UseTrailVo
-		// 이용선택한산책로
-		System.out.println("이용선택한산책로 " + trailData);
-
-		return "redirect:map";
-	}
-
-	// 텍스트기록하기 (이거 사용)
-	@ResponseBody
-	@RequestMapping("/walkInsert2")
-	public MoWalkLogVo walkInsert2(@RequestBody MoWalkLogVo moWalkLogVo, HttpSession session) {
-		System.out.println("산책기록하기 walkInsert2");		
-		// 세션에서 유저정보 가져오기
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		// 유저번호 산책Vo에 세팅
-		moWalkLogVo.setUserNo(authUser.getUserNo());		
-		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환		
-		System.out.println("셀렉트키가 포함된 산책기록 : "+moWalkLogVo);	
-		System.out.println("셀렉트키 : "+ moWalkLogVo.getWalkLogNo());		
-		
-		// 산책한 강아지 리스트 저장 ------------------------------------------------------
-		System.out.println("강아지리스트 : "+moWalkLogVo.getDogNoList());
-		for (Integer dogNo : moWalkLogVo.getDogNoList()) {
-            MoDogVo moDogVo = new MoDogVo();
-            moDogVo.setDogNo(dogNo);
-            System.out.println("개번호확인 : "+ moDogVo);	
-            // 한땀한땀 뜯어낸 강아지번호값을 DB로 보내서 저장하기 
-        }
-		
-		// 좌표리스트 넣어서 저장 ------------------------------------------------------
-		System.out.println("좌표리스트 : "+moWalkLogVo.getPolylinePath());	
-        // XYVo 리스트를 순회하면서 CoordsVo로 변환 후 리스트에 추가
-		// coordOrder 변수를 1부터 시작
-        int coordOrder = 1;
-        
-        for (XYVo xyVo : moWalkLogVo.getPolylinePath()) {
-            CoordsVo coordsVo = new CoordsVo();
-            coordsVo.setLat(xyVo.getY());  // XYVo의 Y값을 CoordsVo의 lat으로 설정
-            coordsVo.setLng(xyVo.getX());  // XYVo의 X값을 CoordsVo의 lng으로 설정
-            coordsVo.setCoordOrder(coordOrder);
-            // 리스트에 추가
-            // coordOrder를 1씩 증가
-            coordOrder++;
-            System.out.println("좌표확인 : "+ coordsVo);	
-            // 한땀한땀 뜯어낸 좌표값을 DB로 보내서 저장하기     
-        }        
-		// 첨부이미지들 넣어서 저장	 ------------------------------------------------------
-        
-        
-        //return "mobileWeb/walkMap";         
-        
-		return moWalkLogVo;
+		return moWalkLogVo; // ajax로 재반환
 	}
 
 	// 이미지저장기록하기
-	@RequestMapping( "/walkInsert3")
-	public String walkInsert3(@ModelAttribute MoWalkLogVo moWalkLogVo,
-			                  @ModelAttribute List<MoImagesVo> moImagesVo){ 
-		System.out.println("walkInsert3");
+	@RequestMapping("/imagesInsert")
+	public ResponseEntity<String> handleImagesInsert(
+	        @RequestParam("walkLogNo") int walkLogNo,
+	        @RequestPart("image") MultipartFile image) {
+		// System.out.println("walkInsert3");
+		// 파일+workLisgNo
+		// 파일1개 저장...
+		System.out.println("이미지와 함께 저장할 셀렉트키" +walkLogNo);
 		
-		System.out.println("맵캡쳐이미지 "+moWalkLogVo.getMapImg().getOriginalFilename());
+		System.out.println("첨부이미지리스트 " + image);
+		// 1117 파일저장완료
+		// 이제 이미지들을 DB저장 해주기
 		
-		
-		System.out.println("첨부이미지리스트 "+moImagesVo);
-		
-		System.out.println("첨부이미지1 "+moImagesVo.get(0).getImages().getOriginalFilename());
-		System.out.println("첨부이미지2 "+moImagesVo.get(1).getImages().getOriginalFilename());
-		
-		
-		
-		//(2)파일저장(서버쪽 하드디스크에 저장)///////////////////////////////////////////////////
-		try {
-			byte[] fileData;
-			fileData = moWalkLogVo.getMapImg().getBytes();
+		 //(2)파일저장(서버쪽 하드디스크에 저장)/////////이거 서비스에서 처리하기///////////////// 
+		try { byte[]
+			fileData; fileData = image.getBytes();
 			 
-			OutputStream os = new FileOutputStream("C:\\javaStudy\\upload\\aaa11111.png");
-			BufferedOutputStream bos = new BufferedOutputStream(os);
+			OutputStream os = new
+			FileOutputStream("C:\\javaStudy\\upload\\"+image.getOriginalFilename()+".png"); BufferedOutputStream
+			bos = new BufferedOutputStream(os);
 			 
-			bos.write(fileData);
-			bos.close();
-		     
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-	    }
-		
-		//(3)파일저장(서버쪽 하드디스크에 저장)///////////////////////////////////////////////////
-		try {
-			byte[] fileData;
-			fileData = moImagesVo.get(0).getImages().getBytes();
+			bos.write(fileData); bos.close();
+		 
+		} catch (IOException e) { // TODO Auto-generated catch block
+		e.printStackTrace(); }
 			 
-			OutputStream os = new FileOutputStream("C:\\javaStudy\\upload\\bbb11111.png");
-			BufferedOutputStream bos = new BufferedOutputStream(os);
-			 
-			bos.write(fileData);
-			bos.close();
-		     
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-	    }
-		
-		 return "";
-	}	
+	
+		// 처리 결과에 따라 응답을 구성
+        String responseMessage = "File uploaded successfully.";
+        return ResponseEntity.ok(responseMessage);
+	}
+
 //------------------------------------------------------------------------------------------
 	// 맵 캡쳐하는 페이지
 	@RequestMapping("/walkMap")
-	public String walkMap() {			
+	public String walkMap(@RequestParam(name = "walkLogNo") int walkLogNo, Model model) {
 		System.out.println("walkMap");
-		
-		
-		
-	return "mobileWeb/walkMap";
+
+		System.out.println(walkLogNo);
+
+		List<CoordsVo> coordList = moWebService.mapSelect(walkLogNo);
+
+		// CoordsVo를 JSON 문자열로 변환하여 모델에 추가
+		StringBuilder jsonBuilder = new StringBuilder("[");
+		for (CoordsVo coordVo : coordList) {
+			if (jsonBuilder.length() > 1) {
+				jsonBuilder.append(",");
+			}
+			jsonBuilder.append("{\"lat\":").append(coordVo.getLat()).append(",\"lng\":").append(coordVo.getLng())
+					.append("}");
+		}
+		jsonBuilder.append("]");
+
+		System.out.println(jsonBuilder.toString());
+
+		model.addAttribute("lineList", jsonBuilder.toString());
+
+		return "mobileWeb/walkMap";
 	}
-	
+
 //------------------------------------------------------------------------------------------	
-	
+
 	// 산책로 알고리즘
 	@RequestMapping("/trailMap")
-	public String map(){
-		System.out.println("/산책로 알고리즘");		
-	return "global/dogMapExample";
+	public String map() {
+		System.out.println("/산책로 알고리즘");
+		return "global/dogMapExample";
 	}
-		
-		
-	/*
-	 * // 산책기록 보내기
-	 * 
-	 * @RequestMapping(value = "/walkInsertForm", method = { RequestMethod.GET,
-	 * RequestMethod.POST }) public String map2(){ System.out.println("/산책기록 받아오기");
-	 * 
-	 * 
-	 * 
-	 * return "mobileWeb/walkEnd"; }
-	 */
-	
-	
-	// 산책기록 보내기
-//	@RequestMapping(value = "/walkInsertForm", method = { RequestMethod.GET, RequestMethod.POST })
-//	public String map(@RequestBody ArrayList<linePathVo> line, Model model){
-//		System.out.println("/산책기록 받아오기");
-//		
-//		System.out.println(line);
-//		
-//		model.addAttribute( "line", line);
-//		
-//		return "mobileWeb/walkEnd";
-//	}
-	
-	// 기록내용 상세폼
-//	@RequestMapping( "/wif")
-//	public String walkInsertForm(@RequestBody ArrayList<linePathVo> line){
-//		System.out.println("기록내용 폼");
-//		
-//		System.out.println(line);
-//		
-//		return "mobileWeb/walkEnd";
-//	}
-
-	
-	
 
 }
