@@ -126,6 +126,20 @@
         ORDER BY walkLogCmtNo ASC
     ]]>
 	</select>
+	
+	<select id="getWalkedDogList" parameterType="int" resultType="com.runningdog.vo.LogWalkedDogVo">
+    <![CDATA[
+        SELECT  WD.dogNo,
+                WD.walkedDogNo,
+                WD.walkLogNo,
+                D.name
+              
+        FROM walkedDog WD, dog D
+        where WD.dogNo = D.dogNo
+        and walkLogNo = #{walkLogNo}
+        ORDER BY walkedDogNo ASC
+    ]]>
+	</select>
 
 	<delete id="deleteWalkLog" parameterType="int">
 	
