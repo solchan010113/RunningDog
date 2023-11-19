@@ -21,6 +21,7 @@ import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
 import com.runningdog.vo.UseTrailVo;
+import com.runningdog.vo.UserVo;
 import com.runningdog.vo.XYVo;
 
 @Service	
@@ -28,6 +29,13 @@ public class MoWebService {
 	
 	@Autowired
 	private MoWebDao moWebDao;
+	
+	//유저 1명 찾아오기 (로그인)
+	public UserVo selectOneUser(UserVo userVo) {
+		System.out.println("서비스 모바일웹 로그인");
+		return moWebDao.selectOneUser(userVo);
+	}
+	
 	
 	// (1) 산책로 불러오기
 	public List<UseTrailVo> trailSelect(){
@@ -117,7 +125,9 @@ public class MoWebService {
         WebDriver driver = new ChromeDriver();
 
         // Go to the webpage that you want to capture
-        driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo);
+        
+        //driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 학원 경로
+        driver.get("http://localhost:8000/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 집 경로
         driver.manage().window().setSize(new Dimension(745+16, 380+138));
  
         String savePath = null;

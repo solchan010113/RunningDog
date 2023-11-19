@@ -45,8 +45,6 @@ public class MobileWebController {
 
 	@Autowired
 	private MoWebService moWebService;
-	@Autowired
-	private UserService userService;
 
 	// 로그인폼
 	@RequestMapping("/loginForm")
@@ -60,7 +58,8 @@ public class MobileWebController {
 	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("모바일 로그인");
 		// 로그인 후 세션에 삽입
-		UserVo authUser = userService.selectOneUser(userVo);
+		UserVo authUser = moWebService.selectOneUser(userVo);
+		System.out.println(authUser);
 		if (authUser != null) {
 			session.setAttribute("authUser", authUser);
 			return "redirect:map";
@@ -155,6 +154,7 @@ public class MobileWebController {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		// 유저번호 산책Vo에 세팅
 		moWalkLogVo.setUserNo(authUser.getUserNo());
+		System.out.println(authUser.getUserNo());
 		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환
 		return moWalkLogVo; // ajax로 재반환
 	}

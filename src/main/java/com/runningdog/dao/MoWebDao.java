@@ -12,12 +12,22 @@ import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
 import com.runningdog.vo.UseTrailVo;
+import com.runningdog.vo.UserVo;
 
 @Repository
 public class MoWebDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	//유저 1명 찾아오기 (로그인)
+	public UserVo selectOneUser(UserVo userVo) {
+		System.out.println("다오 모바일웹 로그인");	
+		System.out.println("다오 "+userVo);
+		UserVo authUser = sqlSession.selectOne("walkLog.selectOneUser", userVo);	
+		System.out.println("다오 "+authUser);
+		return authUser;
+	}
 	
 	// (1) 산책로 불러오기
 	public List<UseTrailVo> trailSelect(){
