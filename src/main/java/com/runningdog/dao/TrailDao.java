@@ -244,4 +244,22 @@ public class TrailDao {
 		return cmtLikeCnt;
 	}
 
+	// 후기 등록
+	public int trailCmtAdd(TrailCmtVo trailCmtVo) {
+		System.out.println("TrailDao.trailCmtAdd()");
+		
+		int insertCnt = sqlSession.insert("walkTrail.trailCmtAdd", trailCmtVo);
+		
+		return insertCnt;
+	}
+
+	// 후기 이미지 업로드
+	public int cmtImgAdd(ImagesVo imagesVo) {
+		System.out.println("TrailDao.cmtImgAdd()");
+		
+		int insertCnt = sqlSession.insert("walkTrail.cmtImgAdd", imagesVo);
+		
+		return insertCnt;
+	}
+
 }
