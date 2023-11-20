@@ -48,7 +48,17 @@
 	 	 and us.userno = do.userno
 		 and do.dogno = im.useno
       ]]>
-   </select>     
+   </select>    
+   
+   <!-- 내 동네번호 가져오기 -->   
+   <select id="locationSelect"  parameterType="com.runningdog.vo.LocationVo" resultType="int">
+      <![CDATA[
+         select locationNo
+	 	 from location
+	 	 where GU = #{gu}
+		 and DONG = #{dong}
+      ]]>
+   </select>      
    
    <!-- 산책기록 저장하기 -->
    <insert id="walkLogInsert"  parameterType="com.runningdog.vo.MoWalkLogVo" >

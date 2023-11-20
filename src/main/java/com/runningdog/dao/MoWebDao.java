@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
+import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -31,6 +32,13 @@ public class MoWebDao {
 		return authUser;
 	}
 	
+	// 동네번호 검색하기
+	public int locationSelect(LocationVo locationVo){
+		System.out.println("다오 동네번호 검색하기");			
+		int locationNo = sqlSession.selectOne("walkLog.locationSelect", locationVo);	
+		return locationNo;
+	}
+	
 	// (1) 산책로 불러오기
 	public List<UseTrailVo> trailSelect(){
 		System.out.println("@Dao");		
@@ -49,7 +57,6 @@ public class MoWebDao {
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("다오 산책기록하기");
-		moWalkLogVo.setLocationNo(1174010900); // 동네번호
 		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setStatus('T');	
 		moWalkLogVo.setStartTime("2023-11-17 11:31");

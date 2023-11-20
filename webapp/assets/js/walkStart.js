@@ -2,7 +2,26 @@
 	
 	var selectedDogNos = []; // 선택된 강아지 번호를 담는 배열
 	
-	$(document).ready(function () {
+	var address = '';
+	// 보여지는 맵
+    let map;
+	// 처음 보여지는 마커
+    let myLocationMarker;
+	// 라인 배열
+	let linePath = [];
+	// 라인 옵션
+    let lineOverlay;
+ 	// 라인 옵션
+    let watchId;
+    // 버튼 설정
+    let isTracking = false;   
+    
+    let lat;
+    let lng; 
+    let myLocation; 
+ 
+	$(document).ready(function () {	
+		
 	    init();
 	    buttonEvt();
 	
@@ -26,6 +45,20 @@
 	        togglePSelect($(this));
 	        updateSelectedDogNos();
 	    });
+	    
+	    
+	    
+	    console.log("ajax로 보내기전 확인"+address);	
+		//현재위치 --> 강서구 천호동
+		
+		//서버(강서구 천호동)-->
+		//리스트 여러개      <--
+		
+		
+		//출력
+		
+		
+	    
 	});
 	
 	function init(){
@@ -105,43 +138,46 @@
 	  
 	}
 	// ---------------------------------------------
- 
-	// 보여지는 맵
-    let map;
-	// 처음 보여지는 마커
-    let myLocationMarker;
-	// 라인 배열
-	let linePath = [];
-	// 라인 옵션
-    let lineOverlay;
- 	// 라인 옵션
-    let watchId;
-    // 버튼 설정
-    let isTracking = false;             	
- 	
-    // 처음 맵구현
+	
+	// 처음 맵구현
     function initMap() {
       // 현재 위치 가져오기
-    	navigator.geolocation.getCurrentPosition(success, error, options);             
+    	navigator.geolocation.getCurrentPosition(success, error, options);   
+    	
+    	console.log("ajax로 보내기전 확인2"+address);		
 
         // 시작버튼 클릭
         $("#startButton").on("click", startTracking);
         // 정지버튼 클릭
         $("#stopButton").on("click", stopTracking);              
-    }     
+    }          
+	 
     
     // 가져오기 성공
     function success(position) {
-      let lat = position.coords.latitude;
-      let lng = position.coords.longitude;  
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;  
       
-      let myLocation = new naver.maps.LatLng(lat, lng); 
+      myLocation = new naver.maps.LatLng(lat, lng); 
       
       console.log("현재 위치는 위도: " + lat + ", 경도: " + lng);
         	
       $("#mapLat").val(lat);
-      $("#mapLng").val(lng);
-    
+      $("#mapLng").val(lng);  
+      
+      // 좌표를 주소로 변환하는 함수	  
+	  naver.maps.Service.reverseGeocode({
+		   coords: myLocation,
+	   }, function (status, response) {
+		   if (status === naver.maps.Service.Status.ERROR) {
+		   return alert('주소 변환에 실패했습니다.');
+	   }	
+	       var result = response.v2.results[0];
+	       address = result.region.area1.name + ' ' + result.region.area2.name + ' ' + result.region.area3.name;
+	       console.log('현재 위치의 주소: ' + address);
+	       $("#locationDataInput").val(address);
+	   }); 	
+	   	      
       // 맵 표시
       map = new naver.maps.Map("map", {
         center: myLocation,

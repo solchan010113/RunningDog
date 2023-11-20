@@ -34,6 +34,7 @@ import com.runningdog.service.UserService;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LinePathVo;
+import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoImagesVo;
 import com.runningdog.vo.MoTrailVo;
@@ -91,6 +92,10 @@ public class MobileWebController {
 		// 모임정보 (후순위)
 
 	}
+	
+	
+	
+	
 
 	// 로그아웃
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
@@ -105,10 +110,16 @@ public class MobileWebController {
 	@RequestMapping("/wif")
 	public String wif(@ModelAttribute MoWalkLogVo moWalkLogVo, Model walkLogModel,
 			@RequestParam(name = "line") String lineData, Model lineModel,
-			@RequestParam(name = "dogList") String dogList, Model dogModel, Model trailModel)
+			@RequestParam(name = "dogList") String dogList, Model dogModel, Model trailModel,
+			@RequestParam(name = "location") String location)
 			throws JsonParseException, JsonMappingException, IOException {
 
-		// 산책기록
+		System.out.println("주소 "+location);
+		
+		int locationNo = moWebService.locationSelect(location);		
+		
+		// 산책기록		
+		moWalkLogVo.setLocationNo(locationNo);
 		System.out.println("산책기록 " + moWalkLogVo);
 		walkLogModel.addAttribute("moWalkLogVo", moWalkLogVo);
 
@@ -136,8 +147,7 @@ public class MobileWebController {
 		lineModel.addAttribute("lineList", objectMapper.writeValueAsString(lineList)); // JSON 형식의 문자열로 변환하여 전달
 		System.out.println(objectMapper.writeValueAsString(lineList));
 
-		// 주변산책로 ---------------------------------------------------
-		int locationNo = 1174010900; // 동네정보
+		// 주변산책로 ---------------------------------------------------		
 		List<MoTrailVo> trailList = moWebService.trailSelect(locationNo);
 		System.out.println("산책로3개 컨트롤러" + trailList);
 
