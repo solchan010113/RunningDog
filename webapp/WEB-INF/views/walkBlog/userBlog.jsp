@@ -10,6 +10,8 @@
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
 <script>
 
+
+
 function toggleFollowButton() {
     var followButton = document.getElementById("followButton");
     var followStatus = "${requestScope.blogInfoVo.followNo}";
@@ -202,7 +204,9 @@ function toggleFollowButton() {
 						<div class="tab record active">산책기록</div>
 
 						<div class="tab meeting">산책모임</div>
-						<div class="tab following">팔로잉</div>
+						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
+							<div class="tab following">팔로잉</div>
+						</a>
 						<div class="tab blank"></div>
 					</div>
 
@@ -288,11 +292,11 @@ function toggleFollowButton() {
  --%>
 											<div class="MRpartnerDoglabel">함께한 강아지</div>
 											<div class="MRdogCards">
-											<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
-												<div class="MRdogCard1">
-													<img src="${pageContext.request.contextPath}/assets/images/${walkedDog.saveName}" alt="">
-													<div class="MRdogName">${walkedDog.name}</div>
-												</div>
+												<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
+													<div class="MRdogCard1">
+														<img src="${pageContext.request.contextPath}/assets/images/${walkedDog.saveName}" alt="">
+														<div class="MRdogName">${walkedDog.name}</div>
+													</div>
 												</c:forEach>
 
 											</div>
@@ -326,7 +330,7 @@ function toggleFollowButton() {
 									<div class="MRcommentSection">
 
 										<div class="MRcomments">
-											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt"  >
+											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
 												<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
 													<div id="comment_${cmt.walkLogCmtNo} class="MRcomment1">
 
