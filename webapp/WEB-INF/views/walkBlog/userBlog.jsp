@@ -82,7 +82,7 @@ function toggleFollowButton() {
 		                // 새로운 댓글을 화면에 추가하는 부분
 		                var newCommentHtml = `
 		                    <div class="MRcomment1" id="${response.walkLogCmtNo}">
-		                        <img src="${pageContext.request.contextPath}/assets/images/${response.userSavename}" alt="">
+		                        <img src="${pageContext.request.contextPath}/rdimg/userProfile/${response.userSavename}" alt="">
 		                        <div class="replyDateCmtBox">
 		                            <div class="MRreplyDate">${response.regDate}</div>
 		                            <button class="deleteCommentButton" onclick="deleteComment('${response.walkLogCmtNo}')">삭제</button>
@@ -134,11 +134,18 @@ function toggleFollowButton() {
 	<jsp:include page="../global/header.jsp"></jsp:include>
 
 
+
+	<c:if test="${ requestScope.blogInfoVo.bannerSavename == null  }">
 	<div class="backgroundImg">
-		<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.bannerSavename}" alt="">
-
+	<img src="${pageContext.request.contextPath}/rdimg/blogBanner/bannerDefault.png" alt="">
 	</div>
+	</c:if>
+	<c:if test="${ requestScope.blogInfoVo.bannerSavename != null  }">
+		<div class="backgroundImg">
+			<img src="${pageContext.request.contextPath}/rdimg/blogBanner/${blogInfoVo.bannerSavename}" alt="">
 
+		</div>
+	</c:if>
 
 
 	<section>
@@ -155,7 +162,7 @@ function toggleFollowButton() {
 				<div class="profileWrapper">
 					<div class="wrap">
 						<div class="profileImg">
-							<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.userSavename}" alt="">
+							<img src="${pageContext.request.contextPath}/rdimg/userProfile/${blogInfoVo.userSavename}" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
 						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
@@ -179,7 +186,7 @@ function toggleFollowButton() {
 						<div class="maindogCardBox">
 							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
 								<div class="mainDogCard1">
-									<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
+									<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
 									<div class="mainDogCardName">${blogDogVo.name}</div>
 								</div>
 
@@ -224,7 +231,7 @@ function toggleFollowButton() {
 
 										<div class="MRprofileWrapper1">
 											<div class="MRprofileImg1">
-												<img src="${pageContext.request.contextPath}/assets/images/${ShowLogVo.userSavename}" alt="">
+												<img src="${pageContext.request.contextPath}/rdimg/userProfile/${ShowLogVo.userSavename}" alt="">
 											</div>
 
 											<div class="MRuserName1">${ShowLogVo.name}</div>
@@ -294,7 +301,7 @@ function toggleFollowButton() {
 											<div class="MRdogCards">
 												<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
 													<div class="MRdogCard1">
-														<img src="${pageContext.request.contextPath}/assets/images/${walkedDog.saveName}" alt="">
+														<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${walkedDog.saveName}" alt="">
 														<div class="MRdogName">${walkedDog.name}</div>
 													</div>
 												</c:forEach>
@@ -313,13 +320,13 @@ function toggleFollowButton() {
 
 									<div class="MRwalkRecordSection">
 										<div class="MRwalkData">
-											<img src="${pageContext.request.contextPath}/assets/images/${ShowLogVo.walkLogMap}" alt="">
+											<img src="${pageContext.request.contextPath}/rdimg/mapImg/${ShowLogVo.walkLogMap}" alt="">
 										</div>
 										<div class="MRpictures">
 											<!-- 이미지 가져오기 -->
 											<c:forEach items="${ShowLogVo.imageList}" var="image">
 												<div class="MRpicture${image.imageOrder}">
-													<img src="${pageContext.request.contextPath}/assets/images/${image.saveName}" alt="">
+													<img src="${pageContext.request.contextPath}/rdimg/conImg/${image.saveName}" alt="">
 												</div>
 											</c:forEach>
 										</div>
@@ -334,7 +341,7 @@ function toggleFollowButton() {
 												<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
 													<div id="comment_${cmt.walkLogCmtNo} class="MRcomment1">
 
-														<img src="${pageContext.request.contextPath}/assets/images/${cmt.userSavename}" alt="">
+														<img src="${pageContext.request.contextPath}/rdimg/userProfile/${cmt.userSavename}" alt="">
 														<div class="replyDateCmtBox">
 															<div class="MRreplyDate">${cmt.regDate}</div>
 															<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
