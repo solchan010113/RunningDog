@@ -9,6 +9,7 @@
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
 		<![CDATA[
 			select  userNo
+					,code
 			from users
 			where id = #{id}
 			and password = #{password}
@@ -41,7 +42,7 @@
 		         ,do.name as dogName
 		         ,im.orgname as orgName
 		 FROM users us,dog do, images im
-	 	 where us.userno = #{userno}
+	 	 where us.userno = #{userNo}
 	 	 and im.type = 'dog'
 	 	 and us.userno = do.userno
 		 and do.dogno = im.useno
