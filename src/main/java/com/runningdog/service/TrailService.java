@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -439,7 +440,7 @@ public class TrailService {
 		if(cmtListNav == 0) {
 			// 목록
 			List<TrailCmtVo> cmtList = trailDao.cmtList(fetchSet);
-			System.out.println("cmtList : " + cmtList);
+			// System.out.println("cmtList : " + cmtList);
 			
 			List<List<ImagesVo>> cmtImgList = new ArrayList<List<ImagesVo>>();
 			List<ImagesVo> userImgList = new ArrayList<ImagesVo>();
@@ -452,13 +453,19 @@ public class TrailService {
 				// 후기 좋아요수
 				int cmtLikeCnt = trailDao.cmtLikeCnt(trailCmtVo.getTrailCmtNo());
 				
+				if(CollectionUtils.isEmpty(images)) {
+					ImagesVo vo = new ImagesVo();
+					vo.setSaveName("noImg");
+					vo.setImageOrder(0);
+					images.add(vo);
+				}
 				cmtImgList.add(images);
 				userImgList.add(userImg);
 				likeCntList.add(cmtLikeCnt);
 			}
-			System.out.println("cmtImgList : " + cmtImgList);
-			System.out.println("userImgList : " + userImgList);
-			System.out.println("likeCntList : " + likeCntList);
+			// System.out.println("cmtImgList : " + cmtImgList);
+			// System.out.println("userImgList : " + userImgList);
+			// System.out.println("likeCntList : " + likeCntList);
 			
 			Map<String, Object> listMap = new HashMap<String, Object>();
 			listMap.put("cmtList", cmtList);
