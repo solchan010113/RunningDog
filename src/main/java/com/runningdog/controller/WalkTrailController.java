@@ -202,15 +202,16 @@ public class WalkTrailController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		if(authUser != null) {
-			System.out.println("authUser.getUserNo() " + authUser.getUserNo());
-			System.out.println("authUser.getUserNo() " + authUser);
-			
 			UsersVo usersVo = new UsersVo();
 			usersVo.setUserNo(authUser.getUserNo());
 			trailVo.setUsersVo(usersVo);
 			userMap = trailService.userDetail(trailVo);
+		} else {
+			UsersVo usersVo = new UsersVo();
+			usersVo.setUserNo(2);
+			trailVo.setUsersVo(usersVo);
+			userMap = trailService.userDetail(trailVo);
 		}
-		System.out.println("userMap " + userMap);
 		
 		// 산책로 이용 랭킹
 		Map<String, Object> userUsedMap = trailService.trailUserUsed(trailVo);
@@ -240,14 +241,9 @@ public class WalkTrailController {
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		
 		int cmtNav = (int) fetchSet.get("cmtNav");
-		int cmtListNav = (int) fetchSet.get("cmtListNav");
 		if(cmtNav == 0) {
-			if(cmtListNav == 0) {
-				// 후기 목록
-				listMap = trailService.cmtListMap(fetchSet);
-			} else if(cmtListNav == 1) {
-				// 후기 갤러리
-			}
+			// 후기 - 목록 / 갤러리
+			listMap = trailService.cmtListMap(fetchSet);
 		} else if(cmtNav == 1) {
 			// 산책일지
 		}

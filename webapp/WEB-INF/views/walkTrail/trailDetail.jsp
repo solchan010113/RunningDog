@@ -144,10 +144,10 @@
 					<div class="detail-bar">
 						<c:if test="${!empty userMap }">
 							<c:if test="${!empty userMap.userImg }">
-								<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">
+								<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userMap.userImg.saveName }">
 							</c:if>
 							<c:if test="${empty userMap.userImg }">
-								<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang5.jpg">
+								<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
 							</c:if>
 							<div class="detail-text">
 								<span>${userMap.usersVo.name }</span>
@@ -182,10 +182,10 @@
 					<h2>공유 메이트</h2>
 					<div class="detail-bar">
 						<c:if test="${! empty detailMap.userImg }">
-							<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">
+							<img src="${pageContext.request.contextPath }/rdimg/userProfile/${detailMap.userImg.saveName }">
 						</c:if>
 						<c:if test="${empty detailMap.userImg }">
-							<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang5.jpg">
+							<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
 						</c:if>
 						<div class="detail-text">
 							<span>${detailMap.trailVo.usersVo.name }</span>
@@ -212,10 +212,10 @@
 						<c:forEach items="${userUsedMap.userList }" var="usersVo" varStatus="status">
 							<div class="ranking-detail-bar">
 								<c:if test="${!empty userUsedMap.imgList[status.index] }">
-									<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang2.jpg">
+									<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userUsedMap.imgList[status.index].saveName }">
 								</c:if>
 								<c:if test="${empty userUsedMap.imgList[status.index] }">
-									<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang1.jpg">
+									<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
 								</c:if>
 								<div class="detail-text">
 									<span>${usersVo.name }</span>
@@ -323,7 +323,9 @@
 				</div>
 				<!-- // comment-bar -->
 				
-				<div class="comment-list"></div>
+				<div class="comment-list cmt-list"></div>
+				<div class="comment-list gallery-list"></div>
+				<div class="meetingList"></div>
 				<!-- // comment-list -->
 			</div>
 			<!-- // comment-container -->
@@ -596,7 +598,6 @@
 		let fetchSet = {
 			"trailNo" : trailNo,
 			"cmtNav" : cmtIndex,
-			"cmtListNav" : cmtListIndex,
 			"cmtOrderNav" : cmtOrderIndex,
 		}
 		console.log("fetchSet ", fetchSet);
@@ -611,24 +612,36 @@
 			success : function(listMap) {
 				console.log("listMap ", listMap);
 				
-				$(".comment-list").empty();
+				$(".cmt-list").empty();
+				$(".gallery-list").empty();
+				$(".meetingList").empty();
 				
 				if(cmtIndex == 0) {
-					if(cmtListIndex == 0) {
-						console.log("후기 목록");
-						
-						if(listMap.cmtList.length == 0) {
-							// nonListRender();
-						} else {
+					console.log("후기 - 목록 / 갤러리");
+					
+					if(listMap.cmtList.length == 0) {
+						nonListRender();
+					} else {
+						if(cmtListIndex == 0) {
 							for(let i = 0; i < listMap.cmtList.length; i++) {
 								listRender(listMap, i, "down");
 							}
+						} else if(cmtListIndex == 1) {
+							for(let i = 0; i < listMap.cmtList.length; i++) {
+								galleryRender(listMap, i, "down");
+							}
 						}
-					} else if(cmtListIndex == 1) {
-						console.log("후기 갤러리");
+						
+						
+						
+						for(let i = 0; i < listMap.cmtList.length; i++) {
+							listRender(listMap, i, "down");
+						}
 					}
 				} else if(cmtIndex == 1) {
 					console.log("산책일지 목록");
+					
+					nonListRender();
 				}
 			},
 			error : function(XHR, status, error) {
@@ -649,6 +662,7 @@
 		str += '	<div class="comment-img">';
 		if(path != "") {
 			str += '		<img src="${pageContext.request.contextPath }/rdimg/trail/' + path + '">';
+			str += '		<div class="imgCount">3</div>';
 		}
 		str += '	</div>';
 		str += '	<div class="comment-content">';
@@ -659,7 +673,7 @@
 		if(listMap.userImgList[index] != null) {
 			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
 		} else {
-			str += '		<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang1.jpg">';
+			str += '		<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
 		}
 		str += '		<div class="detail-text">';
 		str += '			<span>' + listMap.cmtList[index].usersVo.name + '</span>';
@@ -675,13 +689,50 @@
 		str += '</div>';
 		
  		if(dir == "up") {
-			$(".comment-list").prepend(str);
+ 			$(".cmt-list").prepend(str);
 		} else if(dir == "down") {
-			$(".comment-list").append(str);
+			$(".cmt-list").append(str);
 		} else {
 			console.log("잘못입력");
 		}
 	}
+	
+	// cmt gallery list
+	function galleryRender(listMap, index, dir) {
+		console.log("galleryRender()");
+		
+		for(let i = 0; i <listMap.cmtImgList[index].length; i++) {
+			let path = (listMap.cmtImgList[index][i].saveName == "noImg") ? "" : listMap.cmtImgList[index][i].saveName
+			
+			if(path != "") {
+				let str = '';
+				str += '<div class="gallery-img">';
+				str += '	<div class="comment-img">';
+				str += '		<img src="${pageContext.request.contextPath }/rdimg/trail/' + path + '">';
+				str += '	</div>';
+				str += '</div>';
+				
+				if(dir == "up") {
+		 			$(".gallery-list").prepend(str);
+				} else if(dir == "down") {
+					$(".gallery-list").append(str);
+				} else {
+					console.log("잘못입력");
+				}
+			}
+		}
+	}
+	
+	function nonListRender() {
+		let str = '';
+		str += '<div class="comment-detail nonList">';
+		str += '	<span>목록이 없습니다.</span>';
+		str += '</div>';
+		
+		$(".cmt-list").append(str);
+	}
+	
+	
 	
 	/* cmt detail modify modal */
 	$(".comment-img").on("click", function() {
