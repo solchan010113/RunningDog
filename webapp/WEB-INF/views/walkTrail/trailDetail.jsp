@@ -332,9 +332,11 @@
 	</div>
 	
 	<!-- Button trigger modal -->
+	<!-- 
 	<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modifyModal">
 		<i class="fa-solid fa-pen"></i>
 	</button>
+	-->
 	
 	<!-- modifyModal -->
 	<div class="modal fade" id="modifyModal" tabindex="0" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -525,16 +527,18 @@
 
 			document.querySelector('#cmtAddBtn').addEventListener('click', function() {
 				console.log('업로드');
-				console.log('myDropzone ', myDropzone);
+				// console.log('myDropzone ', myDropzone);
 				
 				content = $('textarea[name=content]').val();
 				console.log('content ', content);
+				console.log('dropzone.files ', dropzone.files);
 				
 				if (dropzone.files.length > 10) {
 					alert("후기 사진은 10개 까지 가능합니다.");
 				} else {
 					myDropzone.processQueue();
-					console.log('dropzone.files ', dropzone.files);
+
+					window.location.href = "${pageContext.request.contextPath}/walkTrail/detail?trailNo=" + trailNo;
 				}
 			});
 
@@ -638,12 +642,13 @@
 		console.log("listRender()");
 		
 		let content = (listMap.cmtList[index].content == null) ? "" : listMap.cmtList[index].content;
+		let path = (listMap.cmtImgList[index][0].saveName == "noImg") ? "" : listMap.cmtImgList[index][0].saveName
 		
 		let str = '';
 		str += '<div class="comment-detail">';
 		str += '	<div class="comment-img">';
-		if(listMap.cmtImgList[index].filePath != null) {
-			str += '		<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">';
+		if(path != "") {
+			str += '		<img src="${pageContext.request.contextPath }/rdimg/trail/' + path + '">';
 		}
 		str += '	</div>';
 		str += '	<div class="comment-content">';
@@ -652,7 +657,7 @@
 		str += '	</div>';
 		str += '	<div class="comment-info">';
 		if(listMap.userImgList[index] != null) {
-			str += '		<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">';
+			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
 		} else {
 			str += '		<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang1.jpg">';
 		}

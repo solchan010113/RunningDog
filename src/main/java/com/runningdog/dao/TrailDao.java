@@ -228,7 +228,7 @@ public class TrailDao {
 
 	// 후기 이미지 목록
 	public List<ImagesVo> cmtImages(int trailCmtNo) {
-		System.out.println("TrailDao.cmtImages()");
+		// System.out.println("TrailDao.cmtImages()");
 		
 		List<ImagesVo> images = sqlSession.selectList("walkTrail.cmtImages", trailCmtNo);
 		
@@ -237,7 +237,7 @@ public class TrailDao {
 
 	// 후기 좋아요수
 	public int cmtLikeCnt(int trailCmtNo) {
-		System.out.println("TrailDao.cmtLikeCnt()");
+		// System.out.println("TrailDao.cmtLikeCnt()");
 		
 		int cmtLikeCnt = sqlSession.selectOne("walkTrail.cmtLikeCnt", trailCmtNo);
 		
