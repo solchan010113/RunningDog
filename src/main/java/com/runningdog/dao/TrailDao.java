@@ -213,11 +213,11 @@ public class TrailDao {
 		System.out.println("TrailDao.userDetailList()");
 		
 		List<UsersVo> userList =  sqlSession.selectList("walkTrail.userDetailList", trailNo);
-		
+
 		return userList;
 	}
 
-	// 후기 목록
+	// 후기 - 목록 / 갤러리
 	public List<TrailCmtVo> cmtList(Map<String, Object> fetchSet) {
 		System.out.println("TrailDao.cmtList()");
 		

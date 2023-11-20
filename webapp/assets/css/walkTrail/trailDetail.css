@@ -48,6 +48,12 @@
 	display: block;
 }
 
+/* 프로필 */
+.detail-bar > img,
+.comment-info > img {
+    border-radius: 50%;
+}
+
 /* map-container main */
 .map-container {
 	/*height: 1425px;*/
@@ -519,6 +525,9 @@
 }
 .comment-detail:hover {
 	background-color: #fff5f0;
+}
+.nonList:hover {
+	background-color: white;
 }
 
 /* 이미지 comment-list comment-img */
