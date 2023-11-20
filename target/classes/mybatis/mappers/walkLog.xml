@@ -4,6 +4,16 @@
 <mapper namespace="walkLog">
    
    <!-- 쿼리문 작성 --> 
+	
+	<!-- 유저 1명 가져오기 (로그인) -->
+	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
+		<![CDATA[
+			select  userNo
+			from users
+			where id = #{id}
+			and password = #{password}
+		]]>
+	</select>
    
    <!-- 산책로 가져오기 -->
    <select id="mapTrailSelect"  resultType="com.runningdog.vo.UseTrailVo">
