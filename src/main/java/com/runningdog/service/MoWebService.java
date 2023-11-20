@@ -1,7 +1,11 @@
 package com.runningdog.service;
 
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,9 +17,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.CoordsVo;
+import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -112,22 +118,78 @@ public class MoWebService {
 		return moWebDao.trailSelect(locationNo);					
 	}	
 	
+	// 첨부이미지 저장하기
+	public String imgsSave(int walkLogNo,MultipartFile file){
+		System.out.println("서비스 첨부이미지 저장하기");	
+		
+		ImagesVo imagesVo = new ImagesVo();
+		
+		// 0.파일 경로
+		String saveDir = "C:\\\\javaStudy\\\\upload";
+		
+		// 1.파일관련 자료 추출/////////////////////////////////////////////////////////
+		// (1) 오리지날네임 추출
+		String orgName = file.getOriginalFilename();
+		System.out.println(orgName);
+		
+		// (2) 확장자 추출
+		String exName = orgName.substring(orgName.lastIndexOf("."));
+        // 몇번째에 "." 있는지 확인하는 메소드 + 그걸 잘라내고 추출하는 메소드
+		System.out.println(exName);
+		
+		// (3) 저장파일명 (겹치지 않아야 한다)
+		String saveName = System.currentTimeMillis()+UUID.randomUUID().toString()+exName;
+				                // long + 문자열 + 확장자
+		System.out.println(saveName);
+		
+		// (4) 파일 사이즈
+		long fileSize = file.getSize();
+		System.out.println(fileSize);
+		
+		// (5) 파일 경로
+		String filePath = saveDir +"\\"+ saveName;
+		System.out.println(filePath);
+		
+		// (6) Vo로 묶기
+		imagesVo.setUserNo(walkLogNo); // 셀렉트키 넣기
+		imagesVo.setFilePath(filePath);
+		imagesVo.setOrgName(orgName);
+		imagesVo.setSaveName(saveName);
+		//imagesVo.setFileSize(fileSize);			
+		
+		System.out.println(imagesVo);
+		
+		// (7) Dao 만들어서 저장하기
+		System.out.println("db에 저장 " + imagesVo);
+		moWebDao.imgsSave(imagesVo);
+		
+		 //파일저장(서버쪽 하드디스크에 저장)/////////이거 서비스에서 처리하기///////////////// 
+		try { byte[]
+			fileData; fileData = file.getBytes();			 
+			OutputStream os = new
+			FileOutputStream("C:\\javaStudy\\upload\\"+file.getOriginalFilename()+".png"); BufferedOutputStream
+			bos = new BufferedOutputStream(os);			 
+			bos.write(fileData); bos.close();		 
+		} catch (IOException e) {
+		e.printStackTrace(); }	
+		
+		return "";					
+	}	
+	
 	/* 셀레리움으로 화면캡쳐하기 */
 	private String mapImgSave(int walkLogNo) {
-		// Set the path of the chromedriver executable
+		System.out.println("서비스 맵이미지 저장하기");	
+		
 		String path = System.getProperty("user.dir");
         System.out.println("현재 작업 경로: " + path);
-
 		
         System.setProperty("webdriver.chrome.driver", "C:\\javaStudy\\RunningDog\\webapp\\assets\\driver\\chromedriver.exe");
 
         // Create a new instance of the Chrome driver
         WebDriver driver = new ChromeDriver();
-
-        // Go to the webpage that you want to capture
         
-        //driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 학원 경로
-        driver.get("http://localhost:8000/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 집 경로
+        driver.get("http://localhost:433/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 학원 경로
+        //driver.get("http://localhost:8000/RunningDog/m/walkMap?walkLogNo="+walkLogNo); // 집 경로
         driver.manage().window().setSize(new Dimension(745+16, 380+138));
  
         String savePath = null;
@@ -136,6 +198,14 @@ public class MoWebService {
         	savePath = "C:\\javaStudy\\upload\\mapImg\\" + System.currentTimeMillis()+UUID.randomUUID().toString()+".jpg";
             File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, new File(savePath));
+            
+            System.out.println("맵 이미지관련 정보들");
+            System.out.println(srcFile);
+            System.out.println(savePath);
+            System.out.println(driver);
+            System.out.println(path);             
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
