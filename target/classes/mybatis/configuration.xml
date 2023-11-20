@@ -14,6 +14,8 @@
         
         <mapper resource="mybatis/mappers/walkBlog.xml" />
         
+        <mapper resource="mybatis/mappers/walkTrail.xml" />
+        
         <mapper resource="mybatis/mappers/setting.xml" />
     </mappers>
     

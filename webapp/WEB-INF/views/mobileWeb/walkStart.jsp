@@ -23,7 +23,10 @@
 	<link href="${pageContext.request.contextPath}/assets/css/mobileWeb/walkStart.css" rel="stylesheet" type="text/css">		
 				
 	<!-- Slick 슬라이더 스타일 시트 추가 -->
+	<!-- 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+	 -->
+	<link href="${pageContext.request.contextPath}/assets/css/mobileWeb/slick.css" rel="stylesheet" type="text/css">	
 		
 	<!-- Slick 슬라이더 스크립트 추가 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -41,7 +44,7 @@
 			<div class="profile-circles" >
 				<c:forEach items="${dogList}" var="MoDogVo">
 			        <div class="profile-circle choiceRed" >
-			            <img src="${pageContext.request.contextPath}/assets/images/123.jpg" alt="Profile Image 1">
+			            <img src="${pageContext.request.contextPath}/assets/images/${MoDogVo.orgName}" alt="Profile Image 1">
 			            <input type="hidden" name="dogNo" class="dogDate" value="${MoDogVo.dogNo}">
 			        </div>
 		        </c:forEach>            
@@ -137,5 +140,8 @@
         naver.maps.onJSContentLoaded = initMap;        
         
     </script>
+    
+   
+    
 </body>
 </html>

@@ -112,7 +112,7 @@
 		</div> <!-- dogSlickBox -->
 			
 			
-		<h2 class="">패밀리 강아지</h2>
+		<h2 class="">친구 강아지</h2>
 		
 		<div class="dogSlickBox">
 			
