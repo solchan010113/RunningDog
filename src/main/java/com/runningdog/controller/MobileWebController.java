@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.service.MoWebService;
 import com.runningdog.service.UserService;
 import com.runningdog.vo.CoordsVo;
+import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LinePathVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoImagesVo;
@@ -159,34 +160,14 @@ public class MobileWebController {
 		return moWalkLogVo; // ajax로 재반환
 	}
 
-	// 이미지저장기록하기
+	// 첨부이미지 기록하기
 	@RequestMapping("/imagesInsert")
 	public ResponseEntity<String> handleImagesInsert(
 	        @RequestParam("walkLogNo") int walkLogNo,
-	        @RequestPart("image") MultipartFile image) {
-		// System.out.println("walkInsert3");
-		// 파일+workLisgNo
-		// 파일1개 저장...
-		System.out.println("이미지와 함께 저장할 셀렉트키" +walkLogNo);
-		
-		System.out.println("첨부이미지리스트 " + image);
-		// 1117 파일저장완료
-		// 이제 이미지들을 DB저장 해주기
-		
-		 //(2)파일저장(서버쪽 하드디스크에 저장)/////////이거 서비스에서 처리하기///////////////// 
-		try { byte[]
-			fileData; fileData = image.getBytes();
-			 
-			OutputStream os = new
-			FileOutputStream("C:\\javaStudy\\upload\\"+image.getOriginalFilename()+".png"); BufferedOutputStream
-			bos = new BufferedOutputStream(os);
-			 
-			bos.write(fileData); bos.close();
-		 
-		} catch (IOException e) { // TODO Auto-generated catch block
-		e.printStackTrace(); }
-			 
-	
+	        @RequestPart("image") MultipartFile image) {		
+		System.out.println("셀렉트키 : " +walkLogNo+"/   첨부이미지리스트 : " + image);	
+		// 이제 이미지들을 DB저장 해주기		
+		moWebService.imgsSave(walkLogNo,image);		
 		// 처리 결과에 따라 응답을 구성
         String responseMessage = "File uploaded successfully.";
         return ResponseEntity.ok(responseMessage);
@@ -196,13 +177,11 @@ public class MobileWebController {
 	// 맵 캡쳐하는 페이지
 	@RequestMapping("/walkMap")
 	public String walkMap(@RequestParam(name = "walkLogNo") int walkLogNo, Model model) {
-		System.out.println("walkMap");
-
+		System.out.println("맵 캡쳐");
 		System.out.println(walkLogNo);
-
 		List<CoordsVo> coordList = moWebService.mapSelect(walkLogNo);
-
-		// CoordsVo를 JSON 문자열로 변환하여 모델에 추가
+		
+		// CoordsVo를 JSON 문자열로 변환하여 모델에 추가 (나중에 클래스로 뺄 수 있음)
 		StringBuilder jsonBuilder = new StringBuilder("[");
 		for (CoordsVo coordVo : coordList) {
 			if (jsonBuilder.length() > 1) {
@@ -212,11 +191,9 @@ public class MobileWebController {
 					.append("}");
 		}
 		jsonBuilder.append("]");
-
+		
 		System.out.println(jsonBuilder.toString());
-
 		model.addAttribute("lineList", jsonBuilder.toString());
-
 		return "mobileWeb/walkMap";
 	}
 
