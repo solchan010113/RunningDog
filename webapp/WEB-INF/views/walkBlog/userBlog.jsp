@@ -211,7 +211,7 @@
 				<div class="profileWrapper">
 					<div class="wrap">
 						<div class="profileImg">
-							<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+							<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.userSavename}" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
 						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
@@ -233,22 +233,13 @@
 					<div class="mainDogCard">
 						<div class="coworkingDog">산책 파트너</div>
 						<div class="maindogCardBox">
-							<div class="mainDogCard1">
-								<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-								<div class="mainDogCardName">마루</div>
-							</div>
-							<div class="mainDogCard2">
-								<img src="${pageContext.request.contextPath}/assets/images/리트리버.png" alt="">
-								<div class="mainDogCardName">리트리버</div>
-							</div>
-							<div class="mainDogCard3">
-								<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-								<div class="mainDogCardName">도지</div>
-							</div>
-							<div class="mainDogCard4">
-								<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-								<div class="mainDogCardName">연탄</div>
-							</div>
+							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
+								<div class="mainDogCard1">
+									<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
+									<div class="mainDogCardName">${blogDogVo.name}</div>
+								</div>
+
+							</c:forEach>
 						</div>
 
 
@@ -320,9 +311,9 @@
 
 										<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
 											<div class="modifyDelete">
-											<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
+												<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
 												<button class="modifyButton">수정</button>
-											
+
 												<!-- <button class="deleteButton">삭제</button> -->
 
 												<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -345,20 +336,22 @@
 										</c:if>
 										<div class="MRdogCardBox">
 
+											<%-- <c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
+												<div class="mainDogCard1">
+													<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
+													<div class="mainDogCardName">${blogDogVo.name}</div>
+												</div>
+
+											</c:forEach>
+ --%>
 											<div class="MRpartnerDoglabel">함께한 강아지</div>
 											<div class="MRdogCards">
+											<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
 												<div class="MRdogCard1">
-													<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
-													<div class="MRdogName">마루</div>
+													<img src="${pageContext.request.contextPath}/assets/images/${walkedDog.saveName}" alt="">
+													<div class="MRdogName">${walkedDog.name}</div>
 												</div>
-												<div class="MRdogCard2">
-													<img src="${pageContext.request.contextPath}/assets/images/연탄.png" alt="">
-													<div class="MRdogName">연탄</div>
-												</div>
-												<div class="MRdogCard3">
-													<img src="${pageContext.request.contextPath}/assets/images/도지.png" alt="">
-													<div class="MRdogName">도지</div>
-												</div>
+												</c:forEach>
 
 											</div>
 

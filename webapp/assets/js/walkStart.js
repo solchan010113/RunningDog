@@ -1,7 +1,29 @@
 	var time = 0;
 	
-	$(document).ready(function(){
-	  buttonEvt();
+	var selectedDogNos = []; // 선택된 강아지 번호를 담는 배열
+	
+	$(document).ready(function () {
+	    init();
+	    buttonEvt();
+	
+	    // 강아지 프로필사진 슬릭
+	    $('.profile-circles').slick({
+	        slidesToShow: 6,
+	        slidesToScroll: 6,
+	        infinite: false
+	    });
+	
+	    // 슬라이드 버튼을 숨김
+	    $('.slick-next, .slick-prev').hide();
+	
+	    // 페이지 로드 시에 실행
+	    updateSelectedDogNos();
+	
+	    // DOM이 완전히 로드된 후에 실행되도록 이벤트 리스너 추가
+	    $(document).on('click', '.profile-circle', function () {
+	        togglePSelect($(this));
+	        updateSelectedDogNos();
+	    });
 	});
 	
 	function init(){
@@ -176,7 +198,7 @@
 	
  
     // 시작버튼 클릭 후 작동
-    function startTracking() {
+    function startTracking() {		
         if (!isTracking) {
             isTracking = true;                
             $("#startButton").hide(); // 시작버튼 가리기
@@ -184,12 +206,6 @@
             
             console.log("시작버튼 클릭"); 
             
-            // 현재 날짜 및 시간을 가져옵니다.
-			//let currentDate = new Date();
-			
-			// 원하는 형식으로 날짜 및 시간을 표시합니다.
-			//let sTime = currentDate.toISOString().slice(0, 16).replace("T", " ");
-			//let sTime = currentDate.toLocaleString().slice(0, 16).replace("T", " ");
 			let sTime = timeRecode()
 			
 			console.log("시작시간" + sTime);           
@@ -199,8 +215,25 @@
             // 네비게이션 기능으로 위치정보 받아오기 (3초마다 위치 업데이트)
             updateMyLocation();
             
-            watchId = setInterval(updateMyLocation, 3000);  
-        }
+            /*watchId = setInterval(updateMyLocation, 3000);  
+            
+            // 여기서 강아지 프로필 선택을 막을 수 있습니다.
+        	$(".profile-circle").off("click");  // 이벤트 제거*/
+        	
+        	// watchId 변수 선언
+	        let watchId = setInterval(function () {
+	            updateMyLocation();  // success 함수에서 받아온 위치 정보 전달
+	        }, 3000);
+	
+	        // 여기서 강아지 프로필 선택을 막을 수 있습니다.
+	        $(".profile-circle").off("click");  // 이벤트 제거
+	
+	        // watchId를 저장하여 나중에 중지할 수 있도록 함
+	        $(document).data("watchId", watchId);
+	        
+	    	}
+	
+        
     }          
          
     // 정지버튼 클릭 후 작동
@@ -356,54 +389,32 @@
         
         
         
-     }     
-     
-        
+     }   
 
     function handleError(error) {
         console.error("위치 정보 가져오기 실패: " + error.message);
     }  
     
-    // 배열 초기화
-	var selectedDogNos = [];
-    
-   // 강아지 프로필사진 슬릭
-   $('.profile-circles').slick({
-	       slidesToShow: 6, // 화면에 보여질 슬라이드 수
-	       slidesToScroll: 6, // 스크롤할 슬라이드 수
-	       infinite: false
-	   });
-	   
-	$(document).ready(function() {
-        // 슬라이드 버튼을 숨김
-        $('.slick-next, .slick-prev').hide();
-    });    
-	   
-	   
-	// 강아지 프로필사진 클릭 액션    
-    $('.profile-circle').click(function() {		
-	    console.log("강아지 선택 버튼 클릭");	
-	    togglePSelect($(this));
-	});
-	
-	
 	function togglePSelect($element) {
 	    // profile-circle 클릭 시 호출되는 함수
 	    $element.toggleClass('choiceRed');
+	}
 	
-		// 선택된 profile-circle 중에서 choiceRed 클래스가 적용된 요소들만 가져오기
+	function updateSelectedDogNos() {
+	    // 선택된 profile-circle 중에서 choiceRed 클래스가 적용된 요소들만 가져오기
 	    var selectedChoiceRed = $('.choiceRed');
 	
 	    // 선택된 profile-circle들의 dogNo를 배열로 모아서 설정
-	    var selectedDogNos = selectedChoiceRed.map(function() {
+	    selectedDogNos = selectedChoiceRed.map(function() {
 	        return $(this).find('.dogDate').val();
 	    }).get();
-	    
-	    console.log("선택된 강아지 번호 "+selectedDogNos);	
 	
-		// 배열을 쉼표(,)로 구분된 문자열로 변환
-		var dogNosString = selectedDogNos.join(',');
-	    // 선택된 강아지 번호 배열을 dogDataInput에 설정	    
+	    console.log("선택된 강아지 번호 " + selectedDogNos);
+	
+	    // 배열을 쉼표(,)로 구분된 문자열로 변환
+	    var dogNosString = selectedDogNos.join(',');
+	
+	    // 선택된 강아지 번호 배열을 dogDataInput에 설정
 	    $('#dogDataInput').val(dogNosString);
-	}	
+	}
   
