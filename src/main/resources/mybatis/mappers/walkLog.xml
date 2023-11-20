@@ -42,7 +42,7 @@
 		         ,do.name as dogName
 		         ,im.orgname as orgName
 		 FROM users us,dog do, images im
-	 	 where us.userno = #{userNo}
+	 	 where us.userno = #{userno}
 	 	 and im.type = 'dog'
 	 	 and us.userno = do.userno
 		 and do.dogno = im.useno
