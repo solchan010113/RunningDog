@@ -1,8 +1,8 @@
-	var time = 0;
+	let time = 0;
 	
-	var selectedDogNos = []; // 선택된 강아지 번호를 담는 배열
+	let selectedDogNos = []; // 선택된 강아지 번호를 담는 배열
 	
-	var address = '';
+	let address = '';
 	// 보여지는 맵
     let map;
 	// 처음 보여지는 마커
@@ -47,18 +47,12 @@
 	    });
 	    
 	    
-	    
-	    console.log("ajax로 보내기전 확인"+address);	
 		//현재위치 --> 강서구 천호동
 		
 		//서버(강서구 천호동)-->
 		//리스트 여러개      <--
-		
-		
+				
 		//출력
-		
-		
-	    
 	});
 	
 	function init(){
@@ -142,9 +136,7 @@
 	// 처음 맵구현
     function initMap() {
       // 현재 위치 가져오기
-    	navigator.geolocation.getCurrentPosition(success, error, options);   
-    	
-    	console.log("ajax로 보내기전 확인2"+address);		
+    	navigator.geolocation.getCurrentPosition(success, error, options);      	
 
         // 시작버튼 클릭
         $("#startButton").on("click", startTracking);
@@ -177,7 +169,7 @@
 	       console.log('현재 위치의 주소: ' + address);
 	       $("#locationDataInput").val(address);
 	   }); 	
-	   	      
+	   	      	   	      
       // 맵 표시
       map = new naver.maps.Map("map", {
         center: myLocation,
@@ -201,8 +193,8 @@
           position: myLocation,
           map: map,              
           title: "내 위치"
-      });         
-    }
+      });   
+	}	
 
     function error(error) {
       console.error("에러 코드: " + error.code);
