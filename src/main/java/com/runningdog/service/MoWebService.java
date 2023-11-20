@@ -151,10 +151,11 @@ public class MoWebService {
 		System.out.println(filePath);
 		
 		// (6) Vo로 묶기
-		imagesVo.setUserNo(walkLogNo); // 셀렉트키 넣기
 		imagesVo.setFilePath(filePath);
 		imagesVo.setOrgName(orgName);
 		imagesVo.setSaveName(saveName);
+		imagesVo.setType("walkLogCon"); // 타입지정
+		imagesVo.setUseNo(walkLogNo); // 셀렉트키 넣기
 		//imagesVo.setFileSize(fileSize);			
 		
 		System.out.println(imagesVo);
@@ -194,17 +195,26 @@ public class MoWebService {
  
         String savePath = null;
         try {
+        	ImagesVo imagesVo = new ImagesVo();
+        	
+        	String saveName = System.currentTimeMillis()+UUID.randomUUID().toString()+".jpg";
+        	
             // 캡쳐 코드
-        	savePath = "C:\\javaStudy\\upload\\mapImg\\" + System.currentTimeMillis()+UUID.randomUUID().toString()+".jpg";
+        	savePath = "C:\\javaStudy\\upload\\mapImg\\" + saveName;
             File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, new File(savePath));
             
-            System.out.println("맵 이미지관련 정보들");
-            System.out.println(srcFile);
-            System.out.println(savePath);
-            System.out.println(driver);
-            System.out.println(path);             
-            
+         // (6) Vo로 묶기
+    		imagesVo.setFilePath(savePath);
+    		imagesVo.setOrgName(saveName);
+    		imagesVo.setSaveName(saveName);
+    		imagesVo.setType("walkLogMap"); // 타입지정
+    		imagesVo.setUseNo(walkLogNo); // 셀렉트키 넣기
+    		//imagesVo.setFileSize(fileSize);	
+    		
+    		// (7) Dao 만들어서 저장하기
+    		System.out.println("맵이미지 db에 저장 " + imagesVo);
+    		moWebDao.imgsSave(imagesVo);            
             
         } catch (Exception e) {
             e.printStackTrace();
