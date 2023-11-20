@@ -137,7 +137,7 @@ function toggleFollowButton() {
 
 	<c:if test="${ requestScope.blogInfoVo.bannerSavename == null  }">
 	<div class="backgroundImg">
-	<img src="${pageContext.request.contextPath}/rdimg/blogBanner/bannerDefault.png" alt="">
+	<img src="${pageContext.request.contextPath}/assets/images/bannerDefault.png" alt="">
 	</div>
 	</c:if>
 	<c:if test="${ requestScope.blogInfoVo.bannerSavename != null  }">
