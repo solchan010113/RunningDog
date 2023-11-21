@@ -43,6 +43,13 @@ public class MoWebService {
 		return moWebDao.selectOneUser(userVo);
 	}
 	
+	// 동네정보로 산책로 불러오기
+	public List<UseTrailVo> trailSelect(LocationVo locationVo){
+		int locationNo = moWebDao.locationSelect(locationVo);		
+		List<UseTrailVo> trailList = moWebDao.mapTrailSelect(locationNo);
+		return trailList;
+	}
+	
 	// 동네번호 검색하기
 	public int locationSelect(String location){
 		System.out.println("서비스 동네번호 검색하기");	

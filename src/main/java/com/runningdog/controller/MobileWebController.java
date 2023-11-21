@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +41,10 @@ import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoImagesVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
+import com.runningdog.vo.TrailVo;
+import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
+import com.runningdog.vo.XYVo;
 
 @Controller
 @RequestMapping("/m")
@@ -61,13 +66,69 @@ public class MobileWebController {
 		System.out.println("모바일 로그인");
 		// 로그인 후 세션에 삽입
 		UserVo authUser = moWebService.selectOneUser(userVo);
-		System.out.println(authUser);
-		if (authUser != null) {
-			session.setAttribute("authUser", authUser);
-			return "redirect:map";
-		} else {
-			return "redirect:loginForm";
-		}
+		System.out.println(authUser);	
+		
+	    if ("admin".equals(userVo.getId())) {
+	        // 만약 사용자 아이디가 'admin'이면 'admin' 페이지로 리다이렉트
+	    	System.out.println("관리자접속");
+	        return "redirect:admin";
+	    } else if (authUser != null) {
+	        // 사용자가 'admin'이 아니고, 로그인에 성공한 경우 'map' 페이지로 리다이렉트
+	    	System.out.println("일반회원접속");
+	        session.setAttribute("authUser", authUser);
+	        return "redirect:map";
+	    } else {
+	        // 'admin'도 아니고 로그인에 실패한 경우 로그인 폼으로 리다이렉트
+	        return "redirect:loginForm";
+	    }
+	}
+	
+	// 로그인폼
+	@RequestMapping("/admin")
+	public String admin(HttpSession session) {
+		return "mobileWeb/adminInsert";
+	}
+	
+	@PostMapping("/adminInsert")
+	public String saveCoords(@RequestBody Map<String, List<Map<String, Double>>> requestBody) {
+	    String result = "성공"; // 성공 기본값으로 설정
+
+	    try {
+	        List<Map<String, Double>> coordsList = requestBody.get("coords");
+
+	        // 이제 이 List<Map<String, Double>>을 원하는 형식으로 변환할 수 있습니다.
+	        List<XYVo> coords = new ArrayList<>();
+
+	        for (Map<String, Double> coordMap : coordsList) {
+	            double x = coordMap.get("x");
+	            double y = coordMap.get("y");
+	            coords.add(new XYVo(x, y));
+	        }
+
+	        List<Integer> dogNoList = Arrays.asList(16);
+	        // MoWalkLogVo 객체를 생성하고 좌표 데이터 설정
+            MoWalkLogVo walkLogVo = new MoWalkLogVo();
+            walkLogVo.setPolylinePath(coords);
+            walkLogVo.setDogNoList(dogNoList);
+            walkLogVo.setUserNo(13);
+            walkLogVo.setLocationNo(1174010600);
+            walkLogVo.setTitle("관리자산책기록");
+            walkLogVo.setContent("관리자내용");
+            walkLogVo.setSecurity("공개"); 
+            walkLogVo.setUserNo(13);
+            
+            // 다른 MoWalkLogVo 속성들도 필요에 따라 설정
+            System.out.println("관리자 산책기록 확인"+walkLogVo);
+
+            // 서비스를 호출하여 좌표 데이터 저장
+            moWebService.walkLogInsert(walkLogVo); // 여기서 셀렉트키 반환
+
+	        return result;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result = "에러: " + e.getMessage();
+	        return result;
+	    }
 	}
 
 	// 로그인 모바일메인화면 맵실행
@@ -83,18 +144,18 @@ public class MobileWebController {
 		dogModel.addAttribute("dogList", dogList);
 
 		return "mobileWeb/walkStart";
-
-		// 산책로 정보 불러오기 (이걸 어떻게?) <-- 현재 내 위치를 기준으로
-		// List<UseTrailVo> trailList = moWebService.trailSelect();
-		// System.out.println(trailList);
-		// model.addAttribute("trailList",trailList);
-
-		// 모임정보 (후순위)
-
+	}	
+	
+	// 동네검색
+	@ResponseBody
+	@RequestMapping("/locationSelect")
+	public List<UseTrailVo> location(@RequestBody LocationVo locationVo) {
+		System.out.println("주소로 산책로 검색");		
+		System.out.println(locationVo);
+		List<UseTrailVo> trailList  = moWebService.trailSelect(locationVo);
+		System.out.println("산책로 정보 가져오기 성공 " + trailList);
+		return trailList;
 	}
-	
-	
-	
 	
 
 	// 로그아웃

@@ -66,37 +66,54 @@
 	var avgLat = totalLat / polylinePath.length;
 	var avgLng = totalLng / polylinePath.length;
 
-    //지도 표시
+	console.log(avgLng.toFixed(4)+", "+avgLat.toFixed(4));
+	
+	//지도 표시
     var map = new naver.maps.Map('map', {
-        zoom: 18,
-        center: new naver.maps.LatLng(avgLat, avgLng),
-		mapDataControl : false,
-		scaleControl : false,
-		caleControl: false,
-        logoControl: false
-    });	    
-   
+        mapDataControl: false,
+        scaleControl: false,
+        caleControl: false,
+        logoControl: false,
+        zoom: 18, // 초기 줌 레벨을 조절하세요
+        center: new naver.maps.LatLng(avgLat.toFixed(4), avgLng.toFixed(4))
+    });	
+
+	
+    
     //위의 배열을 이용해 라인 그리기
     var polyline = new naver.maps.Polyline({
-        path: polylinePath,      //선 위치 변수배열
-        strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-        strokeOpacity: 0.8, //선 투명도 0 ~ 1
-        strokeWeight: 6,   //선 두께
-        map: map           //오버레이할 지도
+        path: polylinePath,      // Polyline의 위치 변수 배열
+        strokeColor: '#FF0000', // Polyline의 선 색깔 지정 (빨강)
+        strokeOpacity: 0.8, // Polyline의 선 투명도 조절 (0 ~ 1)
+        strokeWeight: 6,   // Polyline의 선 두께 지정
+        map: map           // Polyline을 오버레이할 지도
+    });
+
+    // 배열 첫 번째 위치를 마커로 표시함
+    var firstMarker = new naver.maps.Marker({
+        position: polylinePath[0], // 첫 번째 위치
+        map: map
+    });
+
+    // 배열 마지막 위치를 마커로 표시함
+    var marker = new naver.maps.Marker({
+        position: polylinePath[polylinePath.length - 1], // 마지막 위치
+        map: map
     });
     
- 	// 배열 첫번째 위치를 마크로 표시함
-    var firstMarker = new naver.maps.Marker({
-	    position: polylinePath[0], // 첫 번째 위치
-	    map: map
-	});
+    map.setOptions('zoom', 1);
+    console.log("줌이동1");
+    
+    naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
+    	console.log("줌이동될때");
+    	var lineBounds = new naver.maps.LatLngBounds(polylinePath);
+      	console.log(polylinePath);
+        console.log(lineBounds);
+      	 // 맵을 Polyline에 맞게 조절
+        map.fitBounds(lineBounds);
+    });
 
-    // 배열 마지막 위치를 마크로 표시함
-    var marker = new naver.maps.Marker({
-        position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
-        map: map
-    }); // 지도 관련 함수들
-		
+    
 </script>
 
 	

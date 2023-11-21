@@ -210,6 +210,17 @@
 	        map: map
 	    }); // 지도 관련 함수들
 	    
+	 	// Get the bounds of the polyline
+	    var lineBounds = polyline.getBounds();
+
+	    // If the bounds exist, fit the map to the bounds
+	    if (lineBounds) {
+	        map.fitBounds(lineBounds, {
+	            padding: 20 // Adjust padding as needed
+	        });
+	    }
+	    
+	    
 //----------------------------------------------------------------------
 // 파일 선택이 변경되었을 때 실행되는 함수
 	$('#fileInput').on('change', function (event) {
@@ -366,8 +377,7 @@ $("#insertBtn").on("click", function(){
 		security: security,
 		dogNoList: dogNoList,
 		polylinePath: polylinePath
-	}	
-	    
+	}		    
     
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert",      
