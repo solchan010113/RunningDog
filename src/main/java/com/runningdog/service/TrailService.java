@@ -471,8 +471,53 @@ public class TrailService {
 		
 		return listMap;
 	}
+	
+	// 산책로 산책일지
+	public Map<String, Object> logListMap(Map<String, Object> fetchSet) {
+		System.out.println("TrailService.logListMap()");
+		
+		List<WalkLogVo> logList = trailDao.logList(fetchSet);
+		System.out.println("logList : " + logList);
+		
+		List<ImagesVo> logImgList = new ArrayList<ImagesVo>();
+		List<ImagesVo> userImgList = new ArrayList<ImagesVo>();
+		List<Integer> likeCntList = new ArrayList<Integer>();
+		for (WalkLogVo walkLogVo : logList) {
+			
+			System.out.println("walkLogVo " + walkLogVo.getUsersVo().getName());
+			
+			// 산책일지 이미지
+			ImagesVo logImg = trailDao.logImg(walkLogVo.getWalkLogNo());
+			// 유저 프로필
+			ImagesVo userImg = trailDao.userImg(walkLogVo.getUsersVo().getUserNo());
+			// 산책일지 좋아요수
+			int logLikeCnt = trailDao.logLikeCnt(walkLogVo.getWalkLogNo());
+			
+			if(logImg == null) {
+				ImagesVo vo = new ImagesVo();
+				vo.setSaveName("noImg");
+				vo.setImageOrder(0);
+				logImg = vo;
+			}
+			logImgList.add(logImg);
+			userImgList.add(userImg);
+			likeCntList.add(logLikeCnt);
+		}
+		// System.out.println("logImgList : " + logImgList);
+		// System.out.println("userImgList : " + userImgList);
+		// System.out.println("likeCntList : " + likeCntList);
+		
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("logList", logList);
+		listMap.put("logImgList", logImgList);
+		listMap.put("userImgList", userImgList);
+		listMap.put("likeCntList", likeCntList);
+		
+		return listMap;
+	}
 
 	// 산책로 후기 작성 ajax
+	/*
 	public void trailCmtAdd(Map<String, MultipartFile> fileMap, TrailCmtVo trailCmtVo) {
 		System.out.println("TrailService.trailCmtAdd()");
 		
@@ -532,6 +577,76 @@ public class TrailService {
 				}
 	        }
 		}
+	}
+
+*/
+	// 산책로 후기 작성 ajax
+	public int trailCmtAdd(TrailCmtVo trailCmtVo) {
+		System.out.println("TrailService.trailCmtAdd()");
+		
+		int insertCnt = trailDao.trailCmtAdd(trailCmtVo);
+		if(insertCnt != 0) {
+			System.out.println("후기 등록 성공");
+			
+			return trailCmtVo.getTrailCmtNo();
+		} else {
+			return 0;
+		}
+	}
+	
+	// 후기 이미지 업로드
+	public void trailCmtImgAdd(Map<String, MultipartFile> fileMap, int trailCmtNo) {
+		System.out.println("TrailService.trailCmtImgAdd()");
+		
+		int index = 0;
+		for (MultipartFile file : fileMap.values()) {
+			if(!file.isEmpty()) {
+				// 파일 정보
+				String saveDir = "C:\\javaStudy\\rdimg\\trail";
+				
+				String orgName = file.getOriginalFilename();
+				String exName = orgName.substring(orgName.lastIndexOf("."));
+				
+				String saveName = System.currentTimeMillis()
+						+ UUID.randomUUID().toString()
+						+ exName;
+				
+				String filePath = saveDir + "\\" + saveName;
+				
+				int fileSize = (int) file.getSize();
+				
+				ImagesVo imagesVo = new ImagesVo();
+				imagesVo.setUseNo(trailCmtNo);
+				imagesVo.setOrgName(orgName);
+				imagesVo.setSaveName(saveName);
+				imagesVo.setFilePath(filePath);
+				imagesVo.setFileSize(fileSize);
+				imagesVo.setImageOrder(index);
+				
+				// DB 연결
+				// 후기 이미지 업로드
+				int imgInsertCnt = trailDao.cmtImgAdd(imagesVo);
+				if(imgInsertCnt == 1) {
+					System.out.println("후기 이미지 업로드 성공");
+					
+					// 서버 파일 저장
+					try {
+						byte[] fileDate;
+						fileDate = file.getBytes();
+						
+						OutputStream os = new FileOutputStream(filePath);
+						BufferedOutputStream bos = new BufferedOutputStream(os);
+						
+						bos.write(fileDate);
+						bos.close();
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					index++;
+				}
+			}
+        }
 	}
 	
 }
