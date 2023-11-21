@@ -10,7 +10,7 @@
     
     <!-- 네이버 지도 API 스크립트를 포함합니다. -->
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b9b0wee2jf"></script>
-    
+	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b9b0wee2jf&submodules=geocoder"></script>
     <!-- js -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 			
@@ -120,7 +120,9 @@
 	<!-- form으로 컨트롤러 보내기 -->
 	<form id="dataForm" action="${pageContext.request.contextPath}/m/wif" method="post">
 		<!-- 좌표데이터 -->
-	    <input type="hidden" name="line" id="lineDataInput" value="">	    
+	    <input type="hidden" name="line" id="lineDataInput" value="">	
+	    <!-- 동네데이터 -->
+	    <input type="hidden" name="location" id="locationDataInput" value="">	    
 	    <!-- 강아지데이터 -->
 	    <input type="hidden" name="dogList" id="dogDataInput" value="">	    
 	    <!-- 거리데이터 -->

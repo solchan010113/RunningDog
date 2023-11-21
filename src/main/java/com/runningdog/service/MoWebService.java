@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
+import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -40,6 +41,38 @@ public class MoWebService {
 	public UserVo selectOneUser(UserVo userVo) {
 		System.out.println("서비스 모바일웹 로그인");
 		return moWebDao.selectOneUser(userVo);
+	}
+	
+	// 동네정보로 산책로 불러오기
+	public List<UseTrailVo> trailSelect(LocationVo locationVo){
+		int locationNo = moWebDao.locationSelect(locationVo);		
+		List<UseTrailVo> trailList = moWebDao.mapTrailSelect(locationNo);
+		return trailList;
+	}
+	
+	// 동네번호 검색하기
+	public int locationSelect(String location){
+		System.out.println("서비스 동네번호 검색하기");	
+		LocationVo locationVo = new LocationVo();
+		// 공백을 기준으로 문자열을 나눕니다.
+		String[] addressArray = location.split(" ");
+
+		// 각각의 주소 부분을 변수에 저장합니다.
+		String sido = addressArray[0];
+		String gu = addressArray[1];
+		String dong = addressArray[2];
+
+		System.out.println("SI :"+ sido);
+		System.out.println("GU :"+ gu);
+		System.out.println("DONG :"+ dong);
+		
+		locationVo.setSi(sido);
+		locationVo.setGu(gu);;
+		locationVo.setDong(dong);
+	
+		System.out.println("locationVo :"+ locationVo);		
+		
+		return moWebDao.locationSelect(locationVo);
 	}
 	
 	

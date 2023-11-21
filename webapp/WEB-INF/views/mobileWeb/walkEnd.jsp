@@ -210,6 +210,17 @@
 	        map: map
 	    }); // 지도 관련 함수들
 	    
+	 	// Get the bounds of the polyline
+	    var lineBounds = polyline.getBounds();
+
+	    // If the bounds exist, fit the map to the bounds
+	    if (lineBounds) {
+	        map.fitBounds(lineBounds, {
+	            padding: 20 // Adjust padding as needed
+	        });
+	    }
+	    
+	    
 //----------------------------------------------------------------------
 // 파일 선택이 변경되었을 때 실행되는 함수
 	$('#fileInput').on('change', function (event) {
@@ -321,10 +332,12 @@
 $("#insertBtn").on("click", function(){
 	console.log("기록하기버튼 클릭");	
 	//----------텍스트데이타 보내기---------------------------------		
-	/* 1.동네번호 */  // 동네번호 가져오기 보류 
-	/* 2.모임번호 */  // 모임번호 가져오기 보류	
+	/* 1.모임번호 */  // 동네번호 가져오기 보류
 	/* 산책일지번호,회원번호,제목,작성시간,상태는 컨트롤러 이후 */	
 	
+	/* 2.동네번호 */  // 모임번호 가져오기 보류	
+	let locationNo = '${moWalkLogVo.locationNo}';
+	console.log("모임번호 " + locationNo);		
 	/* 3.시작시간 */
 	let startTime = '${moWalkLogVo.startTime}';
 	console.log("시작시간 " + startTime);	
@@ -355,6 +368,7 @@ $("#insertBtn").on("click", function(){
 	
 	/* 1개로 묶기 */
 	let dataVo = {
+		locationNo: locationNo,	
 		startTime: startTime,
 		endTime: endTime,
 		logTime: logTime,
@@ -363,8 +377,7 @@ $("#insertBtn").on("click", function(){
 		security: security,
 		dogNoList: dogNoList,
 		polylinePath: polylinePath
-	}	
-	    
+	}		    
     
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert",      

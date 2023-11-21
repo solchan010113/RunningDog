@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.runningdog.vo.BlogDogVo;
+import com.runningdog.vo.FollowListVo;
 import com.runningdog.vo.LogWalkedDogVo;
 import com.runningdog.vo.MonthlyStatsVo;
 import com.runningdog.vo.ShowLogCmtVo;
@@ -190,6 +191,16 @@ public class WalkBlogDao {
 	public String getUserSavenameByWalkLogNo(int walkLogNo) {
 		
 		return sqlSession.selectOne("walkBlog.getUserSavenameByWalkLogNo", walkLogNo);
+	}
+
+	public List<FollowListVo> getFollowerList(String paramCode) {
+		
+		return sqlSession.selectList("walkBlog.getFollowerList", paramCode);
+	}
+
+	public List<FollowListVo> getFollowingList(String paramCode) {
+		
+		return sqlSession.selectList("walkBlog.getFollowingList", paramCode);
 	}
 
 	

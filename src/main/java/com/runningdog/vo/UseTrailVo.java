@@ -2,7 +2,7 @@ package com.runningdog.vo;
 
 public class UseTrailVo {
 	
-	// 손성진사용
+	// 손성진사용	
 	
 	private int coordNo;
 	private int trailNo;
@@ -11,9 +11,11 @@ public class UseTrailVo {
 	private double lat;
 	private double lng;
 	
-	public UseTrailVo() {};
+	private int locationVo;
 	
-	public UseTrailVo(int coordNo, int trailNo, String name, int coordOrder, double lat, double lng) {
+	public UseTrailVo() {}
+
+	public UseTrailVo(int coordNo, int trailNo, String name, int coordOrder, double lat, double lng, int locationVo) {
 		super();
 		this.coordNo = coordNo;
 		this.trailNo = trailNo;
@@ -21,6 +23,7 @@ public class UseTrailVo {
 		this.coordOrder = coordOrder;
 		this.lat = lat;
 		this.lng = lng;
+		this.locationVo = locationVo;
 	}
 
 	public int getCoordNo() {
@@ -71,12 +74,20 @@ public class UseTrailVo {
 		this.lng = lng;
 	}
 
+	public int getLocationVo() {
+		return locationVo;
+	}
+
+	public void setLocationVo(int locationVo) {
+		this.locationVo = locationVo;
+	}
+
 	@Override
 	public String toString() {
 		return "UseTrailVo [coordNo=" + coordNo + ", trailNo=" + trailNo + ", name=" + name + ", coordOrder="
-				+ coordOrder + ", lat=" + lat + ", lng=" + lng + "]";
-	}	
-
+				+ coordOrder + ", lat=" + lat + ", lng=" + lng + ", locationVo=" + locationVo + "]";
+	};
+	
 	
 
 }

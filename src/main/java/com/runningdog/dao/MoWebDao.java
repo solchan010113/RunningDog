@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
+import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -31,10 +32,24 @@ public class MoWebDao {
 		return authUser;
 	}
 	
-	// (1) 산책로 불러오기
+	// 동네번호 검색하기
+	public int locationSelect(LocationVo locationVo){
+		System.out.println("다오 동네번호로 검색하기");			
+		int locationNo = sqlSession.selectOne("walkLog.locationSelect", locationVo);	
+		return locationNo;
+	}
+	
+	// 맵 산책로 불러오기 (동네전부)
+	public List<UseTrailVo> mapTrailSelect(int locationNo){
+		System.out.println("다오 산책로 검색하기");	
+		System.out.println(locationNo);
+		return sqlSession.selectList("walkLog.mapTrailSelect", locationNo);
+	}	
+	
+	// 기록 산책로 불러오기 (3개)
 	public List<UseTrailVo> trailSelect(){
 		System.out.println("@Dao");		
-		return sqlSession.selectList("walkLog.mapTrailSelect");
+		return sqlSession.selectList("walkLog.endTrailSelect");
 	}	
 	
 	// (2) 강아지정보 가져오기
@@ -49,7 +64,6 @@ public class MoWebDao {
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("다오 산책기록하기");
-		moWalkLogVo.setLocationNo(1174010900); // 동네번호
 		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setStatus('T');	
 		moWalkLogVo.setStartTime("2023-11-17 11:31");
