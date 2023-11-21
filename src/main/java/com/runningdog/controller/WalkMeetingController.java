@@ -7,10 +7,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class WalkMeetingController {
 	
+	@RequestMapping(value = "/meetinglist")
+	public String meetingList(){
+		return "walkMeeting/meetingList";
+	}
+	
+	@RequestMapping(value = "/meetinginsert")
+	public String meetingInsert(){
+		return "walkMeeting/meetingInsert";
+	}
+	
+	@RequestMapping(value = "/meeting")
+	public String meetingDetail(){
+		return "walkMeeting/meetingDetail";
+	}
+	
+//////////////////////////////////////////////////////
+	
 	@RequestMapping(value = "")
 	public String home(){
-		System.out.println("sdf");
-		//asdf
 		return "walkMeeting/walkMeetingHome";
 	}
 	
@@ -18,11 +33,7 @@ public class WalkMeetingController {
 	public String clubList(){
 		return "walkMeeting/clubList";
 	}
-	
-	@RequestMapping(value = "/meetinglist")
-	public String meetingList(){
-		return "walkMeeting/meetingList";
-	}
+
 	
 	@RequestMapping(value = "/clubauthority")
 	public String clubAuthority(){
@@ -49,8 +60,4 @@ public class WalkMeetingController {
 		return "walkMeeting/clubMemberSetting";
 	}
 	
-	@RequestMapping(value = "/meetinginsert")
-	public String meetingInsert(){
-		return "walkMeeting/meetingInsert";
-	}
 }
