@@ -412,8 +412,9 @@
 
 	let trailNo = ${detailMap.trailVo.trailNo };
 	
-	$(document).ready(function() {
+	window.addEventListener('load', function() {
 		fetchList(trailNo);
+		markerRender();
 	})
 
 	/* map */
@@ -450,51 +451,48 @@
        }
     });
 	
-	if (markerCoords[0] != null) {
+	function markerRender() {
+		console.log("markerRender()");
+		
 		for(let i = 0; i < markerCoords.length; i++) {
-			if(markerCoords[i].type == 'parking') {
-				var infoMarker = new naver.maps.Marker({
-					map: map,
-					position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
-					icon: {
-						url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker0.png',
-					    size: new naver.maps.Size(30, 30),
-					    scaledSize: new naver.maps.Size(30, 30),
-			       }
-			    });
-			} else if(markerCoords[i].type == 'restroom') {
-				var infoMarker = new naver.maps.Marker({
-					map: map,
-					position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
-					icon: {
-						url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker1.png',
-					    size: new naver.maps.Size(30, 30),
-					    scaledSize: new naver.maps.Size(30, 30),
-			       }
-			    });
-			} else if(markerCoords[i].type == 'trashCan') {
-				var infoMarker = new naver.maps.Marker({
-					map: map,
-					position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
-					icon: {
-						url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker2.png',
-					    size: new naver.maps.Size(30, 30),
-					    scaledSize: new naver.maps.Size(30, 30),
-			       }
-			    });
+			if(markerCoords[i] != null) {
+				if(markerCoords[i].type == 'parking') {
+					var infoMarker = new naver.maps.Marker({
+						map: map,
+						position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
+						icon: {
+							url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker0.png',
+						    size: new naver.maps.Size(30, 30),
+						    scaledSize: new naver.maps.Size(30, 30),
+				       }
+				    });
+				} else if(markerCoords[i].type == 'restroom') {
+					var infoMarker = new naver.maps.Marker({
+						map: map,
+						position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
+						icon: {
+							url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker1.png',
+						    size: new naver.maps.Size(30, 30),
+						    scaledSize: new naver.maps.Size(30, 30),
+				       }
+				    });
+				} else if(markerCoords[i].type == 'trashCan') {
+					var infoMarker = new naver.maps.Marker({
+						map: map,
+						position: new naver.maps.LatLng(markerCoords[i].lat, markerCoords[i].lng),
+						icon: {
+							url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker2.png',
+						    size: new naver.maps.Size(30, 30),
+						    scaledSize: new naver.maps.Size(30, 30),
+				       }
+				    });
+				}
 			}
 		}
 	}
 	
 	/* cmt */
 	let content = $('textarea[name=content]').val();
-	content = '하이';
-	/*
-	$('textarea[name=content]').on('change', function() {
-		content = $(this).val();
-		console.log("content ", content);
-    });
-	*/
 	
 	var previewNode = document.querySelector("#template");
 	previewNode.id = "";
@@ -504,17 +502,8 @@
 	Dropzone.autoDiscover = false;
 
 	var dropzone = new Dropzone("div.dropzone", {
-		url : '${pageContext.request.contextPath}/walkTrail/cmtAdd', // 파일 업로드할 url
+		url : '${pageContext.request.contextPath}/walkTrail/cmtImgAdd',
 		method : "POST",
-		/*
-		headers : {
-			"trailNo" : trailNo
-		},
-		*/
-		params: {
-            "trailNo" : trailNo,
-            "content" : content
-        },
 		autoProcessQueue : false,
 		previewTemplate : previewTemplate,
 		previewsContainer : ".preview-list",
@@ -523,25 +512,11 @@
 		parallelUploads : 10,
 		maxFiles : 10,
 		init : function() {
-			// 최초 dropzone 설정시 init을 통해 호출
 			console.log('최초 실행');
 			let myDropzone = this; // closure 변수
 
 			document.querySelector('#cmtAddBtn').addEventListener('click', function() {
-				console.log('업로드');
-				// console.log('myDropzone ', myDropzone);
-				
-				content = $('textarea[name=content]').val();
-				console.log('content ', content);
-				console.log('dropzone.files ', dropzone.files);
-				
-				if (dropzone.files.length > 10) {
-					alert("후기 사진은 10개 까지 가능합니다.");
-				} else {
-					myDropzone.processQueue();
-
-					window.location.href = "${pageContext.request.contextPath}/walkTrail/detail?trailNo=" + trailNo;
-				}
+				console.log('업로드 ', dropzone.files);
 			});
 
 			this.on('sendingmultiple', function(files) {
@@ -550,47 +525,47 @@
 
 			this.on('successmultiple', function() {
 				console.log('성공');
+				
+				$('#addModal').modal('hide');
+				fetchList(trailNo);
 			});
 
 			this.on('errormultiple', function() {
 			});
 		},
 	});
-	// Dropzone has been added as a global variable.
 	
-    // cmt add
-	function cmtAdd(trailNo) {
-		console.log("cmtAdd()");
-		
-		let content = $('textarea[name=content]').val();
-		console.log("content ", content);
-		
-		let trailVo = {
-			trailNo: trailNo
+	document.querySelector('#cmtAddBtn').addEventListener('click', function() {
+		if (dropzone.files.length > 10) {
+			alert("후기 사진은 10개 까지 가능합니다.");
+		} else {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/walkTrail/cmtAdd",
+				type : "post",
+				data : {"trailNo" : trailNo,
+						"content" : $('textarea[name=content]').val()},
+						
+				dataType : "json",
+				success : function(trailCmtNo) {
+					console.log("trailCmtNo ", trailCmtNo);
+					
+					if (dropzone.files.length != 0) {
+						if(trailCmtNo != 0) {
+							dropzone.options.params = {"trailCmtNo" : trailCmtNo};
+							dropzone.processQueue();
+						}
+					} else {
+						$('#addModal').modal('hide');
+						fetchList(trailNo);
+					}
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
 		}
-		
-		let trailCmtVo = {
-			trailVo: trailVo,
-			content: content
-		}
-		console.log("trailCmtVo ", trailCmtVo);
-		
-		$.ajax({
-			url : "${pageContext.request.contextPath}/walkTrail/cmtAdd",
-			type : "post",
-			contentType : "application/json",
-			data : JSON.stringify(trailCmtVo),
-			
-			dataType : "json",
-			success : function(listMap) {
-				console.log("listMap ", listMap);
-
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
+	});
+	// Dropzone has been added as a global variable.
 	
 	function fetchList(trailNo) {
 		console.log("fetchList()");
@@ -631,17 +606,19 @@
 								galleryRender(listMap, i, "down");
 							}
 						}
-						
-						
-						
-						for(let i = 0; i < listMap.cmtList.length; i++) {
-							listRender(listMap, i, "down");
-						}
 					}
 				} else if(cmtIndex == 1) {
 					console.log("산책일지 목록");
 					
-					nonListRender();
+					console.log("listMap ", listMap);
+					
+					if(listMap.logList.length == 0) {
+						nonListRender();
+					} else {
+						for(let i = 0; i < listMap.logList.length; i++) {
+							walkLogRender(listMap, i, "down");
+						}
+					}
 				}
 			},
 			error : function(XHR, status, error) {
@@ -721,6 +698,59 @@
 				}
 			}
 		}
+	}
+	
+	// cmt walkLog list
+	function walkLogRender(listMap, index, dir) {
+		console.log("walkLogRender()");
+		
+		let path = (listMap.logImgList[index].saveName == "noImg") ? "" : listMap.logImgList[index].saveName
+
+ 		let str = '';
+ 		str += '<div class="meeting walkLog">';
+ 		str += '	<div class="meetingTitle walkTitle">';
+		str += '		<div class="left walk-title1">' + listMap.logList[index].distance + '</div>';
+		str += '		<div class="left walk-title2">' + listMap.logList[index].logTime + '</div>';
+		str += '		<div class="right">' + listMap.logList[index].regDate + '</div>';
+		str += '	</div>';
+		str += '	<div class="meetingContent">';
+		str += '		<div class="meetingInfo left">';
+		str += '			<p class="info-border">' + listMap.logList[index].content + '</p>';
+		str += '			<div class="img-info">';
+		str += '				<div class="img-info-detail">';
+		if(listMap.userImgList[index] != null) {
+			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+		} else {
+			str += '		<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+		}
+		str += '					<div class="detail-text">';
+		str += '						<span>' + listMap.logList[index].usersVo.name + '</span>';
+		str += '						<span><i class="fa-solid fa-thumbs-up"></i>&nbsp;' + listMap.likeCntList[index] + '</span>';
+		str += '					</div>';
+		str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/assets/images/sarang3.jpg"></div>';
+		str += '					<div class="imgCount">3</div>';
+		str += '				</div>';
+		str += '			</div>';
+		str += '		</div>';
+		str += '		<div class="left walk-img">';
+		str += '			<div class="comment-img">';
+		if(path != "") {
+			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + path + '">';
+			str += '				<div class="imgCount">3</div>';
+		}
+		str += '			</div>';
+		str += '		</div>';
+		str += '	</div>';
+		str += '</div>';
+		
+ 		if(dir == "up") {
+ 			$(".meetingList").prepend(str);
+		} else if(dir == "down") {
+			$(".meetingList").append(str);
+		} else {
+			console.log("잘못입력");
+		}
+
 	}
 	
 	function nonListRender() {

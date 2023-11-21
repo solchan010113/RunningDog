@@ -136,9 +136,9 @@ function toggleFollowButton() {
 
 
 	<c:if test="${ requestScope.blogInfoVo.bannerSavename == null  }">
-	<div class="backgroundImg">
-	<img src="${pageContext.request.contextPath}/rdimg/blogBanner/bannerDefault.png" alt="">
-	</div>
+		<div class="backgroundImg">
+			<img src="${pageContext.request.contextPath}/assets/images/bannerDefault.png" alt="">
+		</div>
 	</c:if>
 	<c:if test="${ requestScope.blogInfoVo.bannerSavename != null  }">
 		<div class="backgroundImg">
@@ -262,10 +262,11 @@ function toggleFollowButton() {
 											</div>
 										</div>
 
-										<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
-											<div class="modifyDelete">
+
+										<div class="modifyDelete">
+											<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
 												<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal">삭제</button>
-												<button class="modifyButton">수정</button>
+												<button class="modifyButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}/modifyForm'">수정</button>
 
 												<!-- <button class="deleteButton">삭제</button> -->
 
@@ -284,9 +285,9 @@ function toggleFollowButton() {
 														</div>
 													</div>
 												</div>
+											</c:if>
+										</div>
 
-											</div>
-										</c:if>
 										<div class="MRdogCardBox">
 
 											<%-- <c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
@@ -311,9 +312,13 @@ function toggleFollowButton() {
 
 
 										</div>
+										<div class="logButton">
+											<button type="button" class="usedTrailButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/delete?no=${ShowLogVo.walkLogNo}'">이용산책로</button>
+											<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
+
+										</div>
+
 										<div class="walkLogContent">${ShowLogVo.content}</div>
-
-
 									</div>
 
 
@@ -361,13 +366,14 @@ function toggleFollowButton() {
 
 
 										</div>
-										<div class="MRcommentInputBox">
-											<div class="MRinput-group">
-												<textarea id="commentText" class="form-control" aria-label="With textarea"></textarea>
+										<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
+											<div class="MRcommentInputBox">
+												<div class="MRinput-group">
+													<textarea id="commentText" class="form-control" aria-label="With textarea"></textarea>
+												</div>
+												<button class="MRreplyButton" onclick="addComment('${ShowLogVo.walkLogNo}')">등록</button>
 											</div>
-											<button class="MRreplyButton" onclick="addComment('${ShowLogVo.walkLogNo}')">등록</button>
-										</div>
-
+										</c:if>
 
 									</div>
 									<div class="MRborder"></div>

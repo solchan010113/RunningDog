@@ -256,7 +256,7 @@ ORDER BY
 	
 	</update>
 	
-	<select id="getBlogDogList" parameterType="int" resultType="com.runningdog.vo.BlogDogVo">
+	<select id="getBlogDogList" parameterType="String" resultType="com.runningdog.vo.BlogDogVo">
     <![CDATA[
         SELECT 
         	DG.name,
@@ -337,6 +337,53 @@ ORDER BY
     and type = 'users'
     ]]>
 	</select>
+	
+	
+	<select id="getFollowerList" parameterType="String" resultType="com.runningdog.vo.FollowListVo">
+    <![CDATA[
+         SELECT 
+    
+    F.followNo,
+    US.name,
+    F.followeeNo,
+    F.followerNo,
+    
+    IM.saveName AS userSavename
+FROM 
+    follow F
+    JOIN users US ON F.followerNo = US.userNo
+    LEFT JOIN images IM ON IM.useNo = US.userNo
+where followeeNo =(SELECT userNo
+        From users
+        WHERE code = #{paramCode}) 
+ORDER BY 
+    F.followNo ASC
+    ]]>
+</select>
+
+<select id="getFollowingList" parameterType="String" resultType="com.runningdog.vo.FollowListVo">
+    <![CDATA[
+ SELECT 
+    
+    F.followNo,
+    US.name,
+    F.followeeNo,
+    F.followerNo,
+    
+    IM.saveName AS userSavename
+FROM 
+    follow F
+    JOIN users US ON F.followeeNo = US.userNo
+    LEFT JOIN images IM ON IM.useNo = US.userNo
+where followerNo =(SELECT userNo
+        From users
+        WHERE code = #{paramCode})
+ORDER BY 
+    F.followNo ASC
+
+
+    ]]>
+</select>
 
 
 
