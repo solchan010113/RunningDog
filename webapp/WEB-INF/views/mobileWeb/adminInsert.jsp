@@ -12,8 +12,12 @@
 </head>
 <body>
 	<div id="map" style="width: 100%; height: 800px;"></div>
+	
+	<p>산책일지번호</p>
+	<input type="text" name=walkLogNo id="walkLogNoInput" value="">	
 
 	<script>
+	
 		let coords = [];
 
 		var map = new naver.maps.Map('map', {
@@ -27,31 +31,42 @@
 			clickable : true
 		});
 
-		naver.maps.Event.addListener(map, 'click', function (e) {
-            coords.push({ x: e.coord.x, y: e.coord.y });
-            drawingLine.setPath(coords);
-        });
+		naver.maps.Event.addListener(map, 'click', function(e) {
+			coords.push({
+				x : e.coord.x,
+				y : e.coord.y
+			});
+			drawingLine.setPath(coords);
+		});
 
 		function sendDataToServer() {
 			// 여기에서 AJAX를 사용하여 서버로 좌표값을 전송하는 코드를 작성
 			console.log("작성", coords);
-			
+			walkLogNo = $("#walkLogNoInput").val();
+			console.log("바꿀 산책일지번호", walkLogNo);
+
 			$.ajax({
-			     url: "${pageContext.request.contextPath}/m/adminInsert",
-			     type: 'POST',
-			     data: JSON.stringify({ coords: coords }),
-			     contentType: 'application/json',
-			     success: function(result) {
-			         console.log("관리자 기록 등록완료");
-			     },
-			     error: function(error) {
-			         console.error('Error:', error);
-			     }
-			 });
+				url : "${pageContext.request.contextPath}/m/adminInsert",
+				type : 'POST',
+				data : JSON.stringify({
+					xyList : coords,
+					walkLogNo: walkLogNo
+				}),
+				contentType : 'application/json',
+				success : function(result) {
+					console.log("관리자 기록 등록완료");
+				},
+				error : function(error) {
+					console.error('Error:', error);
+				}
+			});
 		}
 	</script>
 
 	<button onclick="sendDataToServer()"> 기록하기 </button>
+	
+	
+	
 </body>
 
 </html>

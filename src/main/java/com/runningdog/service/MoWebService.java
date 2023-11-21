@@ -139,6 +139,34 @@ public class MoWebService {
 		
 	}
 	
+	// 산책기록 업데이트 (더미데이터용) admin으로 들어가서 특정 산책기록값을 바꾸는 장치
+	public void walkLogUpdate(MoWalkLogVo walkLogVo){
+		System.out.println("서비스 산책기록 업데이트 (더미데이터용)");	
+		int walkLogNo = walkLogVo.getWalkLogNo();
+		
+		moWebDao.coordsDelete(walkLogNo);
+		
+		int coordOrder = 1;
+		for (XYVo xyVo : walkLogVo.getPolylinePath()) {
+			CoordsVo coordsVo = new CoordsVo();
+			coordsVo.setUseNo(walkLogNo); // 셀렉트키
+			coordsVo.setLat(xyVo.getY()); // XYVo의 Y값을 CoordsVo의 lat으로 설정
+			coordsVo.setLng(xyVo.getX()); // XYVo의 X값을 CoordsVo의 lng으로 설정
+			coordsVo.setCoordOrder(coordOrder);
+		// 리스트에 추가
+		// coordOrder를 1씩 증가
+			coordOrder++;
+			System.out.println("좌표확인 : " + coordsVo);
+				// 한땀한땀 뜯어낸 좌표값을 DB로 보내서 저장하기 
+			moWebDao.coordsListInsert(coordsVo);
+		}
+		moWebDao.mapImagDelete(walkLogNo);		
+		mapImgSave(walkLogNo);
+			
+	}
+		
+	
+	
 	// (6) 캡쳐용 좌표값 불러오기
 	public List<CoordsVo> mapSelect(int walkLogNo){
 		System.out.println("서비스 캡쳐용 좌표값 불러오기");		

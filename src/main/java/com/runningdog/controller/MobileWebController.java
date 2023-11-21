@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.service.MoWebService;
 import com.runningdog.service.UserService;
+import com.runningdog.vo.AdminXYVo;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LinePathVo;
@@ -89,39 +90,34 @@ public class MobileWebController {
 		return "mobileWeb/adminInsert";
 	}
 	
-	@PostMapping("/adminInsert")
-	public String saveCoords(@RequestBody Map<String, List<Map<String, Double>>> requestBody) {
-	    String result = "성공"; // 성공 기본값으로 설정
+	
+	@RequestMapping("/adminInsert")
+	public String saveCoords(@RequestBody AdminXYVo adminXYVo) {	  
+		String result = "성공"; // 성공 기본값으로 설정
+		
+		System.out.println(adminXYVo);		
+		
+		try {       	    	
 
-	    try {
-	        List<Map<String, Double>> coordsList = requestBody.get("coords");
-
-	        // 이제 이 List<Map<String, Double>>을 원하는 형식으로 변환할 수 있습니다.
-	        List<XYVo> coords = new ArrayList<>();
-
-	        for (Map<String, Double> coordMap : coordsList) {
-	            double x = coordMap.get("x");
-	            double y = coordMap.get("y");
-	            coords.add(new XYVo(x, y));
-	        }
-
-	        List<Integer> dogNoList = Arrays.asList(16);
-	        // MoWalkLogVo 객체를 생성하고 좌표 데이터 설정
+	    	List<XYVo> coords = adminXYVo.getXyList();
+	    	
             MoWalkLogVo walkLogVo = new MoWalkLogVo();
-            walkLogVo.setPolylinePath(coords);
-            walkLogVo.setDogNoList(dogNoList);
-            walkLogVo.setUserNo(13);
-            walkLogVo.setLocationNo(1174010600);
-            walkLogVo.setTitle("관리자산책기록");
-            walkLogVo.setContent("관리자내용");
-            walkLogVo.setSecurity("공개"); 
-            walkLogVo.setUserNo(13);
+            
+            walkLogVo.setPolylinePath(coords); // 좌표값
+            
+            //walkLogVo.setDogNoList(dogNoList); // 강아지값
+            //walkLogVo.setLocationNo(1174010600); // 동네번호
+            
+            walkLogVo.setWalkLogNo(adminXYVo.getWalkLogNo());  // 산책기록 번호지정   
             
             // 다른 MoWalkLogVo 속성들도 필요에 따라 설정
             System.out.println("관리자 산책기록 확인"+walkLogVo);
-
+            
+            // 서비스를 호출하여 좌표 데이터 업데이트
+            moWebService.walkLogUpdate(walkLogVo); // 업데이트 함수            
             // 서비스를 호출하여 좌표 데이터 저장
-            moWebService.walkLogInsert(walkLogVo); // 여기서 셀렉트키 반환
+            //moWebService.walkLogInsert(walkLogVo); // 여기서 셀렉트키 반환
+
 
 	        return result;
 	    } catch (Exception e) {

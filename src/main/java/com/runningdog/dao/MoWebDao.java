@@ -73,6 +73,18 @@ public class MoWebDao {
 		sqlSession.insert("walkLog.walkLogInsert", moWalkLogVo);
 	}
 	
+	// 산책기록 좌표값 업데이트 (더미데이터용)
+	public void coordsDelete(int walkLogNo){
+		System.out.println("다오 산책기록 좌표값 업데이트 (더미데이터용)");		
+		sqlSession.delete("walkLog.coordsDelete", walkLogNo);
+	}
+	
+	// 산책기록 맵이미지 업데이트 (더미데이터용)
+	public void mapImagDelete(int walkLogNo){
+		System.out.println("다오 산책기록 맵이미지 업데이트 (더미데이터용)");		
+		sqlSession.delete("walkLog.mapImagDelete", walkLogNo);
+	}
+	
 	// (4) 강아지리스트기록하기
 	public void dogListInsert(MoWalkedDogVo walkedDogVo){
 		System.out.println("다오 강아지리스트기록하기");	

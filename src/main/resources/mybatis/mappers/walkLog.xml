@@ -4,6 +4,24 @@
 <mapper namespace="walkLog">
    
    <!-- 쿼리문 작성 --> 
+   
+   <!-- 산책일지 좌표 삭제 (더미데이터용) -->
+	<delete id="coordsDelete" parameterType="int" >
+		<![CDATA[
+			DELETE FROM coords
+			WHERE type = 'walkLog'
+			and useno = #{walkLogNo}
+		]]>
+	</delete>  
+	
+	<!-- 산책일지 좌표 삭제 (더미데이터용) -->
+	<delete id="mapImagDelete" parameterType="int" >
+		<![CDATA[
+			DELETE FROM images
+			WHERE type = 'walkLogMap'
+			and useno = #{walkLogNo}
+		]]>
+	</delete>  
 	
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
