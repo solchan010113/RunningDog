@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import com.runningdog.dao.WalkBlogDao;
 import com.runningdog.vo.BlogDogVo;
 import com.runningdog.vo.BlogInfoVo;
+import com.runningdog.vo.FollowListVo;
 import com.runningdog.vo.LogWalkedDogVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.WalkLogConImgVo;
-import com.runningdog.vo.WalkedDogVo;
 
 @Service
 public class WalkBlogService {
@@ -82,7 +82,13 @@ public class WalkBlogService {
 		        blogInfoVo.getMonthlyStatsTotal().getTotalDistanceTotal(),
 		        blogInfoVo.getMonthlyStatsTotal().getTotalLogTimeTotal()
 		    );
-
+		    
+		    
+		    List<FollowListVo> followerList =  walkBlogDao.getFollowerList(paramCode);
+		    List<FollowListVo> followingList =  walkBlogDao.getFollowingList(paramCode);
+		    
+		    blogInfoVo.setFollowerList(followerList);
+		    blogInfoVo.setFollowingList(followingList);
 		
 		    
 		   List<BlogDogVo> blogDogList =  walkBlogDao.getBlogDogList(paramCode);

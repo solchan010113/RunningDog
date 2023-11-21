@@ -48,7 +48,9 @@
 						<a class="drop-toggle d-inline-flex align-items-center fw-semibold" role="button" data-bs-toggle="dropdown" aria-expanded="false">산책블로그</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/walkBlog/home">산책블로그 홈</a></li>
+							<c:if test="${ authUser != null  }">
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/walkBlog/${authUser.code}">내 산책블로그</a></li>
+							</c:if>
 						</ul>
 					</div>
 				</li>
