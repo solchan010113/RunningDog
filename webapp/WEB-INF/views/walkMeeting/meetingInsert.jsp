@@ -25,8 +25,7 @@
 			</div>
 			<div class="inputMember">
 				<p class="inputTitle">모임 인원 입력</p>
-				<input class="fmradio form-check-input" type="radio" name="count" id="" value="1">1
-				<input class="mradio form-check-input" type="radio" name="count" id="" value="2">2
+				<input class="fmradio form-check-input" type="radio" name="count" id="" value="2">2
 				<input class="mradio form-check-input" type="radio" name="count" id="" value="3">3
 				<input class="mradio form-check-input" type="radio" name="count" id="" value="4">4
 				<input class="mradio form-check-input" type="radio" name="count" id="" value="5">5
@@ -150,16 +149,18 @@
 		</div>
 		
 		<div class="inputGroup">
-			<div class="inputItem">
-				<p class="inputTitle">모임 장소 선택</p>
-				<input type="text" class="form-control" placeholder="모임 장소 검색하기" aria-label="Username">
+			<div class="inputImg">
+				<p class="inputTitle">산책로 선택</p>
+				<input type="text" class="form-control" placeholder="" aria-label="Username">
+				<button class="btn btn-primary">산책로 찾기</button>
+				<img class="mapImg" alt="" src="">
 			</div>
 		</div>
 		
 		<p class="inputTitle">모임 설명</p>
-		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="모임 내용 입력"></textarea>
+		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="모임 설명 입력"></textarea>
 		<div class="btnArea">
-			<button class="btn btn-primary">등록하기</button>
+			<button type="submit" class="btn btn-primary">등록하기</button>
 		</div>
 	</div>
 

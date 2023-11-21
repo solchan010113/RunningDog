@@ -44,82 +44,21 @@
 				</colgroup>
 				<tr>
 		            <th>모임 제목</th>
-		            <th>위치</th>
+		            <th>산책로</th>
 		            <th>강아지 크기</th>
 		            <th>인원 수</th>
 		            <th>날짜</th>
 		        </tr>
-
-		        <tr class="mt42">
-		        	<td>보이 넥스트 도어이즈 투 블럭스 다운 보이</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형, 중형, 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>		        	
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형 / 중형 / 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형 / 중형 / 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형 / 중형 / 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형, 중형, 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형 / 중형 / 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형 / 중형 / 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형, 중형, 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형, 중형, 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
-		        <tr>
-		        	<td>보이 넥스트 도어</td>
-		        	<td>서울특별시 종로구 천호동 천호대러 19-72</td>
-		        	<td>소형, 중형, 대형</td>
-		        	<td>8</td>
-		        	<td>2023-11-21</td>
-		        </tr>
+		        
+				<c:forEach items="${requestScope.meetingList}" var="MeetingsVo">
+			        <tr id="mt${MeetingsVo.meetingNo}">
+						<td>${MeetingsVo.name}</td>
+			        	<td>${MeetingsVo.spot}</td>
+			        	<td>${MeetingsVo.small}&nbsp;/&nbsp;${MeetingsVo.medium}&nbsp;/&nbsp;${MeetingsVo.large}</td>
+			        	<td>${MeetingsVo.maxMember}</td>
+			        	<td>${MeetingsVo.meetingDate}</td>	
+					</tr>
+		        </c:forEach>
 		        
 			</table>
 			
@@ -176,14 +115,14 @@
 	
 	<script>
 	
-	$('.mt42').click(function() {
+	$('.mt201').click(function() {
 	    window.location = '${pageContext.request.contextPath}/walkmeeting/meeting?no=1';
 	});
 	
 	
 	
 	/* FullCalendar */
-	const myModalEl = document.getElementById('exampleModal')
+	/* const myModalEl = document.getElementById('exampleModal')
 	myModalEl.addEventListener('shown.bs.modal', event => {
 		var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -191,7 +130,7 @@
           locale: 'ko'
         });
         calendar.render();
-	})
+	}) */
 	</script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="meeting">
+
+	<!-- 모임 목록 -->
+	<select id="selectMeetingList" resultType="com.runningdog.vo.MeetingsVo">
+		<![CDATA[
+			select  m.meetingNo meetingNo,
+			        m.name name,
+			        m.description description,
+			        m.meetingDate meetingDate,
+			        m.maxMember maxMember,
+			        m.currentMember currentMember,
+			        m.small small,
+			        m.medium medium,
+			        m.large large,
+			        m.status status,
+			        m.userNo userNo,
+			        m.trailNo trailNo,
+			        t.spot spot
+			from meeting m, trail t
+			where m.status = 'T'
+			and t.trailNo = m.trailNo
+		]]>
+	</select>
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+

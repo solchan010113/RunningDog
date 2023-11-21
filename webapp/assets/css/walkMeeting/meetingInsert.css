@@ -118,6 +118,20 @@
 }
 
 
+.inputImg{
+	width: 100%;	
+}
+
+.inputImg input{
+	width: 500px;
+	display: inline-block;
+}
+
+.mapImg{
+	margin-top: 10px;
+	width: 100%;
+	height: 400px;
+}
 
 
 #map {
