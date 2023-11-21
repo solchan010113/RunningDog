@@ -123,6 +123,31 @@ public class WalkBlogController {
 		return "walkBlog/following"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
 	}
 	
+	@RequestMapping(value = "/{code}/follower",method = { RequestMethod.GET, RequestMethod.POST })
+	public String viewFollower(@PathVariable(value = "code") String code,
+			 Model model, Model model2, HttpSession session) {
+
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authuser);
+
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
+		String paramCode = code;
+
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+
+		System.out.println(blogInfoVo);
+
+		model.addAttribute("blogInfoVo", blogInfoVo);
+
+		
+
+		// 모델에 필요한 다른 속성 추가
+
+		return "walkBlog/follower"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
+	}
+	
+	
 	
 	
 	

@@ -245,7 +245,8 @@ public class WalkTrailController {
 			// 후기 - 목록 / 갤러리
 			listMap = trailService.cmtListMap(fetchSet);
 		} else if(cmtNav == 1) {
-			// 산책일지
+			// 산책로 산책일지
+			listMap = trailService.logListMap(fetchSet);
 		}
 		
 		if(authUser != null) {
@@ -260,13 +261,9 @@ public class WalkTrailController {
 	// 산책로 후기 작성 ajax
 	@ResponseBody
 	@RequestMapping(value = "/cmtAdd", method= { RequestMethod.GET, RequestMethod.POST})
-	public void trailCmtAdd(MultipartHttpServletRequest request,
-		@RequestParam int trailNo, @RequestParam(required = false) String content, HttpSession session) {
+	public int trailCmtAdd(@RequestParam int trailNo, @RequestParam(required = false) String content, HttpSession session) {
 		System.out.println("WalkTrailController.trailCmtAdd()");
-		System.out.println("trailNo " + trailNo);
-		System.out.println("content " + content);
-		
-		Map<String, MultipartFile> fileMap = request.getFileMap();
+
 		TrailCmtVo trailCmtVo = new TrailCmtVo();
 		
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
@@ -291,30 +288,21 @@ public class WalkTrailController {
 			trailCmtVo.setTrailVo(trailVo);
 			trailCmtVo.setContent(content);
 		}
+		int trailCmtNo = trailService.trailCmtAdd(trailCmtVo);
 		
-		trailService.trailCmtAdd(fileMap, trailCmtVo);
+		return trailCmtNo;
 	}
 	
-	/*
+	// 후기 이미지 업로드 ajax
 	@ResponseBody
-	@RequestMapping(value = "/cmtAdd", method= { RequestMethod.GET, RequestMethod.POST})
-	public Map<String, Object> trailCmtAdd(@RequestBody TrailCmtVo trailCmtVo,
-			HttpSession session) {
-		System.out.println("WalkTrailController.trailCmtAdd()");
-		System.out.println("trailCmtVo : " + trailCmtVo);
+	@RequestMapping(value = "/cmtImgAdd", method= { RequestMethod.GET, RequestMethod.POST})
+	public void trailCmtImgAdd(MultipartHttpServletRequest request, @RequestParam int trailCmtNo) {
+		System.out.println("WalkTrailController.trailCmtImgAdd()");
 		
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		Map<String, Object> userMap = null;
-		if(authUser != null) {
-
-		} else {
-
-		}
-		Map<String, Object> listMap = new HashMap<String, Object>();
+		Map<String, MultipartFile> fileMap = request.getFileMap();
 		
-		return listMap;
+		trailService.trailCmtImgAdd(fileMap, trailCmtNo);
 	}
-	*/
 	
 	@RequestMapping(value = "/detail/deleted", method= { RequestMethod.GET, RequestMethod.POST})
 	public String trailDetailDeleted() {

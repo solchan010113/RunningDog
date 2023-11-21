@@ -270,7 +270,7 @@
 				<div class="mainPosts">
 
 					<div class="category">
-						<div class="tab record ">산책기록</div>
+						<div class="tab record">산책기록</div>
 
 						<div class="tab meeting">산책모임</div>
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
@@ -280,11 +280,12 @@
 					</div>
 
 					<div class="followingSection">
-						<h2>팔로잉</h2>
+						<h2>팔로워</h2>
 						<div class="selector">
 							<select id="followSelector" class="form-select form-select-sm" aria-label="Small select example" onchange="redirectBasedOnSelection()">
-								<option value="following" selected>팔로잉</option>
-								<option value="follower" >팔로워</option>
+								<option value="follower" selected >팔로워</option>
+								<option value="following">팔로잉</option>
+								
 								
 							</select>
 						</div>
