@@ -414,6 +414,7 @@ $("#insertBtn").on("click", function(){
 	
 	/* 11.이용한 산책로 정보 */	
 	
+	
 	/* 1개로 묶기 */
 	let dataVo = {
 		locationNo: locationNo,	
