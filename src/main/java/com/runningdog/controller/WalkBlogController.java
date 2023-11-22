@@ -70,6 +70,35 @@ public class WalkBlogController {
 		return "walkBlog/userBlog";
 
 	}
+	
+	@RequestMapping(value = "/{code}/dog/{dogNo}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String userBlogDogList(@PathVariable(value = "code") String code,@PathVariable(value = "dogNo") int no, Model model, Model model2, HttpSession session) {
+
+		System.out.println("userBlog");
+
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authuser);
+
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
+		String paramCode = code;
+		int dogNo = no;
+		System.out.println("dogNo = " + dogNo);
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+
+		System.out.println(blogInfoVo);
+
+		model.addAttribute("blogInfoVo", blogInfoVo);
+		model.addAttribute("dogNo", dogNo);
+
+		List<ShowLogVo> walkLogList = walkBlogService.walkLogListByDog(paramCode, dogNo);
+		System.out.println(walkLogList);
+		model2.addAttribute("walkLogList", walkLogList);
+
+		return "walkBlog/userBlogDog";
+
+	}
+	
 
 	@RequestMapping(value = "/{code}/{walkLogNo}",method = { RequestMethod.GET, RequestMethod.POST })
 	public String viewWalkLog(@PathVariable(value = "code") String code,
@@ -282,13 +311,17 @@ public class WalkBlogController {
 	public String delete(@RequestParam(value = "no") int no, HttpSession session) {
 
 		System.out.println("walkBlog.delete()");
+		
+		System.out.println(no);
 
 		UserVo authuser = (UserVo) session.getAttribute("authUser");
-		String myId = authuser.getId();
+		String myCode = authuser.getCode();
 
 		walkBlogService.deleteWalkLog(no);
+		System.out.println(authuser);
+		System.out.println(myCode);
 
-		return "redirect:" + myId;
+		return "redirect:" + myCode;
 
 	}
 

@@ -337,13 +337,29 @@ h2{
 }
 
 .blank {
-	
+	display: flow-root;
 	width: 420px;
 	background-color: #FFFFFF;
 	
 }
 
-
+.homeButton {
+    float: right;
+    width: 100px;
+    margin-top: 5px;
+    margin-right: 5px;
+    float: right;
+    background-color: #fc5200;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .mainSidebar {
     height: 400px;
@@ -786,6 +802,14 @@ h2{
   
   /*replyDateCmtBox*/
   
+  
+  .maindogCardBox .highlighted{
+	  
+	  border-style: solid;
+	 border-color:#fc5200;
+  	border-width: 2px;
+	  
+  }
   
   .MRborder{
 	  width: 800px;
