@@ -209,36 +209,48 @@
    
    <!-- 산책로 3개 가져오기 -->   
    <select id="threeTrailSelect"  parameterType="com.runningdog.vo.XYVo" resultType="com.runningdog.vo.UseTrailVo">
-      <![CDATA[
-        SELECT  tr.trailno as trailNo
+      <![CDATA[		
+		SELECT  tr.trailno as trailNo
 		        ,tr.name as name
-		FROM trail tr, (SELECT trailF.rn
-		                       ,trailF.trailno
-		                FROM   (SELECT rownum rn
-		                               ,trailC.trailno
-		                               ,trailc.distance
-		                        FROM   (SELECT  latc.trailno  as trailno
-		                                        ,latc.distance1 + lngc.distance2 as distance
-		                                FROM   (SELECT useno AS trailNo  
-		                                               ,LAT
-		                                               ,ABS(LAT - #{y}) AS Distance1   
-		                                        FROM coords 
-		                                        WHERE type = 'trail'  
-		                                        and coordorder = 1
-		                                        ORDER BY Distance1) latC , (SELECT useno AS trailNo  
-		                                                                           ,LNG
-		                                                                           ,ABS(LNG - #{x}) AS Distance2   
-		                                                                    FROM coords 
-		                                                                    WHERE type = 'trail'  
-		                                                                    and coordorder = 1
-		                                                                    ORDER BY Distance2) lngC
-		                                WHERE latc.trailno = lngc.trailno
-		                                ORDER BY distance) trailC) trailF
-		                WHERE trailF.rn BETWEEN 1 and 3) tN
-		WHERE tr.trailno = tn.trailno 
+		        ,CASE WHEN ts.trailno IS NOT NULL THEN 1 ELSE 0 END AS trailStar
+		        ,tn.rn
+		FROM trail tr
+		JOIN (SELECT trailF.rn
+		             ,trailF.trailno
+		      FROM   (SELECT rownum rn
+		                     ,trailC.trailno
+		              FROM   (SELECT latc.trailno as trailno
+		                                  ,latc.distance1 + lngc.distance2 as distance
+		                      FROM   (SELECT useno AS trailNo  
+		                                     ,LAT
+		                                     ,ABS(LAT - #{y}) AS Distance1   
+		                              FROM coords 
+		                              WHERE type = 'trail'  
+		                              and coordorder = 1
+		                              ORDER BY Distance1) latC 
+		                             , (SELECT useno AS trailNo  
+		                                       ,LNG
+		                                       ,ABS(LNG - #{x}) AS Distance2   
+		                                FROM coords 
+		                                WHERE type = 'trail'  
+		                                and coordorder = 1
+		                                ORDER BY Distance2) lngC
+		                      WHERE latc.trailno = lngc.trailno
+		                      ORDER BY distance) trailC) trailF
+		      WHERE trailF.rn BETWEEN 1 and 3) tn
+		ON tr.trailno = tn.trailno
+		LEFT JOIN trailStar ts ON tr.trailno = ts.trailno AND ts.userno = #{userNo}
 		ORDER BY tn.rn ASC
       ]]>
-   </select>
+   </select>  
+   
+   <insert id="trailCount"  parameterType="com.runningdog.vo.MotrailUsedVo" >
+	   <![CDATA[
+	        INSERT INTO trailUsed
+			VALUES(seq_trailused_no.NEXTVAL , #{walkLogNo} , #{trailNo} )
+	   ]]>   
+   </insert>
+   
    
 
 </mapper>

@@ -47,26 +47,29 @@
 				<div class="mapNameBox">
 					이 산책로를 이용하셨습니다.
 		        </div>				
-				<div class="mapImageContainer" >
-					<div class="mapImageBox">
-						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
-						<i id="likeIcon" class="fa-solid fa-star"></i>
-						<div class="mapName"> ${trailList[0].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
+				 <div class="mapImageContainer">
+			        <div class="mapImageBox">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
+			            <div id="likeIcon1" class="likeIcon emptyIcon" data-trail-star="${trailList[0].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[0].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
-						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-						<i id="likeIcon" class="fa-regular fa-star"></i>
-						<div class="mapName"> ${trailList[1].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
+			            <div id="likeIcon2" class="likeIcon emptyIcon" data-trail-star="${trailList[1].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[1].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
-						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-						<i id="likeIcon" class="fa-solid fa-star"></i>
-						<div class="mapName"> ${trailList[2].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
+			            <div id="likeIcon3" class="likeIcon emptyIcon" data-trail-star="${trailList[2].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[2].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
 			        </div>
-				</div>				
+    			</div>		
 			</div>
 			
 			<!-- 파일첨부 버튼 -->
@@ -219,6 +222,10 @@
 		
 		console.log('-------------------데이터 확인--------------------');
 		
+		// 산책로 찜 유무
+		console.log('${trailList[0].trailStar}');
+		console.log('${trailList[1].trailStar}');
+		console.log('${trailList[2].trailStar}');
 		
 		console.log("받아온 라인리스트" + '${lineList}');
 		
@@ -238,6 +245,7 @@
 		trailList.push('${trailList[2].trailNo}');
 		
 		console.log("가공한 산책로 리스트" + trailList);
+		
 	
 		
 	    console.log('-------------------데이터 확인--------------------');
@@ -483,7 +491,59 @@ $("#insertBtn").on("click", function(){
     
     
 });/*//기록하기버튼 클릭할때 */
+
+
+//-- 찜하기버튼 --------------------------------------------------------------------------
+	/* document.addEventListener("DOMContentLoaded", function () {
+	    const trailStarValues = [${trailList[0].trailStar}, ${trailList[1].trailStar}, ${trailList[2].trailStar}];
 	
+	    for (let i = 1; i <= trailStarValues.length; i++) {
+	        initializeIcon(i, trailStarValues[i - 1]);
+	    }
+	
+	    function initializeIcon(iconId, initialState) {
+	        const iconContainer = $(`#likeIcon${iconId}`);
+	
+	        if (initialState === 1) {
+	            iconContainer.addClass("filledIcon").html('<i class="fa-solid fa-star"></i>');
+	        } else {
+	            iconContainer.removeClass("filledIcon").html('<i class="fa-regular fa-star"></i>');
+	        }
+	
+	        iconContainer.data("initial-state", initialState);
+	    }
+	
+	    function toggleIcon(iconId) {
+	        const iconContainer = $(`#likeIcon${iconId}`);
+	        const initialState = parseInt(iconContainer.data("initial-state"));
+	        const newState = 1 - initialState;
+	
+	        if (newState === 1) {
+	            iconContainer.addClass("filledIcon").html('<i class="fa-solid fa-star"></i>');
+	        } else {
+	            iconContainer.removeClass("filledIcon").html('<i class="fa-regular fa-star"></i>');
+	        }
+	
+	        iconContainer.data("initial-state", newState);
+	    }
+	});  */
+	
+	document.addEventListener("DOMContentLoaded", function () {
+	    const likeIcons = document.querySelectorAll('.likeIcon');
+
+	    likeIcons.forEach(function(icon) {
+	        const trailStar = parseInt(icon.dataset.trailStar);
+
+	        if (trailStar === 1) {
+	            icon.classList.add("fa-solid", "fa-star");
+	        } else {
+	            icon.classList.add("fa-regular", "fa-star");
+	        }
+	    });
+	});
+
+//<i id="likeIcon" class="fa-solid fa-star"></i> 칠해진거
+//<i id="likeIcon" class="fa-regular fa-star"></i> 빈거
 
 //-------------------------------------------------------------------------------
 		    	    

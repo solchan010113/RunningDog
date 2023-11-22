@@ -14,6 +14,7 @@ import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
+import com.runningdog.vo.MotrailUsedVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
 import com.runningdog.vo.XYVo;
@@ -54,12 +55,21 @@ public class MoWebDao {
 		return trailList;
 	}	
 	
+	// 산책로 이용자 업데이트
+	public void trailCount(MotrailUsedVo motrailUsedVo){
+		System.out.println("산책로 이용자 카운트");	
+		System.out.println(motrailUsedVo);
+		sqlSession.insert("walkLog.trailCount",motrailUsedVo);
+	}	
+	
 	
 	// 기록 산책로 불러오기 (3개)
 	public List<UseTrailVo> trailSelect(){
 		System.out.println("@Dao");		
 		return sqlSession.selectList("walkLog.endTrailSelect");
 	}	
+	
+	
 	
 	// (2) 강아지정보 가져오기
 	public List<MoDogVo> dogSelect(int userNo){

@@ -109,8 +109,10 @@ public class MobileWebController {
 	public String wif(@ModelAttribute MoWalkLogVo moWalkLogVo, Model walkLogModel,
 			@RequestParam(name = "line") String lineData, Model lineModel,
 			@RequestParam(name = "dogList") String dogList, Model dogModel, Model trailModel,
-			@RequestParam(name = "location") String location)
+			@RequestParam(name = "location") String location,
+			HttpSession session)
 			throws JsonParseException, JsonMappingException, IOException {
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		
 		int locationNo = moWebService.locationSelect(location);	
 		
@@ -135,7 +137,7 @@ public class MobileWebController {
 		System.out.println("좌표 2 " + lineData);
 		
 		// moWebService.threeTrailSelect (lineData의 마지막 배열)
-		List<UseTrailVo> trailList = moWebService.threeTrailSelect(lineData);			
+		List<UseTrailVo> trailList = moWebService.threeTrailSelect(lineData,authUser.getUserNo());			
 		
 		System.out.println("--산책로3개 컨트롤러" + trailList);
 		

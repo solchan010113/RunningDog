@@ -29,6 +29,7 @@ import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
+import com.runningdog.vo.MotrailUsedVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
 import com.runningdog.vo.XYVo;
@@ -140,6 +141,20 @@ public class MoWebService {
         // 이용한 산책로 업데이트        
         System.out.println("이용한 산책로 업데이트" + moWalkLogVo.getTrailList());
         
+        List<Integer> trailList = moWalkLogVo.getTrailList();
+        
+        MotrailUsedVo motrailUsedVo = new MotrailUsedVo();
+        
+        motrailUsedVo.setWalkLogNo(walkLogNo);
+        
+        for (int i = 0; i < trailList.size(); i++) {        	;
+        	motrailUsedVo.setTrailNo(trailList.get(i));
+        	System.out.println(trailList.get(i)); 
+        	moWebDao.trailCount(motrailUsedVo);
+        }
+        
+        System.out.println("이용한 산책로 업데이트" + trailList);
+        
         // 찜한 산책로 업데이트
         System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());
         
@@ -180,13 +195,16 @@ public class MoWebService {
 	}
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
-	public List<UseTrailVo> threeTrailSelect(String lineData){
+	public List<UseTrailVo> threeTrailSelect(String lineData,int userNo){
 		System.out.println("서비스 산책로 3개 불러오기");			
 		// 마지막 {} 안의 lat 및 lng 추출
         XYVo xyVo = extractLastLatLng(lineData);
         // 결과 출력
         System.out.println(xyVo);
-		return moWebDao.threeTrailSelect(xyVo);					
+        xyVo.setUserNo(userNo);
+        List<UseTrailVo> trailList = moWebDao.threeTrailSelect(xyVo);        
+        
+		return trailList;					
 	}	
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
