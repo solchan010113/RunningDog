@@ -13,6 +13,7 @@ import com.runningdog.vo.LogWalkedDogVo;
 import com.runningdog.vo.MonthlyStatsVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
+import com.runningdog.vo.UsedTrailVo;
 import com.runningdog.vo.WalkLogConImgVo;
 
 @Repository
@@ -201,6 +202,24 @@ public class WalkBlogDao {
 	public List<FollowListVo> getFollowingList(String paramCode) {
 		
 		return sqlSession.selectList("walkBlog.getFollowingList", paramCode);
+	}
+
+	public List<ShowLogVo> walkLogListByDog(String paramCode, int dogNo) {
+		
+		return null;
+	}
+
+	public List<ShowLogVo> walkLogListByDog(Map<String, Object> map) {
+		System.out.println("map = " + map);
+		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogListByDog", map);
+		
+		return walkLogList;
+	}
+
+	public List<UsedTrailVo> getUsedTrailList(int walkLogNo) {
+		List<UsedTrailVo> usedTrailList = sqlSession.selectList("walkBlog.usedTrailList", walkLogNo);
+		
+		return usedTrailList;
 	}
 
 	

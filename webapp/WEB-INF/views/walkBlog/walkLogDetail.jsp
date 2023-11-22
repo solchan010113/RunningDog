@@ -50,7 +50,6 @@
 								<button id="followButton" class="followButton" onclick="toggleFollowButton()">
 									<c:if test="${requestScope.blogInfoVo.followNo == 0}">
 						팔로우
-						
 						</c:if>
 							</c:if>
 							<c:if test="${requestScope.blogInfoVo.followNo == 1}">
@@ -93,7 +92,9 @@
 						</a>
 						<div class="tab meeting"></div>
 						<div class="tab following"></div>
-						<div class="tab blank"></div>
+						<div class="tab blank">
+						
+						<button type="button" class="homeButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}'">홈으로</button></div>
 					</div>
 
 
@@ -227,7 +228,7 @@
 
 
 				<div class="mainSidebar">
-					<div class="clubsWrapper">
+					<%-- <div class="clubsWrapper">
 						<h3 class="clubs">동아리</h3>
 						<div class="clubBox">
 							<div class="clubCard1">
@@ -247,7 +248,7 @@
 								<div class="clubCardName">동아리4</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					<div class="socialWrapper">
 						<div class="socialBox">
 							<h3 class="social">소셜 네트워크</h3>

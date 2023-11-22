@@ -198,13 +198,20 @@ function toggleFollowButton() {
 					</div>
 					<div class="mainDogCard">
 						<div class="coworkingDog">산책 파트너</div>
-						<div class="maindogCardBox" >
+						<div class="maindogCardBox">
 							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
-								<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/dog/${blogDogVo.dogNo}'" >
-									<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
-									<div class="mainDogCardName">${blogDogVo.name}</div>
-								</div>
-
+								 <c:if test="${String.valueOf(blogDogVo.dogNo) eq String.valueOf(requestScope.dogNo)}">
+									<div class="mainDogCard1 highlighted" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/dog/${blogDogVo.dogNo}'">
+										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
+										<div class="mainDogCardName">${blogDogVo.name}</div>
+									</div>
+								</c:if> 
+								<c:if test="${blogDogVo.dogNo != requestScope.dogNo}">
+									<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/dog/${blogDogVo.dogNo}'">
+										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
+										<div class="mainDogCardName">${blogDogVo.name}</div>
+									</div>
+								</c:if>
 							</c:forEach>
 						</div>
 
@@ -229,16 +236,20 @@ function toggleFollowButton() {
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following">팔로잉</div>
 						</a>
-						<div class="tab blank"></div>
+						<div class="tab blank">
+						<button type="button" class="homeButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}'">홈으로</button>
+						</div>
 					</div>
 
 
 					<div class="mainRecordSection">
 
 
-						<c:if test="${empty dogNo }">
+
 						<c:forEach items="${walkLogList}" var="ShowLogVo">
 							<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
+
+
 								<div class="mainRecord1">
 
 
@@ -393,13 +404,14 @@ function toggleFollowButton() {
 									<div class="MRborder"></div>
 								</div>
 							</c:if>
+
 						</c:forEach>
-						</c:if>
-						
-						
-						
-						
-						
+
+
+
+
+
+
 					</div>
 
 

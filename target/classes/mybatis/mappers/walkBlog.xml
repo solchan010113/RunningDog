@@ -108,6 +108,37 @@
 		order by WL.walkLogNo desc
       ]]>
 	</select>
+	
+	<select id="walkLogListByDog" resultType="com.runningdog.vo.ShowLogVo" parameterType="java.util.Map">
+      <![CDATA[
+		 select       WL.walkLogNo,
+		       		 WL.userNo,
+		       	  	 WL.locationNo,
+		       		 TO_CHAR(WL.regDate, '""YYYY"년 "MM"월 "DD"일 "HH24"시 "MI"분"') regDate,
+		       		 WL.startTime,
+		      		 WL.endTime,
+		      		 WL.logTime,
+		      		 WL.distance,
+		      		 WL.content,
+		      		 WL.security,
+		      		 WL.status,
+		      		 US.name,
+		      		 WL.title
+                    
+		             
+		from walkLog WL
+    JOIN users US ON WL.userNo = US.userNo
+    LEFT JOIN walkedDog WD ON WD.walkLogNo = WL.walkLogNo
+		where WL.userNo = (SELECT userNo
+                            FROM users
+                            WHERE code = #{paramCode}) 
+    and WD.dogNo = #{dogNo}
+		
+		order by WL.walkLogNo desc   
+		
+	
+      ]]>
+	</select>
 
 
 	<select id="getShowLogCmtList" parameterType="int" resultType="com.runningdog.vo.ShowLogCmtVo">
@@ -385,6 +416,33 @@ ORDER BY
     ]]>
 </select>
 
+<select id="usedTrailList" resultType="com.runningdog.vo.UsedTrailVo" parameterType="int">
+      <![CDATA[
+		SELECT
+    t.trailNo,
+    t.name,
+    t.eta,
+    t.distance,
+    COUNT(wl.walkLogNo) AS trailHit,
+    COUNT(ts.trailStarNo) AS trailStar,
+    COUNT(tc.trailCmtNo) AS trailCmt
+FROM
+    trail t
+JOIN
+    trailUsed tu ON t.trailNo = tu.trailNo
+LEFT JOIN
+    walkLog wl ON tu.walkLogNo = wl.walkLogNo
+LEFT JOIN
+    trailStar ts ON t.trailNo = ts.trailNo
+LEFT JOIN
+    trailCmt tc ON t.trailNo = tc.trailNo
+WHERE
+    tu.walkLogNo = #{walkLog}
+GROUP BY
+    t.trailNo, t.name, t.eta, t.distance
+      ]]>
+	</select>
+	
 
 
 

@@ -15,6 +15,7 @@ import com.runningdog.vo.FollowListVo;
 import com.runningdog.vo.LogWalkedDogVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
+import com.runningdog.vo.UsedTrailVo;
 import com.runningdog.vo.WalkLogConImgVo;
 
 @Service
@@ -134,6 +135,15 @@ public class WalkBlogService {
             walkLog.setShowLogCmtList(cmtList);
         }
         
+        for (ShowLogVo walkLog : walkLogList) {
+            List<UsedTrailVo> usedTrailList = walkBlogDao.getUsedTrailList(walkLog.getWalkLogNo());
+            walkLog.setUsedTrailList(usedTrailList);
+            
+            System.out.println("usedTrailList = "+usedTrailList);
+        }
+        
+        
+        
         
         
         for (ShowLogVo walkLog : walkLogList) {
@@ -224,6 +234,56 @@ public class WalkBlogService {
 		
 		
 		
+	}
+
+	public List<ShowLogVo> walkLogListByDog(String paramCode, int dogNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+	    map.put("paramCode", paramCode);
+	    map.put("dogNo", dogNo);
+	    
+	    System.out.println("dogNo = " + dogNo);
+		
+		List<ShowLogVo> walkLogList = walkBlogDao.walkLogListByDog(map);
+		
+		
+		 for (ShowLogVo walkLog : walkLogList) {
+	            List<ShowLogCmtVo> cmtList = walkBlogDao.getShowLogCmtList(walkLog.getWalkLogNo());
+	            walkLog.setShowLogCmtList(cmtList);
+	        }
+	        
+	        
+	        
+	        for (ShowLogVo walkLog : walkLogList) {
+	            
+	            walkLog.setWalkLogMap(walkBlogDao.getWalkLogMap(walkLog.getWalkLogNo()));
+	            walkLog.setUserSavename(walkBlogDao.getUserSavenameByWalkLogNo(walkLog.getWalkLogNo()));
+	        }
+	        
+	        
+	        for (ShowLogVo walkLog : walkLogList) {
+	        	System.out.println(walkLog.getWalkLogNo());
+	        	List<LogWalkedDogVo> walkedDogList = walkBlogDao.getWalkedDogList(walkLog.getWalkLogNo());
+	        	System.out.println(walkedDogList);
+	        	for (LogWalkedDogVo walkedDog : walkedDogList) {
+	                walkedDog.setSaveName(walkBlogDao.getWalkedDogImg(walkedDog.getDogNo()));
+	                System.out.println(walkedDog.getSaveName());
+	            }
+	    		
+	        	
+	        	
+	            walkLog.setWalkedDogList(walkedDogList);
+	           
+	        }
+	        
+	        for (ShowLogVo walkLog : walkLogList) {
+	            List<WalkLogConImgVo> imageList = walkBlogDao.getShowLogImageList(walkLog.getWalkLogNo());
+	            walkLog.setImageList(imageList);
+	            System.out.println(imageList);
+	        }
+			
+		
+		return walkLogList;
 	}
 	
 	/*
