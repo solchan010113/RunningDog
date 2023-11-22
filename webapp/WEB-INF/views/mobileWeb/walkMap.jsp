@@ -95,21 +95,7 @@
 			var marker = new naver.maps.Marker({
 				position : polylinePath[polylinePath.length - 1], // 마지막 위치
 				map : map
-			});
-			
-			/* var markerOptions = {
-				    position: polylinePath[polylinePath.length - 1], // 마지막 위치
-				    map: map,
-				    icon: {
-				        url: "${pageContext.request.contextPath}/assets/images/start_marker.png",
-				        size: new naver.maps.Size(22, 35),
-				        origin: new naver.maps.Point(0, 0),
-				        anchor: new naver.maps.Point(11, 35)
-				    }
-				};
-
-			var marker = new naver.maps.Marker(markerOptions); */
-			
+			});	
 			
 		}
 	</script>

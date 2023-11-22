@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
@@ -129,13 +131,19 @@ public class MoWebService {
             moWebDao.coordsListInsert(coordsVo);
         }       
 		
-		//캡쳐이미지
-        //리턴되는게 파일 경로+이름
+		// 캡쳐이미지
+        // 리턴되는게 파일 경로+이름
         mapImgSave(walkLogNo);
         
-        //캡쳐이미지 정보(경로   , walkLogNo)   
-		
-		//첨부파일처리X
+        // 캡쳐이미지 정보(경로   , walkLogNo)   
+        
+        // 이용한 산책로 업데이트        
+        System.out.println("이용한 산책로 업데이트" + moWalkLogVo.getTrailList());
+        
+        // 찜한 산책로 업데이트
+        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());
+        
+		// 첨부파일처리 X
 		
 	}
 	
@@ -164,14 +172,22 @@ public class MoWebService {
 		mapImgSave(walkLogNo);
 			
 	}
-		
-	
 	
 	// (6) 캡쳐용 좌표값 불러오기
 	public List<CoordsVo> mapSelect(int walkLogNo){
 		System.out.println("서비스 캡쳐용 좌표값 불러오기");		
 		return moWebDao.mapSelect(walkLogNo);		
 	}
+	
+	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
+	public List<UseTrailVo> threeTrailSelect(String lineData){
+		System.out.println("서비스 산책로 3개 불러오기");			
+		// 마지막 {} 안의 lat 및 lng 추출
+        XYVo xyVo = extractLastLatLng(lineData);
+        // 결과 출력
+        System.out.println(xyVo);
+		return moWebDao.threeTrailSelect(xyVo);					
+	}	
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
 	public List<MoTrailVo> trailSelect(int locationNo){
@@ -285,5 +301,26 @@ public class MoWebService {
       
 		return savePath;
 	}
+	
+	// -------------------------- 메소드
+	
+	private static XYVo extractLastLatLng(String jsonString) {
+		try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode arrayNode = mapper.readTree(jsonString);
+
+            // 배열의 마지막 요소 가져오기
+            JsonNode lastObject = arrayNode.get(arrayNode.size() - 1);
+
+            // 마지막 요소의 lat 및 lng 값 가져오기
+            double lat = lastObject.get("lat").asDouble();
+            double lng = lastObject.get("lng").asDouble();
+
+            return new XYVo(lng, lat); // x는 lng, y는 lat
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

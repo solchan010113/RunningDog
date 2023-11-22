@@ -16,6 +16,7 @@ import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
+import com.runningdog.vo.XYVo;
 
 @Repository
 public class MoWebDao {
@@ -45,6 +46,14 @@ public class MoWebDao {
 		System.out.println(locationNo);
 		return sqlSession.selectList("walkLog.mapTrailSelect", locationNo);
 	}	
+	// 기록 산책로 불러오기 (3개)
+	public List<UseTrailVo> threeTrailSelect(XYVo xyVo){
+		System.out.println("다오 산책로 3개");	
+		List<UseTrailVo> trailList = sqlSession.selectList("walkLog.threeTrailSelect" , xyVo);
+		System.out.println("다오 산책로 3개 결과" + trailList);	
+		return trailList;
+	}	
+	
 	
 	// 기록 산책로 불러오기 (3개)
 	public List<UseTrailVo> trailSelect(){
