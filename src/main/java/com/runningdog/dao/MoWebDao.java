@@ -1,5 +1,7 @@
 package com.runningdog.dao;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -102,6 +104,15 @@ public class MoWebDao {
 	// (3) 산책기록하기
 	public void walkLogInsert(MoWalkLogVo moWalkLogVo){
 		System.out.println("다오 산책기록하기");
+		
+		String title = moWalkLogVo.getTitle();
+		String endTime = moWalkLogVo.getEndTime();
+		
+		String newTitle = tmieTitle(title,endTime);
+		
+		System.out.println("생성된 제목 : "+ newTitle);
+		
+		moWalkLogVo.setTitle(newTitle);
 		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setStatus('T');	
 		moWalkLogVo.setStartTime("2023-11-17 11:31");
@@ -160,5 +171,43 @@ public class MoWebDao {
 		System.out.println("다오 어드민 업데이트");			
 		sqlSession.update("walkLog.adminUpdate",walkLogVo);			
 	}
+	
+	
+	// --------------------------------------
+	
+	private String tmieTitle(String title,String endTime) {
+		
+		System.out.println("여기서 제목 값 확인" + title);			
+		
+		if (title == null) {
+			System.out.println("여기서 제목 바꾸기" + title+ ", " + endTime);			
+			// 문자열을 LocalDateTime으로 변환
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	        LocalDateTime dateTime = LocalDateTime.parse(endTime, formatter);
+
+	        // 시간대에 따라 메시지 출력
+	        if (dateTime.getHour() >= 0 && dateTime.getHour() < 6) {
+	            System.out.println("새벽입니다");	     
+	            title = "새벽산책입니다.";
+	        } else if (dateTime.getHour() >= 6 && dateTime.getHour() < 12) {
+	            System.out.println("아침입니다");     
+	            title = "아침산책입니다.";
+	        } else if (dateTime.getHour() >= 12 && dateTime.getHour() < 18) {
+	            System.out.println("점심입니다");     
+	            title = "점심산책입니다.";
+	        } else {
+	            System.out.println("저녁입니다");     
+	            title = "저녁산책입니다.";
+	        }			
+		} 
+		
+		System.out.println("나가기전 확인: " +title);
+		
+		return title;
+		
+	}
+	
+	
+	
 
 }
