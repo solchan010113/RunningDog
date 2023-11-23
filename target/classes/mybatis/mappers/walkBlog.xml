@@ -297,7 +297,7 @@ ORDER BY
             WHERE DG.userNo = US.userNo
             and DG.userNo = (SELECT userNo
                            FROM users 
-                           WHERE code = #{paramCode})
+                           WHERE code = #{paramCode}) and DG.status = 'T'
     ]]>
 </select>
 
