@@ -63,7 +63,7 @@ public class MeetingDao {
 		return count;
 	}
 	
-	//모임 상세 등록
+	//모임 상세 등록 + 모임 신청
 	public int insertMeetingInfo(MeetingInfosVo meetingInfosVo) {
 		System.out.println("MeetingDao.insertMeetingInfo()");
 		

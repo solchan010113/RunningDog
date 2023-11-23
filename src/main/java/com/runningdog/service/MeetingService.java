@@ -122,7 +122,7 @@ public class MeetingService {
 		
 		MeetingInfosVo miVo = new MeetingInfosVo();
 		miVo.setMeetingNo(mVo.getMeetingNo());
-		miVo.setUsersNo(mVo.getUserNo());
+		miVo.setUserNo(mVo.getUserNo());
 		
 		for(int i = 0; i< dList.size(); i++) {
 			
@@ -154,6 +154,23 @@ public class MeetingService {
 		return map;
 	}
 	
+	//모임 신청
+	public void insertMeetingInfo(MeetingsVo mVo) {
+		System.out.println("MeetingService.insertMeetingInfo()");
+
+		List<Integer> dList = mVo.getDogNo();
+		
+		MeetingInfosVo miVo = new MeetingInfosVo();
+		miVo.setMeetingNo(mVo.getMeetingNo());
+		miVo.setUserNo(mVo.getUserNo());
+		
+		for(int i = 0; i< dList.size(); i++) {
+			
+			miVo.setDogNo(dList.get(i));
+			
+			meetingDao.insertMeetingInfo(miVo);
+		}
+	}
 	
 }
 

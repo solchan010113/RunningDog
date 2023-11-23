@@ -69,7 +69,7 @@
 		
 		<p class="pageTitle">모임 참여 신청</p>
 		
-		<form action="${pageContext.request.contextPath}/walkMeeting/applyMeeting">
+		<form action="${pageContext.request.contextPath}/walkmeeting/applyMeeting">
 			<div class="dogSlickBox">
 				<button class="leftBtn lB2"><</button>
 				<div class="dogList dl2">
@@ -93,7 +93,8 @@
 				<button class="rightBtn rB2">></button>
 			</div>
 	
-			<input type="hidden" name="no" value="${requestScope.meetingMap.meetingVo.meetingNo}">
+			<input type="hidden" name="meetingNo" value="${requestScope.meetingMap.meetingVo.meetingNo}">
+			
 			<div class="btnArea">
 				<!-- 1. 모임장이면 모임 폭☆파 -->
 				<c:if test="${requestScope.meetingMap.meetingVo.userNo == sessionScope.authUser.userNo}">
@@ -101,10 +102,13 @@
 				</c:if>
 				
 				<!-- 2. 모임장아니고, 목록에 없으면 신청하기 -->
-				<button type="submit" class="btn btn-primary">신청하기</button>
-				
+				<c:if test="${requestScope.meetingMap.meetingVo.userNo != sessionScope.authUser.userNo}">
+					<button type="submit" class="btn btn-primary">신청하기</button>
+				</c:if>
 				<!-- 3. 모임장아니고, 목록에 있으면 신청취소 -->
-				<a href="${pageContext.request.contextPath}/walkMeeting/cancelApply" class="btn colored">신청취소</a>
+				<c:if test="${requestScope.meetingMap.meetingVo.userNo != sessionScope.authUser.userNo}">
+					<a href="${pageContext.request.contextPath}/walkMeeting/cancelApply" class="btn colored">신청취소</a>
+				</c:if>
 			</div>
 		</form>
 	</div>

@@ -193,7 +193,7 @@
 	<insert id="insertMeetingInfo" parameterType="com.runningdog.vo.MeetingInfosVo">
 		<![CDATA[
 			insert into meetinginfo
-			values(seq_meetinginfo_no.nextval, #{meetingNo}, #{usersNo}, #{dogNo})
+			values(seq_meetinginfo_no.nextval, #{meetingNo}, #{userNo}, #{dogNo})
 		]]>
 	</insert>
 
