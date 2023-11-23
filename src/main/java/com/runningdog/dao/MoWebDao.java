@@ -11,6 +11,7 @@ import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
@@ -51,17 +52,35 @@ public class MoWebDao {
 	public List<UseTrailVo> threeTrailSelect(XYVo xyVo){
 		System.out.println("다오 산책로 3개");	
 		List<UseTrailVo> trailList = sqlSession.selectList("walkLog.threeTrailSelect" , xyVo);
-		System.out.println("다오 산책로 3개 결과" + trailList);	
+		System.out.println("다오 산책로 3개 결과 (이미지추가)" + trailList);	
 		return trailList;
 	}	
+
+// ----------------- 산책로 업데이트 관련 -----------------------------
 	
-	// 산책로 이용자 업데이트
+	// 산책로 이용자수
 	public void trailCount(MotrailUsedVo motrailUsedVo){
 		System.out.println("산책로 이용자 카운트");	
 		System.out.println(motrailUsedVo);
 		sqlSession.insert("walkLog.trailCount",motrailUsedVo);
 	}	
 	
+	// 산책로 찜 등록
+	public void starInsert(MoStarVo moStarVo){
+		System.out.println("산책로 찜 등록");	
+		System.out.println(moStarVo);
+		sqlSession.insert("walkLog.starInsert",moStarVo);
+		System.out.println("찜 등록 후 찜번호 생성"+moStarVo);
+	}	
+		
+	// 산책로 찜 삭제
+	public void starDelete(MoStarVo moStarVo){
+		System.out.println("산책로 찜 삭제");	
+		System.out.println(moStarVo);
+		sqlSession.insert("walkLog.starDelete",moStarVo);
+	}	
+	
+//-----------------------------------------------------------------
 	
 	// 기록 산책로 불러오기 (3개)
 	public List<UseTrailVo> trailSelect(){
@@ -76,7 +95,7 @@ public class MoWebDao {
 		System.out.println("다오 강아지가져오기");	
 		System.out.println("다오 아이디 "+userNo);	
 		List<MoDogVo> dogList = sqlSession.selectList("walkLog.dogSelect", userNo);
-		System.out.println(dogList);	
+		System.out.println("내강아지랑 친구강아지 (삭제강아지 X) "+dogList);	
 		return dogList;
 	}
 	

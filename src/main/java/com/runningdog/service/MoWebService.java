@@ -26,6 +26,7 @@ import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
@@ -151,14 +152,10 @@ public class MoWebService {
         	motrailUsedVo.setTrailNo(trailList.get(i));
         	System.out.println(trailList.get(i)); 
         	moWebDao.trailCount(motrailUsedVo);
-        }
-        
-        System.out.println("이용한 산책로 업데이트" + trailList);
-        
+        }        
+        System.out.println("이용한 산책로 업데이트" + trailList);        
         // 찜한 산책로 업데이트
-        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());
-        
-		// 첨부파일처리 X
+        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());    
 		
 	}
 	
@@ -319,6 +316,33 @@ public class MoWebService {
       
 		return savePath;
 	}
+	
+	// ----------------------- 산책로 찜기능 ------------------------------
+	
+	// 산책로 불러오기
+		public MoStarVo trailStar(MoStarVo moStarVo){
+			System.out.println("찜기능 서비스");
+			
+			int starNo = moStarVo.getTrailStarNo();
+			
+			System.out.println("바꾸기전" + starNo);
+			
+			if (starNo != 0) {
+				
+				System.out.println("삭제" + starNo);
+				moWebDao.starInsert(moStarVo);
+				
+				
+			} else {
+				System.out.println("등록" + starNo);
+				moWebDao.starDelete(moStarVo);
+				
+			}
+			
+			System.out.println("바꾼 후의 보에 산책로 번호가 담겼니 " + moStarVo);
+			
+			return moStarVo;
+		}
 	
 	// -------------------------- 메소드
 	

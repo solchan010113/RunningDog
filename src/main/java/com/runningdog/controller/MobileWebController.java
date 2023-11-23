@@ -26,6 +26,7 @@ import com.runningdog.vo.AdminXYVo;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UseTrailVo;
@@ -165,6 +166,33 @@ public class MobileWebController {
 		moWebService.walkLogInsert(moWalkLogVo); // 여기서 셀렉트키 반환
 		return moWalkLogVo; // ajax로 재반환
 	}
+	
+//------------------------------------------------------------------------
+	@ResponseBody
+	@RequestMapping("/starUpdate")
+	public int starUpdate(HttpSession session,
+						  @RequestParam("trailNo") int trailNo,
+				          @RequestParam("starNo") int starNo) {
+		System.out.println("찜하기 컨트롤러");
+		
+		// 세션에서 유저정보 가져오기
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		System.out.println("유저번호 " + authUser.getUserNo());
+		System.out.println("컨트롤러 산책로번호 " + trailNo);
+		System.out.println("컨트롤러 찜번호 " + starNo);
+		
+		MoStarVo moStarVo = new MoStarVo(starNo,userNo,trailNo);
+		System.out.println("보에담긴 " +moStarVo);
+		moWebService.trailStar(moStarVo);		
+		
+		int result = moStarVo.getTrailStarNo();
+		
+		return result; // ajax로 재반환
+	}
+	
+	
+//------------------------------------------------------------------------	
 
 	// 첨부이미지 기록하기
 	@RequestMapping("/imagesInsert")

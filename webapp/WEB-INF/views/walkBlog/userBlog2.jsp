@@ -401,16 +401,6 @@ function toggleFollowButton() {
 												<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
 											</div>
 
-											<div class="likeButton">
-												<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
-													<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo }">
-														
-													</c:if>
-											
-												</c:if>
-
-
-											</div>
 											<div class="walkLogContent">${ShowLogVo.content}</div>
 										</div>
 

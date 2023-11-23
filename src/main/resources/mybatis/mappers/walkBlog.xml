@@ -132,7 +132,7 @@
 		where WL.userNo = (SELECT userNo
                             FROM users
                             WHERE code = #{paramCode}) 
-    and WD.dogNo = #{dogNo}
+    and WD.dogNo = #{dogNo} and WD
 		
 		order by WL.walkLogNo desc   
 		
@@ -172,7 +172,7 @@ ORDER BY
               
         FROM walkedDog WD, dog D
         where WD.dogNo = D.dogNo
-        and walkLogNo = #{walkLogNo}
+        and walkLogNo = #{walkLogNo} and D.status = 'T'
         ORDER BY walkedDogNo ASC
     ]]>
 	</select>
@@ -297,7 +297,7 @@ ORDER BY
             WHERE DG.userNo = US.userNo
             and DG.userNo = (SELECT userNo
                            FROM users 
-                           WHERE code = #{paramCode})
+                           WHERE code = #{paramCode}) and DG.status = 'T'
     ]]>
 </select>
 
@@ -342,7 +342,7 @@ ORDER BY
             DG.status,
             DG.dogNo
             FROM dog DG, users US
-            WHERE DG.userNo = US.userNo
+            WHERE DG.userNo = US.userNo and DG.status = 'T'
             and (DG.userNo IN (SELECT applieduserNo
                            FROM friend 
                            WHERE applyuserNo = (SELECT userNo
