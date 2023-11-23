@@ -37,11 +37,6 @@
     </div>
 
     <div class="form-group">
-        <p>수정 할 제목</p>
-        <input type="text" name="title" id="titleInput" value="">
-    </div>
-
-    <div class="form-group">
         <p>수정 할 거리</p>
         <input type="text" name="logTime" id="logTimeInput" value="">
     </div>
@@ -78,12 +73,10 @@
 			// 여기에서 AJAX를 사용하여 서버로 좌표값을 전송하는 코드를 작성
 			console.log("작성", coords);
 			walkLogNo = $("#walkLogNoInput").val();
-			title = $("#titleInput").val();
 			logTime = $("#logTimeInput").val();
 			distance = $("#distanceInput").val();
 			
 			console.log("바꿀 산책일지번호", walkLogNo);
-			console.log("바꿀 제목", title);
 			console.log("바꿀 소요시간", logTime);
 			console.log("바꿀 거리", distance);
 
@@ -93,7 +86,6 @@
 				data : JSON.stringify({
 					xyList : coords,
 					walkLogNo: walkLogNo,
-					title: title,
 					logTime: logTime,
 					distance: distance
 				}),

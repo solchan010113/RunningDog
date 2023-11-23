@@ -305,8 +305,7 @@
    <update id="adminUpdate"  parameterType="com.runningdog.vo.MoWalkLogVo" >
    		<![CDATA[
 	   		UPDATE walkLog
-			SET title = #{title},
-			    logtime = #{logTime},
+			SET logtime = #{logTime},
 			    distance = #{distance}
 			WHERE walklogno = #{walkLogNo}
 	    ]]> 
