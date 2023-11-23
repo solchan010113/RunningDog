@@ -1,28 +1,31 @@
 package com.runningdog.vo;
 
 public class UseTrailVo {
-	
-	// 손성진사용	
-	
+
+	// 손성진사용
+
 	private int userNo;
 	private int trailStar;
-	
+	private int trailStarNo;
+
 	private int coordNo;
 	private int trailNo;
-	private String name;	
+	private String name;
 	private int coordOrder;
 	private double lat;
 	private double lng;
-	
-	private int locationVo;
-	
-	public UseTrailVo() {}
 
-	public UseTrailVo(int userNo, int trailStar, int coordNo, int trailNo, String name, int coordOrder, double lat,
-			double lng, int locationVo) {
+	private int locationVo;
+
+	public UseTrailVo() {
+	}
+
+	public UseTrailVo(int userNo, int trailStar, int trailStarNo, int coordNo, int trailNo, String name, int coordOrder,
+			double lat, double lng, int locationVo) {
 		super();
 		this.userNo = userNo;
 		this.trailStar = trailStar;
+		this.trailStarNo = trailStarNo;
 		this.coordNo = coordNo;
 		this.trailNo = trailNo;
 		this.name = name;
@@ -46,6 +49,14 @@ public class UseTrailVo {
 
 	public void setTrailStar(int trailStar) {
 		this.trailStar = trailStar;
+	}
+
+	public int getTrailStarNo() {
+		return trailStarNo;
+	}
+
+	public void setTrailStarNo(int trailStarNo) {
+		this.trailStarNo = trailStarNo;
 	}
 
 	public int getCoordNo() {
@@ -106,11 +117,9 @@ public class UseTrailVo {
 
 	@Override
 	public String toString() {
-		return "UseTrailVo [userNo=" + userNo + ", trailStar=" + trailStar + ", coordNo=" + coordNo + ", trailNo="
-				+ trailNo + ", name=" + name + ", coordOrder=" + coordOrder + ", lat=" + lat + ", lng=" + lng
-				+ ", locationVo=" + locationVo + "]";
+		return "UseTrailVo [userNo=" + userNo + ", trailStar=" + trailStar + ", trailStarNo=" + trailStarNo
+				+ ", coordNo=" + coordNo + ", trailNo=" + trailNo + ", name=" + name + ", coordOrder=" + coordOrder
+				+ ", lat=" + lat + ", lng=" + lng + ", locationVo=" + locationVo + "]";
 	}
-
-	
 
 }

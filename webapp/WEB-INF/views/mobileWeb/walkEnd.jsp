@@ -48,27 +48,20 @@
 					이 산책로를 이용하셨습니다.
 		        </div>				
 				 <div class="mapImageContainer">
-			        <div class="mapImageBox">
-			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
-			            <div id="likeIcon1" class="likeIcon emptyIcon" data-trail-star="${trailList[0].trailStar}">
-			            </div>
-			            <div class="mapName"> ${trailList[0].name} </div>
-			            <input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
-			        </div>
-			        <div class="mapImageBox">
-			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-			            <div id="likeIcon2" class="likeIcon emptyIcon" data-trail-star="${trailList[1].trailStar}">
-			            </div>
-			            <div class="mapName"> ${trailList[1].name} </div>
-			            <input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
-			        </div>
-			        <div class="mapImageBox">
-			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-			            <div id="likeIcon3" class="likeIcon emptyIcon" data-trail-star="${trailList[2].trailStar}">
-			            </div>
-			            <div class="mapName"> ${trailList[2].name} </div>
-			            <input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
-			        </div>
+	
+					<c:forEach items="${trailList}"  var="tarailVo">
+						<div class="mapImageBox">
+			            	<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
+			            	
+			            	<c:if test="${tarailVo.trailStar==1}">
+			            		<div id="likeIcon1" class="likeIcon emptyIcon fa-solid fa-star" data-trail-starno="${tarailVo.trailStarNo}" data-trail-no="${tarailVo.trailNo}"></div>	
+			            	</c:if>
+			            	<c:if test="${tarailVo.trailStar==0}">
+			            		<div id="likeIcon1" class="likeIcon emptyIcon fa-regular fa-star" data-trail-starno="${tarailVo.trailStarNo}" data-trail-no="${tarailVo.trailNo}"></div>	
+			            	</c:if>
+			            	<div class="mapName"> ${tarailVo.name} </div>
+			       		</div>
+					</c:forEach>	
     			</div>		
 			</div>
 			
@@ -132,6 +125,34 @@
 	</div>
 	
 	<script>
+	//변수
+	
+	
+	//로딩될때
+	
+	
+	
+	//할때
+	
+	
+	
+	
+	
+	//할때
+	
+	
+	//할때
+	///////////////////////////////////////////////
+	
+	//메소드
+	
+	//메소드
+	
+	//메소드
+	
+	//
+	
+	
 		// 날짜표시
 		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 	    document.getElementById("text02").innerHTML = new Date().toLocaleDateString('ko-KR', options);
@@ -529,22 +550,100 @@ $("#insertBtn").on("click", function(){
 	    }
 	});  */
 	
-	document.addEventListener("DOMContentLoaded", function () {
-	    const likeIcons = document.querySelectorAll('.likeIcon');
 
-	    likeIcons.forEach(function(icon) {
-	        const trailStar = parseInt(icon.dataset.trailStar);
+	
+	
+	$('.likeIcon').on("click", function () {		
+		console.log("찜 버튼 클릭");
+		
+		//별토글(그림)
+		console.log("찜번호"+$(this).data("trail-starno"));
+		console.log("산책로번호"+$(this).data("trail-no"));
+		
+		let isStarno = $(this).data("trail-starno");
+		console.log("담긴찜번호"+isStarno);
+		
+		//데이터 적용(삭제 또는 등록)
+		//insert문 	//delete  
+		
+		//그림
+		if(isStarno === 0){//찜안했으면
+			console.log("레귤러(빈별) >> 솔리드(찬별)");
+			$(this).removeClass("fa-regular");
+			$(this).addClass("fa-solid");
+						
+			//테스트 html trail-starno  적용(starno)
+			 $(this).data('trail-starno', 10000) 
+			// 찜번호가 10000일때는 오류가 날 수 있음 그럴땐 -나 다른 값으로 바꿔주기
+		
+		}else { //솔리드-->레귤러
+			console.log("솔리드(찬별) >> 레귤러(빈별)");
+			$(this).removeClass("fa-solid");
+			$(this).addClass("fa-regular");		
+			//테스트 html trail-starno  적용(0)
+			$(this).data('trail-starno', 0) 
+		}		
+		
+		isTrailNo = $(this).data("trail-no");
+		isStarNo = $(this).data("trail-starno");
+		
+		console.log("처리후 산책로번호2 = "+isTrailNo);
+		console.log("처리후 찜번호2 = "+isStarNo);
+		
+	
+		//서비스가
+		//데이터 ajax전송
+		$.ajax({
+            url: "${pageContext.request.contextPath}/m/starUpdate",
+            type: "post",
+            data: {
+                trailNo: isTrailNo,
+                starNo: isStarNo
+            },
+            
+            dataType : "text",
+            success: function (result) {
+                console.log("찜완료", result);
+                $(this).data('trail-starno', result) 
+              
+                
+            },
+            error: function (XHR, status, error) {
+                console.error(status + " : " + error);
+            }
+        });
+		
+		
+		//성공이면 (리턴)
+		
+			//trail-starno  0이 아니면 삭제,   리턴 -1 
+			//html trail-starno  적용(0)
+			
+			//trail-starno  0이이면 등록,   리턴 starno
+			//html trail-starno  적용(starno)
+			
+			
+		
+		//insert  --> starno()  -->                  data를 trail-starno  적용
+		
+		
+		
+		
+		
+		
+		
+		
+		//db값변경  -->추가,삭제
+		
+		
+		
+		
+		
+	})
+	
 
-	        if (trailStar === 1) {
-	            icon.classList.add("fa-solid", "fa-star");
-	        } else {
-	            icon.classList.add("fa-regular", "fa-star");
-	        }
-	    });
-	});
-
-//<i id="likeIcon" class="fa-solid fa-star"></i> 칠해진거
-//<i id="likeIcon" class="fa-regular fa-star"></i> 빈거
+//<i class="fa-solid fa-star"></i> 칠해진거
+//<i class="fa-regular fa-star"></i> 빈거
 
 //-------------------------------------------------------------------------------
 		    	    
