@@ -72,7 +72,23 @@ public class MeetingDao {
 		return count;
 	}
 	
+	//모임 1개
+	public MeetingsVo selectOneMeeting(int meetingNo) {
+		System.out.println("MeetingDao.selectOneMeeting()");
+		
+		MeetingsVo mvo = sqlSession.selectOne("meeting.selectOneMeeting", meetingNo);
+		
+		return mvo;
+	}
 	
+	//모임 강아지
+	public List<DogsVo> selectMeetingDogList(int meetingNo) {
+		System.out.println("MeetingDao.selectMeetingDogList()");
+		
+		List<DogsVo> mdList = sqlSession.selectList("meeting.selectMeetingDogList", meetingNo);
+		
+		return mdList;
+	}
 	
 	
 }

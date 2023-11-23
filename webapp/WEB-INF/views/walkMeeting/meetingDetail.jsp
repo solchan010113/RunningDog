@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,175 +16,95 @@
 <body>
 	<jsp:include page="../global/header.jsp"></jsp:include>
 	<div class="contents">
-		<p class="pageTitle">같이 산책 하실 분 구함</p>
+		<p class="pageTitle">${requestScope.meetingMap.meetingVo.name}</p>
 		<div class="inputGroup">
 			<div class="items">
 				<p class="inputTitle">모임 날짜</p>
-				<div>1972-11-21</div>
+				<div>${requestScope.meetingMap.meetingVo.meetingDate}&nbsp;${requestScope.meetingMap.meetingVo.time}</div>
 			</div>
 			<div class="items">
 				<p class="inputTitle">모임 인원</p>
-				<div>4 / 6</div>
+				<div>${requestScope.meetingMap.meetingVo.currentMember}&nbsp;/&nbsp;${requestScope.meetingMap.meetingVo.maxMember}</div>
 			</div>
 			<div class="items">
 				<p class="inputTitle">강아지 크기</p>
-				<div>소형 / 중형 / 대형</div>
+				<div>${requestScope.meetingMap.meetingVo.small}&nbsp;&nbsp;${requestScope.meetingMap.meetingVo.medium}&nbsp;&nbsp;${requestScope.meetingMap.meetingVo.large}</div>
+			</div>
+			<div class="items">
+				<p class="inputTitle">모임장</p>
+				<div>${requestScope.meetingMap.meetingVo.userName}</div>
 			</div>
 		</div>
 		
 		<div class="inputGroup">
 			<div class="inputItem">
 				<p class="inputTitle">모임 장소</p>
-				<div>서울특별시 종로구 종로동 종로삼가 1972</div>
-				<img class="mapImg" alt="" src="${pageContext.request.contextPath}/assets/images/1700470417847827d87c6-2cf2-4dbf-9482-7c785052160e.jpg">
+				<div>${requestScope.meetingMap.meetingVo.trailName}&nbsp;/&nbsp;${requestScope.meetingMap.meetingVo.spot}</div>
+				<img class="mapImg" src="${pageContext.request.contextPath}/rdimg/trail/${requestScope.meetingMap.meetingVo.saveName}">
 			</div>
 		</div>
 		
 		<p class="inputTitle">모임 설명</p>
-		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="readonly"></textarea>
+		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="readonly">${requestScope.meetingMap.meetingVo.description}</textarea>
 		
 		<p class="inputTitle">참여 강아지</p>
-		<!-- 개 주인 이름이 아니라, 모임 참가자 이름이 떠야 함. 아니 그걸 어떻게 구현해 ㅁ너ㅏ오며나ㅣ오ㅠ먀ㅣㅕ쥬 -->
-		<!-- 꼬우면 빼ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ -->
 		<div class="dogSlickBox">
 			<button class="leftBtn lB1"><</button>
 			<div class="dogList dl1">
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog3.jpg">
+				<c:forEach items="${requestScope.meetingMap.meetingDogList}" var="dogVo">
+					<div class="dog">
+						<div class="imgBox">
+							<img class="coverImg" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/dog_default_img.jpg';" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
+						</div>
+						<div>
+							<p>이름: ${dogVo.dogName}</p>
+							<p>체중: ${dogVo.weight}kg</p>
+							<p>보호자: ${dogVo.userName}</p>
+						</div>
 					</div>
-					<div>
-						<p>사랑이</p>
-						<p>18kg</p>
-						<p>견주: 심영</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog5.jpg">
-					</div>
-					<div>
-						<p>사랑이</p>
-						<p>18kg</p>
-						<p>심영</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog4.jpg">
-					</div>
-					<div>
-						<p>사랑이</p>
-						<p>18kg</p>
-						<p>심영</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog7.jpg">
-					</div>
-					<div>
-						<p>계왕권 400배 사랑이</p>
-						<p>18kg</p>
-						<p>김두한</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog6.jpg">
-					</div>
-					<div>
-						<p>슈퍼 초 사이어견 사랑이</p>
-						<p>18kg</p>
-						<p>시라소니</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog6.jpg">
-					</div>
-					<div>
-						<p>개라서 개빡친 사랑이</p>
-						<p>18kg</p>
-						<p>조병옥</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog6.jpg">
-					</div>
-					<div>
-						<p>분노를 참을 수 없는 사랑이</p>
-						<p>18kg</p>
-						<p>문영철</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog6.jpg">
-					</div>
-					<div>
-						<p>죄악의 군주 사랑이</p>
-						<p>18kg</p>
-						<p>임화수</p>
-					</div>
-				</div>
-				<div class="dog">
-					<div class="imgBox">
-						<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog6.jpg">
-					</div>
-					<div>
-						<p>최종병기 사랑이</p>
-						<p>18kg</p>
-						<p>장택상</p>
-					</div>
-				</div>
+				</c:forEach>
 			</div>
 			<button class="rightBtn rB1">></button>
 		</div>
 		
 		<p class="pageTitle">모임 참여 신청</p>
 		
-		<form action="">
+		<form action="${pageContext.request.contextPath}/walkMeeting/applyMeeting">
 			<div class="dogSlickBox">
 				<button class="leftBtn lB2"><</button>
 				<div class="dogList dl2">
+					<c:forEach items="${requestScope.meetingMap.myDogList}" var="dogVo">
 					<div class="dog">
 						<div class="imgBox">
-							<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog3.jpg">
+							<img class="coverImg" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/dog_default_img.jpg';" src="${pageContext.request.contextPath}/rdimg/dogProfile/${dogVo.saveName}">
 						</div>
 						<div>
-							<p>사랑이</p>
-							<p>18kg</p>
-							<p>심영</p>
+							<p>이름: ${dogVo.dogName}</p>
+							<p>체중: ${dogVo.weight}kg</p>
+							<p>보호자: ${dogVo.userName}</p>
+							<div class="checkbox">
+								선택: <input type="checkbox" value="${dogVo.dogNo}" name="dogNo">
+							</div>
 						</div>
 					</div>
-					<div class="dog">
-						<div class="imgBox">
-							<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog5.jpg">
-						</div>
-						<div>
-							<p>사랑이</p>
-							<p>18kg</p>
-							<p>심영</p>
-						</div>
-					</div>
-					<div class="dog">
-						<div class="imgBox">
-							<img class="coverImg" src="${pageContext.request.contextPath}/assets/images/dog4.jpg">
-						</div>
-						<div>
-							<p>사랑이</p>
-							<p>18kg</p>
-							<p>심영</p>
-						</div>
-					</div>
+				</c:forEach>
+			
 				</div>
 				<button class="rightBtn rB2">></button>
 			</div>
 	
+			<input type="hidden" name="no" value="${requestScope.meetingMap.meetingVo.meetingNo}">
 			<div class="btnArea">
+				<!-- 1. 모임장이면 모임 폭☆파 -->
+				<c:if test="${requestScope.meetingMap.meetingVo.userNo == sessionScope.authUser.userNo}">
+					<a href="${pageContext.request.contextPath}/walkMeeting/deleteMeeting" class="btn colored">모임 취소</a>
+				</c:if>
+				
+				<!-- 2. 모임장아니고, 목록에 없으면 신청하기 -->
 				<button type="submit" class="btn btn-primary">신청하기</button>
+				
+				<!-- 3. 모임장아니고, 목록에 있으면 신청취소 -->
+				<a href="${pageContext.request.contextPath}/walkMeeting/cancelApply" class="btn colored">신청취소</a>
 			</div>
 		</form>
 	</div>
@@ -229,7 +150,6 @@ $(function(){
     });
     
 });
-
 
 </script>
 

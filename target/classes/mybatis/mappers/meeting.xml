@@ -197,6 +197,83 @@
 		]]>
 	</insert>
 
+	<!-- 모임 상세 (1개) -->
+	<select id="selectOneMeeting" parameterType="int" resultType="com.runningdog.vo.MeetingsVo">
+		<![CDATA[
+			select  m.meetingNo meetingNo,
+			        m.name name,
+			        m.description description,
+			        to_char(m.meetingDate,'YYYY-MM-DD') meetingDate,
+			        m.time time,
+			        m.maxMember maxMember,
+ 			        CASE m.small WHEN 'T' THEN '소형'
+                                 ELSE null END as small,
+                    CASE m.medium WHEN 'T' THEN '중형'
+                                 ELSE null END as medium,
+                    CASE m.large WHEN 'T' THEN '대형'
+                                 ELSE null END as large,
+			        m.status status,
+			        m.userNo userNo,
+			        m.trailNo trailNo,
+			        cm.currentMember currentMember,
+			        i.saveName saveName,
+			        t.name trailName,
+			        t.spot spot,
+			        u.name userName
+			from meeting m, (select count(*) currentMember
+			                from (select  meetingNo,
+			                              userNo
+			                      from meetinginfo
+			                      group by meetingNo, userNo
+			                      having meetingNo = #{meetingNo})
+			                ) cm, trail t, images i, users u
+			where meetingNo = #{meetingNo}
+			and m.trailNo = i.useNo
+			and t.trailNo = m.trailNo
+			and i.type = 'trail'
+			and u.userNo = m.userNo
+		]]>
+	</select>
+
+	<!-- 모임 강아지 -->
+	<select id="selectMeetingDogList" parameterType="int" resultType="com.runningdog.vo.DogsVo">
+		<![CDATA[
+			select  do.dogNo dogNo,
+			        do.dogName dogName,
+			        do.birth birth,
+			        do.gender gender,
+			        do.weight weight,
+			        do.kind kind,
+			        do.neuter neuter,
+			        do.personality personality,
+			        do.color color,
+			        do.userName userName,
+			        nvl(i.saveName, 'dog_default_img.jpg') saveName
+			from   (select d.userNo userNo,
+			                d.dogNo dogNo,
+			                d.name dogName, 
+			                d.birth birth,
+			                d.gender gender,
+			                d.weight weight,
+			                d.kind kind,
+			                d.neuter neuter,
+			                d.personality personality,
+			                d.color color,
+			                d.status status,
+			                u.name userName
+			        from dog d, users u, meetingInfo mi, meeting m
+			        where u.userNo = mi.userNo
+			        and d.status != 'F'
+			        and mi.dogNo = d.dogNo
+			        and m.meetingNo = mi.meetingNo
+			        and m.meetingNo = #{meetingNo}
+			        order by u.name, d.name asc) do left outer join images i
+			on do.dogNo = i.useNo
+			and i.type = 'dog'
+		]]>
+	</select>
+
+
 
 
 </mapper>

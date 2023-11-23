@@ -78,7 +78,7 @@
 						<div>
 							<p>이름: ${dogVo.dogName}</p>
 							<p>체중: ${dogVo.weight}kg</p>
-							<p>견주: ${dogVo.userName}</p>
+							<p>보호자: ${dogVo.userName}</p>
 							<div class="checkbox">
 								선택: <input type="checkbox" value="${dogVo.dogNo}" name="dogNo">
 							</div>
@@ -236,7 +236,8 @@ $("#trailListTable").on("click", ".trailSelect", function(){
 	
 	//선택된 산책로 이름 출력
 	let name = $this.children(".name").text();
-	$("#tnameInput").val(name);
+	let spot = $this.children(".spot").text();
+	$("#tnameInput").val(name+" / "+spot);
 	
 	//산책로 이미지 출력
 	let saveName = $this.children(".saveName").text();

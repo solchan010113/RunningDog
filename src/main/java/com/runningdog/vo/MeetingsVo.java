@@ -22,6 +22,8 @@ public class MeetingsVo {
 	private String time;
 	private List<Integer> dogNo;
 	private String saveName;
+	private String trailName;
+	private String userName;
 	
 	public MeetingsVo() {
 		
@@ -155,13 +157,29 @@ public class MeetingsVo {
 		this.saveName = saveName;
 	}
 
+	public String getTrailName() {
+		return trailName;
+	}
+
+	public void setTrailName(String trailName) {
+		this.trailName = trailName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "MeetingsVo [meetingNo=" + meetingNo + ", name=" + name + ", description=" + description
 				+ ", meetingDate=" + meetingDate + ", maxMember=" + maxMember + ", currentMember=" + currentMember
 				+ ", small=" + small + ", medium=" + medium + ", large=" + large + ", status=" + status + ", userNo="
 				+ userNo + ", trailNo=" + trailNo + ", spot=" + spot + ", time=" + time + ", dogNo=" + dogNo
-				+ ", saveName=" + saveName + "]";
+				+ ", saveName=" + saveName + ", trailName=" + trailName + ", userName=" + userName + "]";
 	}
 
 }

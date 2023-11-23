@@ -52,7 +52,20 @@
 
 .dogList .dog p {
 	text-align: center;
-	font-size: 20px;
+	font-size: 17px;
+}
+
+.dog .checkbox{
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.dog .checkbox input{
+	border: 1px solid rgb(140, 140, 140);
+	border-radius: 0.25em;
+	width: 15px;
+	height: 15px;
 }
 
 .dogSlickBox{
@@ -131,3 +144,19 @@
 	margin-right: 10px;
 	float: right;
 }
+
+
+.btnArea .colored{
+	background-color: rgb(255, 64, 64);
+	border: 1px solid rgb(170, 0, 0);
+	color: white;
+}
+
+.btnArea .colored:hover{
+	transition: all 0.5s;
+	background-color: rgb(170, 0, 0);
+	border: 1px solid rgb(170, 0, 0);
+	color: white;
+}
+
+

@@ -12,6 +12,7 @@ import com.runningdog.vo.DogsVo;
 import com.runningdog.vo.MeetingInfosVo;
 import com.runningdog.vo.MeetingsVo;
 import com.runningdog.vo.TrailsVo;
+import com.runningdog.vo.UserVo;
 
 @Service
 public class MeetingService {
@@ -129,10 +130,29 @@ public class MeetingService {
 			
 			meetingDao.insertMeetingInfo(miVo);
 		}
-		
-
 	}
 	
+	
+	//모임 1개
+	public Map<String, Object> selectOneMeeting(int meetingNo, int userNo) {
+		System.out.println("MeetingDao.selectOneMeeting()");
+		
+		//1개 가져오기
+		MeetingsVo mvo = meetingDao.selectOneMeeting(meetingNo);
+
+		//세션의 유저 강아지 리스트
+		List<DogsVo> myDogList = meetingDao.selectDogList(userNo);
+		
+		//모임 참가 중인 강아지 리스트
+		List<DogsVo> meetingDogList = meetingDao.selectMeetingDogList(meetingNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("meetingVo", mvo);
+		map.put("myDogList", myDogList);
+		map.put("meetingDogList", meetingDogList);
+		
+		return map;
+	}
 	
 	
 }

@@ -83,12 +83,36 @@ public class MeetingController {
 	}
 	
 	
+	//모임 상세 페이지
 	@RequestMapping(value = "/meeting")
-	public String meetingDetail(@RequestParam(value="no") int no){
+	public String meetingDetail(@RequestParam(value="no") int no, Model model, HttpSession session){
 		System.out.println("MeetingController.meetingDetail()");
 		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		Map<String, Object> map = meetingService.selectOneMeeting(no, userNo);
+		model.addAttribute("meetingMap", map);
 		
 		return "walkMeeting/meetingDetail";
+	}
+	
+	//모임 신청
+	@RequestMapping(value = "/applyMeeting")
+	public String applyMeeting(@RequestParam(value="no") int no){
+		System.out.println("MeetingController.applyMeeting()");
+
+		
+		
+		return "redirect:walkMeeting/meeting?no="+no;
+	}
+	
+	//모임 신청 취소
+	@RequestMapping(value = "/cancelApply")
+	public String cancelApply(){
+		System.out.println("MeetingController.cancelApply()");
+
+		return "";
 	}
 	
 	
