@@ -230,6 +230,9 @@ public class WalkBlogDao {
 		sqlSession.delete("walkBlog.deleteLike", map);
 	}
 
+	public int getTotalWalkLogs(String paramCode) {
+	    return sqlSession.selectOne("walkBlog.getTotalWalkLogs", paramCode);
+	}
 
 	
 }

@@ -460,6 +460,13 @@ GROUP BY
     ]]>
 </delete>
 
+<select id="getTotalWalkLogs" resultType="int" parameterType="String">
+    <![CDATA[
+        SELECT COUNT(*) FROM walkLog WL
+        WHERE WL.userNo = (SELECT US.userNo FROM users US WHERE code = #{paramCode})
+    ]]>
+</select>
+
 
 
 

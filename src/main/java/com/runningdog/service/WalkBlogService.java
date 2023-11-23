@@ -334,6 +334,10 @@ public class WalkBlogService {
 	 * 
 	 * }
 	 */
+	
+	public int getTotalWalkLogs(String paramCode) {
+	    return walkBlogDao.getTotalWalkLogs(paramCode);
+	}
 
 
 }
