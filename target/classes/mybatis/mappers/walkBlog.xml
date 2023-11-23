@@ -132,7 +132,7 @@
 		where WL.userNo = (SELECT userNo
                             FROM users
                             WHERE code = #{paramCode}) 
-    and WD.dogNo = #{dogNo} and WD
+    and WD.dogNo = #{dogNo} 
 		
 		order by WL.walkLogNo desc   
 		
@@ -443,6 +443,22 @@ GROUP BY
       ]]>
 	</select>
 	
+	
+	
+	<insert id="insertLike" parameterType="java.util.Map">
+    <![CDATA[
+        INSERT INTO userLike 
+        VALUES (seq_like_no.NEXTVAL, #{authUserNo}, 'walkLog', #{walkLogNo})
+    ]]>
+</insert>
+
+<!-- 팔로우 취소 -->
+<delete id="deleteLike" parameterType="java.util.Map">
+    <![CDATA[
+        DELETE FROM userLike
+        WHERE userNo = #{authUserNo} AND useNo = #{walkLogNo} and type='walkLog'
+    ]]>
+</delete>
 
 
 
