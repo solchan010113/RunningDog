@@ -342,7 +342,7 @@ ORDER BY
             DG.status,
             DG.dogNo
             FROM dog DG, users US
-            WHERE DG.userNo = US.userNo
+            WHERE DG.userNo = US.userNo and DG.status = 'T'
             and (DG.userNo IN (SELECT applieduserNo
                            FROM friend 
                            WHERE applyuserNo = (SELECT userNo
