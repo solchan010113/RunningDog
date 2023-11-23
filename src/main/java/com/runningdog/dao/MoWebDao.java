@@ -155,5 +155,10 @@ public class MoWebDao {
 		return sqlSession.selectList("walkLog.trailSelect",locationNo);			
 	}
 	
+	//----------------------------------adminUpdate
+	public void adminUpdate(MoWalkLogVo walkLogVo){
+		System.out.println("다오 어드민 업데이트");			
+		sqlSession.update("walkLog.adminUpdate",walkLogVo);			
+	}
 
 }

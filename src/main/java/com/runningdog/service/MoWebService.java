@@ -164,6 +164,8 @@ public class MoWebService {
 		System.out.println("서비스 산책기록 업데이트 (더미데이터용)");	
 		int walkLogNo = walkLogVo.getWalkLogNo();
 		
+		System.out.println("값이 잘 오는지 "+walkLogVo);		
+		moWebDao.adminUpdate(walkLogVo);		
 		moWebDao.coordsDelete(walkLogNo);
 		
 		int coordOrder = 1;
@@ -291,7 +293,7 @@ public class MoWebService {
         	String saveName = System.currentTimeMillis()+UUID.randomUUID().toString()+".jpg";
         	
             // 캡쳐 코드
-        	savePath = "C:\\javaStudy\\rdimg\\mapImg\\" + saveName;
+        	savePath = "C:\\javaStudy\\rdimg\\mapImg\\" + saveName; // 저장 경로변경
             File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, new File(savePath));
             
@@ -299,8 +301,8 @@ public class MoWebService {
     		imagesVo.setFilePath(savePath);
     		imagesVo.setOrgName(saveName);
     		imagesVo.setSaveName(saveName);
-    		imagesVo.setType("walkLogMap"); // 타입지정
-    		imagesVo.setUseNo(walkLogNo); // 셀렉트키 넣기
+    		imagesVo.setType("walkLogMap"); // 타입지정   // 산책로일때 'trailMap'
+    		imagesVo.setUseNo(walkLogNo); // 셀렉트키 넣기 
     		//imagesVo.setFileSize(fileSize);	
     		
     		// (7) Dao 만들어서 저장하기
