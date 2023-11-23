@@ -5,32 +5,197 @@
 <mapper namespace="meeting">
 
 	<!-- 모임 목록 -->
-	<select id="selectMeetingList" resultType="com.runningdog.vo.MeetingsVo">
+	<select id="selectMeetingList" parameterType="map" resultType="com.runningdog.vo.MeetingsVo">
 		<![CDATA[
-			select  m.meetingNo meetingNo,
+			select  ort.rn rn,
+			        ort.meetingNo meetingNo,
+			        ort.name name,
+			        ort.description description,
+			        ort.meetingDate meetingDate,
+			        ort.time time,
+			        ort.maxMember maxMember,
+			        ort.small small,
+			        ort.medium medium,
+			        ort.large large,
+			        ort.status status,
+			        ort.userNo userNo,
+			        ort.trailNo trailNo,
+			        ort.spot spot
+			from (select rownum rn,
+			            mt.meetingNo meetingNo,
+			            mt.name name,
+			            mt.description description,
+			            mt.meetingDate meetingDate,
+			            mt.time time,
+			            mt.maxMember maxMember,
+			            mt.small small,
+			            mt.medium medium,
+			            mt.large large,
+			            mt.status status,
+			            mt.userNo userNo,
+			            mt.trailNo trailNo,
+			            mt.spot spot
+			     from (select   m.meetingNo meetingNo,
+			                    m.name name,
+			                    m.description description,
+			                    to_char(m.meetingDate,'YYYY-MM-DD') meetingDate,
+			                    m.time time,
+			                    m.maxMember maxMember,
+			                    CASE m.small WHEN 'T' THEN '소형'
+			                                 ELSE null END as small,
+			                    CASE m.medium WHEN 'T' THEN '중형'
+			                                 ELSE null END as medium,
+			                    CASE m.large WHEN 'T' THEN '대형'
+			                                 ELSE null END as large,
+			                    m.status status,
+			                    m.userNo userNo,
+			                    m.trailNo trailNo,
+			                    t.spot spot
+			            from meeting m, trail t
+			            where m.status = 'T'
+			            and t.trailNo = m.trailNo
+			            and m.name like '%' || upper(trim(#{keyword})) || '%'
+			            order by m.meetingNo
+			          ) mt
+			     ) ort
+			where rn >= #{startRNum}
+			and   rn <= #{endRNum}
+		]]>
+	</select>
+
+	<!-- 모임 목록 갯수 -->
+	<select id="selectMeetingCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(mt.meetingNo) count
+			from (select  m.meetingNo meetingNo,
 			        m.name name,
-			        m.description description,
 			        m.meetingDate meetingDate,
-			        m.maxMember maxMember,
-			        m.currentMember currentMember,
-			        m.small small,
-			        m.medium medium,
-			        m.large large,
-			        m.status status,
-			        m.userNo userNo,
-			        m.trailNo trailNo,
 			        t.spot spot
 			from meeting m, trail t
 			where m.status = 'T'
 			and t.trailNo = m.trailNo
+			and m.name like '%' || upper(trim(#{keyword})) || '%') mt
 		]]>
 	</select>
 
 
+	<!-- 산책로 리스트(검색) -->
+	<select id="searchTrail" parameterType="map" resultType="com.runningdog.vo.TrailsVo">
+		<![CDATA[
+			select  t.trailNo trailNo,
+			        t.name name,
+			        t.spot spot,
+			        t.distance distance,
+			        t.eta eta,
+			        i.saveName saveName
+			from trail t, images i
+			where t.status = 'T'
+			and t.trailNo = i.useNo
+			and i.type = 'trail'
+			]]>
+		<if test="'name'.equals(what)">
+			<![CDATA[
+			and t.name like '%' || trim(#{keyword}) || '%'
+			]]>
+		</if>
+		<if test="'spot'.equals(what)">
+			<![CDATA[
+			and t.spot like '%' || trim(#{keyword}) || '%'
+			]]>
+		</if>	
+	</select>
 
+	<!-- 내 강아지 + 친구 강아지 -->
+	<select id="selectDogList"  parameterType="int" resultType="com.runningdog.vo.DogsVo">
+		<![CDATA[
+			select  do.dogNo dogNo,
+			        do.dogName dogName,
+			        do.birth birth,
+			        do.gender gender,
+			        do.weight weight,
+			        do.kind kind,
+			        do.neuter neuter,
+			        do.personality personality,
+			        do.color color,
+			        do.userName userName,
+			        nvl(i.saveName, 'dog_default_img.jpg') saveName
+			from   (select f.appliedUserNo userNo
+			        from friend f, users u, location l
+			        where f.applyUserNo = #{userNo}
+			        and f.appliedUserNo = u.userNo
+			        and f.status = 'T'
+			        and l.locationNo = u.locationNo
+			        and u.status = 'T'
+			        
+			        union all
+			        
+			        select f.applyUserNo userNo
+			        from friend f, users u, location l
+			        where f.appliedUserNo = #{userNo}
+			        and f.applyUserNo = u.userNo
+			        and f.status = 'T'
+			        and l.locationNo = u.locationNo
+			        and u.status = 'T'
+			        
+			        union all
+			        
+			        select userNo
+			        from users
+			        where userNo = #{userNo}) fr, 
+			        (select d.userNo userNo,
+			                d.dogNo dogNo,
+			                d.name dogName, 
+			                d.birth birth,
+			                d.gender gender,
+			                d.weight weight,
+			                d.kind kind,
+			                d.neuter neuter,
+			                d.personality personality,
+			                d.color color,
+			                d.status status,
+			                u.name userName
+			        from dog d, users u
+			        where u.userNo = d.userNo
+			        and d.status != 'F'
+			        order by dogNo asc) do left outer join images i
+			on do.dogNo = i.useNo
+			and i.type = 'dog'
+			where do.userNo = fr.userNo
+		]]>
+	</select>
 
+	<!-- 모임 등록 meeting -->
+	<insert id="insertMeeting" parameterType="com.runningdog.vo.MeetingsVo">
+		<selectKey keyProperty="meetingNo" resultType="int" order="BEFORE">	
+			<![CDATA[	
+				select seq_meeting_no.nextval from dual
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into meeting
+			values(
+			 #{meetingNo},
+			 #{name},
+			 #{description},
+			 TO_DATE(#{meetingDate}, 'YYYY-MM-DD'),
+			 #{time, jdbcType = VARCHAR},
+			 #{maxMember},
+			 #{small, jdbcType = VARCHAR},
+			 #{medium, jdbcType = VARCHAR},
+			 #{large, jdbcType = VARCHAR},
+			 'T',
+			 #{userNo},
+			 #{trailNo, jdbcType = VARCHAR})
+		]]>
+	</insert>
 
-
+	<!-- 모임 등록 meetinginfo -->
+	<insert id="insertMeetingInfo" parameterType="com.runningdog.vo.MeetingInfosVo">
+		<![CDATA[
+			insert into meetinginfo
+			values(seq_meetinginfo_no.nextval, #{meetingNo}, #{usersNo}, #{dogNo})
+		]]>
+	</insert>
 
 
 

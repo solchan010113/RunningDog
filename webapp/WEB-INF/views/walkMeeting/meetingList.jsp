@@ -16,16 +16,15 @@
 <body>
 	<jsp:include page="../global/header.jsp"></jsp:include>
 	<div class="contents">
-		<h1>우리동네 동아리</h1>
+		<h1>우리동네 모임</h1>
 		<div class="infoHeader">
 			<div class="left location">
 				<span class="myColor">천호동</span> 모임 <i class="fa-regular fa-square-caret-down"></i>
 			</div>
-			<form action="${pageContext.request.contextPath}/setting/friendList?crtPage=1" method="post" id="searchUser">
+			<form action="${pageContext.request.contextPath}/walkmeeting/meetinglist?crtPage=1" method="post" id="searchUser">
 				<div class="searchBox">
 					<select name="what" id="searchUser">
 						<option value="title">모임 제목</option>
-						<option value="date">날짜</option>
 					</select>
 					<input type="text" name="keyword">
 					<button type="submit" class="button" id="searchBtn">검색</button>
@@ -44,17 +43,17 @@
 				</colgroup>
 				<tr>
 		            <th>모임 제목</th>
-		            <th>산책로</th>
+		            <th>위치</th>
 		            <th>강아지 크기</th>
 		            <th>인원 수</th>
 		            <th>날짜</th>
 		        </tr>
 		        
-				<c:forEach items="${requestScope.meetingList}" var="MeetingsVo">
-			        <tr id="mt${MeetingsVo.meetingNo}">
+				<c:forEach items="${requestScope.meetingMap.meetingList}" var="MeetingsVo">
+			        <tr class="mt" data-mno="${MeetingsVo.meetingNo}">
 						<td>${MeetingsVo.name}</td>
 			        	<td>${MeetingsVo.spot}</td>
-			        	<td>${MeetingsVo.small}&nbsp;/&nbsp;${MeetingsVo.medium}&nbsp;/&nbsp;${MeetingsVo.large}</td>
+			        	<td>${MeetingsVo.small}&nbsp;&nbsp;${MeetingsVo.medium}&nbsp;&nbsp;${MeetingsVo.large}</td>
 			        	<td>${MeetingsVo.maxMember}</td>
 			        	<td>${MeetingsVo.meetingDate}</td>	
 					</tr>
@@ -65,23 +64,23 @@
 			<div id="paging">
 				<ul>
 					<c:if test="${friendMap.prev}">
-						<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${friendMap.startPageBtnNo-1}">◀</a></li>
+						<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?keyword=${meetingMap.keyword}&crtPage=${meetingMap.startPageBtnNo-1}">◀</a></li>
 					</c:if>
 					
-					<c:forEach begin="${friendMap.startPageBtnNo}" end="${friendMap.endPageBtnNo}" step="1" var="page">
+					<c:forEach begin="${meetingMap.startPageBtnNo}" end="${meetingMap.endPageBtnNo}" step="1" var="page">
 						<c:choose>
 							<c:when test="${param.crtPage == page}">
-								<li class="active"><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${page}">${page}</a></li>										
+								<li class="active"><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?keyword=${meetingMap.keyword}&crtPage=${page}">${page}</a></li>										
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${page}">${page}</a></li>
+								<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?keyword=${meetingMap.keyword}&crtPage=${page}">${page}</a></li>
 							</c:otherwise>
 						</c:choose>
 						
 					</c:forEach>
 					
 					<c:if test="${friendMap.next}">
-						<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?what=${friendMap.what}&keyword=${friendMap.keyword}&crtPage=${friendMap.endPageBtnNo+1}">▶</a></li>
+						<li><a href="${pageContext.request.contextPath}/walkmeeting/meetinglist?keyword=${meetingMap.keyword}&crtPage=${meetingMap.endPageBtnNo+1}">▶</a></li>
 					</c:if>
 
 				</ul>
@@ -115,10 +114,13 @@
 	
 	<script>
 	
-	$('.mt201').click(function() {
-	    window.location = '${pageContext.request.contextPath}/walkmeeting/meeting?no=1';
+	$(".mt").on("click", function(){
+		
+		let $this = $(this);
+		let mNo = parseInt($this.data("mno"));
+		window.location = '${pageContext.request.contextPath}/walkmeeting/meeting?no='+mNo;
+		
 	});
-	
 	
 	
 	/* FullCalendar */

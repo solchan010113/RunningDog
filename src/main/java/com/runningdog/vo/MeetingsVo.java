@@ -1,5 +1,9 @@
 package com.runningdog.vo;
 
+//모임에서 쓰는 Vo
+
+import java.util.List;
+
 public class MeetingsVo {
 
 	private int meetingNo;
@@ -15,28 +19,12 @@ public class MeetingsVo {
 	private int userNo;
 	private int trailNo;
 	private String spot;
+	private String time;
+	private List<Integer> dogNo;
+	private String saveName;
 	
 	public MeetingsVo() {
 		
-	}
-	
-	public MeetingsVo(int meetingNo, String name, String description, String meetingDate, int maxMember,
-			int currentMember, String small, String medium, String large, String status, int userNo, int trailNo,
-			String spot) {
-		super();
-		this.meetingNo = meetingNo;
-		this.name = name;
-		this.description = description;
-		this.meetingDate = meetingDate;
-		this.maxMember = maxMember;
-		this.currentMember = currentMember;
-		this.small = small;
-		this.medium = medium;
-		this.large = large;
-		this.status = status;
-		this.userNo = userNo;
-		this.trailNo = trailNo;
-		this.spot = spot;
 	}
 
 	public int getMeetingNo() {
@@ -143,12 +131,37 @@ public class MeetingsVo {
 		this.spot = spot;
 	}
 
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public List<Integer> getDogNo() {
+		return dogNo;
+	}
+
+	public void setDogNo(List<Integer> dogNo) {
+		this.dogNo = dogNo;
+	}
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
 	@Override
 	public String toString() {
 		return "MeetingsVo [meetingNo=" + meetingNo + ", name=" + name + ", description=" + description
 				+ ", meetingDate=" + meetingDate + ", maxMember=" + maxMember + ", currentMember=" + currentMember
 				+ ", small=" + small + ", medium=" + medium + ", large=" + large + ", status=" + status + ", userNo="
-				+ userNo + ", trailNo=" + trailNo + ", spot=" + spot + "]";
+				+ userNo + ", trailNo=" + trailNo + ", spot=" + spot + ", time=" + time + ", dogNo=" + dogNo
+				+ ", saveName=" + saveName + "]";
 	}
 
 }

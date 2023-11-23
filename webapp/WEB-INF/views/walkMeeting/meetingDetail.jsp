@@ -31,8 +31,20 @@
 			</div>
 		</div>
 		
+		<div class="inputGroup">
+			<div class="inputItem">
+				<p class="inputTitle">모임 장소</p>
+				<div>서울특별시 종로구 종로동 종로삼가 1972</div>
+				<img class="mapImg" alt="" src="${pageContext.request.contextPath}/assets/images/1700470417847827d87c6-2cf2-4dbf-9482-7c785052160e.jpg">
+			</div>
+		</div>
+		
+		<p class="inputTitle">모임 설명</p>
+		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="readonly"></textarea>
+		
 		<p class="inputTitle">참여 강아지</p>
 		<!-- 개 주인 이름이 아니라, 모임 참가자 이름이 떠야 함. 아니 그걸 어떻게 구현해 ㅁ너ㅏ오며나ㅣ오ㅠ먀ㅣㅕ쥬 -->
+		<!-- 꼬우면 빼ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ -->
 		<div class="dogSlickBox">
 			<button class="leftBtn lB1"><</button>
 			<div class="dogList dl1">
@@ -43,7 +55,7 @@
 					<div>
 						<p>사랑이</p>
 						<p>18kg</p>
-						<p>심영</p>
+						<p>견주: 심영</p>
 					</div>
 				</div>
 				<div class="dog">
@@ -129,18 +141,6 @@
 			</div>
 			<button class="rightBtn rB1">></button>
 		</div>
-		
-		<div class="inputGroup">
-			<div class="inputItem">
-				<p class="inputTitle">모임 장소</p>
-				<div>서울특별시 종로구 종로동 종로삼가 1972</div>
-				<img class="mapImg" alt="" src="${pageContext.request.contextPath}/assets/images/1700470417847827d87c6-2cf2-4dbf-9482-7c785052160e.jpg">
-			</div>
-		</div>
-		
-		<p class="inputTitle">모임 설명</p>
-		<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="readonly"></textarea>
-		
 		
 		<p class="pageTitle">모임 참여 신청</p>
 		
