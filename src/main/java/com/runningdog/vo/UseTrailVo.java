@@ -13,7 +13,10 @@ public class UseTrailVo {
 	private String name;
 	private int coordOrder;
 	private double lat;
-	private double lng;
+	private double lng;	
+
+	private String saveName; // 산책로 이미지의 이름
+	private String orgName;
 
 	private int locationVo;
 
@@ -21,7 +24,7 @@ public class UseTrailVo {
 	}
 
 	public UseTrailVo(int userNo, int trailStar, int trailStarNo, int coordNo, int trailNo, String name, int coordOrder,
-			double lat, double lng, int locationVo) {
+			double lat, double lng, String saveName, String orgName, int locationVo) {
 		super();
 		this.userNo = userNo;
 		this.trailStar = trailStar;
@@ -32,6 +35,8 @@ public class UseTrailVo {
 		this.coordOrder = coordOrder;
 		this.lat = lat;
 		this.lng = lng;
+		this.saveName = saveName;
+		this.orgName = orgName;
 		this.locationVo = locationVo;
 	}
 
@@ -107,6 +112,22 @@ public class UseTrailVo {
 		this.lng = lng;
 	}
 
+	public String getSaveName() {
+		return saveName;
+	}
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+
 	public int getLocationVo() {
 		return locationVo;
 	}
@@ -119,7 +140,11 @@ public class UseTrailVo {
 	public String toString() {
 		return "UseTrailVo [userNo=" + userNo + ", trailStar=" + trailStar + ", trailStarNo=" + trailStarNo
 				+ ", coordNo=" + coordNo + ", trailNo=" + trailNo + ", name=" + name + ", coordOrder=" + coordOrder
-				+ ", lat=" + lat + ", lng=" + lng + ", locationVo=" + locationVo + "]";
+				+ ", lat=" + lat + ", lng=" + lng + ", saveName=" + saveName + ", orgName=" + orgName + ", locationVo="
+				+ locationVo + "]";
 	}
+	
+	
 
+	
 }

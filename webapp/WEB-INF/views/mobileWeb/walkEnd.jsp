@@ -51,7 +51,7 @@
 	
 					<c:forEach items="${trailList}"  var="tarailVo">
 						<div class="mapImageBox">
-			            	<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
+			            	<img class="mapImage" src="${pageContext.request.contextPath}/rdimg/trailImg/${tarailVo.orgName}"></img>
 			            	
 			            	<c:if test="${tarailVo.trailStar==1}">
 			            		<div id="likeIcon1" class="likeIcon emptyIcon fa-solid fa-star" data-trail-starno="${tarailVo.trailStarNo}" data-trail-no="${tarailVo.trailNo}"></div>	

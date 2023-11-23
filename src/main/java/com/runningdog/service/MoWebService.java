@@ -152,14 +152,10 @@ public class MoWebService {
         	motrailUsedVo.setTrailNo(trailList.get(i));
         	System.out.println(trailList.get(i)); 
         	moWebDao.trailCount(motrailUsedVo);
-        }
-        
-        System.out.println("이용한 산책로 업데이트" + trailList);
-        
+        }        
+        System.out.println("이용한 산책로 업데이트" + trailList);        
         // 찜한 산책로 업데이트
-        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());
-        
-		// 첨부파일처리 X
+        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());    
 		
 	}
 	

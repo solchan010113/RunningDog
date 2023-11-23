@@ -52,7 +52,7 @@ public class MoWebDao {
 	public List<UseTrailVo> threeTrailSelect(XYVo xyVo){
 		System.out.println("다오 산책로 3개");	
 		List<UseTrailVo> trailList = sqlSession.selectList("walkLog.threeTrailSelect" , xyVo);
-		System.out.println("다오 산책로 3개 결과" + trailList);	
+		System.out.println("다오 산책로 3개 결과 (이미지추가)" + trailList);	
 		return trailList;
 	}	
 
@@ -95,7 +95,7 @@ public class MoWebDao {
 		System.out.println("다오 강아지가져오기");	
 		System.out.println("다오 아이디 "+userNo);	
 		List<MoDogVo> dogList = sqlSession.selectList("walkLog.dogSelect", userNo);
-		System.out.println(dogList);	
+		System.out.println("내강아지랑 친구강아지 (삭제강아지 X) "+dogList);	
 		return dogList;
 	}
 	
