@@ -124,6 +124,23 @@ public class MeetingController {
 	}
 	
 	
+	
+	//내 모임 리스트
+	@RequestMapping(value="/mymeetinglist", method={RequestMethod.GET, RequestMethod.POST})
+	public String myMeetingList(@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+							    @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+							    Model model, HttpSession session){
+		System.out.println("MeetingController.myMeetingList()");
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		Map<String, Object> meetingMap = meetingService.selectMyMeetingList(keyword, crtPage, userNo);
+		model.addAttribute("meetingMap", meetingMap);
+		
+		return "walkMeeting/myMeetingList";
+	}
+	
 //////////////////////////////////////////////////////
 	/*
 	 * @RequestMapping(value = "") public String home(){ return

@@ -91,6 +91,26 @@ public class MeetingDao {
 	}
 	
 	
+	
+	//내 모임 리스트
+	public List<MeetingsVo> selectMyMeetingList(Map<String, Object> pageMap) {
+		System.out.println("MeetingDao.selectMyMeetingList()");
+
+		List<MeetingsVo> meetingList = sqlSession.selectList("meeting.selectMyMeetingList", pageMap);
+		
+		return meetingList;
+	}
+	
+	//내 모임 리스트 갯수
+	public int selectMyMeetingCnt(Map<String, Object> pageMap) {
+		System.out.println("MeetingDao.selectMyMeetingCnt()");
+		
+		int count = sqlSession.selectOne("meeting.selectMyMeetingCnt", pageMap);
+		
+		return count;
+	}
+	
+	
 }
 
 
