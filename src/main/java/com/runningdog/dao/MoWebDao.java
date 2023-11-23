@@ -14,8 +14,10 @@ import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
+import com.runningdog.vo.MotrailUsedVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
+import com.runningdog.vo.XYVo;
 
 @Repository
 public class MoWebDao {
@@ -45,12 +47,29 @@ public class MoWebDao {
 		System.out.println(locationNo);
 		return sqlSession.selectList("walkLog.mapTrailSelect", locationNo);
 	}	
+	// 기록 산책로 불러오기 (3개)
+	public List<UseTrailVo> threeTrailSelect(XYVo xyVo){
+		System.out.println("다오 산책로 3개");	
+		List<UseTrailVo> trailList = sqlSession.selectList("walkLog.threeTrailSelect" , xyVo);
+		System.out.println("다오 산책로 3개 결과" + trailList);	
+		return trailList;
+	}	
+	
+	// 산책로 이용자 업데이트
+	public void trailCount(MotrailUsedVo motrailUsedVo){
+		System.out.println("산책로 이용자 카운트");	
+		System.out.println(motrailUsedVo);
+		sqlSession.insert("walkLog.trailCount",motrailUsedVo);
+	}	
+	
 	
 	// 기록 산책로 불러오기 (3개)
 	public List<UseTrailVo> trailSelect(){
 		System.out.println("@Dao");		
 		return sqlSession.selectList("walkLog.endTrailSelect");
 	}	
+	
+	
 	
 	// (2) 강아지정보 가져오기
 	public List<MoDogVo> dogSelect(int userNo){
@@ -71,6 +90,18 @@ public class MoWebDao {
 			
 		System.out.println("셀렉트키 받기 전 " + moWalkLogVo);	              
 		sqlSession.insert("walkLog.walkLogInsert", moWalkLogVo);
+	}
+	
+	// 산책기록 좌표값 업데이트 (더미데이터용)
+	public void coordsDelete(int walkLogNo){
+		System.out.println("다오 산책기록 좌표값 업데이트 (더미데이터용)");		
+		sqlSession.delete("walkLog.coordsDelete", walkLogNo);
+	}
+	
+	// 산책기록 맵이미지 업데이트 (더미데이터용)
+	public void mapImagDelete(int walkLogNo){
+		System.out.println("다오 산책기록 맵이미지 업데이트 (더미데이터용)");		
+		sqlSession.delete("walkLog.mapImagDelete", walkLogNo);
 	}
 	
 	// (4) 강아지리스트기록하기

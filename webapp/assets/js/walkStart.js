@@ -208,7 +208,7 @@ function success(position) {
 		}
 		console.log('현재 위치의 주소: ' + addressArray);
 
-		$.ajax({
+		/*$.ajax({
 			url: "locationSelect", // *주의* js 파일에서는 $형식을 사용 못함
 			type: "post",
 			contentType: "application/json",
@@ -272,7 +272,7 @@ function success(position) {
 				console.error("Ajax 요청 실패:", error);
 			}
 
-		});
+		});*/
 
 
 	});

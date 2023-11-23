@@ -337,13 +337,54 @@ h2{
 }
 
 .blank {
-	
+	display: flow-root;
 	width: 420px;
 	background-color: #FFFFFF;
 	
 }
 
+.homeButton {
+    float: right;
+    width: 100px;
+    margin-top: 5px;
+    margin-right: 5px;
+    float: right;
+    background-color: #fc5200;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.tooltip-inner{
+	background-color: #fc5200 !important;
+	
+}
+
+.custom-tooltip {
+    max-width: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    color: #000; /* 툴팁 내용의 텍스트 색상을 검은색으로 지정 */
+}
+
+/* Custom link style */
+.custom-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Custom link hover style */
+.custom-link:hover {
+    text-decoration: underline;
+}
 
 .mainSidebar {
     height: 400px;
@@ -661,6 +702,7 @@ h2{
   }
   
   .usedTrailButton{
+	  width: 110px;
 	  margin-top: 5px;
 	  margin-right: 5px;
 	  float: right;
@@ -786,6 +828,14 @@ h2{
   
   /*replyDateCmtBox*/
   
+  
+  .maindogCardBox .highlighted{
+	  
+	  border-style: solid;
+	 border-color:#fc5200;
+  	border-width: 2px;
+	  
+  }
   
   .MRborder{
 	  width: 800px;

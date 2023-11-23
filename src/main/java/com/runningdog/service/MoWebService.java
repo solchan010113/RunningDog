@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningdog.dao.MoWebDao;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
@@ -27,6 +29,7 @@ import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.MoWalkedDogVo;
+import com.runningdog.vo.MotrailUsedVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
 import com.runningdog.vo.XYVo;
@@ -129,14 +132,60 @@ public class MoWebService {
             moWebDao.coordsListInsert(coordsVo);
         }       
 		
-		//캡쳐이미지
-        //리턴되는게 파일 경로+이름
+		// 캡쳐이미지
+        // 리턴되는게 파일 경로+이름
         mapImgSave(walkLogNo);
         
-        //캡쳐이미지 정보(경로   , walkLogNo)   
+        // 캡쳐이미지 정보(경로   , walkLogNo)   
+        
+        // 이용한 산책로 업데이트        
+        System.out.println("이용한 산책로 업데이트" + moWalkLogVo.getTrailList());
+        
+        List<Integer> trailList = moWalkLogVo.getTrailList();
+        
+        MotrailUsedVo motrailUsedVo = new MotrailUsedVo();
+        
+        motrailUsedVo.setWalkLogNo(walkLogNo);
+        
+        for (int i = 0; i < trailList.size(); i++) {        	;
+        	motrailUsedVo.setTrailNo(trailList.get(i));
+        	System.out.println(trailList.get(i)); 
+        	moWebDao.trailCount(motrailUsedVo);
+        }
+        
+        System.out.println("이용한 산책로 업데이트" + trailList);
+        
+        // 찜한 산책로 업데이트
+        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());
+        
+		// 첨부파일처리 X
 		
-		//첨부파일처리X
+	}
+	
+	// 산책기록 업데이트 (더미데이터용) admin으로 들어가서 특정 산책기록값을 바꾸는 장치
+	public void walkLogUpdate(MoWalkLogVo walkLogVo){
+		System.out.println("서비스 산책기록 업데이트 (더미데이터용)");	
+		int walkLogNo = walkLogVo.getWalkLogNo();
 		
+		moWebDao.coordsDelete(walkLogNo);
+		
+		int coordOrder = 1;
+		for (XYVo xyVo : walkLogVo.getPolylinePath()) {
+			CoordsVo coordsVo = new CoordsVo();
+			coordsVo.setUseNo(walkLogNo); // 셀렉트키
+			coordsVo.setLat(xyVo.getY()); // XYVo의 Y값을 CoordsVo의 lat으로 설정
+			coordsVo.setLng(xyVo.getX()); // XYVo의 X값을 CoordsVo의 lng으로 설정
+			coordsVo.setCoordOrder(coordOrder);
+		// 리스트에 추가
+		// coordOrder를 1씩 증가
+			coordOrder++;
+			System.out.println("좌표확인 : " + coordsVo);
+				// 한땀한땀 뜯어낸 좌표값을 DB로 보내서 저장하기 
+			moWebDao.coordsListInsert(coordsVo);
+		}
+		moWebDao.mapImagDelete(walkLogNo);		
+		mapImgSave(walkLogNo);
+			
 	}
 	
 	// (6) 캡쳐용 좌표값 불러오기
@@ -144,6 +193,19 @@ public class MoWebService {
 		System.out.println("서비스 캡쳐용 좌표값 불러오기");		
 		return moWebDao.mapSelect(walkLogNo);		
 	}
+	
+	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
+	public List<UseTrailVo> threeTrailSelect(String lineData,int userNo){
+		System.out.println("서비스 산책로 3개 불러오기");			
+		// 마지막 {} 안의 lat 및 lng 추출
+        XYVo xyVo = extractLastLatLng(lineData);
+        // 결과 출력
+        System.out.println(xyVo);
+        xyVo.setUserNo(userNo);
+        List<UseTrailVo> trailList = moWebDao.threeTrailSelect(xyVo);        
+        
+		return trailList;					
+	}	
 	
 	// (0) 유사한 산책로 불러오기 (현재는 더미데이터 3개 불러오기)
 	public List<MoTrailVo> trailSelect(int locationNo){
@@ -257,5 +319,26 @@ public class MoWebService {
       
 		return savePath;
 	}
+	
+	// -------------------------- 메소드
+	
+	private static XYVo extractLastLatLng(String jsonString) {
+		try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode arrayNode = mapper.readTree(jsonString);
+
+            // 배열의 마지막 요소 가져오기
+            JsonNode lastObject = arrayNode.get(arrayNode.size() - 1);
+
+            // 마지막 요소의 lat 및 lng 값 가져오기
+            double lat = lastObject.get("lat").asDouble();
+            double lng = lastObject.get("lng").asDouble();
+
+            return new XYVo(lng, lat); // x는 lng, y는 lat
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

@@ -47,26 +47,29 @@
 				<div class="mapNameBox">
 					이 산책로를 이용하셨습니다.
 		        </div>				
-				<div class="mapImageContainer" >
-					<div class="mapImageBox">
-						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
-						<i id="likeIcon" class="fa-solid fa-heart"></i>
-						<div class="mapName"> ${trailList[0].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
+				 <div class="mapImageContainer">
+			        <div class="mapImageBox">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg"></img>
+			            <div id="likeIcon1" class="likeIcon emptyIcon" data-trail-star="${trailList[0].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[0].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[0].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
-						<img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-						<i id="likeIcon" class="fa-regular fa-heart"></i>
-						<div class="mapName"> ${trailList[1].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
+			            <div id="likeIcon2" class="likeIcon emptyIcon" data-trail-star="${trailList[1].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[1].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[1].trailNo}">
 			        </div>
 			        <div class="mapImageBox">
-						<img id="mapImageClick" class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
-						<i id="likeIcon" class="fa-solid fa-heart"></i>
-						<div class="mapName"> ${trailList[2].name} </div>
-						<input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
+			            <img class="mapImage" src="${pageContext.request.contextPath}/assets/images/map1.jpg">
+			            <div id="likeIcon3" class="likeIcon emptyIcon" data-trail-star="${trailList[2].trailStar}">
+			            </div>
+			            <div class="mapName"> ${trailList[2].name} </div>
+			            <input type="hidden" name="trail" class="trailDate" value="${trailList[2].trailNo}">
 			        </div>
-				</div>				
+    			</div>		
 			</div>
 			
 			<!-- 파일첨부 버튼 -->
@@ -99,15 +102,6 @@
 				</label>
 			</div>
 			
-			<!-- <div class="checkBox">			
-				<i class="fa-brands fa-instagram"></i>				
-				<div> &nbsp; Instagram에 게시</div>				
-				<label class="switch-button">
-					<input type="checkbox"/>
-				    <span class="onoff-switch"></span>
-				</label>				
-			</div> -->
-			
 		</div>	
 		
 		<!-- 작성하기 버튼 -->
@@ -137,10 +131,6 @@
 		
 	</div>
 	
-	<!-- js 설정
-    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/walkEnd.js"></script>	  
-    -->
-	
 	<script>
 		// 날짜표시
 		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -148,7 +138,7 @@
 	
 		// 경로로 표시할 배열(array)
 		// naver.maps.LatLng 위도 경도 변수
-		var polylinePath = [];	
+		var polylinePath = [];
 	
 		// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱
 	    var jsonString = '${lineList}'; // JSON 형식의 문자열
@@ -160,9 +150,6 @@
 	        xy.x = lineList[i].lng;  // x값 (경도)
 	        xy.y = lineList[i].lat;  // y값 (위도)
 	        polylinePath.push(xy);
-	    /* 	var lat = lineList[i].lat;
-	        var lng = lineList[i].lng;
-	        polylinePath.push(new naver.maps.LatLng(lat, lng)); */
 	    }
 	  
 		// 중간 지점을 계산
@@ -189,37 +176,79 @@
 	        logoControl: false
 	    });	    
 	   
-	    //위의 배열을 이용해 라인 그리기
-	    var polyline = new naver.maps.Polyline({
-	        path: polylinePath,      //선 위치 변수배열
-	        strokeColor: '#FF0000', //선 색 빨강 #빨강,초록,파랑
-	        strokeOpacity: 0.8, //선 투명도 0 ~ 1
-	        strokeWeight: 6,   //선 두께
-	        map: map           //오버레이할 지도
-	    });
-	    
-	 	// 배열 첫번째 위치를 마크로 표시함
-	    var firstMarker = new naver.maps.Marker({
-		    position: polylinePath[0], // 첫 번째 위치
-		    map: map
-		});
+	    var lineBounds = new naver.maps.LatLngBounds(polylinePath);
 
-	    // 배열 마지막 위치를 마크로 표시함
-	    var marker = new naver.maps.Marker({
-	        position: polylinePath[polylinePath.length-1], //마크 표시할 위치 배열의 마지막 위치
-	        map: map
-	    }); // 지도 관련 함수들
-	    
-	 	// Get the bounds of the polyline
-	    var lineBounds = polyline.getBounds();
+		if (lineBounds) {
+			
+			// 맵을 Polyline에 맞게 조절
+			map.fitBounds(polylinePath, {
+				padding : 20
+			});
+			
+			//위의 배열을 이용해 라인 그리기
+			var polyline = new naver.maps.Polyline({
+				path : polylinePath, // Polyline의 위치 변수 배열
+				strokeColor : '#FF4500', // Polyline의 선 색깔 지정 (빨강)
+				strokeOpacity : 0.9, // Polyline의 선 투명도 조절 (0 ~ 1)
+				strokeWeight : 6, // Polyline의 선 두께 지정
+				map : map
+			// Polyline을 오버레이할 지도
+			});
 
-	    // If the bounds exist, fit the map to the bounds
-	    if (lineBounds) {
-	        map.fitBounds(lineBounds, {
-	            padding: 20 // Adjust padding as needed
-	        });
-	    }
+			// 배열 첫 번째 위치를 마커로 표시함
+			var firstMarker = new naver.maps.Marker({
+				position : polylinePath[0], // 첫 번째 위치
+				map : map,
+		        icon: {
+		            url: '${pageContext.request.contextPath}/assets/images/walkTrail/marker.png',
+		            size: new naver.maps.Size(30, 30),
+		            scaledSize: new naver.maps.Size(30, 30),
+		        }
+			});
+
+			// 배열 마지막 위치를 마커로 표시함
+			var marker = new naver.maps.Marker({
+				position : polylinePath[polylinePath.length - 1], // 마지막 위치
+				map : map,
+		        icon: {
+		            url: '${pageContext.request.contextPath}/assets/images/endMarker.png',
+		            size: new naver.maps.Size(30, 30),
+		            scaledSize: new naver.maps.Size(30, 30),
+		        }
+			});
+			
+		}
 	    
+		
+		console.log('-------------------데이터 확인--------------------');
+		
+		// 산책로 찜 유무
+		console.log('${trailList[0].trailStar}');
+		console.log('${trailList[1].trailStar}');
+		console.log('${trailList[2].trailStar}');
+		
+		console.log("받아온 라인리스트" + '${lineList}');
+		
+		console.log("가공한1 라인리스트" + jsonString);
+		console.log("가공한2 라인리스트" + lineList);
+		console.log("가공한3 라인리스트" + lineBounds);
+		
+		console.log("가공한4 라인리스트" + polylinePath);
+		
+		console.log("받아온 강아지리스트" + '${dogNoList}');		
+		
+		console.log("받아온 산책로리스트" + '${trailList[0].trailNo}');
+		
+		let trailList = [];
+		trailList.push('${trailList[0].trailNo}');
+		trailList.push('${trailList[1].trailNo}');
+		trailList.push('${trailList[2].trailNo}');
+		
+		console.log("가공한 산책로 리스트" + trailList);
+		
+	
+		
+	    console.log('-------------------데이터 확인--------------------');
 	    
 //----------------------------------------------------------------------
 // 파일 선택이 변경되었을 때 실행되는 함수
@@ -322,11 +351,30 @@
 	    console.log('현재 security 값:', security);
 	});
 
-
-	    
 //----------------------------------------------------------------------
-	    
-	    
+
+// 검색된 산책로 3개의 폴리라인을 for문으로 돌려서 그려줄것 3개까지 없으면 공백한을 어떻게 할지 고민
+
+
+	
+	
+	/* var trailListPath = [];
+
+	// 컨트롤러에서 전달한 lineList 데이터를 JSON 형식으로 파싱
+    var jsonString2 = '${trailList}'; // JSON 형식의 문자열
+	var trailList = JSON.parse(jsonString2);
+    
+    // lineList의 각 항목을 polylinePath 배열에 추가
+    for (var i = 0; i < trailList.length; i++) {
+        let xy={}
+        xy.x = lineList[i].lng;  // x값 (경도)
+        xy.y = lineList[i].lat;  // y값 (위도)
+        trailListPath.push(xy);
+    } */
+   
+    
+    
+//----------------------------------------------------------------------
 
 /* 기록하기버튼 클릭할때 */	    	
 $("#insertBtn").on("click", function(){
@@ -355,16 +403,17 @@ $("#insertBtn").on("click", function(){
 	console.log("내용 " + content);	
 	/* 8.공개여부 */  
     // 체크박스의 변경을 감지하는 함수    
-    console.log('현재 security 값:', security);
-    
-	/* 9.산책한 강아지번호 리스트 */
+    console.log('현재 security 값:', security);    
+	
+	/* 9.산책한 강아지번호 리스트 */	
 	let dogNoList = "${dogNoList}".split(",");
-	console.log(dogNoList);
+	console.log("가공한 강아지리스트" + dogNoList);
 	
 	/* 10.좌표리스트 */
 	console.log(polylinePath);	
 	
-	/* 11.선택한 산책로 정보 */
+	/* 11.이용한 산책로 정보 */	
+	
 	
 	/* 1개로 묶기 */
 	let dataVo = {
@@ -376,8 +425,11 @@ $("#insertBtn").on("click", function(){
 		content: content,
 		security: security,
 		dogNoList: dogNoList,
-		polylinePath: polylinePath
-	}		    
+		polylinePath: polylinePath,
+		trailList: trailList
+	}	
+	
+	console.log("합친 데이터" + dataVo);
     
 	$.ajax({
 		url : "${pageContext.request.contextPath}/m/walkInsert",      
@@ -440,7 +492,59 @@ $("#insertBtn").on("click", function(){
     
     
 });/*//기록하기버튼 클릭할때 */
+
+
+//-- 찜하기버튼 --------------------------------------------------------------------------
+	/* document.addEventListener("DOMContentLoaded", function () {
+	    const trailStarValues = [${trailList[0].trailStar}, ${trailList[1].trailStar}, ${trailList[2].trailStar}];
 	
+	    for (let i = 1; i <= trailStarValues.length; i++) {
+	        initializeIcon(i, trailStarValues[i - 1]);
+	    }
+	
+	    function initializeIcon(iconId, initialState) {
+	        const iconContainer = $(`#likeIcon${iconId}`);
+	
+	        if (initialState === 1) {
+	            iconContainer.addClass("filledIcon").html('<i class="fa-solid fa-star"></i>');
+	        } else {
+	            iconContainer.removeClass("filledIcon").html('<i class="fa-regular fa-star"></i>');
+	        }
+	
+	        iconContainer.data("initial-state", initialState);
+	    }
+	
+	    function toggleIcon(iconId) {
+	        const iconContainer = $(`#likeIcon${iconId}`);
+	        const initialState = parseInt(iconContainer.data("initial-state"));
+	        const newState = 1 - initialState;
+	
+	        if (newState === 1) {
+	            iconContainer.addClass("filledIcon").html('<i class="fa-solid fa-star"></i>');
+	        } else {
+	            iconContainer.removeClass("filledIcon").html('<i class="fa-regular fa-star"></i>');
+	        }
+	
+	        iconContainer.data("initial-state", newState);
+	    }
+	});  */
+	
+	document.addEventListener("DOMContentLoaded", function () {
+	    const likeIcons = document.querySelectorAll('.likeIcon');
+
+	    likeIcons.forEach(function(icon) {
+	        const trailStar = parseInt(icon.dataset.trailStar);
+
+	        if (trailStar === 1) {
+	            icon.classList.add("fa-solid", "fa-star");
+	        } else {
+	            icon.classList.add("fa-regular", "fa-star");
+	        }
+	    });
+	});
+
+//<i id="likeIcon" class="fa-solid fa-star"></i> 칠해진거
+//<i id="likeIcon" class="fa-regular fa-star"></i> 빈거
 
 //-------------------------------------------------------------------------------
 		    	    

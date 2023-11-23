@@ -4,6 +4,24 @@
 <mapper namespace="walkLog">
    
    <!-- 쿼리문 작성 --> 
+   
+   <!-- 산책일지 좌표 삭제 (더미데이터용) -->
+	<delete id="coordsDelete" parameterType="int" >
+		<![CDATA[
+			DELETE FROM coords
+			WHERE type = 'walkLog'
+			and useno = #{walkLogNo}
+		]]>
+	</delete>  
+	
+	<!-- 산책일지 좌표 삭제 (더미데이터용) -->
+	<delete id="mapImagDelete" parameterType="int" >
+		<![CDATA[
+			DELETE FROM images
+			WHERE type = 'walkLogMap'
+			and useno = #{walkLogNo}
+		]]>
+	</delete>  
 	
 	<!-- 유저 1명 가져오기 (로그인) -->
 	<select id="selectOneUser" parameterType="com.runningdog.vo.UserVo" resultType="com.runningdog.vo.UserVo">
@@ -16,7 +34,7 @@
 		]]>
 	</select>  
 	 
-   <!-- 맵 산책로 불러오기 (동네전부) -->
+   <!-- *보류* 맵 산책로 불러오기 (동네전부) -->
    <select id="mapTrailSelect" parameterType="int" resultType="com.runningdog.vo.UseTrailVo">
       <![CDATA[
          SELECT  tr.trailno as trailNo
@@ -32,7 +50,7 @@
       ]]>
    </select>   
    
-   <!-- 기록 산책로 불러오기 (3개) -->
+   <!-- *보류* 기록 산책로 불러오기 (3개) -->
    <select id="endTrailSelect"  resultType="com.runningdog.vo.UseTrailVo">
       <![CDATA[
          SELECT co.coordno as coordNo
@@ -128,6 +146,7 @@
       ]]>
    </insert>
    
+   <!-- 첨부이미지 저장하기 -->
    <insert id="imgsSave" parameterType="com.runningdog.vo.ImagesVo">  
 		 <![CDATA[
 		 INSERT INTO images
@@ -143,6 +162,7 @@
 		 ]]>
 	</insert>
 	
+	<!-- 맵이미지 저장하기 -->
 	<insert id="mapImgSave" parameterType="com.runningdog.vo.ImagesVo">  
 		 <![CDATA[
 		 INSERT INTO images
@@ -156,8 +176,7 @@
                       ,#{imageOrder}
                       )
 		 ]]>
-	</insert>
-	
+	</insert>	
    
    <!-- 좌표값 가져오기 (캡쳐용) -->   
    <select id="mapSelect"  parameterType="int" resultType="com.runningdog.vo.CoordsVo">
@@ -172,7 +191,7 @@
       ]]>
    </select>
      
-   <!-- 산책로 가져오기 -->   
+   <!-- *보류* 산책로 가져오기 -->   
    <select id="trailSelect"  parameterType="int" resultType="com.runningdog.vo.MoTrailVo">
       <![CDATA[
         SELECT tr.trailNo
@@ -186,6 +205,51 @@
 		WHERE ROWNUM <= 3
       ]]>
    </select>
+   
+   
+   <!-- 산책로 3개 가져오기 -->   
+   <select id="threeTrailSelect"  parameterType="com.runningdog.vo.XYVo" resultType="com.runningdog.vo.UseTrailVo">
+      <![CDATA[		
+		SELECT  tr.trailno as trailNo
+		        ,tr.name as name
+		        ,CASE WHEN ts.trailno IS NOT NULL THEN 1 ELSE 0 END AS trailStar
+		        ,tn.rn
+		FROM trail tr
+		JOIN (SELECT trailF.rn
+		             ,trailF.trailno
+		      FROM   (SELECT rownum rn
+		                     ,trailC.trailno
+		              FROM   (SELECT latc.trailno as trailno
+		                                  ,latc.distance1 + lngc.distance2 as distance
+		                      FROM   (SELECT useno AS trailNo  
+		                                     ,LAT
+		                                     ,ABS(LAT - #{y}) AS Distance1   
+		                              FROM coords 
+		                              WHERE type = 'trail'  
+		                              and coordorder = 1
+		                              ORDER BY Distance1) latC 
+		                             , (SELECT useno AS trailNo  
+		                                       ,LNG
+		                                       ,ABS(LNG - #{x}) AS Distance2   
+		                                FROM coords 
+		                                WHERE type = 'trail'  
+		                                and coordorder = 1
+		                                ORDER BY Distance2) lngC
+		                      WHERE latc.trailno = lngc.trailno
+		                      ORDER BY distance) trailC) trailF
+		      WHERE trailF.rn BETWEEN 1 and 3) tn
+		ON tr.trailno = tn.trailno
+		LEFT JOIN trailStar ts ON tr.trailno = ts.trailno AND ts.userno = #{userNo}
+		ORDER BY tn.rn ASC
+      ]]>
+   </select>  
+   
+   <insert id="trailCount"  parameterType="com.runningdog.vo.MotrailUsedVo" >
+	   <![CDATA[
+	        INSERT INTO trailUsed
+			VALUES(seq_trailused_no.NEXTVAL , #{walkLogNo} , #{trailNo} )
+	   ]]>   
+   </insert>
    
    
 

@@ -4,6 +4,9 @@ public class UseTrailVo {
 	
 	// 손성진사용	
 	
+	private int userNo;
+	private int trailStar;
+	
 	private int coordNo;
 	private int trailNo;
 	private String name;	
@@ -15,8 +18,11 @@ public class UseTrailVo {
 	
 	public UseTrailVo() {}
 
-	public UseTrailVo(int coordNo, int trailNo, String name, int coordOrder, double lat, double lng, int locationVo) {
+	public UseTrailVo(int userNo, int trailStar, int coordNo, int trailNo, String name, int coordOrder, double lat,
+			double lng, int locationVo) {
 		super();
+		this.userNo = userNo;
+		this.trailStar = trailStar;
 		this.coordNo = coordNo;
 		this.trailNo = trailNo;
 		this.name = name;
@@ -24,6 +30,22 @@ public class UseTrailVo {
 		this.lat = lat;
 		this.lng = lng;
 		this.locationVo = locationVo;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	public int getTrailStar() {
+		return trailStar;
+	}
+
+	public void setTrailStar(int trailStar) {
+		this.trailStar = trailStar;
 	}
 
 	public int getCoordNo() {
@@ -84,10 +106,11 @@ public class UseTrailVo {
 
 	@Override
 	public String toString() {
-		return "UseTrailVo [coordNo=" + coordNo + ", trailNo=" + trailNo + ", name=" + name + ", coordOrder="
-				+ coordOrder + ", lat=" + lat + ", lng=" + lng + ", locationVo=" + locationVo + "]";
-	};
-	
+		return "UseTrailVo [userNo=" + userNo + ", trailStar=" + trailStar + ", coordNo=" + coordNo + ", trailNo="
+				+ trailNo + ", name=" + name + ", coordOrder=" + coordOrder + ", lat=" + lat + ", lng=" + lng
+				+ ", locationVo=" + locationVo + "]";
+	}
+
 	
 
 }
