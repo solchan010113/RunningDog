@@ -285,6 +285,11 @@ public class WalkBlogService {
 		
 		return walkLogList;
 	}
+
+	public List<ShowLogVo> walkLogListByDate(String paramCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	/*
 	 * public String save(MultipartFile file) {

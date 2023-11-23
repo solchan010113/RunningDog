@@ -132,7 +132,7 @@
 		where WL.userNo = (SELECT userNo
                             FROM users
                             WHERE code = #{paramCode}) 
-    and WD.dogNo = #{dogNo}
+    and WD.dogNo = #{dogNo} and WD
 		
 		order by WL.walkLogNo desc   
 		
@@ -172,7 +172,7 @@ ORDER BY
               
         FROM walkedDog WD, dog D
         where WD.dogNo = D.dogNo
-        and walkLogNo = #{walkLogNo}
+        and walkLogNo = #{walkLogNo} and D.status = 'T'
         ORDER BY walkedDogNo ASC
     ]]>
 	</select>

@@ -366,5 +366,32 @@ public class WalkBlogController {
 
 		return result;
 	}
+	
+
+	@RequestMapping(value = "/{code}/{date}", method = { RequestMethod.GET, RequestMethod.POST })
+	public String calendarLog(@PathVariable(value = "code") String code, Model model, Model model2, HttpSession session) {
+
+		System.out.println("userBlog");
+
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authuser);
+
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
+		String paramCode = code;
+
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+
+		System.out.println(blogInfoVo);
+
+		model.addAttribute("blogInfoVo", blogInfoVo);
+
+		List<ShowLogVo> walkLogList = walkBlogService.walkLogListByDate(paramCode);
+		System.out.println(walkLogList);
+		model2.addAttribute("walkLogList", walkLogList);
+
+		return "walkBlog/userBlog";
+
+	}
 
 }
