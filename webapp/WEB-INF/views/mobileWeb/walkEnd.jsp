@@ -1,129 +1,130 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- 모바일용 웹페이지로 변환 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>산책종료</title>
-    <!-- 네이버 지도 API 스크립트를 포함합니다. -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b9b0wee2jf"></script>
-    <!-- js -->
-	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
-	<!-- css -->
-	<link href="${pageContext.request.contextPath}/assets/css/mobileWeb/walkEnd.css" rel="stylesheet" type="text/css">	
-	
-	<!-- 부트스트랩 cdn , 폰트어썸 -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-	<script src="https://kit.fontawesome.com/109d7bd609.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-	
+<!-- 모바일용 웹페이지로 변환 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>산책종료</title>
+<!-- 네이버 지도 API 스크립트를 포함합니다. -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b9b0wee2jf"></script>
+<!-- js -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<!-- css -->
+<link href="${pageContext.request.contextPath}/assets/css/mobileWeb/walkEnd.css" rel="stylesheet" type="text/css">
+
+<!-- 부트스트랩 cdn , 폰트어썸 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/109d7bd609.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
 	<div id="allBox">
-	
+
 		<!-- 헤더박스 -->
-		<div class="headerBox" style="" >
-		
+		<div class="headerBox" style="">
+
 			<div class="end" id="text01">산책종료</div>
-			
+
 			<div class="recordBox">
-				<div class="date" id="text02"> </div>
-				<div class="record" id="text02"> 거리:${moWalkLogVo.distance}m  시간: ${moWalkLogVo.logTime} </div>
-			</div>							
-			
-		</div>		
-			
-		<!-- 컨텐츠 모음 -->
-		<div class="content" >
-		
-			<!-- 기록된 이동기록이 뜨는 맵 -->
-			<div id="map"></div>			
-	
-			<!-- 기록된 라인과 일치율이 높은 산책로 사진 3개 -->
-			<div class="mapImages" >
-				<div class="mapNameBox">
-					이 산책로를 이용하셨습니다.
-		        </div>				
-				 <div class="mapImageContainer">
-	
-					<c:forEach items="${trailList}"  var="tarailVo">
-						<div class="mapImageBox">
-			            	<img class="mapImage" src="${pageContext.request.contextPath}/rdimg/trailImg/${tarailVo.orgName}"></img>
-			            	
-			            	<c:if test="${tarailVo.trailStar==1}">
-			            		<div id="likeIcon1" class="likeIcon emptyIcon fa-solid fa-star" data-trail-starno="${tarailVo.trailStarNo}" data-trail-no="${tarailVo.trailNo}"></div>	
-			            	</c:if>
-			            	<c:if test="${tarailVo.trailStar==0}">
-			            		<div id="likeIcon1" class="likeIcon emptyIcon fa-regular fa-star" data-trail-starno="${tarailVo.trailStarNo}" data-trail-no="${tarailVo.trailNo}"></div>	
-			            	</c:if>
-			            	<div class="mapName"> ${tarailVo.name} </div>
-			       		</div>
-					</c:forEach>	
-    			</div>		
+				<div class="date" id="text02"></div>
+				<div class="record" id="text02">
+					거리:${moWalkLogVo.distance}m 시간: <span id="formattedTime"></span>
+				</div>
 			</div>
-			
+
+		</div>
+
+		<!-- 컨텐츠 모음 -->
+		<div class="content">
+
+			<!-- 기록된 이동기록이 뜨는 맵 -->
+			<div id="map"></div>
+
+			<!-- 기록된 라인과 일치율이 높은 산책로 사진 3개 -->
+			<div class="mapImages">
+				<div class="mapNameBox">이 산책로를 이용하셨습니다.</div>
+				<div class="mapImageContainer">
+
+					<c:forEach items="${trailList}" var="tarailVo">
+						<div class="mapImageBox">
+							<img class="mapImage" src="${pageContext.request.contextPath}/rdimg/trailImg/${tarailVo.orgName}"></img>
+
+							<c:if test="${tarailVo.trailStar==1}">
+								<div id="likeIcon1" class="likeIcon emptyIcon fa-solid fa-star" data-trail-starno="${tarailVo.trailStarNo}"
+									data-trail-no="${tarailVo.trailNo}"></div>
+							</c:if>
+							<c:if test="${tarailVo.trailStar==0}">
+								<div id="likeIcon1" class="likeIcon emptyIcon fa-regular fa-star" data-trail-starno="${tarailVo.trailStarNo}"
+									data-trail-no="${tarailVo.trailNo}"></div>
+							</c:if>
+							<div class="mapName">${tarailVo.name}</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+
 			<!-- 파일첨부 버튼 -->
 			<div class="fileForm">
-			
-				<form id="form" class="form-horizontal" role="form" method="post"
-					  enctype="multipart/form-data" action="${pageContext.request.contextPath}/m//walkInsert2">
+
+				<form id="form" class="form-horizontal" role="form" method="post" enctype="multipart/form-data"
+					action="${pageContext.request.contextPath}/m//walkInsert2">
 					<div class="pictures">
-					    <label for="fileInput">
-					        <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
-					    </label>
-					    <input type="file" name="file" id="fileInput" onchange="addFile(this);" multiple  /> <!-- 첨부파일 여러개(multiple) -->
-					    			    
+						<label for="fileInput"> <i class="fa-regular fa-image"></i>&nbsp; 사진첨부
+						</label> <input type="file" name="file" id="fileInput" onchange="addFile(this);" multiple />
+						<!-- 첨부파일 여러개(multiple) -->
+
 					</div>
-					
-					<div class="file-list"></div>	
-				</form>			
+
+					<div class="file-list"></div>
+				</form>
 			</div>
-			
+
 			<!-- 텍스트작성박스 -->
-			<td colspan="1"><textarea  class="textBox" name="content" rows="4" placeholder="내용을 입력해주세요." value="" ></textarea></td>
-			
+			<td colspan="1"><textarea class="textBox" name="content" rows="4" placeholder="내용을 입력해주세요." value=""></textarea></td>
+
 			<!-- 체크박스라인 -->
-			<div class="checkBox">			
-				<i class="fa-solid fa-unlock-keyhole"></i>				
-				<div> &nbsp; 비공개로 게시</div>				
-				<label class="switch-button">
-					<input type="checkbox"  id="privacyCheckbox" />
-				    <span class="onoff-switch"></span>
+			<div class="checkBox">
+				<i class="fa-solid fa-unlock-keyhole"></i>
+				<div>&nbsp; 비공개로 게시</div>
+				<label class="switch-button"> <input type="checkbox" id="privacyCheckbox" /> <span class="onoff-switch"></span>
 				</label>
 			</div>
-			
-		</div>	
-		
+
+		</div>
+
 		<!-- 작성하기 버튼 -->
 		<div class="lastButton">
 			<!-- 작성 -->
-			<div class="write" id="insertBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"> 기록하기 </div>
+			<div class="write" id="insertBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">기록하기</div>
 			<!-- 취소 -->
-			<div class="back"> 기록하지않기 </div>
-		</div>	
-		
+			<div class="back">기록하지않기</div>
+		</div>
+
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h1 class="modal-title fs-5" id="exampleModalLabel">기록되었습니다.</h1>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-		     
-		      <div class="modal-footer">
-		        <button type="button"  class="btn btn-primary" id="confirmButton" >확인</button>
-		      </div>
-		    </div>
-		  </div>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">기록되었습니다.</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="confirmButton">확인</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		
-		
+
+
 	</div>
-	
+
 	<script>
 	//변수
 	
@@ -272,6 +273,25 @@
 	    console.log('-------------------데이터 확인--------------------');
 	    
 //----------------------------------------------------------------------
+
+	// 서버에서 받아온 초 단위 시간값
+       var seconds = '${moWalkLogVo.logTime}';
+
+       // 초를 시, 분, 초로 변환하고 포맷하는 함수
+       function formatTime(seconds) {
+           var hours = Math.floor(seconds / 3600);
+           var minutes = Math.floor((seconds % 3600) / 60);
+           var remainingSeconds = seconds % 60;
+
+           return ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + remainingSeconds).slice(-2);
+       }
+
+       // 서버에서 받아온 초 값을 사용하여 포맷하여 출력
+       var formattedTime = formatTime(seconds);
+       $("#formattedTime").text(formattedTime);
+
+
+
 // 파일 선택이 변경되었을 때 실행되는 함수
 	$('#fileInput').on('change', function (event) {
 	    // 선택된 파일 목록을 가져옵니다.
@@ -664,8 +684,8 @@ $("#insertBtn").on("click", function(){
 	
 	    
 	</script>
-	
-    <script>
+
+	<script>
         // 네이버 지도 API 스크립트 로딩 후 initMap 함수 호출
         naver.maps.onJSContentLoaded = initMap;
         
@@ -673,6 +693,6 @@ $("#insertBtn").on("click", function(){
             // 지도 초기화 및 설정 작업을 수행하세요.
         }
     </script>
-    
+
 </body>
 </html>
