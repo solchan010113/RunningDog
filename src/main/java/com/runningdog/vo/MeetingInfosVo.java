@@ -4,18 +4,18 @@ public class MeetingInfosVo {
 	
 	private int meetingInfoNo;
 	private int meetingNo;
-	private int usersNo;
+	private int userNo;
 	private int dogNo;
 	
 	public MeetingInfosVo() {
 		
 	}
 	
-	public MeetingInfosVo(int meetingInfoNo, int meetingNo, int usersNo, int dogNo) {
+	public MeetingInfosVo(int meetingInfoNo, int meetingNo, int userNo, int dogNo) {
 		super();
 		this.meetingInfoNo = meetingInfoNo;
 		this.meetingNo = meetingNo;
-		this.usersNo = usersNo;
+		this.userNo = userNo;
 		this.dogNo = dogNo;
 	}
 
@@ -35,12 +35,12 @@ public class MeetingInfosVo {
 		this.meetingNo = meetingNo;
 	}
 
-	public int getUsersNo() {
-		return usersNo;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setUsersNo(int usersNo) {
-		this.usersNo = usersNo;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 	public int getDogNo() {
@@ -53,7 +53,7 @@ public class MeetingInfosVo {
 
 	@Override
 	public String toString() {
-		return "MeetingInfoVo [meetingInfoNo=" + meetingInfoNo + ", meetingNo=" + meetingNo + ", usersNo=" + usersNo
+		return "MeetingInfoVo [meetingInfoNo=" + meetingInfoNo + ", meetingNo=" + meetingNo + ", userNo=" + userNo
 				+ ", dogNo=" + dogNo + "]";
 	}
 	

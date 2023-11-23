@@ -5,6 +5,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+	 <style>
+        .form-group {
+            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group > p {
+            margin-right: 10px;
+        }
+
+        .form-group > input {
+            margin-bottom: 10px;
+        }
+    </style>
+
 <title>관리자 산책기록넣기</title>
 <link href="${pageContext.request.contextPath}/assets/css/walkTrail/trailForm.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
@@ -13,8 +31,20 @@
 <body>
 	<div id="map" style="width: 100%; height: 800px;"></div>
 	
-	<p>산책일지번호</p>
-	<input type="text" name=walkLogNo id="walkLogNoInput" value="">	
+	<div class="form-group">
+        <p>산책일지번호</p>
+        <input type="text" name="walkLogNo" id="walkLogNoInput" value="">
+    </div>
+
+    <div class="form-group">
+        <p>수정 할 거리</p>
+        <input type="text" name="logTime" id="logTimeInput" value="">
+    </div>
+
+    <div class="form-group">
+        <p>수정 할 시간</p>
+        <input type="text" name="distance" id="distanceInput" value="">
+    </div>
 
 	<script>
 	
@@ -43,14 +73,21 @@
 			// 여기에서 AJAX를 사용하여 서버로 좌표값을 전송하는 코드를 작성
 			console.log("작성", coords);
 			walkLogNo = $("#walkLogNoInput").val();
+			logTime = $("#logTimeInput").val();
+			distance = $("#distanceInput").val();
+			
 			console.log("바꿀 산책일지번호", walkLogNo);
+			console.log("바꿀 소요시간", logTime);
+			console.log("바꿀 거리", distance);
 
 			$.ajax({
 				url : "${pageContext.request.contextPath}/m/adminInsert",
 				type : 'POST',
 				data : JSON.stringify({
 					xyList : coords,
-					walkLogNo: walkLogNo
+					walkLogNo: walkLogNo,
+					logTime: logTime,
+					distance: distance
 				}),
 				contentType : 'application/json',
 				success : function(result) {

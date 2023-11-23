@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.runningdog.service.MeetingService;
 import com.runningdog.vo.DogsVo;
+import com.runningdog.vo.MeetingInfosVo;
 import com.runningdog.vo.MeetingsVo;
 import com.runningdog.vo.TrailsVo;
 import com.runningdog.vo.UserVo;
@@ -99,12 +100,19 @@ public class MeetingController {
 	
 	//모임 신청
 	@RequestMapping(value = "/applyMeeting")
-	public String applyMeeting(@RequestParam(value="no") int no){
+	public String applyMeeting(@ModelAttribute MeetingsVo mvo, HttpSession session){
 		System.out.println("MeetingController.applyMeeting()");
 
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
 		
+		mvo.setUserNo(userNo);
+
+		meetingService.insertMeetingInfo(mvo);
 		
-		return "redirect:walkMeeting/meeting?no="+no;
+		int no = mvo.getMeetingNo();
+		
+		return "redirect:/walkmeeting/meeting?no="+no;
 	}
 	
 	//모임 신청 취소
@@ -115,6 +123,23 @@ public class MeetingController {
 		return "";
 	}
 	
+	
+	
+	//내 모임 리스트
+	@RequestMapping(value="/mymeetinglist", method={RequestMethod.GET, RequestMethod.POST})
+	public String myMeetingList(@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+							    @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
+							    Model model, HttpSession session){
+		System.out.println("MeetingController.myMeetingList()");
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		Map<String, Object> meetingMap = meetingService.selectMyMeetingList(keyword, crtPage, userNo);
+		model.addAttribute("meetingMap", meetingMap);
+		
+		return "walkMeeting/myMeetingList";
+	}
 	
 //////////////////////////////////////////////////////
 	/*

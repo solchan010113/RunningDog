@@ -63,7 +63,7 @@ public class MeetingDao {
 		return count;
 	}
 	
-	//모임 상세 등록
+	//모임 상세 등록 + 모임 신청
 	public int insertMeetingInfo(MeetingInfosVo meetingInfosVo) {
 		System.out.println("MeetingDao.insertMeetingInfo()");
 		
@@ -88,6 +88,26 @@ public class MeetingDao {
 		List<DogsVo> mdList = sqlSession.selectList("meeting.selectMeetingDogList", meetingNo);
 		
 		return mdList;
+	}
+	
+	
+	
+	//내 모임 리스트
+	public List<MeetingsVo> selectMyMeetingList(Map<String, Object> pageMap) {
+		System.out.println("MeetingDao.selectMyMeetingList()");
+
+		List<MeetingsVo> meetingList = sqlSession.selectList("meeting.selectMyMeetingList", pageMap);
+		
+		return meetingList;
+	}
+	
+	//내 모임 리스트 갯수
+	public int selectMyMeetingCnt(Map<String, Object> pageMap) {
+		System.out.println("MeetingDao.selectMyMeetingCnt()");
+		
+		int count = sqlSession.selectOne("meeting.selectMyMeetingCnt", pageMap);
+		
+		return count;
 	}
 	
 	
