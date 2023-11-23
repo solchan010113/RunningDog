@@ -221,6 +221,15 @@ public class WalkBlogDao {
 		
 		return usedTrailList;
 	}
+	
+	public void insertLike(Map<String, Integer> map) {
+		sqlSession.insert("walkBlog.insertLike", map);
+	}
+
+	public void deleteLike(Map<String, Integer> map) {
+		sqlSession.delete("walkBlog.deleteLike", map);
+	}
+
 
 	
 }

@@ -258,9 +258,11 @@ public class MobileWebController {
 			List<XYVo> coords = adminXYVo.getXyList();
 
 			MoWalkLogVo walkLogVo = new MoWalkLogVo();
-
+			// 변경해 줄 값들 이동
 			walkLogVo.setPolylinePath(coords); // 좌표값
-
+			walkLogVo.setTitle(adminXYVo.getTitle()); // 제목
+			walkLogVo.setLogTime(adminXYVo.getLogTime()); // 소요시간
+			walkLogVo.setDistance(adminXYVo.getDistance()); // 거리
 			// walkLogVo.setDogNoList(dogNoList); // 강아지값
 			// walkLogVo.setLocationNo(1174010600); // 동네번호
 
@@ -272,7 +274,7 @@ public class MobileWebController {
 			// 서비스를 호출하여 좌표 데이터 업데이트
 			moWebService.walkLogUpdate(walkLogVo); // 업데이트 함수
 			// 서비스를 호출하여 좌표 데이터 저장
-			// moWebService.walkLogInsert(walkLogVo); // 여기서 셀렉트키 반환
+			// moWebService.walkLogInsert(walkLogVo); // 여기서 셀렉트키 반환				
 
 			return result;
 		} catch (Exception e) {
