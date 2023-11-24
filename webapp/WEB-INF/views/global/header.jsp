@@ -42,41 +42,31 @@
 						</ul>
 					</div>
 				</li>
-				<li>
-					<div class="dropdown">
-						<a class="drop-toggle d-inline-flex align-items-center fw-semibold" role="button" data-bs-toggle="dropdown" aria-expanded="false">산책블로그</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/walkBlog/home">산책블로그 홈</a></li>
-							<c:if test="${ authUser != null  }">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/walkBlog/${authUser.code}?page=1">내 산책블로그</a></li>
-							</c:if>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<div class="dropdown">
-						<a class="drop-toggle d-inline-flex align-items-center fw-semibold" role="button" data-bs-toggle="dropdown" aria-expanded="false">산책소식</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">산책소식 홈</a></li>
-							<li><a class="dropdown-item" href="#">우리동네 소통창구</a></li>
-							<li><a class="dropdown-item" href="#">강아지 자랑하기</a></li>
-						</ul>
-					</div>
-				</li>
 			</ul>
-			<ul class="right">
-				<!-- 로그인 전 메뉴 -->
-				<c:if test="${sessionScope.authUser == null}">
-					<li><a href="${pageContext.request.contextPath}/loginForm">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/joinForm">회원가입</a></li>
-	 			</c:if>
-	 			
-	 			<!-- 로그인 후 메뉴 -->
-				<c:if test="${sessionScope.authUser != null}">
-					<li><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
-					<li><a href="${pageContext.request.contextPath}/setting/myProfile">설정</a></li>
-	 			</c:if>
-			</ul>
+			
+			<div class="my-menu">
+				<ul class="left">
+					<c:if test="${ authUser != null  }">
+						<li>
+							<a class="dropdown-item oranged" href="${pageContext.request.contextPath}/walkBlog/${authUser.code}?page=1">내 산책 블로그</a>
+						</li>
+					</c:if>
+				</ul>
+				
+				<ul class="right">
+					<!-- 로그인 전 메뉴 -->
+					<c:if test="${sessionScope.authUser == null}">
+						<li><a href="${pageContext.request.contextPath}/loginForm">로그인</a></li>
+						<li><a href="${pageContext.request.contextPath}/joinForm">회원가입</a></li>
+		 			</c:if>
+		 			
+		 			<!-- 로그인 후 메뉴 -->
+					<c:if test="${sessionScope.authUser != null}">
+						<li><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
+						<li><a href="${pageContext.request.contextPath}/setting/myProfile">설정</a></li>
+		 			</c:if>
+				</ul>
+			</div>
 			
 		</nav>
 		
