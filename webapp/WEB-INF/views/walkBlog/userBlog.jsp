@@ -40,8 +40,8 @@ function deleteLog() {
 
 
 function toggleFollowButton() {
-    var followButton = document.getElementById("followButton");
-    var followStatus = "${requestScope.blogInfoVo.followNo}";
+    let followButton = document.getElementByClass("followButton");
+    let followStatus = "${requestScope.blogInfoVo.followNo}";
 
     if (followStatus === "0") {
         // Follow
@@ -337,8 +337,9 @@ $(function() {
 
 					<div class="category">
 						<div class="tab record active">산책기록</div>
+						<div class="tab record ">산책모임</div>
 
-						
+
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following">팔로잉</div>
 						</a>

@@ -125,9 +125,7 @@ public class WalkBlogController {
 		Map<String, Object> pMap = walkBlogService.walkLogList(paramCode, crtPage, date, dogNo);
 		System.out.println(pMap);
 		
-		if(pMap.get("crtPage") ==null) {
-			 pMap.put("crtPage", 1);
-		}
+		
 		
 		System.out.println(pMap.get("crtPage"));
 		model.addAttribute("pMap", pMap);

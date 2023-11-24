@@ -239,9 +239,7 @@
 .maindogCardBox > div{
 	width: 200px;
 	height: 66px;
-	border-style: solid;
-	 border-color:#dee2e6;
-  	border-width: 1px 0 1px 0 ;
+	border: 2px solid rgb(192, 192, 192);
   	display: flow-root;
 }
 
@@ -489,8 +487,7 @@ h2{
 .MRprofileBox{
 	   display: flow-root;
 	padding: 15px;
-	border-style: solid;
-  	border-color:#dee2e6;
+	border: 2px solid rgb(192, 192, 192);
 	width: 780px;
 	/*height: 204px;*/
 	float: left;
@@ -565,7 +562,9 @@ h2{
 	  display: flow-root;
 	  
 	  border-style: solid;
-    border-color: #dee2e6;
+	  
+	  
+    border-color: rgb(192, 192, 192);
 
     /* 하단(border-bottom)에만 테두리를 추가합니다. */
     border-width: 0 0 2px 0;

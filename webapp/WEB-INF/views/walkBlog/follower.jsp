@@ -272,7 +272,7 @@
 					<div class="category">
 						<div class="tab record" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">산책기록</div>
 
-						
+						<div class="tab record ">산책모임</div>
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following active">팔로잉</div>
 						</a>
