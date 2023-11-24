@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -98,7 +99,10 @@ public class WalkBlogController {
 //	}
 
 	@RequestMapping(value = "/{code}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String userBlog(@PathVariable(value = "code") String code, Model model, Model model2, HttpSession session) {
+	public String userBlog(@PathVariable(value = "code") String code, 
+						   @RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage,
+						   @RequestParam(value = "date", required = false, defaultValue = "0") String date,
+			        	   	Model model, HttpSession session) {
 
 		System.out.println("userBlog");
 
@@ -112,12 +116,13 @@ public class WalkBlogController {
 		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
 
 		System.out.println(blogInfoVo);
-
+		
 		model.addAttribute("blogInfoVo", blogInfoVo);
 
-		List<ShowLogVo> walkLogList = walkBlogService.walkLogList(paramCode);
-		System.out.println(walkLogList);
-		model2.addAttribute("walkLogList", walkLogList);
+		
+		Map<String, Object> pMap = walkBlogService.walkLogList(paramCode, crtPage, date);
+		System.out.println(pMap);
+		model.addAttribute("pMap", pMap);
 
 		return "walkBlog/userBlog";
 

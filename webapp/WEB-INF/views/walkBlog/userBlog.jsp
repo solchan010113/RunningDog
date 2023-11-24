@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
@@ -304,7 +305,7 @@ $(".addCommentBtn").on("click", function(){
 
 
 						<c:if test="${empty dogNo }">
-							<c:forEach items="${walkLogList}" var="ShowLogVo">
+							<c:forEach items="${pMap.walkLogList}" var="ShowLogVo">
 								<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
 									<div class="mainRecord1">
 
@@ -483,14 +484,38 @@ $(".addCommentBtn").on("click", function(){
 							</c:forEach>
 						</c:if>
 
-
-
-
-
 					</div>
-					 
-				</div>
+					<!-- //mainRecordSection -->
 
+
+					<!-- //paging -->
+					<div id="paging">
+						<ul>
+							<c:if test="${pMap.prev}">
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}">◀</a></li>
+							</c:if>
+
+							<c:forEach begin="${pMap.startPageBtnNo}" end="${pMap.endPageBtnNo}" step="1" var="page">
+								<c:choose>
+									<c:when test="${param.crtPage == page}">
+										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+									</c:otherwise>
+								</c:choose>
+
+							</c:forEach>
+
+							<c:if test="${pMap.next}">
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}">▶</a></li>
+							</c:if>
+						</ul>
+					</div>
+
+				</div>
+				
+				
 
 				<div class="mainSidebar">
 					<%-- <div class="clubsWrapper">

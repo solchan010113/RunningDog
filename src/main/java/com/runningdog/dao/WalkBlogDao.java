@@ -1,5 +1,6 @@
 package com.runningdog.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +52,17 @@ public class WalkBlogDao {
 		sqlSession.delete("walkBlog.deleteFollow", map);
 	}
 
-	public List<ShowLogVo> walkLogList(String paramCode) {
-		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogList", paramCode);
+	public List<ShowLogVo> walkLogList(String paramCode, int startRNum, int endRNum, String date) {
+		
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("paramCode", paramCode);
+		pageMap.put("startRNum", startRNum);
+		pageMap.put("endRNum", endRNum);
+		pageMap.put("date", date);
+		
+		System.out.println(pageMap);
+		
+		List<ShowLogVo> walkLogList = sqlSession.selectList("walkBlog.walkLogList", pageMap);
 
 		return walkLogList;
 	}
@@ -232,6 +242,18 @@ public class WalkBlogDao {
 
 	public int getTotalWalkLogs(String paramCode) {
 	    return sqlSession.selectOne("walkBlog.getTotalWalkLogs", paramCode);
+	}
+
+	public int selectTotalCnt(String paramCode, String date) {
+		System.out.println("selectTotalCnt");
+		
+		Map<String, Object> pageMap = new HashMap<String, Object>();
+		pageMap.put("paramCode", paramCode);
+		pageMap.put("date", date);
+		
+		
+		int totalCount = sqlSession.selectOne("walkBlog.selectTotalCnt", pageMap);
+		return totalCount;
 	}
 
 	

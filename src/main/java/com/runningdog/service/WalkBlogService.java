@@ -123,12 +123,28 @@ public class WalkBlogService {
 		return blogInfoVo; 
 	}
 
-	public List<ShowLogVo> walkLogList(String paramCode) {
-		
-		//기본정보가져오기
-		List<ShowLogVo> walkLogList = walkBlogDao.walkLogList(paramCode);
-		
-		
+	public Map<String, Object> walkLogList(String paramCode, int crtPage, String date) {
+	
+		//페이징 계산
+		System.out.println("WalkBlogService.walkLogList()");
+
+		// 페이지당 글갯수
+		int listCnt = 5;
+
+		// 현재페이지 crtPage 파라미터 받는다
+		// 없는 페이지면 1로 보낸다
+		crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);
+
+		// 시작글번호
+		int startRNum = (crtPage - 1) * listCnt + 1;
+
+		// 끝글번호
+		int endRNum = (startRNum + listCnt) - 1;
+
+		//walkLog리스트 가져오기
+		List<ShowLogVo> walkLogList = walkBlogDao.walkLogList(paramCode, startRNum, endRNum, date);
+
+
 		 // 각 walkLog에 대한 댓글 리스트 설정
         for (ShowLogVo walkLog : walkLogList) {
             List<ShowLogCmtVo> cmtList = walkBlogDao.getShowLogCmtList(walkLog.getWalkLogNo());
@@ -141,9 +157,6 @@ public class WalkBlogService {
             
             System.out.println("usedTrailList = "+usedTrailList);
         }
-        
-        
-        
         
         
         for (ShowLogVo walkLog : walkLogList) {
@@ -173,13 +186,56 @@ public class WalkBlogService {
             walkLog.setImageList(imageList);
             System.out.println(imageList);
         }
+
+        
+        
+		///////////////////////////////////////////
+		// 페이징 계산
+		int pageBtnCount = 3; // 페이지당 버튼 갯수
 		
+		int totalCnt = walkBlogDao.selectTotalCnt(paramCode , date); // 전체 글 갯수
+		
+		// 마지막버튼번호
+		int endPageBtnNo = (int) Math.ceil(crtPage / (double) pageBtnCount) * pageBtnCount;
+		
+		// 시작버튼번호
+		int startPageBtnNo = (endPageBtnNo - pageBtnCount) + 1;
+		
+		// 다음화살표 유무
+		boolean next = false;
+		if (listCnt * endPageBtnNo < totalCnt) {
+			next = true;
+		} else { // 다음버튼이 없을때
+			endPageBtnNo = (int) Math.ceil(totalCnt / (double) listCnt);
+		}
+		
+		// 이전화살표 유무
+		boolean prev = false;
+		if (startPageBtnNo != 1) {
+			prev = true;
+		}
+		
+		
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("startPageBtnNo", startPageBtnNo);
+		pMap.put("endPageBtnNo", endPageBtnNo);
+		pMap.put("prev", prev);
+		pMap.put("next", next);
+		/* pMap.put("date", date); */
+		pMap.put("walkLogList", walkLogList);
+		
+		/* return pMap; */
+        
+		System.out.println(pMap);
+        
+        
 		
        
 	
 		
 		
-		return walkLogList;
+		return pMap;
 	}
 	
 	
