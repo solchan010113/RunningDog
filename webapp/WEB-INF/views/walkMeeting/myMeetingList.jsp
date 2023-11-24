@@ -16,15 +16,16 @@
 <body>
 	<jsp:include page="../global/header.jsp"></jsp:include>
 	<div class="contents">
-		<h1>우리동네 모임</h1>
+		<h1>내 모임</h1>
 		<div class="infoHeader">
-			<div class="left location">
-				<span class="myColor">천호동</span> 모임 <i class="fa-regular fa-square-caret-down"></i>
-			</div>
+<!-- 			<div class="left location"> -->
+<!-- 				<span class="myColor">천호동</span> 모임 <i class="fa-regular fa-square-caret-down"></i> -->
+<!-- 			</div> -->
 			<form action="${pageContext.request.contextPath}/walkmeeting/mymeetinglist?crtPage=1" method="post" id="searchUser">
 				<div class="searchBox">
 					<select name="what" id="searchUser">
-						<option value="title">모임 제목</option>
+						<option value="name">모임 제목</option>
+						<option value="spot">위치</option>
 					</select>
 					<input type="text" name="keyword">
 					<button type="submit" class="button" id="searchBtn">검색</button>
@@ -35,11 +36,12 @@
 		<div class="listBox">
 			<table class="meetingList">
 				<colgroup>
-					<col style="width: 30%;" />
-	    			<col style="width: 30%;" />
+					<col style="width: 25%;" />
+	    			<col style="width: 25%;" />
 	    			<col style="width: 15%;" />
 					<col style="width: 10%;" />
 					<col style="width: 15%;" />
+					<col style="width: 10%;" />
 				</colgroup>
 				<tr>
 		            <th>모임 제목</th>
@@ -47,15 +49,22 @@
 		            <th>강아지 크기</th>
 		            <th>인원 수</th>
 		            <th>날짜</th>
+		            <th>상태</th>
 		        </tr>
 		        
 				<c:forEach items="${requestScope.meetingMap.meetingList}" var="MeetingsVo">
 			        <tr class="mt" data-mno="${MeetingsVo.meetingNo}">
 						<td>${MeetingsVo.name}</td>
 			        	<td>${MeetingsVo.spot}</td>
-			        	<td>${MeetingsVo.small}&nbsp;&nbsp;${MeetingsVo.medium}&nbsp;&nbsp;${MeetingsVo.large}</td>
+			        	<td>${MeetingsVo.small}&nbsp;${MeetingsVo.medium}&nbsp;${MeetingsVo.large}</td>
 			        	<td>${MeetingsVo.maxMember}</td>
-			        	<td>${MeetingsVo.meetingDate}</td>	
+			        	<td>${MeetingsVo.meetingDate}</td>
+			        	<c:if test="${MeetingsVo.status == 'T'}">
+			        		<td class="green">진행 중</td>	
+			        	</c:if>	
+			        	<c:if test="${MeetingsVo.status == 'E'}">
+			        		<td>종료</td>	
+			        	</c:if>	
 					</tr>
 		        </c:forEach>
 		        

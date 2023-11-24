@@ -30,12 +30,13 @@ public class MeetingController {
 	
 	//모임 리스트
 	@RequestMapping(value="/meetinglist", method={RequestMethod.GET, RequestMethod.POST})
-	public String meetingList(@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+	public String meetingList(@RequestParam(value="what", required=false, defaultValue="") String what,
+							  @RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 							  @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
 							  Model model){
 		System.out.println("MeetingController.meetingList()");
 		
-		Map<String, Object> meetingMap = meetingService.selectMeetingList(keyword, crtPage);
+		Map<String, Object> meetingMap = meetingService.selectMeetingList(what, keyword, crtPage);
 		model.addAttribute("meetingMap", meetingMap);
 		
 		return "walkMeeting/meetingList";
@@ -80,7 +81,7 @@ public class MeetingController {
 		//System.out.println(mVo);
 		meetingService.insertMeeting(mVo);
 		
-		return "redirect:/walkmeeting/meetinglist";
+		return "redirect:/walkmeeting/meetinglist?crtPage=1";
 	}
 	
 	
@@ -115,19 +116,39 @@ public class MeetingController {
 		return "redirect:/walkmeeting/meeting?no="+no;
 	}
 	
-	//모임 신청 취소
-	@RequestMapping(value = "/cancelApply")
-	public String cancelApply(){
-		System.out.println("MeetingController.cancelApply()");
+	//모임 삭제 or 종료
+	@RequestMapping(value = "/deleteMeeting")
+	public String deleteMeeting(@RequestParam(value="meetingNo") int meetingNo, 
+								@RequestParam(value="meetingDate") String meetingDate, 
+								HttpSession session){
+		System.out.println("MeetingController.deleteMeeting()");
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		meetingService.deleteMeeting(userNo, meetingNo, meetingDate);
 
-		return "";
+		return "redirect:/walkmeeting/meeting?no="+meetingNo;
 	}
 	
+	//모임 신청 취소
+	@RequestMapping(value = "/cancelApply")
+	public String cancelApply(@RequestParam(value="meetingNo") int meetingNo, HttpSession session){
+		System.out.println("MeetingController.cancelApply()");
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		meetingService.deleteMeetingInfo(meetingNo, userNo);
+		
+		return "redirect:/walkmeeting/meeting?no="+meetingNo;
+	}
 	
 	
 	//내 모임 리스트
 	@RequestMapping(value="/mymeetinglist", method={RequestMethod.GET, RequestMethod.POST})
-	public String myMeetingList(@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+	public String myMeetingList(@RequestParam(value="what", required=false, defaultValue="") String what,
+								@RequestParam(value="keyword", required=false, defaultValue="") String keyword,
 							    @RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage,
 							    Model model, HttpSession session){
 		System.out.println("MeetingController.myMeetingList()");
@@ -135,7 +156,7 @@ public class MeetingController {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		int userNo = authUser.getUserNo();
 		
-		Map<String, Object> meetingMap = meetingService.selectMyMeetingList(keyword, crtPage, userNo);
+		Map<String, Object> meetingMap = meetingService.selectMyMeetingList(what, keyword, crtPage, userNo);
 		model.addAttribute("meetingMap", meetingMap);
 		
 		return "walkMeeting/myMeetingList";
