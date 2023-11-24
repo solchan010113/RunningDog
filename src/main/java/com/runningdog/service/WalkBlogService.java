@@ -123,7 +123,7 @@ public class WalkBlogService {
 		return blogInfoVo; 
 	}
 
-	public Map<String, Object> walkLogList(String paramCode, int crtPage, String date) {
+	public Map<String, Object> walkLogList(String paramCode, int crtPage, String date, int dogNo) {
 	
 		//페이징 계산
 		System.out.println("WalkBlogService.walkLogList()");
@@ -142,7 +142,7 @@ public class WalkBlogService {
 		int endRNum = (startRNum + listCnt) - 1;
 
 		//walkLog리스트 가져오기
-		List<ShowLogVo> walkLogList = walkBlogDao.walkLogList(paramCode, startRNum, endRNum, date);
+		List<ShowLogVo> walkLogList = walkBlogDao.walkLogList(paramCode, startRNum, endRNum, date, dogNo);
 
 
 		 // 각 walkLog에 대한 댓글 리스트 설정
@@ -193,7 +193,7 @@ public class WalkBlogService {
 		// 페이징 계산
 		int pageBtnCount = 3; // 페이지당 버튼 갯수
 		
-		int totalCnt = walkBlogDao.selectTotalCnt(paramCode , date); // 전체 글 갯수
+		int totalCnt = walkBlogDao.selectTotalCnt(paramCode , date, dogNo); // 전체 글 갯수
 		
 		// 마지막버튼번호
 		int endPageBtnNo = (int) Math.ceil(crtPage / (double) pageBtnCount) * pageBtnCount;
@@ -274,11 +274,27 @@ public class WalkBlogService {
 
 	public ShowLogVo getWalkLogByNo(int walkLogNo) {
 		
+		ShowLogVo walkLog = walkBlogDao.selectWalkLog(walkLogNo);
+		
+		List<LogWalkedDogVo> walkedDogList = walkBlogDao.getWalkedDogList(walkLogNo);
+    	System.out.println(walkedDogList);
+    	for (LogWalkedDogVo walkedDog : walkedDogList) {
+            walkedDog.setSaveName(walkBlogDao.getWalkedDogImg(walkedDog.getDogNo()));
+            System.out.println(walkedDog.getSaveName());
+        }
+    	
+    	System.out.println(walkedDogList);
+		
+    	
+    	
+        walkLog.setWalkedDogList(walkedDogList);
+		
 		
 		
 		List<WalkLogConImgVo> imageList = walkBlogDao.getShowLogImageList(walkLogNo);
-		ShowLogVo walkLog = walkBlogDao.selectWalkLog(walkLogNo);
+		
 		walkLog.setImageList(imageList);
+		System.out.println(imageList);
 		
 		return  walkLog;
 	}

@@ -52,13 +52,14 @@ public class WalkBlogDao {
 		sqlSession.delete("walkBlog.deleteFollow", map);
 	}
 
-	public List<ShowLogVo> walkLogList(String paramCode, int startRNum, int endRNum, String date) {
+	public List<ShowLogVo> walkLogList(String paramCode, int startRNum, int endRNum, String date, int dogNo) {
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
 		pageMap.put("paramCode", paramCode);
 		pageMap.put("startRNum", startRNum);
 		pageMap.put("endRNum", endRNum);
 		pageMap.put("date", date);
+		pageMap.put("dogNo", dogNo);
 		
 		System.out.println(pageMap);
 		
@@ -244,12 +245,13 @@ public class WalkBlogDao {
 	    return sqlSession.selectOne("walkBlog.getTotalWalkLogs", paramCode);
 	}
 
-	public int selectTotalCnt(String paramCode, String date) {
+	public int selectTotalCnt(String paramCode, String date, int dogNo) {
 		System.out.println("selectTotalCnt");
 		
 		Map<String, Object> pageMap = new HashMap<String, Object>();
 		pageMap.put("paramCode", paramCode);
 		pageMap.put("date", date);
+		pageMap.put("dogNo", dogNo);
 		
 		
 		int totalCount = sqlSession.selectOne("walkBlog.selectTotalCnt", pageMap);
