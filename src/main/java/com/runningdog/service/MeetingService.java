@@ -1,5 +1,10 @@
 package com.runningdog.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +17,6 @@ import com.runningdog.vo.DogsVo;
 import com.runningdog.vo.MeetingInfosVo;
 import com.runningdog.vo.MeetingsVo;
 import com.runningdog.vo.TrailsVo;
-import com.runningdog.vo.UserVo;
 
 @Service
 public class MeetingService {
@@ -115,6 +119,11 @@ public class MeetingService {
 	public void insertMeeting(MeetingsVo mVo) {
 		System.out.println("MeetingService.insertMeeting()");
 
+		String date = mVo.getMeetingDate();
+		String time = mVo.getTime();
+		
+		mVo.setMeetingDate(date+" "+time);
+		
 		meetingDao.insertMeeting(mVo);
 		
 		List<Integer> dList = mVo.getDogNo();
@@ -145,10 +154,19 @@ public class MeetingService {
 		//모임 참가 중인 강아지 리스트
 		List<DogsVo> meetingDogList = meetingDao.selectMeetingDogList(meetingNo);
 		
+		//모임 참가중 인지 확인
+		MeetingInfosVo mivo = new MeetingInfosVo();
+		mivo.setMeetingNo(meetingNo);
+		mivo.setUserNo(userNo);
+		
+		MeetingInfosVo meetingInfosVo = meetingDao.selectAreYouMember(mivo);
+		
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("meetingVo", mvo);
 		map.put("myDogList", myDogList);
 		map.put("meetingDogList", meetingDogList);
+		map.put("meetingInfosVo", meetingInfosVo);
 		
 		return map;
 	}
@@ -241,6 +259,68 @@ public class MeetingService {
 		
 		return meetingMap;
 	}
+	
+	
+	//모임 삭제 || 종료
+	public int deleteMeeting(int userNo, int meetingNo, String meetingDate) {
+		System.out.println("MeetingService.deleteMeeting()");
+		
+		//Vo로 묶기
+		MeetingsVo mVo = new MeetingsVo();
+		mVo.setUserNo(userNo);
+		mVo.setMeetingNo(meetingNo);
+		
+		//현재 시간 구하기
+		Date sysdate = new Date();
+		
+		/* 분까지만
+		 * LocalDate now = LocalDate.now(); LocalTime time = LocalTime.now(); int hour =
+		 * time.getHour(); int minute = time.getMinute();
+		 * 
+		 * String sysdate = now+" "+hour+":"+minute;
+		 */
+		
+		Date mdate = null;
+		
+		//string -> date 변환
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			mdate = sdf.parse(meetingDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int count = 0; 
+		
+		//모임 date와 현재 시간 비교 -> 현재가 모임날보다 이르면 true, 같거나 이후면 false
+		if(sysdate.before(mdate)) {
+			//미팅 F로 변경
+			count = meetingDao.deleteMeetingF(mVo);
+		}else {
+			//미팅 E로 변경
+			count = meetingDao.deleteMeetingE(mVo);
+		}
+		
+		return count;
+	}
+	
+	//신청 취소
+	public int deleteMeetingInfo(int meetingNo, int userNo) {
+		System.out.println("MeetingDao.deleteMeetingInfo()");
+		
+		MeetingsVo meetingsVo = new MeetingsVo();
+		meetingsVo.setUserNo(userNo);
+		meetingsVo.setMeetingNo(meetingNo);
+		
+		int count = meetingDao.deleteMeetingInfo(meetingsVo);
+		
+		return count;
+	}
+	
+	
+	
+	
 }
 
 

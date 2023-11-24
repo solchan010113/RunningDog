@@ -110,6 +110,44 @@ public class MeetingDao {
 		return count;
 	}
 	
+	//모임 삭제 F
+	public int deleteMeetingF(MeetingsVo meetingsVo) {
+		System.out.println("MeetingDao.deleteMeetingF()");
+		
+		int count = sqlSession.update("meeting.deleteMeetingF", meetingsVo);
+		
+		return count;
+	}
+
+	//모임 삭제 E
+	public int deleteMeetingE(MeetingsVo meetingsVo) {
+		System.out.println("MeetingDao.deleteMeetingE()");
+		
+		int count = sqlSession.update("meeting.deleteMeetingE", meetingsVo);
+		
+		return count;
+	}
+	
+	//신청 취소
+	public int deleteMeetingInfo(MeetingsVo meetingsVo) {
+		System.out.println("MeetingDao.deleteMeetingInfo()");
+		
+		int count = sqlSession.delete("meeting.deleteMeetingInfo", meetingsVo);
+		
+		return count;
+	}
+	
+	//모임 참가 중인지 확인
+	public MeetingInfosVo selectAreYouMember(MeetingInfosVo mivo) {
+		System.out.println("MeetingDao.selectAreYouMember()");
+		
+		MeetingInfosVo miVo = sqlSession.selectOne("meeting.selectAreYouMember", mivo);
+		
+		return miVo;
+	}
+	
+	
+	
 	
 }
 

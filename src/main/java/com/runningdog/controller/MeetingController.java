@@ -80,7 +80,7 @@ public class MeetingController {
 		//System.out.println(mVo);
 		meetingService.insertMeeting(mVo);
 		
-		return "redirect:/walkmeeting/meetinglist";
+		return "redirect:/walkmeeting/meetinglist?crtPage=1";
 	}
 	
 	
@@ -115,14 +115,33 @@ public class MeetingController {
 		return "redirect:/walkmeeting/meeting?no="+no;
 	}
 	
-	//모임 신청 취소
-	@RequestMapping(value = "/cancelApply")
-	public String cancelApply(){
-		System.out.println("MeetingController.cancelApply()");
+	//모임 삭제 or 종료
+	@RequestMapping(value = "/deleteMeeting")
+	public String deleteMeeting(@RequestParam(value="meetingNo") int meetingNo, 
+								@RequestParam(value="meetingDate") String meetingDate, 
+								HttpSession session){
+		System.out.println("MeetingController.deleteMeeting()");
+		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		meetingService.deleteMeeting(userNo, meetingNo, meetingDate);
 
-		return "";
+		return "redirect:/walkmeeting/meeting?no="+meetingNo;
 	}
 	
+	//모임 신청 취소
+	@RequestMapping(value = "/cancelApply")
+	public String cancelApply(@RequestParam(value="meetingNo") int meetingNo, HttpSession session){
+		System.out.println("MeetingController.cancelApply()");
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		int userNo = authUser.getUserNo();
+		
+		meetingService.deleteMeetingInfo(meetingNo, userNo);
+		
+		return "redirect:/walkmeeting/meeting?no="+meetingNo;
+	}
 	
 	
 	//내 모임 리스트

@@ -18,9 +18,9 @@
 	<div class="contents">
 		<h1>우리동네 모임</h1>
 		<div class="infoHeader">
-			<div class="left location">
-				<span class="myColor">천호동</span> 모임 <i class="fa-regular fa-square-caret-down"></i>
-			</div>
+<!-- 			<div class="left location"> -->
+<!-- 				<span class="myColor">천호동</span> 모임 <i class="fa-regular fa-square-caret-down"></i> -->
+<!-- 			</div> -->
 			<form action="${pageContext.request.contextPath}/walkmeeting/mymeetinglist?crtPage=1" method="post" id="searchUser">
 				<div class="searchBox">
 					<select name="what" id="searchUser">
@@ -53,7 +53,7 @@
 			        <tr class="mt" data-mno="${MeetingsVo.meetingNo}">
 						<td>${MeetingsVo.name}</td>
 			        	<td>${MeetingsVo.spot}</td>
-			        	<td>${MeetingsVo.small}&nbsp;&nbsp;${MeetingsVo.medium}&nbsp;&nbsp;${MeetingsVo.large}</td>
+			        	<td>${MeetingsVo.small}&nbsp;${MeetingsVo.medium}&nbsp;${MeetingsVo.large}</td>
 			        	<td>${MeetingsVo.maxMember}</td>
 			        	<td>${MeetingsVo.meetingDate}</td>	
 					</tr>

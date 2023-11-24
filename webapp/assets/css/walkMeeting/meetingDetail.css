@@ -159,4 +159,19 @@
 	color: white;
 }
 
+.endMessage{
+	width: 100%;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	padding: 10px 0;
+	background-color: lightgray;
+}
+
+
+
+
+
 
