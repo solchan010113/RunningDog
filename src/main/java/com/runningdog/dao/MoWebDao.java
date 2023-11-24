@@ -3,6 +3,7 @@ package com.runningdog.dao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoMeetingVo;
 import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -173,7 +175,26 @@ public class MoWebDao {
 	}
 	
 	
-	// --------------------------------------
+	// ------------- 모임 관련 -------------------
+	public List<MoMeetingVo> todayMeetingSelect(Map<String, Object> meetingVo){
+		System.out.println("다오 어드민 업데이트");			
+		List<MoMeetingVo> meetingList = sqlSession.selectList("walkLog.todayMeetingSelect",meetingVo);			
+		System.out.println("미팅 리스트 " + meetingList);
+		return meetingList;
+	}
+	
+	public List<MoDogVo> meetingDogSelect(int meetingNo){
+		System.out.println("서비스 모임 강아지 리스트");
+		List<MoDogVo> meDogList = sqlSession.selectList("walkLog.meetingDogSelect",meetingNo);
+		System.out.println("모임 강아지 확인 " + meDogList);		
+		return meDogList;
+	}
+	
+	
+	
+	
+	
+	//------------------------------------------
 	
 	private String tmieTitle(String title,String endTime) {
 		

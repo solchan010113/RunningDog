@@ -6,8 +6,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Dimension;
@@ -26,6 +32,7 @@ import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoMeetingVo;
 import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -345,8 +352,28 @@ public class MoWebService {
 			
 			return moStarVo;
 		}
+		
+	// ---------------------------- 모임관련기능 -----------------------------------
+		// 나의 오늘 모임 리스트 가져오기
+		public List<MoMeetingVo> todayMeetingSelect(int userNo){
+			System.out.println("서비스 모임리스트");	
+			Map<String, Object> meetingVo = new HashMap<>();			
+			meetingVo.put("userNo", userNo);
+			meetingVo.put("todayDate", todayDate());
+			System.out.println("모임리스트 호출 파라미터 "+meetingVo);			
+			return moWebDao.todayMeetingSelect(meetingVo);			
+		}
+		
+		public List<MoDogVo> meetingDogSelect(int meetingNo){
+			System.out.println("서비스 모임 강아지 리스트");		
+			return moWebDao.meetingDogSelect(meetingNo);			
+		}
+		
+		
+		
+		
 	
-	// -------------------------- 메소드
+	// -------------------------- 메소드 ----------------------------------------
 	
 	private static XYVo extractLastLatLng(String jsonString) {
 		try {
@@ -366,5 +393,19 @@ public class MoWebService {
             return null;
         }
     }
+	
+	private static String todayDate() {
+		
+		LocalDate today = LocalDate.now();
+        // 날짜 포맷 지정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");
+        // 날짜를 문자열로 변환
+        String formattedDate = today.format(formatter);
+        // 결과 출력
+        System.out.println("오늘 날짜: " + formattedDate);
+		
+        return formattedDate;
+	}
+	
 
 }

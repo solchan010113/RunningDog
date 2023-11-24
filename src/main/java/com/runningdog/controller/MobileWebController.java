@@ -2,6 +2,7 @@ package com.runningdog.controller;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,7 @@ import com.runningdog.vo.AdminXYVo;
 import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoMeetingVo;
 import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -72,14 +74,30 @@ public class MobileWebController {
 
 	// 로그인 모바일메인화면 맵실행
 	@RequestMapping(value = "/map", method = { RequestMethod.GET, RequestMethod.POST })
-	public String map(HttpSession session, Model dogModel) {
-		System.out.println("모바일 산책창");
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		// 강아지정보 불러오기
-		List<MoDogVo> dogList = moWebService.dogSelect(authUser.getUserNo());
-
+	public String map(@RequestParam(name = "meetingNo", required = false) Integer meetingNo
+			 	     ,HttpSession session
+					 ,Model dogModel
+					 ,Model meetingModel
+					 ) {
+		System.out.println("모바일 산책창");		
+		UserVo authUser = (UserVo) session.getAttribute("authUser");				
+		List<MoDogVo> dogList = new ArrayList<>();
+		
+		// 유저 넘버를 통해 리스트를 받아와서 모달창에 뿌려주고 모달창에 여기 컨트롤러주소를 meetingNo와 함께 넣어준다
+		List<MoMeetingVo> meetingList = moWebService.todayMeetingSelect(authUser.getUserNo());	
+		
+		System.out.println("가져온 미팅리스트 " +meetingList);
+		meetingModel.addAttribute("meetingList", meetingList);
+		
+		if (meetingNo == null) {
+			dogList = moWebService.dogSelect(authUser.getUserNo());			
+		} else {
+			System.out.println("받아온 미팅번호 = " +meetingNo);
+			dogList = moWebService.meetingDogSelect(meetingNo);					
+		}		
+		// 쿼리문이 완전 달라서 모임에 참여한 강아지만 데려와야 할듯 		
+		// 강아지정보 불러오기 meetingNo 추가
 		System.out.println("내 강아지 리스트 " + dogList);
-
 		dogModel.addAttribute("dogList", dogList);
 
 		return "mobileWeb/walkStart";
@@ -111,12 +129,15 @@ public class MobileWebController {
 			@RequestParam(name = "line") String lineData, Model lineModel,
 			@RequestParam(name = "dogList") String dogList, Model dogModel, Model trailModel,
 			@RequestParam(name = "location") String location,
+			@RequestParam(name = "meetingNo", required = false) int meetingNo,
 			HttpSession session)
 			throws JsonParseException, JsonMappingException, IOException {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		
 		int locationNo = moWebService.locationSelect(location);	
 		
+		System.out.println("-- 산책기록폼에 오는 미팅넘버 " + meetingNo);
+		moWalkLogVo.setMeetingNo(meetingNo);
 		// 산책기록
 		moWalkLogVo.setLocationNo(locationNo);
 		walkLogModel.addAttribute("moWalkLogVo", moWalkLogVo);
@@ -124,7 +145,6 @@ public class MobileWebController {
 		// 산책한강아지 -------------------------------------------------
 		// 쉼표(,)를 기준으로 문자열을 분할하여 List로 변환
 		//List<String> dogNoList = Arrays.asList(dogList.split(","));
-		System.out.println("--산책한 강아지 번호 " + dogList);
 		dogModel.addAttribute("dogNoList", dogList);
 
 		// 산책한경로좌표 ------------------------------------------------
@@ -158,7 +178,13 @@ public class MobileWebController {
 	public MoWalkLogVo walkInsert(@RequestBody MoWalkLogVo moWalkLogVo, HttpSession session) {
 		System.out.println("산책기록하기 walkInsert");
 		System.out.println("저장직전 산책로 리스트확인 = "+moWalkLogVo.getTrailList());		
-		// 세션에서 유저정보 가져오기
+		
+		// ***** 여기서 미팅번호의 유무를 확인 (11/24) ****** //
+		// 미팅번호가 존재하면 서비스로 보내서 강아지리스트를 확인하여 강아지주인번호(유저번호)를 구하여
+		// 유저번호,미팅번호,강아지리스트를 각각 따로 저장하여 인서트해준다
+		// 모임제목을 타이틀로한다		
+		// 세션에서 유저정보 가져오기		
+		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		// 유저번호 산책Vo에 세팅
 		moWalkLogVo.setUserNo(authUser.getUserNo());
