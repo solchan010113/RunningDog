@@ -8,15 +8,18 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<!-- Bootstrap JS and Popper.js -->
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- Your existing scripts and styles go here -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+
 <script>
 
 window.onload = function(){
@@ -211,6 +214,36 @@ $(".addCommentBtn").on("click", function(){
 	        });
 		
 }	
+
+
+$(function() {
+	
+
+	
+	
+	$(".datepicker").datepicker({
+		dateFormat: "yy-mm-dd", // 텍스트 필드에 입력되는 날짜 형식
+        onSelect: function(dateString) {
+        	
+        		      let paramCode = "${blogInfoVo.paramCode}" ;
+        	          let crtPage = "1"	
+        			  let dogNo = "${param.dogNo}"
+        	          console.log(dateString);
+                      console.log(paramCode);
+                      console.log(crtPage);
+            
+                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
+                      
+                      
+                      /* href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date} */
+                      /*  */
+                  }
+
+
+    });
+});
+
+
 </script>
 </head>
 <body>
@@ -239,7 +272,8 @@ $(".addCommentBtn").on("click", function(){
 
 			<div class="profileSection">
 				<div class="calendar">
-					<img src="${pageContext.request.contextPath}/assets/images/캘린더.png" alt="">
+					<div class="datepicker"></div>
+					<%-- <img src="${pageContext.request.contextPath}/assets/images/캘린더.png" alt=""> --%>
 				</div>
 
 				<div class="profileWrapper">
@@ -268,10 +302,21 @@ $(".addCommentBtn").on("click", function(){
 						<div class="coworkingDog">산책 파트너</div>
 						<div class="maindogCardBox">
 							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
-								<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/dog/${blogDogVo.dogNo}'">
-									<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
-									<div class="mainDogCardName">${blogDogVo.name}</div>
-								</div>
+
+
+
+								<c:if test="${blogDogVo.dogNo eq param.dogNo}">
+									<div class="mainDogCard1 highlighted" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
+										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
+										<div class="mainDogCardName">${blogDogVo.name}</div>
+									</div>
+								</c:if>
+								<c:if test="${blogDogVo.dogNo != param.dogNo}">
+									<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
+										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
+										<div class="mainDogCardName">${blogDogVo.name}</div>
+									</div>
+								</c:if>
 
 							</c:forEach>
 						</div>
@@ -293,86 +338,96 @@ $(".addCommentBtn").on("click", function(){
 					<div class="category">
 						<div class="tab record active">산책기록</div>
 
-						<div class="tab meeting">산책모임</div>
+						
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following">팔로잉</div>
 						</a>
-						<div class="tab blank"></div>
+						<div class="tab blank">
+
+							<button type="button" class="homeButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">홈으로</button>
+						</div>
 					</div>
 
 
 					<div class="mainRecordSection">
 
 
-						<c:if test="${empty dogNo }">
-							<c:forEach items="${pMap.walkLogList}" var="ShowLogVo">
-								<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
-									<div class="mainRecord1">
+						<c:if test="${empty pMap.walkLogList }">
+							<div class="noData">
+								<img src="${pageContext.request.contextPath}/assets/images/우는강아지.png" alt="">
+								<h1>해당날짜의 산책기록이 없습니다.</h1>
+
+							</div>
+
+						</c:if>
+						<c:forEach items="${pMap.walkLogList}" var="ShowLogVo">
+							<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
+								<div class="mainRecord1">
 
 
-										<div class="MRprofileBox">
+									<div class="MRprofileBox">
 
-											<div class="MRprofileWrapper1">
-												<div class="MRprofileImg1">
-													<img src="${pageContext.request.contextPath}/rdimg/userProfile/${ShowLogVo.userSavename}" alt="">
-												</div>
-
-												<div class="MRuserName1">${ShowLogVo.name}</div>
+										<div class="MRprofileWrapper1">
+											<div class="MRprofileImg1">
+												<img src="${pageContext.request.contextPath}/rdimg/userProfile/${ShowLogVo.userSavename}" alt="">
 											</div>
-											<div class="wrappingBox">
-												<%-- <div class="MRtitleBox">
+
+											<div class="MRuserName1">${ShowLogVo.name}</div>
+										</div>
+										<div class="wrappingBox">
+											<%-- <div class="MRtitleBox">
 												<div class="MRtime">${ShowLogVo.regDate}</div>
 												<div class="MRtitle">${ShowLogVo.title}</div>
 
 											</div> --%>
-												<div class="MRtitleBox">
-													<div class="MRtime">${ShowLogVo.regDate}</div>
-													<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}">
-														<div class="MRtitle">${ShowLogVo.title}</div>
-													</a>
-												</div>
-												<div class="MRrecordBox">
-													<div class="MRdistanceBox">
-														<div class="MRrecordData">${ShowLogVo.distanceFormatted}km</div>
-														<div class="MRlabel">산책거리</div>
-													</div>
-													<div class="MRtimeBox">
-														<div class="MRrecordData">${ShowLogVo.logTimeFormatted}</div>
-														<div class="MRlabel">산책시간</div>
-													</div>
-
-
-												</div>
+											<div class="MRtitleBox">
+												<div class="MRtime">${ShowLogVo.regDate}</div>
+												<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}">
+													<div class="MRtitle">${ShowLogVo.title}</div>
+												</a>
 											</div>
+											<div class="MRrecordBox">
+												<div class="MRdistanceBox">
+													<div class="MRrecordData">${ShowLogVo.distanceFormatted}km</div>
+													<div class="MRlabel">산책거리</div>
+												</div>
+												<div class="MRtimeBox">
+													<div class="MRrecordData">${ShowLogVo.logTimeFormatted}</div>
+													<div class="MRlabel">산책시간</div>
+												</div>
 
 
-											<div class="modifyDelete">
-												<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
-													<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setDeleteLogNo(${ShowLogVo.walkLogNo})">삭제</button>
-													<button class="modifyButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}/modifyForm'">수정</button>
+											</div>
+										</div>
 
-													<!-- 모달 -->
-													<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														<div class="modal-dialog">
-															<div class="modal-content">
-																<div class="modal-header">
-																	<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-																	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																</div>
-																<div class="modal-body">정말 삭제하시겠습니까?</div>
-																<div class="modal-footer">
-																	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-																	<button type="button" class="btn btn-primary" onclick="deleteLog()">삭제</button>
-																</div>
+
+										<div class="modifyDelete">
+											<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
+												<button type="button" class="deleteButton" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setDeleteLogNo(${ShowLogVo.walkLogNo})">삭제</button>
+												<button class="modifyButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/${ShowLogVo.walkLogNo}/modifyForm'">수정</button>
+
+												<!-- 모달 -->
+												<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body">정말 삭제하시겠습니까?</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+																<button type="button" class="btn btn-primary" onclick="deleteLog()">삭제</button>
 															</div>
 														</div>
 													</div>
-												</c:if>
-											</div>
+												</div>
+											</c:if>
+										</div>
 
-											<div class="MRdogCardBox">
+										<div class="MRdogCardBox">
 
-												<%-- <c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
+											<%-- <c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
 												<div class="mainDogCard1">
 													<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
 													<div class="mainDogCardName">${blogDogVo.name}</div>
@@ -380,28 +435,28 @@ $(".addCommentBtn").on("click", function(){
 
 											</c:forEach>
  --%>
-												<div class="MRpartnerDoglabel">함께한 강아지</div>
-												<div class="MRdogCards">
-													<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
-														<div class="MRdogCard1">
-															<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${walkedDog.saveName}" alt="">
-															<div class="MRdogName">${walkedDog.name}</div>
-														</div>
-													</c:forEach>
-
-												</div>
-
-
+											<div class="MRpartnerDoglabel">함께한 강아지</div>
+											<div class="MRdogCards">
+												<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
+													<div class="MRdogCard1">
+														<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${walkedDog.saveName}" alt="">
+														<div class="MRdogName">${walkedDog.name}</div>
+													</div>
+												</c:forEach>
 
 											</div>
-											<div class="logButton">
-												<button type="button" class="usedTrailButton" data-toggle="tooltip" data-html="true"
-													title="<c:forEach items='${ShowLogVo.usedTrailList}' var='usedTrail'><div class='custom-tooltip'><strong>${usedTrail.name}</strong><br>거리: ${usedTrail.distanceFormatted}KM<br>소요시간: ${usedTrail.etaFormatted}<br>이용자: ${usedTrail.trailHit}<br>찜: ${usedTrail.trailStar}<br>후기: ${usedTrail.trailCmt}<br><a href='${pageContext.request.contextPath}/walkTrail/detail?trailNo=${usedTrail.trailNo}' class='custom-link'>상세보기</a><br><br></div></c:forEach>">
-													이용 산책로</button>
-												<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
-											</div>
 
-											<div class="likeButton">
+
+
+										</div>
+										<div class="logButton">
+											<button type="button" class="usedTrailButton" data-toggle="tooltip" data-html="true"
+												title="<c:forEach items='${ShowLogVo.usedTrailList}' var='usedTrail'><div class='custom-tooltip'><strong>${usedTrail.name}</strong><br>거리: ${usedTrail.distanceFormatted}KM<br>소요시간: ${usedTrail.etaFormatted}<br>이용자: ${usedTrail.trailHit}<br>찜: ${usedTrail.trailStar}<br>후기: ${usedTrail.trailCmt}<br><a href='${pageContext.request.contextPath}/walkTrail/detail?trailNo=${usedTrail.trailNo}' class='custom-link'>상세보기</a><br><br></div></c:forEach>">
+												이용 산책로</button>
+											<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
+										</div>
+
+										<%-- <div class="likeButton">
 												<c:if test="${requestScope.blogInfoVo.authNo != 0}">
 													<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo}">
 														<button id="likeButton" onclick="toggleLike(${ShowLogVo.walkLogNo})">
@@ -419,70 +474,70 @@ $(".addCommentBtn").on("click", function(){
 														</button>
 													</c:if>
 												</c:if>
-											</div>
-											<div class="walkLogContent">${ShowLogVo.content}</div>
-										</div>
-
-
-
-										<div class="MRwalkRecordSection">
-											<div class="MRwalkData">
-												<img src="${pageContext.request.contextPath}/rdimg/mapImg/${ShowLogVo.walkLogMap}" alt="">
-											</div>
-											<div class="MRpictures">
-												<!-- 이미지 가져오기 -->
-												<c:forEach items="${ShowLogVo.imageList}" var="image">
-													<div class="MRpicture${image.imageOrder}">
-														<img src="${pageContext.request.contextPath}/rdimg/conImg/${image.saveName}" alt="">
-													</div>
-												</c:forEach>
-											</div>
-										</div>
-
-
-
-										<div class="MRcommentSection">
-
-											<div class="MRcomments">
-												<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
-													<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
-														<div id="comment_${cmt.walkLogCmtNo} class="MRcomment1">
-
-															<img src="${pageContext.request.contextPath}/rdimg/userProfile/${cmt.userSavename}" alt="">
-															<div class="replyDateCmtBox">
-																<div class="MRreplyDate">${cmt.regDate}</div>
-																<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
-																	<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
-																</c:if>
-															</div>
-															<div class="MRuserIdandContent">
-																<div class="MRreplyUserId">${cmt.name}</div>
-																<div class="MRreplyContent">${cmt.content}</div>
-															</div>
-
-
-
-														</div>
-													</c:if>
-												</c:forEach>
-
-
-											</div>
-											<c:if test="${requestScope.blogInfoVo.authNo != 0}">
-												<div class="MRcommentInputBox">
-													<div class="MRinput-group">
-														<textarea id="coText" class="commentText form-control" aria-label="With textarea"></textarea>
-													</div>
-													<button class="MRreplyButton addCommentBtn" data-walklogno="${ShowLogVo.walkLogNo}">등록</button>
-												</div>
-											</c:if>
-
-										</div>
-										<div class="MRborder"></div>
+											</div> --%>
+										<div class="walkLogContent">${ShowLogVo.content}</div>
 									</div>
-								</c:if>
-							</c:forEach>
-						</c:if>
+
+
+
+									<div class="MRwalkRecordSection">
+										<div class="MRwalkData">
+											<img src="${pageContext.request.contextPath}/rdimg/mapImg/${ShowLogVo.walkLogMap}" alt="">
+										</div>
+										<div class="MRpictures">
+											<!-- 이미지 가져오기 -->
+											<c:forEach items="${ShowLogVo.imageList}" var="image">
+												<div class="MRpicture${image.imageOrder}">
+													<img src="${pageContext.request.contextPath}/rdimg/conImg/${image.saveName}" alt="">
+												</div>
+											</c:forEach>
+										</div>
+									</div>
+
+
+
+									<div class="MRcommentSection">
+
+										<div class="MRcomments">
+											<c:forEach items="${ShowLogVo.showLogCmtList}" var="cmt">
+												<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
+													<div id="comment_${cmt.walkLogCmtNo} class="MRcomment1">
+
+														<img src="${pageContext.request.contextPath}/rdimg/userProfile/${cmt.userSavename}" alt="">
+														<div class="replyDateCmtBox">
+															<div class="MRreplyDate">${cmt.regDate}</div>
+															<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
+																<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
+															</c:if>
+														</div>
+														<div class="MRuserIdandContent">
+															<div class="MRreplyUserId">${cmt.name}</div>
+															<div class="MRreplyContent">${cmt.content}</div>
+														</div>
+
+
+
+													</div>
+												</c:if>
+											</c:forEach>
+
+
+										</div>
+										<c:if test="${requestScope.blogInfoVo.authNo != 0}">
+											<div class="MRcommentInputBox">
+												<div class="MRinput-group">
+													<textarea id="coText" class="commentText form-control" aria-label="With textarea"></textarea>
+												</div>
+												<button class="MRreplyButton addCommentBtn" data-walklogno="${ShowLogVo.walkLogNo}">등록</button>
+											</div>
+										</c:if>
+
+									</div>
+									<div class="MRborder"></div>
+								</div>
+							</c:if>
+						</c:forEach>
+
 
 					</div>
 					<!-- //mainRecordSection -->
@@ -497,7 +552,7 @@ $(".addCommentBtn").on("click", function(){
 
 							<c:forEach begin="${pMap.startPageBtnNo}" end="${pMap.endPageBtnNo}" step="1" var="page">
 								<c:choose>
-									<c:when test="${param.crtPage == page}">
+									<c:when test="${param.crtPage == page or pMap.crtPage == page}">
 										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
 									</c:when>
 									<c:otherwise>
@@ -514,8 +569,8 @@ $(".addCommentBtn").on("click", function(){
 					</div>
 
 				</div>
-				
-				
+
+
 
 				<div class="mainSidebar">
 					<%-- <div class="clubsWrapper">

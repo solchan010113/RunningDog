@@ -102,6 +102,8 @@ public class WalkBlogController {
 	public String userBlog(@PathVariable(value = "code") String code, 
 						   @RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage,
 						   @RequestParam(value = "date", required = false, defaultValue = "0") String date,
+						   @RequestParam(value = "dogNo", required = false, defaultValue = "0") int dogNo,
+						   
 			        	   	Model model, HttpSession session) {
 
 		System.out.println("userBlog");
@@ -120,8 +122,14 @@ public class WalkBlogController {
 		model.addAttribute("blogInfoVo", blogInfoVo);
 
 		
-		Map<String, Object> pMap = walkBlogService.walkLogList(paramCode, crtPage, date);
+		Map<String, Object> pMap = walkBlogService.walkLogList(paramCode, crtPage, date, dogNo);
 		System.out.println(pMap);
+		
+		if(pMap.get("crtPage") ==null) {
+			 pMap.put("crtPage", 1);
+		}
+		
+		System.out.println(pMap.get("crtPage"));
 		model.addAttribute("pMap", pMap);
 
 		return "walkBlog/userBlog";
@@ -273,6 +281,8 @@ public class WalkBlogController {
 
 		// 선택한 WalkLog에 대한 정보를 추가
 		ShowLogVo walkLog = walkBlogService.getWalkLogByNo(walkLogNo);
+		
+		
 		model2.addAttribute("walkLog", walkLog);
 
 		return "walkBlog/walkLogModifyForm";
