@@ -52,9 +52,20 @@
 			                    m.trailNo trailNo,
 			                    t.spot spot
 			            from meeting m, trail t
-			            where m.status = 'T'
+			            where (m.status = 'T' or m.status = 'E')
 			            and t.trailNo = m.trailNo
-			            and upper(m.name) like '%' || upper(trim(#{keyword})) || '%'
+			            ]]>
+					    <if test="'name'.equals(what)">
+				  	    <![CDATA[
+						and upper(m.name) like '%' || upper(trim(#{keyword})) || '%'
+					    ]]>
+					    </if>
+					    <if test="'spot'.equals(what)">
+					    <![CDATA[
+						and upper(t.spot) like '%' || upper(trim(#{keyword})) || '%'
+					    ]]>
+					    </if>	
+					    <![CDATA[
 			            order by m.meetingNo desc
 			          ) mt
 			     ) ort
@@ -366,7 +377,18 @@
 			                                        where t.trailNo = m.trailNo
 			                                        and m.meetingNo = mi.meetingNO
 			                                        and mi.userNo = #{userNo}
-			                                        and upper(m.name) like '%' || upper(trim(#{keyword})) || '%'
+			                                        ]]>
+												    <if test="'name'.equals(what)">
+											  	    <![CDATA[
+													and upper(m.name) like '%' || upper(trim(#{keyword})) || '%'
+												    ]]>
+												    </if>
+												    <if test="'spot'.equals(what)">
+												    <![CDATA[
+													and upper(t.spot) like '%' || upper(trim(#{keyword})) || '%'
+												    ]]>
+												    </if>	
+												    <![CDATA[
 			                                        group by mi.meetingNo, mi.userNo) mt
 			            where (m.status = 'T' or m.status = 'E')
 			            and t.trailNo = m.trailNo

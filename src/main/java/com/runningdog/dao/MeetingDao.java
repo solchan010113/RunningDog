@@ -19,10 +19,10 @@ public class MeetingDao {
 	private SqlSession sqlSession;
 	
 	//모임 리스트 (전체)
-	public List<MeetingsVo> selectMeetingList(Map<String, Object> pageMap) {
+	public List<MeetingsVo> selectMeetingList(Map<String, Object> map) {
 		System.out.println("MeetingDao.selectMeetingList()");
 
-		List<MeetingsVo> meetingList = sqlSession.selectList("meeting.selectMeetingList", pageMap);
+		List<MeetingsVo> meetingList = sqlSession.selectList("meeting.selectMeetingList", map);
 		
 		return meetingList;
 	}

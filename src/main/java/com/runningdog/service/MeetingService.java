@@ -25,7 +25,7 @@ public class MeetingService {
 	private MeetingDao meetingDao;
 	
 	//모임 리스트 (전체)
-	public Map<String, Object> selectMeetingList(String keyword, int crtPage){
+	public Map<String, Object> selectMeetingList(String what, String keyword, int crtPage){
 		System.out.println("MeetingService.selectMeetingList()");
 		
 		///////////////// 리스트 가져오기 ///////////////////////
@@ -45,6 +45,7 @@ public class MeetingService {
 
 		Map<String, Object> pageMap = new HashMap<String, Object>();
 		pageMap.put("keyword", keyword);
+		pageMap.put("what", what);
 		pageMap.put("startRNum", startRNum);
 		pageMap.put("endRNum", endRNum);
 		
@@ -191,7 +192,7 @@ public class MeetingService {
 	
 	
 	//내 모임 리스트
-	public Map<String, Object> selectMyMeetingList(String keyword, int crtPage, int userNo){
+	public Map<String, Object> selectMyMeetingList(String what, String keyword, int crtPage, int userNo){
 		System.out.println("MeetingService.selectMyMeetingList()");
 		
 		///////////////// 리스트 가져오기 ///////////////////////
@@ -211,6 +212,7 @@ public class MeetingService {
 
 		Map<String, Object> pageMap = new HashMap<String, Object>();
 		pageMap.put("keyword", keyword);
+		pageMap.put("what", what);
 		pageMap.put("startRNum", startRNum);
 		pageMap.put("endRNum", endRNum);
 		pageMap.put("userNo", userNo);
