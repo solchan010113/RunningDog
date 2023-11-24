@@ -6,19 +6,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
+<link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <!-- Bootstrap JS and Popper.js -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Your existing scripts and styles go here -->
 <script>
 
-
+window.onload = function(){
 var deleteLogNo; // 전역 변수로 선언
 
 function setDeleteLogNo(logNo) {
@@ -50,6 +51,7 @@ function toggleFollowButton() {
             success: function(response) {
                 if (response === "success") {
                     followButton.innerText = "팔로잉";
+                    location.reload(true);
                 } else {
                     console.error("팔로우 실패");
                 }
@@ -69,6 +71,7 @@ function toggleFollowButton() {
             success: function(response) {
                 if (response === "success") {
                     followButton.innerText = "팔로우";
+                    location.reload(true);
                 } else {
                     console.error("언팔로우 실패");
                 }
@@ -81,53 +84,49 @@ function toggleFollowButton() {
 }
 
 
-	
-	  
-	  function addComment(walkLogNo) {
-		    var commentText = document.getElementById("commentText").value;
-		    console.log(commentText);
-		    console.log(${ShowLogVo.walkLogNo});
-		    
-		    if (commentText.trim() !== "") {
-		        // Ajax 호출
-		        $.ajax({
-		            type: "POST",
-		            url: "${pageContext.request.contextPath}/walkBlog/addComment",
-		            data: {
-		                walkLogNo: walkLogNo,
-		                content: commentText,
-		                userNo: ${blogInfoVo.authNo}
-		            },
-		            success: function (response) {
-		            	 // 댓글이 성공적으로 등록되면 화면에 추가
-		                var commentSection = $(".MRcomments");
 
-		                // 새로운 댓글을 화면에 추가하는 부분
-		                var newCommentHtml = `
-		                    <div class="MRcomment1" id="${response.walkLogCmtNo}">
-		                        <img src="${pageContext.request.contextPath}/rdimg/userProfile/${response.userSavename}" alt="">
-		                        <div class="replyDateCmtBox">
-		                            <div class="MRreplyDate">${response.regDate}</div>
-		                            <button class="deleteCommentButton" onclick="deleteComment('${response.walkLogCmtNo}')">삭제</button>
-		                        </div>
-		                        <div class="MRuserIdandContent">
-		                            <div class="MRreplyUserId">${response.name}</div>
-		                            <div class="MRreplyContent">${response.content}</div>
-		                        </div>
-		                    </div>
-		                `;
+$(".addCommentBtn").on("click", function(){
+    var commentText = $("#coText").val();
+    
+    let $this = $(this);
+    var walkLogNo = $(this).data("walklogno");
+    
+    console.log(walkLogNo)
+    console.log(commentText)
 
-		                commentSection.append(newCommentHtml);
-
-		                // 등록 후 입력창 비우기
-		                document.getElementById("commentText").value = "";
-		            },
-		            error: function (error) {
-		                console.error("댓글 등록 실패: " + error);
-		            }
-		        });
-		    }
-		}
+    if (commentText.trim() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/addComment",
+            data: {
+                walkLogNo: walkLogNo,
+                content: commentText,
+                userNo: ${blogInfoVo.authNo}
+            },
+            success: function (response) {
+                var commentSection = $(".MRcomments");
+                var newCommentHtml = `
+                    <div class="MRcomment1" id="${response.walkLogCmtNo}">
+                        <img src="${pageContext.request.contextPath}/rdimg/userProfile/${response.userSavename}" alt="">
+                        <div class="replyDateCmtBox">
+                            <div class="MRreplyDate">${response.regDate}</div>
+                            <button class="deleteCommentButton" onclick="deleteComment('${response.walkLogCmtNo}')">삭제</button>
+                        </div>
+                        <div class="MRuserIdandContent">
+                            <div class="MRreplyUserId">${response.name}</div>
+                            <div class="MRreplyContent">${response.content}</div>
+                        </div>
+                    </div>
+                `;
+                commentSection.append(newCommentHtml);
+                $(".commentText").val("");
+            },
+            error: function (error) {
+                console.error("댓글 등록 실패: " + error);
+            }
+        });
+    }
+});
 
 		function deleteComment(cmtNo) {
 		    // Ajax 호출
@@ -141,6 +140,7 @@ function toggleFollowButton() {
 		            // 성공 시, 화면 갱신 등 추가 작업 가능
 		            console.log("댓글 삭제 성공");
 		            $('#comment_' + cmtNo).remove();
+		            location.reload(true);
 		           
 		        },
 		        error: function (error) {
@@ -210,7 +210,7 @@ function toggleFollowButton() {
 	            });
 	        });
 		
-	
+}	
 </script>
 </head>
 <body>
@@ -305,7 +305,7 @@ function toggleFollowButton() {
 
 
 						<c:if test="${empty dogNo }">
-							<c:forEach items="${walkLogList}" var="ShowLogVo">
+							<c:forEach items="${pMap.walkLogList}" var="ShowLogVo">
 								<c:if test="${not empty ShowLogVo.status and  String.valueOf(ShowLogVo.status) eq 'T'}">
 									<div class="mainRecord1">
 
@@ -468,12 +468,12 @@ function toggleFollowButton() {
 
 
 											</div>
-											<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
+											<c:if test="${requestScope.blogInfoVo.authNo != 0}">
 												<div class="MRcommentInputBox">
 													<div class="MRinput-group">
-														<textarea id="commentText" class="form-control" aria-label="With textarea"></textarea>
+														<textarea id="coText" class="commentText form-control" aria-label="With textarea"></textarea>
 													</div>
-													<button class="MRreplyButton" onclick="addComment('${ShowLogVo.walkLogNo}')">등록</button>
+													<button class="MRreplyButton addCommentBtn" data-walklogno="${ShowLogVo.walkLogNo}">등록</button>
 												</div>
 											</c:if>
 
@@ -484,15 +484,38 @@ function toggleFollowButton() {
 							</c:forEach>
 						</c:if>
 
+					</div>
+					<!-- //mainRecordSection -->
 
 
+					<!-- //paging -->
+					<div id="paging">
+						<ul>
+							<c:if test="${pMap.prev}">
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}">◀</a></li>
+							</c:if>
 
+							<c:forEach begin="${pMap.startPageBtnNo}" end="${pMap.endPageBtnNo}" step="1" var="page">
+								<c:choose>
+									<c:when test="${param.crtPage == page}">
+										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+									</c:otherwise>
+								</c:choose>
 
+							</c:forEach>
+
+							<c:if test="${pMap.next}">
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}">▶</a></li>
+							</c:if>
+						</ul>
 					</div>
 
-
 				</div>
-
+				
+				
 
 				<div class="mainSidebar">
 					<%-- <div class="clubsWrapper">

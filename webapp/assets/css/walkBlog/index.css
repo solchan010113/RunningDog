@@ -723,6 +723,32 @@ h2{
     border: none;
   }
   
+   #paging {
+	   height: 100px;
+	margin: 0px auto;
+	margin-bottom: 20px;
+	width: 310px;
+	padding-bottom: 30px;
+}
+
+#paging ul li a{
+	font-size: 20px;
+	text-decoration: none;
+	color: black;
+}
+
+ #paging ul {margin: 10px 5px 10px 5px;}
+ #paging ul>li{
+	float: left;
+	margin: 0px 8px 0px 8px;
+}
+
+ #paging ul>li.active2{
+	font-size: 14px;
+	font-weight: bold;
+}
+  
+  
   .contentModify{
 	  width: 100%;
 	  
@@ -768,6 +794,7 @@ h2{
   }
   
   .MRcommentInputBox{
+	  
 	  height: 62px;
 	  display: flow-root;
   }

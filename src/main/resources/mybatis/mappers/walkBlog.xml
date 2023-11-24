@@ -84,30 +84,96 @@
     ]]>
 </delete>
 
-	<select id="walkLogList" resultType="com.runningdog.vo.ShowLogVo" parameterType="String">
+	<select id="walkLogList" resultType="com.runningdog.vo.ShowLogVo" parameterType="map">
       <![CDATA[
-		select       WL.walkLogNo,
-		       		 US.userNo,
-		       	  	 WL.locationNo,
-		       		 TO_CHAR(WL.regDate, '""YYYY"년 "MM"월 "DD"일 "HH24"시 "MI"분"') regDate,
-		       		 WL.startTime,
-		      		 WL.endTime,
-		      		 WL.logTime,
-		      		 WL.distance,
-		      		 WL.content,
-		      		 WL.security,
-		      		 WL.status,
-		      		 US.name,
-		      		 WL.title
-		             
-		from walkLog WL, users US
-		where WL.userNo = US.userNo 
-		and WL.userNo = (SELECT US.userNo
-		                 From users US
-		                WHERE code = #{paramCode})
-		order by WL.walkLogNo desc
+		select ort.rn,
+		       ort.walkLogNo,
+		       ort.userNo,
+		       ort.locationNo,
+		       ort.regDate,
+		       ort.startTime,
+		       ort.endTime,
+		       ort.logTime,
+		       ort.distance,
+		       ort.content,
+		       ort.security,
+		       ort.status,
+		       ort.name,
+		       ort.title 
+		from (  select rownum rn,
+		               ot.walkLogNo,
+		               ot.userNo,
+		               ot.locationNo,
+		               ot.regDate,
+		               ot.startTime,
+		               ot.endTime,
+		               ot.logTime,
+		               ot.distance,
+		               ot.content,
+		               ot.security,
+		               ot.status,
+		               ot.name,
+		               ot.title 
+		        from (select WL.walkLogNo,
+		                     US.userNo,
+		                     WL.locationNo,
+		                     TO_CHAR(WL.regDate, '""YYYY"년 "MM"월 "DD"일 "HH24"시 "MI"분"') regDate,
+		                     WL.startTime,
+		                     WL.endTime,
+		                     WL.logTime,
+		                     WL.distance,
+		                     WL.content,
+		                     WL.security,
+		                     WL.status,
+		                     US.name,
+		                     WL.title
+		                             
+		                from walkLog WL, users US
+		                where WL.userNo = US.userNo 
+		                and WL.userNo = (SELECT US.userNo
+		                                 From users US
+		                                WHERE code = #{paramCode})
+		                and WL.status = 'T'
+		                
+	  ]]>		                
+		            <if test='date != "0"'>
+		            	and TO_CHAR(WL.regDate, 'YYYY-MM-DD') = #{date}
+		            </if>
+	  <![CDATA[ 	                
+		                
+		                order by WL.walkLogNo desc  
+		            )ot
+		     )ort
+		where rn>=#{startRNum}
+		and rn<=#{endRNum}
       ]]>
 	</select>
+	
+	
+	<!-- 페이징검색 조회 글 수 -->
+	<select id="selectTotalCnt" resultType="int" parameterType="map">
+		<![CDATA[
+			SELECT count(*) count
+			from walkLog WL, users US
+            where WL.userNo = US.userNo 
+            and WL.userNo = (SELECT US.userNo
+                             From users US
+                             WHERE code = #{paramCode})
+            and WL.status = 'T'
+        ]]>
+        <if test='date != "0"'>
+		   	and TO_CHAR(WL.regDate, 'YYYY-MM-DD') = #{date}
+		</if>
+		
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<select id="walkLogListByDog" resultType="com.runningdog.vo.ShowLogVo" parameterType="java.util.Map">
       <![CDATA[
@@ -459,6 +525,13 @@ GROUP BY
         WHERE userNo = #{authUserNo} AND useNo = #{walkLogNo} and type='walkLog'
     ]]>
 </delete>
+
+<select id="getTotalWalkLogs" resultType="int" parameterType="String">
+    <![CDATA[
+        SELECT COUNT(*) FROM walkLog WL
+        WHERE WL.userNo = (SELECT US.userNo FROM users US WHERE code = #{paramCode})
+    ]]>
+</select>
 
 
 
