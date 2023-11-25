@@ -78,10 +78,14 @@ public class MobileWebController {
 			 	     ,HttpSession session
 					 ,Model dogModel
 					 ,Model meetingModel
+					 ,Model userModel
 					 ) {
 		System.out.println("모바일 산책창");		
-		UserVo authUser = (UserVo) session.getAttribute("authUser");				
+		UserVo authUser = (UserVo) session.getAttribute("authUser");	
+		meetingModel.addAttribute("authUser", authUser);
+		
 		List<MoDogVo> dogList = new ArrayList<>();
+		
 		
 		// 유저 넘버를 통해 리스트를 받아와서 모달창에 뿌려주고 모달창에 여기 컨트롤러주소를 meetingNo와 함께 넣어준다
 		List<MoMeetingVo> meetingList = moWebService.todayMeetingSelect(authUser.getUserNo());	
@@ -177,13 +181,8 @@ public class MobileWebController {
 	@RequestMapping("/walkInsert")
 	public MoWalkLogVo walkInsert(@RequestBody MoWalkLogVo moWalkLogVo, HttpSession session) {
 		System.out.println("산책기록하기 walkInsert");
-		System.out.println("저장직전 산책로 리스트확인 = "+moWalkLogVo.getTrailList());		
-		
-		// ***** 여기서 미팅번호의 유무를 확인 (11/24) ****** //
-		// 미팅번호가 존재하면 서비스로 보내서 강아지리스트를 확인하여 강아지주인번호(유저번호)를 구하여
-		// 유저번호,미팅번호,강아지리스트를 각각 따로 저장하여 인서트해준다
-		// 모임제목을 타이틀로한다		
-		// 세션에서 유저정보 가져오기		
+		System.out.println("저장직전 산책로 리스트확인 = "+moWalkLogVo.getTrailList());	
+		System.out.println(moWalkLogVo);
 		
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		// 유저번호 산책Vo에 세팅

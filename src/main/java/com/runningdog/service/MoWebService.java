@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -105,7 +103,6 @@ public class MoWebService {
 		//산책기록
 		moWebDao.walkLogInsert(moWalkLogVo);
 		
-		System.out.println("셀렉트키가 포함된 산책기록 : "+moWalkLogVo);	
 		System.out.println("셀렉트키 : "+ moWalkLogVo.getWalkLogNo());		
 		int walkLogNo = moWalkLogVo.getWalkLogNo();
 		
@@ -120,8 +117,7 @@ public class MoWebService {
             moWebDao.dogListInsert(walkedDogVo);
         }
 		
-		// 좌표리스트 넣어서 저장 ------------------------------------------------------
-		System.out.println("좌표리스트 : "+moWalkLogVo.getPolylinePath());	
+		// 좌표리스트 넣어서 저장 ------------------------------------------------------		
         // XYVo 리스트를 순회하면서 CoordsVo로 변환 후 리스트에 추가
 		// coordOrder 변수를 1부터 시작
         int coordOrder = 1;
@@ -138,21 +134,15 @@ public class MoWebService {
             System.out.println("좌표확인 : "+ coordsVo);	
             // 한땀한땀 뜯어낸 좌표값을 DB로 보내서 저장하기 
             moWebDao.coordsListInsert(coordsVo);
-        }       
-		
+        }    		
 		// 캡쳐이미지
         // 리턴되는게 파일 경로+이름
-        mapImgSave(walkLogNo);
-        
-        // 캡쳐이미지 정보(경로   , walkLogNo)   
+        mapImgSave(walkLogNo);        
         
         // 이용한 산책로 업데이트        
-        System.out.println("이용한 산책로 업데이트" + moWalkLogVo.getTrailList());
-        
-        List<Integer> trailList = moWalkLogVo.getTrailList();
-        
-        MotrailUsedVo motrailUsedVo = new MotrailUsedVo();
-        
+        System.out.println("이용한 산책로 업데이트" + moWalkLogVo.getTrailList());        
+        List<Integer> trailList = moWalkLogVo.getTrailList();        
+        MotrailUsedVo motrailUsedVo = new MotrailUsedVo();        
         motrailUsedVo.setWalkLogNo(walkLogNo);
         
         for (int i = 0; i < trailList.size(); i++) {        	;
@@ -162,8 +152,7 @@ public class MoWebService {
         }        
         System.out.println("이용한 산책로 업데이트" + trailList);        
         // 찜한 산책로 업데이트
-        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());    
-		
+        System.out.println("찜한 산책로 업데이트" + moWalkLogVo.getTrailStar());  		
 	}
 	
 	// 산책기록 업데이트 (더미데이터용) admin으로 들어가서 특정 산책기록값을 바꾸는 장치
@@ -336,18 +325,13 @@ public class MoWebService {
 			
 			System.out.println("바꾸기전" + starNo);
 			
-			if (starNo != 0) {
-				
+			if (starNo != 0) {				
 				System.out.println("삭제" + starNo);
-				moWebDao.starInsert(moStarVo);
-				
-				
+				moWebDao.starInsert(moStarVo);	
 			} else {
 				System.out.println("등록" + starNo);
 				moWebDao.starDelete(moStarVo);
-				
-			}
-			
+			}			
 			System.out.println("바꾼 후의 보에 산책로 번호가 담겼니 " + moStarVo);
 			
 			return moStarVo;

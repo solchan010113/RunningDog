@@ -67,7 +67,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">오늘 내모임</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">오늘 내 모임</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -75,18 +75,46 @@
 						<c:if test="${empty meetingList}">
 							<!-- ${meetingList}가 null 또는 비어 있을 때의 처리 -->
 							<p>모임일정이 없습니다.</p>
-						</c:if>
-
-						<c:if test="${not empty meetingList}">
-							<!-- ${meetingList}가 null이 아닐 때의 처리 -->
-							<c:forEach var="meeting" items="${meetingList}">
-								<!-- meetingList의 각 요소에 접근 -->
-								<a href="${pageContext.request.contextPath}/m/map?meetingNo=${meeting.meetingNo}">
-									<p> ${meeting.name} | ${meeting.time} <i class="fa-solid fa-user"></i>
-									${meeting.userCount}/${meeting.maxMember} <i class="fa-solid fa-dog"></i>
-									${meeting.dogCount}	</p>
-								</a>
-							</c:forEach>
+						</c:if>						
+						
+						<c:if test="${not empty meetingList}">	
+							<!-- 오늘 날짜의 내 모임이 존재하면 밑에 반복문을 실행해서 모임리스트를 가져온다 -->
+							<table class="meetingList">	
+								<colgroup>
+									<col style="width: 45%;" />
+					    			<col style="width: 30%;" />
+					    			<col style="width: 5%;" />
+									<col style="width: 10%;" />
+									<col style="width: 5%;" />
+									<col style="width: 10%;" />
+								</colgroup>	
+															
+								<c:forEach var="meeting" items="${meetingList}">													
+									<c:if test="${meeting.userNo eq authUser.userNo}">	
+									<!-- 내가 모임장일 때는 모임을 진행 할 수 있는 링크로 이동시키며 강아지정보를 바꾼다 -->									
+										<tr class="meeting-text" > 
+											<td class="meeting-title" ><a class="meeting-title" href="${pageContext.request.contextPath}/m/map?meetingNo=${meeting.meetingNo}"> ${meeting.name}</a></td>
+											<td>  |  ${meeting.time}  |</td>
+											<td> <i class="fa-solid fa-user"></i></td>
+											<td> ${meeting.userCount}/${meeting.maxMember}</td>
+											<td> <i class="fa-solid fa-dog"></i></td>
+											<td>${meeting.dogCount}</td>
+										</tr>										
+									</c:if>
+																		
+									<c:if test="${meeting.userNo ne authUser.userNo}">
+									<!-- 내가 모임장이 아닐때는 링크를 넣지 않고 '모임장에게 기록을 요청하세요' 텍스트를 띄운다 -->
+										<tr class="meeting-text" > 
+											<td class="meetingClick" > ${meeting.name}</td>
+											<td>  |  ${meeting.time}  |</td>
+											<td> <i class="fa-solid fa-user"></i></td>
+											<td> ${meeting.userCount}/${meeting.maxMember}</td>
+											<td> <i class="fa-solid fa-dog"></i></td>
+											<td>${meeting.dogCount}</td>
+										</tr>
+									</c:if>					
+								</c:forEach>
+							</table>
 						</c:if>
 
 					</div>
@@ -94,7 +122,9 @@
 
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 						<c:if test="${not empty meetingList}">
-							<button type="button" class="btn btn-primary">일정선택</button>
+							<a href="${pageContext.request.contextPath}/m/map">
+								<button type="button" class="btn btn-primary">모임산책종료</button>
+							</a>
 						</c:if>
 					</div>
 				</div>

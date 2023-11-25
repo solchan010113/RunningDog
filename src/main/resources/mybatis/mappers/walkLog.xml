@@ -311,6 +311,7 @@
 			       ,mu.userCount  as userCount
 			       ,m.maxmember   as maxMember
 			       ,md.dogCount  as dogCount
+       			   ,m.userNo	as	userNo
 			FROM meeting m , (SELECT mi.meetingno
 			                        ,COUNT(mi.dogno) as dogCount
 			                  FROM meetinginfo mi ,(SELECT meetingNo
@@ -329,7 +330,7 @@
 			                                               GROUP BY meetingNo) mu
 			WHERE m.meetingno = md.meetingno
 			and  m.meetingno = mu.meetingno
-			and m.meetingdate = #{todayDate}
+			and TO_DATE(SUBSTR(m.meetingdate, 1, 8), 'YY-MM-DD') = TO_DATE(#{todayDate}, 'YY/MM/DD')
 			and m.status ='T'
 			ORDER BY m.time asc
       ]]>

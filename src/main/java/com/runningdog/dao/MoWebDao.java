@@ -33,9 +33,7 @@ public class MoWebDao {
 	//유저 1명 찾아오기 (로그인)
 	public UserVo selectOneUser(UserVo userVo) {
 		System.out.println("다오 모바일웹 로그인");	
-		System.out.println("다오 "+userVo);
-		UserVo authUser = sqlSession.selectOne("walkLog.selectOneUser", userVo);	
-		System.out.println("다오 "+authUser);
+		UserVo authUser = sqlSession.selectOne("walkLog.selectOneUser", userVo);
 		return authUser;
 	}
 	
@@ -71,8 +69,7 @@ public class MoWebDao {
 	
 	// 산책로 찜 등록
 	public void starInsert(MoStarVo moStarVo){
-		System.out.println("산책로 찜 등록");	
-		System.out.println(moStarVo);
+		System.out.println("산책로 찜 등록");
 		sqlSession.insert("walkLog.starInsert",moStarVo);
 		System.out.println("찜 등록 후 찜번호 생성"+moStarVo);
 	}	
@@ -115,7 +112,6 @@ public class MoWebDao {
 		System.out.println("생성된 제목 : "+ newTitle);
 		
 		moWalkLogVo.setTitle(newTitle);
-		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setStatus('T');	
 		moWalkLogVo.setStartTime("2023-11-17 11:31");
 		moWalkLogVo.setEndTime("2023-11-17 11:45");

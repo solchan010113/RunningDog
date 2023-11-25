@@ -617,5 +617,11 @@ if (meetingNo !== null) {
     $('#meetingNoDataInput').val(meetingNo);
 }
 
+ 
+$(".meetingClick").on("click",function() {
+	alert("모임장에게 기록을 요청해 주세요.")	
+	console.log("모임장에게 기록을 요청해 주세요.");
+})
+
 
 
