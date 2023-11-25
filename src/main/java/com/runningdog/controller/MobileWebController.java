@@ -29,7 +29,6 @@ import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
 import com.runningdog.vo.MoMeetingVo;
 import com.runningdog.vo.MoStarVo;
-import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
 import com.runningdog.vo.UseTrailVo;
 import com.runningdog.vo.UserVo;
