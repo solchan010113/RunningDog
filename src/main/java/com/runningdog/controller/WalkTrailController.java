@@ -49,8 +49,8 @@ public class WalkTrailController {
 		if(authUser != null) {
 			locationVo = trailService.userLocation(authUser.getUserNo());
 		} else {
-			// locationVo = trailService.userLocation(0);
-			locationVo = trailService.userLocation(2);
+			locationVo = trailService.userLocation(0);
+			// locationVo = trailService.userLocation(2);
 		}
 		model.addAttribute("locationVo", locationVo);
 		model.addAttribute("listKey", listKey);
@@ -69,8 +69,8 @@ public class WalkTrailController {
 		if(authUser != null) {
 			fetchSet.put("userNo", authUser.getUserNo());
 		} else {
-			// fetchSet.put("userNo", 0);
-			fetchSet.put("userNo", 2);
+			fetchSet.put("userNo", 0);
+			// fetchSet.put("userNo", 2);
 		}
 		Map<String, Object> listMap = trailService.trailListMap(fetchSet);
 		
@@ -98,8 +98,8 @@ public class WalkTrailController {
 		if(authUser != null) {
 			locationVo = trailService.userLocation(authUser.getUserNo());
 		} else {
-			// locationVo = trailService.userLocation(0);
-			locationVo = trailService.userLocation(2);
+			locationVo = trailService.userLocation(0);
+			// locationVo = trailService.userLocation(2);
 		}
 		model.addAttribute("locationVo", locationVo);
 		
@@ -171,9 +171,6 @@ public class WalkTrailController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser != null) {
 			fetchSet.put("userNo", authUser.getUserNo());
-		} else {
-			// fetchSet.put("userNo", 0);
-			fetchSet.put("userNo", 2);
 		}
 		
 		int insertCnt = trailService.trailAdd(fetchSet);
@@ -181,10 +178,34 @@ public class WalkTrailController {
 		return insertCnt;
 	}
 	
-	@RequestMapping(value = "/modifyForm", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailModifyForm() {
-		System.out.println("WalkTrailController.trailModifyForm()");
-		return "walkTrail/trailModifyForm";
+	// 산책로 등록 - 맵 이미지
+	@RequestMapping(value = "/trailMap", method= { RequestMethod.GET, RequestMethod.POST})
+	public String trailMap(@RequestParam(name = "trailNo") int trailNo,
+			Model model) throws JsonProcessingException {
+		System.out.println("WalkTrailController.trailMap()");
+		
+		String coordsJson = trailService.trailMap(trailNo);
+		
+		model.addAttribute("coordsJson", coordsJson);
+		
+		return "walkTrail/trailMap";
+	}
+	
+	// 산책로 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value = "/trailDelete", method= { RequestMethod.GET, RequestMethod.POST})
+	public int trailDelete(@ModelAttribute TrailVo trailVo) {
+		System.out.println("WalkTrailController.trailDelete()");
+		
+		int deleteCnt = trailService.trailDelete(trailVo);
+		
+		return deleteCnt;
+	}
+	
+	@RequestMapping(value = "/modifyForm2", method= { RequestMethod.GET, RequestMethod.POST})
+	public String trailModifyForm2() {
+		System.out.println("WalkTrailController.trailModifyForm2()");
+		return "walkTrail/trailModifyForm2";
 	}
 	
 	// trailDetail //////////////////////////////
@@ -206,19 +227,26 @@ public class WalkTrailController {
 			usersVo.setUserNo(authUser.getUserNo());
 			trailVo.setUsersVo(usersVo);
 			userMap = trailService.userDetail(trailVo);
-		} else {
+		}
+		/*
+		else {
 			UsersVo usersVo = new UsersVo();
 			usersVo.setUserNo(2);
 			trailVo.setUsersVo(usersVo);
 			userMap = trailService.userDetail(trailVo);
 		}
+		*/
 		
 		// 산책로 이용 랭킹
 		Map<String, Object> userUsedMap = trailService.trailUserUsed(trailVo);
 		
+		// 산책로 이용 시간대
+		String useTimeJson = trailService.trailUseTime(trailVo);
+		
 		model.addAttribute("detailMap", detailMap);
 		model.addAttribute("userMap", userMap);
 		model.addAttribute("userUsedMap", userUsedMap);
+		model.addAttribute("useTimeJson", useTimeJson);
 		
 		return "walkTrail/trailDetail";
 	}
@@ -247,6 +275,9 @@ public class WalkTrailController {
 		} else if(cmtNav == 1) {
 			// 산책로 산책일지
 			listMap = trailService.logListMap(fetchSet);
+		} else if(cmtNav == 2) {
+			// 산책로 모임일지
+			listMap = trailService.meetingListMap(fetchSet);
 		}
 		
 		if(authUser != null) {
@@ -261,7 +292,8 @@ public class WalkTrailController {
 	// 산책로 후기 작성 ajax
 	@ResponseBody
 	@RequestMapping(value = "/cmtAdd", method= { RequestMethod.GET, RequestMethod.POST})
-	public int trailCmtAdd(@RequestParam int trailNo, @RequestParam(required = false) String content, HttpSession session) {
+	public int trailCmtAdd(@RequestParam int trailNo, @RequestParam(required = false) String content,
+			HttpSession session) {
 		System.out.println("WalkTrailController.trailCmtAdd()");
 
 		TrailCmtVo trailCmtVo = new TrailCmtVo();
@@ -277,7 +309,9 @@ public class WalkTrailController {
 			trailCmtVo.setUsersVo(usersVo);
 			trailCmtVo.setTrailVo(trailVo);
 			trailCmtVo.setContent(content);
-		} else {
+		}
+		/*
+		else {
 			UsersVo usersVo = new UsersVo();
 			usersVo.setUserNo(2);
 			
@@ -288,6 +322,8 @@ public class WalkTrailController {
 			trailCmtVo.setTrailVo(trailVo);
 			trailCmtVo.setContent(content);
 		}
+		*/
+		
 		int trailCmtNo = trailService.trailCmtAdd(trailCmtVo);
 		
 		return trailCmtNo;
@@ -304,54 +340,67 @@ public class WalkTrailController {
 		trailService.trailCmtImgAdd(fileMap, trailCmtNo);
 	}
 	
-	@RequestMapping(value = "/detail/deleted", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailDetailDeleted() {
-		System.out.println("WalkTrailController.trailDetailDeleted()");
-		return "walkTrail/trailDetailDeleted";
+	// 후기 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value = "/cmtDelete", method= { RequestMethod.GET, RequestMethod.POST})
+	public int trailCmtDelete(@ModelAttribute TrailCmtVo trailCmtVo) {
+		System.out.println("WalkTrailController.trailCmtDelete()");
+		
+		// 후기 삭제
+		int deleteCnt = trailService.trailCmtDelete(trailCmtVo);
+		
+		return deleteCnt;
+	}
+
+	// 산책로 찜 수정 ajax
+	@ResponseBody
+	@RequestMapping(value = "/trailStarUpdate", method= { RequestMethod.GET, RequestMethod.POST})
+	public int trailStarUpdate(@ModelAttribute TrailVo trailVo, HttpSession session) {
+		System.out.println("WalkTrailController.trailStarUpdate()");
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser != null) {
+			UsersVo usersVo = new UsersVo();
+			usersVo.setUserNo(authUser.getUserNo());
+			trailVo.setUsersVo(usersVo);
+		}
+		/*
+		else {
+			UsersVo usersVo = new UsersVo();
+			usersVo.setUserNo(2);
+			trailVo.setUsersVo(usersVo);
+		}
+		*/
+		
+		int starChk = trailService.trailStarUpdate(trailVo);
+		
+		return starChk;
 	}
 	
-	@RequestMapping(value = "/detail/comment", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailDetailComment() {
-		System.out.println("WalkTrailController.trailDetailComment()");
-		return "walkTrail/trailDetailComment";
-	}
-	
-	@RequestMapping(value = "/detail/gallery", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailDetailGallery() {
-		System.out.println("WalkTrailController.trailDetailGallery()");
-		return "walkTrail/trailDetailGallery";
-	}
-	
-	@RequestMapping(value = "/detail/meetingLog", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailDetailMeetingLog() {
-		System.out.println("WalkTrailController.trailDetailMeetingLog()");
-		return "walkTrail/trailDetailMeetingLog";
-	}
-	
-	@RequestMapping(value = "/detail/walkLog", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailDetailWalkLog() {
-		System.out.println("WalkTrailController.trailDetailWalkLog()");
-		return "walkTrail/trailDetailWalkLog";
-	}
-	
-	// trailMyList //////////////////////////////
-	
-	@RequestMapping(value = "/my", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailMyList() {
-		System.out.println("WalkTrailController.trailMyList()");
-		return "walkTrail/trailMyList";
-	}
-	
-	@RequestMapping(value = "/my/starList", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailMyStarList() {
-		System.out.println("WalkTrailController.trailMyStarList()");
-		return "walkTrail/trailMyStarList";
-	}
-	
-	@RequestMapping(value = "/my/commentList", method= { RequestMethod.GET, RequestMethod.POST})
-	public String trailMyCommentList() {
-		System.out.println("WalkTrailController.trailMyCommentList()");
-		return "walkTrail/trailMyCommentList";
+	// 후기 좋아요 수정 ajax
+	@ResponseBody
+	@RequestMapping(value = "/cmtStarUpdate", method= { RequestMethod.GET, RequestMethod.POST})
+	public List<Integer> cmtStarUpdate(@ModelAttribute TrailCmtVo trailCmtVo,
+			@ModelAttribute TrailVo trailVo, HttpSession session) {
+		System.out.println("WalkTrailController.cmtStarUpdate()");
+		
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser != null) {
+			UsersVo usersVo = new UsersVo();
+			usersVo.setUserNo(authUser.getUserNo());
+			trailCmtVo.setUsersVo(usersVo);
+		}
+		/*
+		else {
+			UsersVo usersVo = new UsersVo();
+			usersVo.setUserNo(2);
+			trailCmtVo.setUsersVo(usersVo);
+		}
+		*/
+		
+		List<Integer> cnts = trailService.cmtStarUpdate(trailCmtVo, trailVo);
+		
+		return cnts;
 	}
 	
 }

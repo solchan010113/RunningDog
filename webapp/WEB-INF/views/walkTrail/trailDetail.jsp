@@ -8,15 +8,28 @@
 <title>trailDetail</title>
 <link href="${pageContext.request.contextPath}/assets/css/walkTrail/trailDetail.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ovgjjriioc&submodules=geocoder"></script>
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 <body>
 	<jsp:include page="../global/header.jsp"></jsp:include>
 	<div class="contents">
 		<h1>
-			<i class="fa-regular fa-star"></i>
+			<c:if test="${!empty authUser.userNo }">
+				<c:if test="${userMap.starChk != 0 }">
+					<i class="fa-solid fa-star loginStar"></i>
+				</c:if>
+				<c:if test="${userMap.starChk == 0 }">
+					<i class="fa-regular fa-star loginStar"></i>
+				</c:if>
+			</c:if>
+			<c:if test="${empty authUser.userNo }">
+				<i class="fa-regular fa-star"></i>
+			</c:if>
 			&nbsp;${detailMap.trailVo.name }&nbsp;&nbsp;&nbsp;
 			<!-- <i class="fa-solid fa-diagram-project"></i> -->
 		</h1>
@@ -89,8 +102,8 @@
 						</div>
 						<div class="user-modify">
 							<c:if test="${authUser.userNo == detailMap.trailVo.usersVo.userNo }">
-								<i class="fa-solid fa-pen"></i>
-								<i class="fa-solid fa-trash"></i>
+								<!-- <i class="fa-solid fa-pen trail-update"></i> -->
+								<i class="fa-solid fa-trash trail-delete"></i>
 							</c:if>
 						</div>
 					</div>
@@ -101,7 +114,7 @@
 					
 					<div class="map-detail-chart detail-border">
 						<h2><i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;&nbsp;산책로 이용 시간대</h2>
-						<div class="detail-chart">chart</div>
+						<div class="detail-chart"></div>
 					</div>
 					
 					<!-- 
@@ -144,10 +157,14 @@
 					<div class="detail-bar">
 						<c:if test="${!empty userMap }">
 							<c:if test="${!empty userMap.userImg }">
-								<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userMap.userImg.saveName }">
+								<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+									<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userMap.userImg.saveName }">
+								</a>
 							</c:if>
 							<c:if test="${empty userMap.userImg }">
-								<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+								<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+									<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+								</a>
 							</c:if>
 							<div class="detail-text">
 								<span>${userMap.usersVo.name }</span>
@@ -166,7 +183,9 @@
 									<span>${walkLogVo.regDate }</span>
  									<span>${userMap.walkLogMap.infoList[status.index][0] }</span>
 									<span>${userMap.walkLogMap.infoList[status.index][1] }</span>
-									<i class="fa-solid fa-chevron-right"></i>
+									<a href = "${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code}/${userMap.walkLogMap.walkLogList[status.index].walkLogNo}">
+										<i class="fa-solid fa-chevron-right"></i>
+									</a>
 								</div>
 							</c:forEach> 
 						</c:if>
@@ -182,10 +201,14 @@
 					<h2>공유 메이트</h2>
 					<div class="detail-bar">
 						<c:if test="${! empty detailMap.userImg }">
-							<img src="${pageContext.request.contextPath }/rdimg/userProfile/${detailMap.userImg.saveName }">
+							<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+								<img src="${pageContext.request.contextPath }/rdimg/userProfile/${detailMap.userImg.saveName }">
+							</a>
 						</c:if>
 						<c:if test="${empty detailMap.userImg }">
-							<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+							<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+								<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+							</a>
 						</c:if>
 						<div class="detail-text">
 							<span>${detailMap.trailVo.usersVo.name }</span>
@@ -212,10 +235,14 @@
 						<c:forEach items="${userUsedMap.userList }" var="usersVo" varStatus="status">
 							<div class="ranking-detail-bar">
 								<c:if test="${!empty userUsedMap.imgList[status.index] }">
-									<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userUsedMap.imgList[status.index].saveName }">
+									<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+										<img src="${pageContext.request.contextPath }/rdimg/userProfile/${userUsedMap.imgList[status.index].saveName }">
+									</a>
 								</c:if>
 								<c:if test="${empty userUsedMap.imgList[status.index] }">
-									<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+									<a href="${pageContext.request.contextPath}/walkBlog/${userMap.usersVo.code }">
+										<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">
+									</a>
 								</c:if>
 								<div class="detail-text">
 									<span>${usersVo.name }</span>
@@ -237,8 +264,8 @@
 			<div class="comment-nav">
 				<div>후기</div>
 				<div>산책일지</div>
-				<!-- <div>모임일지</div> -->
-				<i class="fa-solid fa-caret-up"></i>
+				<div>모임일지</div>
+				<!-- <i class="fa-solid fa-caret-up"></i> -->
 			</div>
 			
 			<div class="comment-container">
@@ -340,67 +367,22 @@
 	</button>
 	-->
 	
-	<!-- modifyModal -->
-	<div class="modal fade" id="modifyModal" tabindex="0" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">후기 수정</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div>
-						<div class="mb-3">
-							<label for="exampleFormControlTextarea1" class="form-label" hidden></label>
-							<textarea class="form-control modal-input" id="exampleFormControlTextarea1" rows="3"></textarea>
-						</div>
-						<div class="mb-3">
-							<label for="formFileMultipleModi" class="form-label" hidden></label>
-							<input class="form-control" type="file" id="formFileMultipleModi" multiple>
-						</div>
-					</div>
-					<div class="img-content">
-						<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">
-						<div class="imgCount">3</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-secondary">수정</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
 	<!-- detailModal -->
 	<div class="detailModal">
 		<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content modal-detail">
 					<div class="modal-body">
 						<div class="img-slider">
 							<i class="fa-solid fa-chevron-left"></i>
 							<div class="detail-img">
 								<div class="detail-img-content">
-									<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">
+									<%-- <img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg"> --%>
 								</div>
 							</div>
 							<i class="fa-solid fa-chevron-right"></i>
 						</div>
-						<div class="img-info">
-							<span><i class="fa-regular fa-heart"></i>&nbsp;20</span>
-							<div class="img-info-detail">
-								<img src="${pageContext.request.contextPath}/assets/images/walkTrail/sarang3.jpg">
-								<div class="detail-text">
-									<span>닉네임</span>
-									<span>2023/10/11</span>
-								</div>
-								<div class="user-modify">
-									<i class="fa-solid fa-pen" id="detail-modify-btn"></i>
-									<i class="fa-solid fa-trash"></i>
-								</div>
-							</div>
-						</div>
+						<div class="img-info detail-modal-info"></div>
 					</div>
 				</div>
 			</div>
@@ -410,12 +392,48 @@
 </body>
 <script type="text/javascript">
 
+	let useTimeJson = ${useTimeJson };
 	let trailNo = ${detailMap.trailVo.trailNo };
 	
 	window.addEventListener('load', function() {
 		fetchList(trailNo);
 		markerRender();
 	})
+	
+	/* use time */
+	google.charts.load('current', {'packages':['corechart', 'line']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+
+	  var data = new google.visualization.DataTable();
+	  data.addColumn('string', '시간');
+	  data.addColumn('number', '이용자수');
+	  let datas = [];
+	  for(let i = 0; i < 24; i++) {
+		  let cnt = 0;
+		  for(let j = 0; j < useTimeJson.length; j++) {
+		  	  if(i == useTimeJson[j].REGDATE){
+		  		  cnt = useTimeJson[j].CNT;
+		  	  }
+		  }
+		  if(0 <= i < 12) {
+			  datas.push([i + "am", cnt]);
+		  } else if(12 <= i < 24) {
+			  datas.push([i + "pm", cnt]);
+		  }
+	  }
+	  data.addRows(datas);
+
+	  var options = {
+	    /* title: '산책로 이용 시간대', */
+	    height: 450
+	  }
+
+	  var chart = new google.visualization.LineChart(document.querySelector('.detail-chart'));
+
+	  chart.draw(data, options);
+	}
 
 	/* map */
 	let coords = ${detailMap.coordsJson };
@@ -496,11 +514,11 @@
 	
 	var previewNode = document.querySelector("#template");
 	previewNode.id = "";
-
+	
 	var previewTemplate = previewNode.parentNode.innerHTML;
 	previewNode.parentNode.removeChild(previewNode);
 	Dropzone.autoDiscover = false;
-
+	
 	var dropzone = new Dropzone("div.dropzone", {
 		url : '${pageContext.request.contextPath}/walkTrail/cmtImgAdd',
 		method : "POST",
@@ -518,17 +536,18 @@
 			document.querySelector('#cmtAddBtn').addEventListener('click', function() {
 				console.log('업로드 ', dropzone.files);
 			});
-
+			 
 			this.on('sendingmultiple', function(files) {
 				console.log('보내는중 ', files);
 			});
 
-			this.on('successmultiple', function() {
+			this.on('successmultiple', function(file) {
 				console.log('성공');
 				
 				$('#addModal').modal('hide');
 				fetchList(trailNo);
 			});
+			
 
 			this.on('errormultiple', function() {
 			});
@@ -567,6 +586,8 @@
 	});
 	// Dropzone has been added as a global variable.
 	
+	const cmtCnt = document.querySelector(".comment-number span");
+	
 	function fetchList(trailNo) {
 		console.log("fetchList()");
 		
@@ -591,12 +612,15 @@
 				$(".gallery-list").empty();
 				$(".meetingList").empty();
 				
+				cmtCnt.innerText = 0;
+				
 				if(cmtIndex == 0) {
 					console.log("후기 - 목록 / 갤러리");
 					
 					if(listMap.cmtList.length == 0) {
 						nonListRender();
 					} else {
+						cmtCnt.innerText = listMap.cmtCnt;
 						if(cmtListIndex == 0) {
 							for(let i = 0; i < listMap.cmtList.length; i++) {
 								listRender(listMap, i, "down");
@@ -610,13 +634,23 @@
 				} else if(cmtIndex == 1) {
 					console.log("산책일지 목록");
 					
-					console.log("listMap ", listMap);
+					if(listMap.logList.length == 0) {
+						nonListRender();
+					} else {
+						cmtCnt.innerText = listMap.logCnt;
+						for(let i = 0; i < listMap.logList.length; i++) {
+							walkLogRender(listMap, i, "down");
+						}
+					}
+				} else if(cmtIndex == 2) {
+					console.log("모임일지 목록");
 					
 					if(listMap.logList.length == 0) {
 						nonListRender();
 					} else {
+						cmtCnt.innerText = listMap.logCnt;
 						for(let i = 0; i < listMap.logList.length; i++) {
-							walkLogRender(listMap, i, "down");
+							meetingLogRender(listMap, i, "down");
 						}
 					}
 				}
@@ -632,25 +666,39 @@
 		console.log("listRender()");
 		
 		let content = (listMap.cmtList[index].content == null) ? "" : listMap.cmtList[index].content;
-		let path = (listMap.cmtImgList[index][0].saveName == "noImg") ? "" : listMap.cmtImgList[index][0].saveName
+		let path = (listMap.cmtImgList[index][0].saveName == "noImg") ? "" : listMap.cmtImgList[index][0].saveName;
 		
 		let str = '';
 		str += '<div class="comment-detail">';
-		str += '	<div class="comment-img">';
+		str += '	<div class="comment-img cmt-comment-img">';
 		if(path != "") {
+			if(listMap.cmtImgList[index].length > 1) {
+				str += '		<div class="imgCount">' + listMap.cmtImgList[index].length + '</div>';
+			}
 			str += '		<img src="${pageContext.request.contextPath }/rdimg/trail/' + path + '">';
-			str += '		<div class="imgCount">3</div>';
 		}
 		str += '	</div>';
 		str += '	<div class="comment-content">';
 		str += '		<div>' + content + '</div>';
-		str += '		<span><i class="fa-regular fa-heart"></i>&nbsp;' + listMap.likeCntList[index] + '</span>';
+		if(listMap.cmtList[index].usersVo.userNo == listMap.authUserNo) {
+			if(listMap.userlikeList[index] == 0) {
+				str += '		<span><i class="fa-regular fa-heart cmtStar" data-cmtstarno="' + listMap.cmtList[index].trailCmtNo + '"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+			} else {
+				str += '		<span><i class="fa-solid fa-heart cmtStar" data-cmtstarno="' + listMap.cmtList[index].trailCmtNo + '"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+			}
+		} else {
+			str += '		<span><i class="fa-regular fa-heart"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+		}
 		str += '	</div>';
 		str += '	<div class="comment-info">';
 		if(listMap.userImgList[index] != null) {
-			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+			str += '		<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.cmtList[index].usersVo.code + '">';
+			str += '			<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+			str += '		</a>';
 		} else {
-			str += '		<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+			str += '		<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.cmtList[index].usersVo.code + '">';
+			str += '			<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+			str += '		</a>';
 		}
 		str += '		<div class="detail-text">';
 		str += '			<span>' + listMap.cmtList[index].usersVo.name + '</span>';
@@ -659,7 +707,7 @@
 		str += '		<div class="user-modify">';
 		if(listMap.cmtList[index].usersVo.userNo == listMap.authUserNo) {
 			/* str += '			<i class="fa-solid fa-pen"></i>'; */
-			str += '			<i class="fa-solid fa-trash"></i>';
+			str += '			<i class="fa-solid fa-trash" data-cmtdelno="' + listMap.cmtList[index].trailCmtNo + '"></i>';
 		}
 		str += '		</div>';
 		str += '	</div>';
@@ -672,6 +720,17 @@
 		} else {
 			console.log("잘못입력");
 		}
+ 		
+ 		if(listMap.cmtImgList[index].length > 0) {
+ 			/* $(".cmt-comment-img").children().last().on("click", function() {
+ 	 			cmtImgDetail(listMap, index);
+ 			}) */
+ 			
+ 			$(".cmt-comment-img").children().last().on("click", function() {
+ 	 			cmtImgDetail(listMap, index);
+ 	 			console.log("listMap.cmtList[index].trailCmtNo ", listMap.cmtList[index].trailCmtNo);
+ 			})
+ 		}
 	}
 	
 	// cmt gallery list
@@ -696,47 +755,145 @@
 				} else {
 					console.log("잘못입력");
 				}
+				
+	 			$(".comment-list").children().last().on("click", function() {
+	 				console.log("comment-list click");
+	 	 			cmtImgDetail(listMap, index);
+	 			})
 			}
 		}
 	}
+	
+	// cmt detail
+	function cmtImgDetail(listMap, index) {
+		console.log("cmtImgDetail()");
+		
+		$(".detail-img-content").empty();
+		let str = '';
+		for(let i = 0; i < listMap.cmtImgList[index].length; i++) {
+			let path = listMap.cmtImgList[index][i].saveName;
+			
+			// str += '<img src="${pageContext.request.contextPath }/rdimg/trail/' + path + '">';
+			str += '<div class="imgBox" style="background-image:url(${pageContext.request.contextPath }/rdimg/trail/' + path + ')"></div>';
+		}
+		$(".detail-img-content").append(str);
+		
+		$(".detail-modal-info").empty();
+		let infoStr = '';
+		if(listMap.cmtList[index].usersVo.userNo == listMap.authUserNo) {
+			if(listMap.userlikeList[index] == 0) {
+				infoStr += '		<span><i class="fa-regular fa-heart cmtStar" data-cmtstarno="' + listMap.cmtList[index].trailCmtNo + '"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+			} else {
+				infoStr += '		<span><i class="fa-solid fa-heart cmtStar" data-cmtstarno="' + listMap.cmtList[index].trailCmtNo + '"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+			}
+		} else {
+			infoStr += '		<span><i class="fa-regular fa-heart"></i>&nbsp;<span class="childSpan">' + listMap.likeCntList[index] + '</span></span>';
+		}
+		// infoStr += '<span><i class="fa-regular fa-heart"></i>&nbsp;' + listMap.likeCntList[index] + '</span>';
+		infoStr += '<div class="img-info-detail">';
+		if(listMap.userImgList[index] != null) {
+			infoStr += '		<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.cmtList[index].usersVo.code + '">';
+			infoStr += '			<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+			infoStr += '		</a>';
+		} else {
+			infoStr += '		<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.cmtList[index].usersVo.code + '">';
+			infoStr += '			<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+			infoStr += '		</a>';
+		}
+		infoStr += '	<div class="detail-text">';
+		infoStr += '		<span>' + listMap.cmtList[index].usersVo.name + '</span>';
+		infoStr += '		<span>' + listMap.cmtList[index].regDate + '</span>';
+		infoStr += '	</div>';
+		infoStr += '	<div class="user-modify">';
+		if(listMap.cmtList[index].usersVo.userNo == listMap.authUserNo) {
+			infoStr += '			<i class="fa-solid fa-trash" data-cmtdelno="' + listMap.cmtList[index].trailCmtNo + '"></i>';
+		}
+		infoStr += '	</div>';
+		infoStr += '</div>';
+		$(".detail-modal-info").append(infoStr);
+		
+		$('#detailModal').modal("show");
+	}
+	
+	$('#detailModal').on('shown.bs.modal', function() {
+		$('.detail-img-content').slick({
+			slide: 'div',
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplay: false,
+			nextArrow:$('.fa-chevron-right'),
+			prevArrow:$('.fa-chevron-left'),
+			infinite: true,
+		});
+	})
+	
+	$('#detailModal').on('hidden.bs.modal', function() {
+		$('.detail-img-content').slick('unslick');
+	})
 	
 	// cmt walkLog list
 	function walkLogRender(listMap, index, dir) {
 		console.log("walkLogRender()");
 		
-		let path = (listMap.logImgList[index].saveName == "noImg") ? "" : listMap.logImgList[index].saveName
+		// let path = (listMap.logImgList[index].saveName == "noImg") ? "" : listMap.logImgList[index].saveName;
+		let dogPath = (listMap.dogImgList[index].saveName == "noImg") ? "" : listMap.dogImgList[index].saveNam;
+				
+		let path = (listMap.logImgList[index].type == "walkLogCon") ? "conImg/" + listMap.logImgList[index][0].saveName
+				: (listMap.logImgList[index].type == "walkLogMap") ? "mapImg/" + listMap.logImgList[index][0].saveName
+				: "";
 
  		let str = '';
  		str += '<div class="meeting walkLog">';
  		str += '	<div class="meetingTitle walkTitle">';
-		str += '		<div class="left walk-title1">' + listMap.logList[index].distance + '</div>';
-		str += '		<div class="left walk-title2">' + listMap.logList[index].logTime + '</div>';
+		str += '		<div class="left walk-title1">' + listMap.infoList[index][0] + '</div>';
+		str += '		<div class="left walk-title2">' + listMap.infoList[index][1] + '</div>';
 		str += '		<div class="right">' + listMap.logList[index].regDate + '</div>';
 		str += '	</div>';
 		str += '	<div class="meetingContent">';
 		str += '		<div class="meetingInfo left">';
-		str += '			<p class="info-border">' + listMap.logList[index].content + '</p>';
+		str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '/' + listMap.logList[index].walkLogNo + '">'
+		str += '				<p class="info-border">' + listMap.logList[index].title + '</p>';
+		str += '			</a>';
 		str += '			<div class="img-info">';
 		str += '				<div class="img-info-detail">';
 		if(listMap.userImgList[index] != null) {
-			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+			str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '">'
+			str += '				<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '">';
+			str += '			</a>';
 		} else {
-			str += '		<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+			str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '">'
+			str += '				<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg">';
+			str += '			</a>';
 		}
 		str += '					<div class="detail-text">';
 		str += '						<span>' + listMap.logList[index].usersVo.name + '</span>';
 		str += '						<span><i class="fa-solid fa-thumbs-up"></i>&nbsp;' + listMap.likeCntList[index] + '</span>';
 		str += '					</div>';
-		str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/assets/images/sarang3.jpg"></div>';
-		str += '					<div class="imgCount">3</div>';
+		if(dogPath != "") {
+			str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/rdimg/dogProfile/' + dogPath + '"></div>';
+			if(listMap.dogCntList[index] > 1) {
+				str += '					<div class="imgCount">' + listMap.dogCntList[index] + '</div>';
+			}
+		} else {
+			str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/assets/images/dog_default_img.jpg"></div>';
+			if(listMap.dogCntList[index] > 1) {
+				str += '					<div class="imgCount">' + listMap.dogCntList[index] + '</div>';
+			}
+		}
 		str += '				</div>';
 		str += '			</div>';
 		str += '		</div>';
 		str += '		<div class="left walk-img">';
 		str += '			<div class="comment-img">';
 		if(path != "") {
-			str += '		<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + path + '">';
-			str += '				<div class="imgCount">3</div>';
+			str += '			<img src="${pageContext.request.contextPath }/rdimg/' + path + '">';
+			if(listMap.logImgList[index].type == "walkLogCon") {
+				if(listMap.logImgCntList[index] > 0) {
+					str += '			<div class="imgCount">' + listMap.logImgCntList[index] + '</div>';
+				}
+			}
+		} else {
+			str += '			<img src="${pageContext.request.contextPath}/assets/images/map1.jpg">';
 		}
 		str += '			</div>';
 		str += '		</div>';
@@ -750,7 +907,82 @@
 		} else {
 			console.log("잘못입력");
 		}
+	}
+	
+	// cmt meetingLog list
+	function meetingLogRender(listMap, index, dir) {
+		console.log("meetingLogRender()");
+		
+		// let path = (listMap.logImgList[index].saveName == "noImg") ? "" : listMap.logImgList[index].saveName;
+		let dogPath = (listMap.dogImgList[index].saveName == "noImg") ? "" : listMap.dogImgList[index].saveNam;
+				
+		let path = (listMap.logImgList[index].type == "walkLogCon") ? "conImg/" + listMap.logImgList[index][0].saveName
+				: (listMap.logImgList[index].type == "walkLogMap") ? "mapImg/" + listMap.logImgList[index][0].saveName
+				: "";
 
+ 		let str = '';
+ 		str += '<div class="meeting walkLog">';
+ 		str += '	<div class="meetingTitle walkTitle">';
+		str += '		<div class="left walk-title1">' + listMap.infoList[index][0] + '</div>';
+		str += '		<div class="left walk-title2">' + listMap.infoList[index][1] + '</div>';
+		str += '		<div class="right">' + listMap.logList[index].regDate + '</div>';
+		str += '	</div>';
+		str += '	<div class="meetingContent">';
+		str += '		<div class="meetingInfo left">';
+		str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '/' + listMap.logList[index].walkLogNo + '">'
+		str += '				<p class="info-border">' + listMap.meetingList[index].name + '</p>';
+		str += '			</a>';
+		str += '			<div class="img-info">';
+		str += '				<div class="img-info-detail">';
+		if(listMap.userImgList[index] != null) {
+			str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '">'
+			str += '				<img src="${pageContext.request.contextPath }/rdimg/userProfile/' + listMap.userImgList[index].saveName + '"></a>';
+		} else {
+			str += '			<a href="${pageContext.request.contextPath}/walkBlog/' + listMap.logList[index].usersVo.code + '">'
+			str += '				<img src="${pageContext.request.contextPath}/assets/images/default_profile_img_white.jpg"></a>';
+		}
+		str += '					<div class="detail-text">';
+		str += '						<span>' + listMap.logList[index].usersVo.name + '</span>';
+		str += '						<span><i class="fa-solid fa-thumbs-up"></i>&nbsp;' + listMap.likeCntList[index] + '</span>';
+		str += '					</div>';
+		if(dogPath != "") {
+			str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/rdimg/dogProfile/' + dogPath + '"></div>';
+			if(listMap.dogCntList[index] > 1) {
+				str += '					<div class="imgCount">' + listMap.dogCntList[index] + '</div>';
+			}
+		} else {
+			str += '					<div class="dog-img leftImg"><img src="${pageContext.request.contextPath}/assets/images/dog_default_img.jpg"></div>';
+			if(listMap.dogCntList[index] > 1) {
+				str += '					<div class="imgCount">' + listMap.dogCntList[index] + '</div>';
+			}
+		}
+		str += '				</div>';
+		str += '			</div>';
+		str += '		</div>';
+		str += '		<div class="left walk-img">';
+		str += '			<div class="comment-img">';
+		if(path != "") {
+			str += '			<img src="${pageContext.request.contextPath }/rdimg/' + path + '">';
+			if(listMap.logImgList[index].type == "walkLogCon") {
+				if(listMap.logImgCntList[index] > 0) {
+					str += '			<div class="imgCount">' + listMap.logImgCntList[index] + '</div>';
+				}
+			}
+		} else {
+			str += '			<img src="${pageContext.request.contextPath}/assets/images/map1.jpg">';
+		}
+		str += '			</div>';
+		str += '		</div>';
+		str += '	</div>';
+		str += '</div>';
+		
+ 		if(dir == "up") {
+ 			$(".meetingList").prepend(str);
+		} else if(dir == "down") {
+			$(".meetingList").append(str);
+		} else {
+			console.log("잘못입력");
+		}
 	}
 	
 	function nonListRender() {
@@ -762,21 +994,205 @@
 		$(".cmt-list").append(str);
 	}
 	
+	let cmtListArea = document.querySelector(".cmt-list");
+	let galleryListArea = document.querySelector(".gallery-list");
 	
-	
-	/* cmt detail modify modal */
-	$(".comment-img").on("click", function() {
-		$('#detailModal').modal("show");
+	$(".cmt-list").on("click", ".fa-trash", function() {
+		console.log("cmt-delete click");
+		
+		let $this = $(this);
+		let cmtNo = $this.data("cmtdelno");
+		console.log("cmtNo ", cmtNo);
+
+		if(confirm('후기를 삭제 하시겠습니까?')) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/walkTrail/cmtDelete",
+				type : "get",
+				data : {trailCmtNo : cmtNo},
+						
+				dataType : "json",
+				success : function(deleteCnt) {
+					console.log("deleteCnt ", deleteCnt);
+					if(deleteCnt) {
+						fetchList(trailNo);
+					}
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+		}
 	});
 	
-	const modifyModal = document.getElementById('modifyModal');
-	
-	$("#detail-modify-btn").on("click", function() {
-		$('#modifyModal').modal("show");
-		modifyModal.focus();
+	$(".detail-modal-info").on("click", ".fa-trash", function() {
+		console.log("cmt-delete click");
+		
+		let $this = $(this);
+		let cmtNo = $this.data("cmtdelno");
+		console.log("cmtNo ", cmtNo);
+		
+		if(confirm('후기를 삭제 하시겠습니까?')) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/walkTrail/cmtDelete",
+				type : "get",
+				data : {trailCmtNo : cmtNo},
+						
+				dataType : "json",
+				success : function(deleteCnt) {
+					console.log("deleteCnt ", deleteCnt);
+					if(deleteCnt) {
+						$('#detailModal').modal('hide');
+						fetchList(trailNo);
+					}
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+		}
 	});
 	
+	$(".trail-delete").on("click", function() {
+		console.log("trail-delete click");
+		
+		if(confirm('산책로를 삭제 하시겠습니까?')) { 
+			$.ajax({
+				url : "${pageContext.request.contextPath}/walkTrail/trailDelete",
+				type : "post",
+				data : {"trailNo" : trailNo},
+						
+				dataType : "json",
+				success : function(result) {
+					console.log("result ", result);
+					
+					window.location.href = "${pageContext.request.contextPath}/walkTrail/main?listKey=my";
+				},
+				error : function(XHR, status, error) {
+					console.error(status + " : " + error);
+				}
+			});
+		}
+	});
 	
+	/*
+	$(".trail-update").on("click", function() {
+		console.log("trail-update click");
+		
+		window.location.href = "${pageContext.request.contextPath}/walkTrail/modifyForm?trailNo=" + trailNo;
+	});
+	*/
+	
+	/* trail star */
+	let loginStar = document.querySelector(".loginStar");
+	$(".loginStar").on("click", function() {
+		console.log("loginStar click");
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/walkTrail/trailStarUpdate",
+			type : "post",
+			data : {"trailNo" : trailNo},
+					
+			dataType : "json",
+			success : function(starChk) {
+				console.log("starChk ", starChk);
+				if(starChk != 0) {
+					loginStar.classList.remove("fa-regular");
+					loginStar.classList.add("fa-solid");
+				} else if(starChk == 0) {
+					loginStar.classList.remove("fa-solid");
+					loginStar.classList.add("fa-regular");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
+	
+	/* cmt star */ 
+	let cmtStar = document.querySelector(".cmtStar");
+	$(".cmt-list").on("click", ".cmtStar", function() {
+		console.log("cmtStar click");
+		
+		let $this = $(this);
+		let cmtNo = $this.data("cmtstarno");
+		
+		let thisParent = $this.parent();
+		let childSpan = thisParent.children(".childSpan");
+		
+		console.log("childSpan ", childSpan.text());
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/walkTrail/cmtStarUpdate",
+			type : "get",
+			data : {"trailCmtNo" : cmtNo,
+					"trailNo" : trailNo},
+					
+			dataType : "json",
+			success : function(cnts) {
+				let starChk = cnts[0];
+				let cmtCnt = cnts[1];
+				
+				if(starChk != 0) {
+					$this.removeClass("fa-regular");
+					$this.addClass("fa-solid");
+					
+					childSpan.text(cmtCnt);
+					
+				} else if(starChk == 0) {
+					$this.removeClass("fa-solid");
+					$this.addClass("fa-regular");
+					
+					childSpan.text(cmtCnt);
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
+	
+	let detailModalInfo = document.querySelector(".detail-modal-info");
+	$(".detail-modal-info").on("click", ".cmtStar", function() {
+		console.log("cmtStar click");
+		
+		let $this = $(this);
+		let cmtNo = $this.data("cmtstarno");
+		
+		let thisParent = $this.parent();
+		let childSpan = thisParent.children(".childSpan");
+		
+		console.log("childSpan ", childSpan.text());
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/walkTrail/cmtStarUpdate",
+			type : "get",
+			data : {"trailCmtNo" : cmtNo,
+					"trailNo" : trailNo},
+					
+			dataType : "json",
+			success : function(cnts) {
+				let starChk = cnts[0];
+				let cmtCnt = cnts[1];
+				
+				if(starChk != 0) {
+					$this.removeClass("fa-regular");
+					$this.addClass("fa-solid");
+					
+					childSpan.text(cmtCnt);
+					
+				} else if(starChk == 0) {
+					$this.removeClass("fa-solid");
+					$this.addClass("fa-regular");
+					
+					childSpan.text(cmtCnt);
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
 	
 	/* comment-nav filter */
  	const cmtGroup = document.querySelectorAll(".comment-nav div");
@@ -795,10 +1211,15 @@
         		
         		cmtListGroup[0].classList.remove("nonList");
         		cmtListGroup[1].classList.remove("nonList");
-        	} else {
+        	} else if(cmtIndex == 1) {
         		console.log("산책일지 선택");
         		
         		cmtListGroup[0].classList.add("nonList");
+        		cmtListGroup[1].classList.add("nonList");
+        	} else if(cmtIndex == 2) {
+				console.log("모임일지 선택");
+        		
+				cmtListGroup[0].classList.add("nonList");
         		cmtListGroup[1].classList.add("nonList");
         	}
         	
