@@ -86,9 +86,9 @@
 
 					<div class="category">
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}">
-							<div class="tab record active">산책기록</div>
+							<div class="tab record "></div>
 						</a>
-						<div class="tab meeting"></div>
+						<div class="tab meeting active">산책모임</div>
 						<div class="tab following"></div>
 						<div class="tab blank">
 						

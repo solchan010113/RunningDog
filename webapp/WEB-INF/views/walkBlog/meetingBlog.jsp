@@ -87,7 +87,7 @@ function toggleFollowButton() {
 }
 
 
-  $(document).ready(()=>{
+$(document).ready(()=>{
 	$(".addCommentBtn").on("click", function(){
 	    var commentText = $("#coText").val();
 	    
@@ -123,7 +123,6 @@ function toggleFollowButton() {
 	                `;
 	                commentSection.append(newCommentHtml);
 	                $(".commentText").val("");
-	                location.reload(true);
 	            },
 	            error: function (error) {
 	                console.error("댓글 등록 실패: " + error);
@@ -132,9 +131,7 @@ function toggleFollowButton() {
 	    }
 	});
 
-}); 
-
-
+});
 
 		function deleteComment(cmtNo) {
 		    // Ajax 호출
@@ -237,7 +234,7 @@ $(function() {
                       console.log(paramCode);
                       console.log(crtPage);
             
-                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
+                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"/meeting?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
                       
                       
                       /* href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date} */
@@ -294,14 +291,13 @@ $(function() {
 						팔로우
 						
 						</c:if>
-							
+							</c:if>
 							<c:if test="${requestScope.blogInfoVo.followNo == 1}">
 						팔로잉
 						
 						</c:if>
 
 							</button>
-							</c:if>
 						</c:if>
 					</div>
 					<div class="mainDogCard">
@@ -312,13 +308,13 @@ $(function() {
 
 
 								<c:if test="${blogDogVo.dogNo eq param.dogNo}">
-									<div class="mainDogCard1 highlighted" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
+									<div class="mainDogCard1 highlighted" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
 										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
 										<div class="mainDogCardName">${blogDogVo.name}</div>
 									</div>
 								</c:if>
 								<c:if test="${blogDogVo.dogNo != param.dogNo}">
-									<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
+									<div class="mainDogCard1" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=1&date=${param.date}&dogNo=${blogDogVo.dogNo}'">
 										<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
 										<div class="mainDogCardName">${blogDogVo.name}</div>
 									</div>
@@ -342,11 +338,8 @@ $(function() {
 				<div class="mainPosts">
 
 					<div class="category">
-						<div class="tab record active">산책기록</div>
-						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/meeting?crtPage=1">
-							<div class="tab record">산책모임</div>
-						</a>
-						
+						<div class="tab record " onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">산책기록</div>
+						<div class="tab record active">산책모임</div>
 
 
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
@@ -557,23 +550,23 @@ $(function() {
 					<div id="paging">
 						<ul>
 							<c:if test="${pMap.prev}">
-								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}">◀</a></li>
 							</c:if>
 
 							<c:forEach begin="${pMap.startPageBtnNo}" end="${pMap.endPageBtnNo}" step="1" var="page">
 								<c:choose>
 									<c:when test="${param.crtPage == page or pMap.crtPage == page}">
-										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}">${page}</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date}">${page}</a></li>
+										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}">${page}</a></li>
 									</c:otherwise>
 								</c:choose>
 
 							</c:forEach>
 
 							<c:if test="${pMap.next}">
-								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}">▶</a></li>
 							</c:if>
 						</ul>
 					</div>

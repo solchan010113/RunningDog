@@ -574,7 +574,8 @@ ORDER BY
 		      		 WL.security,
 		      		 WL.status,
 		      		 US.name,
-		      		 WL.title
+		      		 WL.title,
+		      		 WL.meetingNo
 		             
 		from walkLog WL, users US
 		where WL.userNo = US.userNo 
@@ -683,14 +684,16 @@ ORDER BY
     
     F.followNo,
     US.name,
+    US.userNo,
     F.followeeNo,
     F.followerNo,
+    US.code,
     
     IM.saveName AS userSavename
 FROM 
     follow F
     JOIN users US ON F.followerNo = US.userNo
-    LEFT JOIN images IM ON IM.useNo = US.userNo
+    LEFT JOIN images IM ON IM.useNo = US.userNo  AND IM.type = 'users'
 where followeeNo =(SELECT userNo
         From users
         WHERE code = #{paramCode}) 
@@ -705,14 +708,15 @@ ORDER BY
     
     F.followNo,
     US.name,
+     US.userNo,
     F.followeeNo,
     F.followerNo,
-    
+    US.code,
     IM.saveName AS userSavename
 FROM 
     follow F
     JOIN users US ON F.followeeNo = US.userNo
-    LEFT JOIN images IM ON IM.useNo = US.userNo
+    LEFT JOIN images IM ON IM.useNo = US.userNo AND IM.type = 'users'
 where followerNo =(SELECT userNo
         From users
         WHERE code = #{paramCode})
@@ -773,6 +777,25 @@ GROUP BY
         WHERE WL.userNo = (SELECT US.userNo FROM users US WHERE code = #{paramCode})
     ]]>
 </select>
+
+<select id="getAuthFolloweeList" parameterType="int" resultType="com.runningdog.vo.AuthFollowListVo">
+    <![CDATA[
+         SELECT 
+    
+   
+    F.followeeNo
+    
+    
+FROM 
+    follow F,
+    users US
+where F.followerNo = US.userNo
+and	 F.followerNo = #{authUserNO}
+
+    ]]>
+</select>
+
+
 
 
 
