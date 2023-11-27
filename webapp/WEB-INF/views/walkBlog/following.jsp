@@ -278,7 +278,7 @@
 				<div class="profileWrapper">
 					<div class="wrap">
 						<div class="profileImg">
-							<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.userSavename}" alt="">
+							<img src="${pageContext.request.contextPath}/rdimg/userProfile/${blogInfoVo.userSavename}" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
 						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
