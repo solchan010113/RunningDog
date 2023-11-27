@@ -269,7 +269,8 @@
 			        i.saveName saveName,
 			        t.name trailName,
 			        t.spot spot,
-			        u.name userName
+			        u.name userName,
+			        u.code code
 			from meeting m, (select count(*) currentMember
 			                from (select  meetingNo,
 			                              userNo
@@ -298,6 +299,7 @@
 			        do.personality personality,
 			        do.color color,
 			        do.userName userName,
+			        do.code code,
 			        nvl(i.saveName, 'dog_default_img.jpg') saveName
 			from   (select d.userNo userNo,
 			                d.dogNo dogNo,
@@ -310,7 +312,8 @@
 			                d.personality personality,
 			                d.color color,
 			                d.status status,
-			                u.name userName
+			                u.name userName,
+			                u.code code
 			        from dog d, users u, meetingInfo mi, meeting m
 			        where u.userNo = mi.userNo
 			        and d.status != 'F'

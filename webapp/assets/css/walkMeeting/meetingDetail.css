@@ -30,6 +30,11 @@
 	margin-right: 100px;
 }
 
+.inputGroup .items a{
+	text-decoration: none;
+	font-weight: bold;
+	color: #212529;
+}
 
 .dogList {
 	display: flex;
@@ -53,6 +58,12 @@
 .dogList .dog p {
 	text-align: center;
 	font-size: 17px;
+}
+
+.dogList .dog p a{
+	text-decoration: none;
+	font-weight: bold;
+	color: #212529;
 }
 
 .dog .checkbox{

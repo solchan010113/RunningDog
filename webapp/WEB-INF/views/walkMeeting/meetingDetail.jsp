@@ -38,7 +38,7 @@
 			</div>
 			<div class="items">
 				<p class="inputTitle">모임장</p>
-				<div>${requestScope.meetingMap.meetingVo.userName}</div>
+				<div><a href="${pageContext.request.contextPath}/walkBlog/${requestScope.meetingMap.meetingVo.code}?page=1">${requestScope.meetingMap.meetingVo.userName}</a></div>
 			</div>
 		</div>
 		
@@ -65,7 +65,7 @@
 						<div>
 							<p>이름: ${dogVo.dogName}</p>
 							<p>체중: ${dogVo.weight}kg</p>
-							<p>보호자: ${dogVo.userName}</p>
+							<p>보호자: <a href="${pageContext.request.contextPath}/walkBlog/${dogVo.code}?page=1">${dogVo.userName}</a></p>
 						</div>
 					</div>
 				</c:forEach>
