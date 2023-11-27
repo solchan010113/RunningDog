@@ -455,6 +455,7 @@
     WC.walkLogNo,
     US.userNo,
     US.name,
+    US.code,
     WC.content,
     TO_CHAR(WC.regDate, 'YYYY"년 "MM"월 "DD"일 "HH24"시 "MI"분"') AS regDate,
     WC.status,

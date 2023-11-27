@@ -177,16 +177,39 @@
 
 								</div>
 
+								
 								<div class="logButton">
+											<button type="button" class="usedTrailButton" data-toggle="tooltip" data-html="true"
+												title="<c:forEach items='${walkLog.usedTrailList}' var='usedTrail'><div class='custom-tooltip'><strong>${usedTrail.name}</strong><br>거리: ${usedTrail.distanceFormatted}KM<br>소요시간: ${usedTrail.etaFormatted}<br>이용자: ${usedTrail.trailHit}<br>찜: ${usedTrail.trailStar}<br>후기: ${usedTrail.trailCmt}<br><a href='${pageContext.request.contextPath}/walkTrail/detail?trailNo=${usedTrail.trailNo}' class='custom-link'>상세보기</a><br><br></div></c:forEach>">
+												이용 산책로</button>
+											<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${walkLog.walkLogNo}'">산책로 등록</button>
+										</div>
+										<div class="likeContentWrapper">
+											<div class="likeWrapper">
 
-									<button type="button" class="usedTrailButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/'">이용산책로</button>
-									<c:if test="${requestScope.blogInfoVo.authNo == requestScope.blogInfoVo.ownerNo }">
-										<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${walkLog.walkLogNo}'">산책로 등록</button>
-									</c:if>
-								</div>
-
-								<div class="walkLogContent">${walkLog.content}</div>
-
+												<div class="like">0 likes</div>
+												<div class="likeButton">
+													<c:if test="${requestScope.blogInfoVo.authNo != 0}">
+														<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo}">
+															<button id="likeButton" onclick="toggleLike(${walkLog.walkLogNo})">
+																<c:choose>
+																	<c:when test="${likedWalkLogs.contains(walkLog.walkLogNo)}">
+																		<span class="heart red-heart">&#10084;</span>
+																		<!-- 이미 좋아요를 누른 경우 -->
+																	</c:when>
+																	<c:otherwise>
+																		<span class="heart">&#10084;</span>
+																		<!-- 좋아요를 누르지 않은 경우 -->
+																	</c:otherwise>
+																</c:choose>
+																좋아요
+															</button>
+														</c:if>
+													</c:if>
+												</div>
+											</div>
+											<div class="walkLogContent">${walkLog.content}</div>
+										</div>
 
 							</div>
 
@@ -204,6 +227,45 @@
 										</div>
 									</c:forEach>
 								</div>
+							</div>
+							
+							<div class="MRcommentSection">
+
+								<div class="MRcomments">
+									<c:forEach items="${walkLog.showLogCmtList}" var="cmt">
+										<c:if test="${not empty walkLog.status and  String.valueOf(walkLog.status) eq 'T'}">
+											<div id="comment_${cmt.walkLogCmtNo}" class="MRcomment1">
+
+												<a href="${pageContext.request.contextPath}/walkBlog/${cmt.code}?crtPage=1"> <img src="${pageContext.request.contextPath}/rdimg/userProfile/${cmt.userSavename}" alt="">
+												</a>
+												<div class="replyDateCmtBox">
+													<div class="MRreplyDate">${cmt.regDate}</div>
+													<c:if test="${requestScope.blogInfoVo.authNo eq cmt.userNo}">
+														<button class="deleteCommentButton" onclick="deleteComment('${cmt.walkLogCmtNo}')">삭제</button>
+													</c:if>
+												</div>
+												<div class="MRuserIdandContent">
+													<div class="MRreplyUserId">${cmt.name}</div>
+													<div class="MRreplyContent">${cmt.content}</div>
+												</div>
+
+
+
+											</div>
+										</c:if>
+									</c:forEach>
+
+
+								</div>
+								<c:if test="${requestScope.blogInfoVo.authNo != 0}">
+									<div class="MRcommentInputBox">
+										<div class="MRinput-group">
+											<textarea class="commentText form-control" aria-label="With textarea"></textarea>
+										</div>
+										<button class="MRreplyButton addCommentBtn" data-walklogno="${walkLog.walkLogNo}">등록</button>
+									</div>
+								</c:if>
+
 							</div>
 
 

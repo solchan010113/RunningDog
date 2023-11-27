@@ -303,8 +303,12 @@ public class WalkBlogService {
     	
     	
         walkLog.setWalkedDogList(walkedDogList);
+        
+        List<UsedTrailVo> usedTrailList = walkBlogDao.getUsedTrailList(walkLog.getWalkLogNo());
+        walkLog.setUsedTrailList(usedTrailList);
 		
-		
+        List<ShowLogCmtVo> cmtList = walkBlogDao.getShowLogCmtList(walkLog.getWalkLogNo());
+        walkLog.setShowLogCmtList(cmtList);
 		
 		List<WalkLogConImgVo> imageList = walkBlogDao.getShowLogImageList(walkLogNo);
 		

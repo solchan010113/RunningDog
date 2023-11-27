@@ -458,27 +458,32 @@ $(function() {
 												이용 산책로</button>
 											<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
 										</div>
+										<div class="likeContentWrapper">
+											<div class="likeWrapper">
 
-										<%-- <div class="likeButton">
-												<c:if test="${requestScope.blogInfoVo.authNo != 0}">
-													<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo}">
-														<button id="likeButton" onclick="toggleLike(${ShowLogVo.walkLogNo})">
-															<c:choose>
-																<c:when test="${likedWalkLogs.contains(ShowLogVo.walkLogNo)}">
-																	<span class="heart red-heart">&#10084;</span>
-																	<!-- 이미 좋아요를 누른 경우 -->
-																</c:when>
-																<c:otherwise>
-																	<span class="heart">&#10084;</span>
-																	<!-- 좋아요를 누르지 않은 경우 -->
-																</c:otherwise>
-															</c:choose>
-															좋아요
-														</button>
+												<div class="like">0 likes</div>
+												<div class="likeButton">
+													<c:if test="${requestScope.blogInfoVo.authNo != 0}">
+														<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo}">
+															<button id="likeButton" onclick="toggleLike(${ShowLogVo.walkLogNo})">
+																<c:choose>
+																	<c:when test="${likedWalkLogs.contains(ShowLogVo.walkLogNo)}">
+																		<span class="heart red-heart">&#10084;</span>
+																		<!-- 이미 좋아요를 누른 경우 -->
+																	</c:when>
+																	<c:otherwise>
+																		<span class="heart">&#10084;</span>
+																		<!-- 좋아요를 누르지 않은 경우 -->
+																	</c:otherwise>
+																</c:choose>
+																좋아요
+															</button>
+														</c:if>
 													</c:if>
-												</c:if>
-											</div> --%>
-										<div class="walkLogContent">${ShowLogVo.content}</div>
+												</div>
+											</div>
+											<div class="walkLogContent">${ShowLogVo.content}</div>
+										</div>
 									</div>
 
 
