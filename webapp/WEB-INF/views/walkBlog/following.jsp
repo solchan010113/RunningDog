@@ -302,7 +302,7 @@
 						<div class="maindogCardBox">
 							<c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
 								<div class="mainDogCard1">
-									<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
+									<img src="${pageContext.request.contextPath}/rdimg/dogProfile/${blogDogVo.saveName}" alt="">
 									<div class="mainDogCardName">${blogDogVo.name}</div>
 								</div>
 
