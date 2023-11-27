@@ -51,14 +51,13 @@
 			</ul>
 			
 			<div class="my-menu">
-				<ul class="left">
-					<c:if test="${ authUser != null  }">
+				<c:if test="${ authUser != null}">
+					<ul class="left">
 						<li>
 							<a class="dropdown-item orange" href="${pageContext.request.contextPath}/walkBlog/${authUser.code}?page=1">내 산책 블로그</a>
 						</li>
-					</c:if>
-				</ul>
-				
+					</ul>
+				</c:if>
 				<ul class="right">
 					<!-- 로그인 전 메뉴 -->
 					<c:if test="${sessionScope.authUser == null}">

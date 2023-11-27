@@ -24,12 +24,12 @@
 }
 
 .global-header nav {
-	width: 1250px;
-	margin: auto;
+	width: 100%;
 }
 
 .global-header nav > ul {
 	padding: 0;
+	margin-left: 85px;
 	float: left;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .global-header nav ul .logo {
-	margin-right: 20px;
+	margin-right: 32px;
 }
 .global-header > nav ul > li a{
 	text-decoration: none;
@@ -51,6 +51,7 @@
 }
 
 .global-header .my-menu{
+	margin-right: 85px;
 	float: right;
 }
 
