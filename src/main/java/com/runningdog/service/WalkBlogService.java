@@ -253,8 +253,14 @@ public class WalkBlogService {
 		
 	}
 
-	public void addComment(ShowLogCmtVo comment) {
-	    walkBlogDao.addComment(comment);
+	public ShowLogCmtVo addComment(ShowLogCmtVo comment) {
+		System.out.println("WalkBlogService.addComment()");
+	    
+		walkBlogDao.addComment(comment);
+	    ShowLogCmtVo showLogCmtVo = walkBlogDao.selectCommentByWalkLogCmtNo(comment.getWalkLogCmtNo());
+	    
+	    return showLogCmtVo;
+	    
 	}
 	
 	public void deleteComment(int walkLogCmtNo) {

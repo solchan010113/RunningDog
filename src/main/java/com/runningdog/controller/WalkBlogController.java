@@ -1,13 +1,7 @@
 package com.runningdog.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 
 import javax.servlet.http.HttpSession;
 
@@ -20,15 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.http.MediaType;
 
 import com.runningdog.service.WalkBlogService;
 import com.runningdog.vo.BlogInfoVo;
 import com.runningdog.vo.ShowLogCmtVo;
 import com.runningdog.vo.ShowLogVo;
 import com.runningdog.vo.UserVo;
-import com.runningdog.vo.WalkLogConImgVo;
 
 @RequestMapping(value = "/walkBlog")
 @Controller
@@ -460,32 +451,22 @@ public class WalkBlogController {
 
 	}
 
-	@RequestMapping(value = "/addComment", method = { RequestMethod.GET, RequestMethod.POST },
-	        produces = MediaType.APPLICATION_JSON_VALUE) // JSON 형식으로 응답
+	
 	@ResponseBody
-	public String addComment(@RequestParam("walkLogNo") int walkLogNo, @RequestParam("content") String content,
-			@RequestParam("userNo") int userNo) {
+	@RequestMapping(value = "/addComment", method = { RequestMethod.GET, RequestMethod.POST })
+	public ShowLogCmtVo addComment(@ModelAttribute ShowLogCmtVo showLogCmtVo   ) {
 
 		System.out.println("addComment");
 		/*
 		 * UserVo authuser = (UserVo) session.getAttribute("authUser"); int userNo =
 		 * authuser.getUserNo();
 		 */
-		System.out.println("walkLogNo는"+walkLogNo);
-		System.out.println("content는"+content);
+		System.out.println(showLogCmtVo);
+
+		ShowLogCmtVo showLogCommentVo = walkBlogService.addComment(showLogCmtVo);
+		System.out.println(showLogCommentVo);
 		
-		System.out.println("userNo는");
-		System.out.println(userNo);
-
-		
-		ShowLogCmtVo comment = new ShowLogCmtVo();
-		comment.setWalkLogNo(walkLogNo);
-		comment.setUserNo(userNo);
-		comment.setContent(content);
-
-		walkBlogService.addComment(comment);
-
-		return "success";
+		return showLogCommentVo;
 	}
 
 	@RequestMapping(value = "/deleteComment", method = { RequestMethod.GET, RequestMethod.POST })
