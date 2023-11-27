@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +7,7 @@
 <title>회원가입 폼</title>
 <link href="${pageContext.request.contextPath}/assets/css/global/reset.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/setting/login_join.css" rel="stylesheet" type="text/css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -37,6 +38,16 @@
 	</form>
 	
 </div>
+
+
+<script type="text/javascript">
+
+$("#loginBtn").on("click", () => {
+	alert("화원가입이 완료되었습니다.");
+});
+
+
+</script>
 	
 </body>
 </html>
