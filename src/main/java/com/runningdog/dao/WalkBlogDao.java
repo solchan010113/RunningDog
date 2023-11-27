@@ -98,10 +98,25 @@ public class WalkBlogDao {
 
 	}
 
+	//댓글 저장하기
 	public void addComment(ShowLogCmtVo comment) {
 		sqlSession.insert("walkBlog.addComment", comment);
 	}
 
+	
+	//댓글 1개 가져오기
+	public ShowLogCmtVo selectCommentByWalkLogCmtNo(int walkLogCmtNo) {
+		System.out.println("WalkBlogDao.selectCommentByWalkLogCmtNo");
+		
+		ShowLogCmtVo showLogCmtVo = sqlSession.selectOne("walkBlog.selectCommentByWalkLogCmtNo", walkLogCmtNo);
+		
+		return showLogCmtVo;
+	}
+
+	
+	
+	
+	
 	public int selectOwnerNo(String paramCode) {
 
 		return sqlSession.selectOne("walkBlog.selectOwnerNo", paramCode);

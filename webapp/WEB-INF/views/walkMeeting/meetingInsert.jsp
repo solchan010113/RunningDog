@@ -58,7 +58,7 @@
 				<input id="tnameInput" type="text" class="form-control" placeholder="" aria-label="Username" readonly="readonly">
 				<input type="hidden" name="trailNo" value="" class="tnameInput">
 				<button id="searchTrailBtn" class="btn btn-primary" type="button">산책로 찾기</button>
-				<img class="mapImg" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/anber_remaster.jpg';" src="">
+				<img class="mapImg" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/trailImg.png';" src="">
 			</div>
 		</div>
 				
