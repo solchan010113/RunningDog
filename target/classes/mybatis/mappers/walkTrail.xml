@@ -763,11 +763,11 @@
 			SELECT orgName
 			       ,saveName
 			       ,filePath
-			       ,imageorder
+			       ,imageOrder
 			       ,type
 			  FROM images
 			 WHERE type = 'walkLogCon'
-			   AND imageorder = 0
+			   AND imageOrder = 0
 			   AND useNo = #{walkLogNo}
 		 ]]>
 	</select>
