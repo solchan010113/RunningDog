@@ -53,7 +53,7 @@
 
 					<c:forEach items="${trailList}" var="tarailVo">
 						<div class="mapImageBox">
-							<img class="mapImage" src="${pageContext.request.contextPath}/rdimg/trailImg/${tarailVo.orgName}"></img>
+							<img class="mapImage" src="${pageContext.request.contextPath}/rdimg/trail/${tarailVo.orgName}"></img>
 
 							<c:if test="${tarailVo.trailStar==1}">
 								<div id="likeIcon1" class="likeIcon emptyIcon fa-solid fa-star" data-trail-starno="${tarailVo.trailStarNo}"
@@ -422,11 +422,13 @@ $("#insertBtn").on("click", function(){
 	console.log("기록하기버튼 클릭");	
 	//----------텍스트데이타 보내기---------------------------------		
 	/* 1.모임번호 */  // 동네번호 가져오기 보류
+	let meetingNo = '${moWalkLogVo.meetingNo}';
+	console.log("모임번호" + '${moWalkLogVo.meetingNo}');	
 	/* 산책일지번호,회원번호,제목,작성시간,상태는 컨트롤러 이후 */	
 	
 	/* 2.동네번호 */  // 모임번호 가져오기 보류	
 	let locationNo = '${moWalkLogVo.locationNo}';
-	console.log("모임번호 " + locationNo);		
+	console.log("동네번호 " + locationNo);		
 	/* 3.시작시간 */
 	let startTime = '${moWalkLogVo.startTime}';
 	console.log("시작시간 " + startTime);	
@@ -467,7 +469,8 @@ $("#insertBtn").on("click", function(){
 		security: security,
 		dogNoList: dogNoList,
 		polylinePath: polylinePath,
-		trailList: trailList
+		trailList: trailList,
+		meetingNo: meetingNo
 	}	
 	
 	console.log("합친 데이터" + dataVo);

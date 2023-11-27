@@ -603,5 +603,25 @@ function updateSelectedDogNos() {
 	$('#dogDataInput').val(dogNosString);
 }
 
+// 모임관련 ------------------------------------------------------
+
+// 현재 URL에서 파라미터 추출
+const urlParams = new URLSearchParams(window.location.search);
+
+// meetingNo 파라미터의 값을 가져옴
+const meetingNo = urlParams.get('meetingNo');
+
+// meetingNo가 존재하는 경우 출력
+if (meetingNo !== null) {
+    console.log("meetingNo:" + meetingNo);
+    $('#meetingNoDataInput').val(meetingNo);
+}
+
+ 
+$(".meetingClick").on("click",function() {
+	alert("모임장에게 기록을 요청해 주세요.")	
+	console.log("모임장에게 기록을 요청해 주세요.");
+})
+
 
 

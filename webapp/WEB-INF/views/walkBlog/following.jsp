@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,6 +101,53 @@
         });
     }
 	  */
+	  
+	  function toggleFollowButton(followerUserNo) {
+		    let followButton = document.getElementById("followButton");
+
+		    // Follow
+		    if (followButton.innerText === "팔로우") {
+		        $.ajax({
+		            type: "POST",
+		            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+		            data: {
+		                followeeNo: followerUserNo
+		            },
+		            success: function(response) {
+		                if (response === "success") {
+		                    followButton.innerText = "팔로잉";
+		                    location.reload(true);
+		                } else {
+		                    console.error("팔로우 실패");
+		                }
+		            },
+		            error: function(error) {
+		                console.error("팔로우 실패: " + error);
+		            }
+		        });
+		    }
+		    // Unfollow
+		    else {
+		        $.ajax({
+		            type: "POST",
+		            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+		            data: {
+		                followeeNo: followerUserNo
+		            },
+		            success: function(response) {
+		                if (response === "success") {
+		                    followButton.innerText = "팔로우";
+		                    location.reload(true);
+		                } else {
+		                    console.error("언팔로우 실패");
+		                }
+		            },
+		            error: function(error) {
+		                console.error("언팔로우 실패: " + error);
+		            }
+		        });
+		    }
+		}
 	  
 	  function addComment(walkLogNo) {
 		    var commentText = document.getElementById("commentText").value;
@@ -203,10 +252,17 @@
 	<jsp:include page="../global/header.jsp"></jsp:include>
 
 
-	<div class="backgroundImg">
-		<img src="${pageContext.request.contextPath}/assets/images/${blogInfoVo.bannerSavename}" alt="">
+	<c:if test="${ requestScope.blogInfoVo.bannerSavename == null  }">
+		<div class="backgroundImg">
+			<img src="${pageContext.request.contextPath}/assets/images/bannerDefault.png" alt="">
+		</div>
+	</c:if>
+	<c:if test="${ requestScope.blogInfoVo.bannerSavename != null  }">
+		<div class="backgroundImg">
+			<img src="${pageContext.request.contextPath}/rdimg/blogBanner/${blogInfoVo.bannerSavename}" alt="">
 
-	</div>
+		</div>
+	</c:if>
 
 
 
@@ -217,9 +273,7 @@
 
 
 			<div class="profileSection">
-				<div class="calendar">
-					<img src="${pageContext.request.contextPath}/assets/images/캘린더.png" alt="">
-				</div>
+				<div class="calendar"></div>
 
 				<div class="profileWrapper">
 					<div class="wrap">
@@ -272,11 +326,15 @@
 					<div class="category">
 						<div class="tab record " onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">산책기록</div>
 
-						
-						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
+						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/meeting?crtPage=1">
+							<div class="tab record">산책모임</div>
+						</a> <a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following active">팔로잉</div>
 						</a>
-						<div class="tab blank"></div>
+						<div class="tab blank">
+
+							<button type="button" class="homeButton" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">홈으로</button>
+						</div>
 					</div>
 
 					<div class="followingSection">
@@ -291,13 +349,26 @@
 						<div class="followings">
 							<c:forEach items="${blogInfoVo.followingList}" var="following">
 								<div class="following1">
-									<button class="followButton">팔로우</button>
+									<c:if test="${requestScope.blogInfoVo.authNo != 0 && requestScope.blogInfoVo.authNo != following.userNo}">
+										<c:if test="${fn:length(blogInfoVo.authFollowList) > 0}">
+											<c:if test="${fn:contains(blogInfoVo.authFollowList, following.userNo)}">
+												<button id="followButton" class="followButton" onclick="toggleFollowButton(${following.userNo})">팔로잉</button>
+											</c:if>
+											<c:if test="${not fn:contains(blogInfoVo.authFollowList, following.userNo)}">
+												<button id="followButton" class="followButton" onclick="toggleFollowButton(${following.userNo})">팔로우</button>
+											</c:if>
+										</c:if>
+										<c:if test="${fn:length(blogInfoVo.authFollowList) == 0}">
+											<button id="followButton" class="followButton" onclick="toggleFollowButton(${following.userNo})">팔로우</button>
+										</c:if>
+									</c:if>
+									<div class="followprofile" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${following.code}?crtPage=1'">
 									<img src="${pageContext.request.contextPath}/rdimg/userProfile/${following.userSavename}" alt="">
 									<div class="followingNickname">${following.name}</div>
-
+									</div>
+									
 								</div>
 							</c:forEach>
-
 						</div>
 					</div>
 
@@ -309,7 +380,7 @@
 
 
 				<div class="mainSidebar">
-					<div class="clubsWrapper">
+					<%-- <div class="clubsWrapper">
 						<h3 class="clubs">동아리</h3>
 						<div class="clubBox">
 							<div class="clubCard1">
@@ -329,7 +400,7 @@
 								<div class="clubCardName">동아리4</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					<div class="socialWrapper">
 						<div class="socialBox">
 							<h3 class="social">소셜 네트워크</h3>

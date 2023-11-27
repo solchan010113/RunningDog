@@ -3,6 +3,7 @@ package com.runningdog.dao;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.runningdog.vo.CoordsVo;
 import com.runningdog.vo.ImagesVo;
 import com.runningdog.vo.LocationVo;
 import com.runningdog.vo.MoDogVo;
+import com.runningdog.vo.MoMeetingVo;
 import com.runningdog.vo.MoStarVo;
 import com.runningdog.vo.MoTrailVo;
 import com.runningdog.vo.MoWalkLogVo;
@@ -31,9 +33,7 @@ public class MoWebDao {
 	//유저 1명 찾아오기 (로그인)
 	public UserVo selectOneUser(UserVo userVo) {
 		System.out.println("다오 모바일웹 로그인");	
-		System.out.println("다오 "+userVo);
-		UserVo authUser = sqlSession.selectOne("walkLog.selectOneUser", userVo);	
-		System.out.println("다오 "+authUser);
+		UserVo authUser = sqlSession.selectOne("walkLog.selectOneUser", userVo);
 		return authUser;
 	}
 	
@@ -69,8 +69,7 @@ public class MoWebDao {
 	
 	// 산책로 찜 등록
 	public void starInsert(MoStarVo moStarVo){
-		System.out.println("산책로 찜 등록");	
-		System.out.println(moStarVo);
+		System.out.println("산책로 찜 등록");
 		sqlSession.insert("walkLog.starInsert",moStarVo);
 		System.out.println("찜 등록 후 찜번호 생성"+moStarVo);
 	}	
@@ -113,7 +112,6 @@ public class MoWebDao {
 		System.out.println("생성된 제목 : "+ newTitle);
 		
 		moWalkLogVo.setTitle(newTitle);
-		moWalkLogVo.setMeetingNo(0); // 모임번호
 		moWalkLogVo.setStatus('T');	
 		moWalkLogVo.setStartTime("2023-11-17 11:31");
 		moWalkLogVo.setEndTime("2023-11-17 11:45");
@@ -173,7 +171,26 @@ public class MoWebDao {
 	}
 	
 	
-	// --------------------------------------
+	// ------------- 모임 관련 -------------------
+	public List<MoMeetingVo> todayMeetingSelect(Map<String, Object> meetingVo){
+		System.out.println("다오 어드민 업데이트");			
+		List<MoMeetingVo> meetingList = sqlSession.selectList("walkLog.todayMeetingSelect",meetingVo);			
+		System.out.println("미팅 리스트 " + meetingList);
+		return meetingList;
+	}
+	
+	public List<MoDogVo> meetingDogSelect(int meetingNo){
+		System.out.println("서비스 모임 강아지 리스트");
+		List<MoDogVo> meDogList = sqlSession.selectList("walkLog.meetingDogSelect",meetingNo);
+		System.out.println("모임 강아지 확인 " + meDogList);		
+		return meDogList;
+	}
+	
+	
+	
+	
+	
+	//------------------------------------------
 	
 	private String tmieTitle(String title,String endTime) {
 		

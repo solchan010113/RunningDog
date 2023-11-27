@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
 
 import com.runningdog.service.WalkBlogService;
 import com.runningdog.vo.BlogInfoVo;
@@ -125,9 +127,7 @@ public class WalkBlogController {
 		Map<String, Object> pMap = walkBlogService.walkLogList(paramCode, crtPage, date, dogNo);
 		System.out.println(pMap);
 		
-		if(pMap.get("crtPage") ==null) {
-			 pMap.put("crtPage", 1);
-		}
+		
 		
 		System.out.println(pMap.get("crtPage"));
 		model.addAttribute("pMap", pMap);
@@ -135,6 +135,45 @@ public class WalkBlogController {
 		return "walkBlog/userBlog";
 
 	}
+	
+	@RequestMapping(value = "/{code}/meeting", method = { RequestMethod.GET, RequestMethod.POST })
+	public String userMeetingBlog(@PathVariable(value = "code") String code, 
+						   @RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage,
+						   @RequestParam(value = "date", required = false, defaultValue = "0") String date,
+						   @RequestParam(value = "dogNo", required = false, defaultValue = "0") int dogNo,
+						   
+			        	   	Model model, HttpSession session) {
+
+		System.out.println("userBlog");
+
+		UserVo authuser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authuser);
+
+		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+		System.out.println(authUserNo);
+		String paramCode = code;
+
+		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+
+		System.out.println(blogInfoVo);
+		
+		model.addAttribute("blogInfoVo", blogInfoVo);
+
+		
+		Map<String, Object> pMap = walkBlogService.meetingLogList(paramCode, crtPage, date, dogNo);
+		System.out.println(pMap);
+		
+		
+		
+		System.out.println(pMap.get("crtPage"));
+		model.addAttribute("pMap", pMap);
+
+		return "walkBlog/meetingBlog";
+
+	}
+	
+	
+	
 //
 //	@RequestMapping(value = "/{code}", method = { RequestMethod.GET, RequestMethod.POST })
 //	public String userBlog(@PathVariable(value = "code") String code,
@@ -217,10 +256,18 @@ public class WalkBlogController {
 		// 특정 walkLog를 검색하고 모델에 설정하는 로직
 		ShowLogVo walkLog = walkBlogService.getWalkLogByNo(walkLogNo);
 		model2.addAttribute("walkLog", walkLog);
+		System.out.println("meetingNois"+walkLog.getMeetingNo());
+		System.out.println("doggy"+walkLog.getWalkedDogList());
 
 		// 모델에 필요한 다른 속성 추가
-
-		return "walkBlog/walkLogDetail"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
+		if(walkLog.getMeetingNo() ==0) {
+			return "walkBlog/walkLogDetail"; // walkLog 상세 정보용 새로운 JSP 생성 (필요한 경우)
+		}
+		else {
+			return "walkBlog/walkMeetDetail";
+		}
+		
+		
 	}
 
 	@RequestMapping(value = "/{code}/following", method = { RequestMethod.GET, RequestMethod.POST })
@@ -261,6 +308,8 @@ public class WalkBlogController {
 		System.out.println(blogInfoVo);
 
 		model.addAttribute("blogInfoVo", blogInfoVo);
+		
+		System.out.println("followList="+blogInfoVo.getFollowerList());
 
 		// 모델에 필요한 다른 속성 추가
 
@@ -288,24 +337,24 @@ public class WalkBlogController {
 		return "walkBlog/walkLogModifyForm";
 	}
 
-	/*
-	 * @RequestMapping(value="/{code}/{walkLogNo}/modify", method=
-	 * {RequestMethod.GET, RequestMethod.POST}) public String
-	 * modify(@PathVariable(value = "code") String code, @PathVariable(value =
-	 * "walkLogNo") int walkLogNo, @ModelAttribute ShowLogVo walkLogVo) {
-	 * 
-	 * System.out.println("WalkBLogController.modify()");
-	 * 
-	 * 
-	 * walkBlogService.updateWalkLog(walkLogVo);
-	 * 
-	 * 
-	 * 
-	 * return "redirect:/walkBlog/" + code +"/" +walkLogNo;
-	 * 
-	 * 
-	 * }
-	 */
+	
+	 @RequestMapping(value="/{code}/{walkLogNo}/modify", method=
+	 {RequestMethod.GET, RequestMethod.POST}) public String
+	  modify(@PathVariable(value = "code") String code, @PathVariable(value =
+	  "walkLogNo") int walkLogNo, @ModelAttribute ShowLogVo walkLogVo) {
+	  
+	 System.out.println("WalkBLogController.modify()");
+	 
+	  
+	  walkBlogService.updateWalkLog(walkLogVo);
+	 
+	 
+	  
+	  return "redirect:/walkBlog/" + code +"/" +walkLogNo;
+	  
+	 
+	 }
+	 
 
 	/*
 	 * @RequestMapping(value="/{code}/{walkLogNo}/modify", method=
@@ -411,7 +460,8 @@ public class WalkBlogController {
 
 	}
 
-	@RequestMapping(value = "/addComment", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/addComment", method = { RequestMethod.GET, RequestMethod.POST },
+	        produces = MediaType.APPLICATION_JSON_VALUE) // JSON 형식으로 응답
 	@ResponseBody
 	public String addComment(@RequestParam("walkLogNo") int walkLogNo, @RequestParam("content") String content,
 			@RequestParam("userNo") int userNo) {
@@ -456,31 +506,31 @@ public class WalkBlogController {
 		return result;
 	}
 
-	@RequestMapping(value = "/{code}/{date}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String calendarLog(@PathVariable(value = "code") String code, Model model, Model model2,
-			HttpSession session) {
-
-		System.out.println("userBlog");
-
-		UserVo authuser = (UserVo) session.getAttribute("authUser");
-		System.out.println(authuser);
-
-		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
-		System.out.println(authUserNo);
-		String paramCode = code;
-
-		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
-
-		System.out.println(blogInfoVo);
-
-		model.addAttribute("blogInfoVo", blogInfoVo);
-
-		List<ShowLogVo> walkLogList = walkBlogService.walkLogListByDate(paramCode);
-		System.out.println(walkLogList);
-		model2.addAttribute("walkLogList", walkLogList);
-
-		return "walkBlog/userBlog";
-
-	}
+//	@RequestMapping(value = "/{code}/{date}", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String calendarLog(@PathVariable(value = "code") String code, Model model, Model model2,
+//			HttpSession session) {
+//
+//		System.out.println("userBlog");
+//
+//		UserVo authuser = (UserVo) session.getAttribute("authUser");
+//		System.out.println(authuser);
+//
+//		int authUserNo = (authuser != null) ? authuser.getUserNo() : 0; // authuser가 null이면 0으로 설정
+//		System.out.println(authUserNo);
+//		String paramCode = code;
+//
+//		BlogInfoVo blogInfoVo = walkBlogService.selectBlogInfo(paramCode, authUserNo);
+//
+//		System.out.println(blogInfoVo);
+//
+//		model.addAttribute("blogInfoVo", blogInfoVo);
+//
+//		List<ShowLogVo> walkLogList = walkBlogService.walkLogListByDate(paramCode);
+//		System.out.println(walkLogList);
+//		model2.addAttribute("walkLogList", walkLogList);
+//
+//		return "walkBlog/userBlog";
+//
+//	}
 
 }

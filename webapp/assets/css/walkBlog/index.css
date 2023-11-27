@@ -241,7 +241,7 @@
 	height: 66px;
 	border-style: solid;
 	 border-color:#dee2e6;
-  	border-width: 1px 0 1px 0 ;
+	 border-width: 1px;
   	display: flow-root;
 }
 
@@ -490,7 +490,8 @@ h2{
 	   display: flow-root;
 	padding: 15px;
 	border-style: solid;
-  	border-color:#dee2e6;
+	 border-color:#dee2e6;
+	 border-width: 1.5px;
 	width: 780px;
 	/*height: 204px;*/
 	float: left;
@@ -565,7 +566,11 @@ h2{
 	  display: flow-root;
 	  
 	  border-style: solid;
-    border-color: #dee2e6;
+	  
+	  
+	  
+	  
+     border-color:#dee2e6;
 
     /* 하단(border-bottom)에만 테두리를 추가합니다. */
     border-width: 0 0 2px 0;
@@ -787,6 +792,7 @@ h2{
 	  /*height: 760px;*/
 	  border-style: solid;
   	border-color:#dee2e6;
+  	border-width: 1.5px;
 	  
   }
   .MRwalkData > img{

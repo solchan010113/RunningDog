@@ -190,7 +190,7 @@
 
 									<div class="MRprofileWrapper1">
 										<div class="MRprofileImg1">
-											<img src="${pageContext.request.contextPath}/assets/images/마루쉐.png" alt="">
+											<img src="${pageContext.request.contextPath}/rdimg/userProfile/${blogInfoVo.userSavename}" alt="">
 										</div>
 
 										<div class="MRuserName1">${walkLog.name}</div>
