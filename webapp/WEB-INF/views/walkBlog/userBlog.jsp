@@ -86,7 +86,7 @@ function toggleFollowButton() {
     }
 }
 
-
+$( document ).ready(function() {
 //댓글등록버튼 클릭했을때
 $(".addCommentBtn").on("click", function(){
 	console.log("클릭")
@@ -145,7 +145,7 @@ $(".addCommentBtn").on("click", function(){
     }
 
 }); 	
-
+});
 
 
 
