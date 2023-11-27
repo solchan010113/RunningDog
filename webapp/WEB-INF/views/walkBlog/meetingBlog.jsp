@@ -23,6 +23,17 @@
 <script>
 
 
+$(document).ready(function(){
+    $('#dogCarousel').slick({
+        infinite: true,
+        slidesToShow: 4, // 동시에 표시할 슬라이드 수
+        slidesToScroll: 1, // 스크롤할 슬라이드 수
+        prevArrow: '<button type="button" class="slick-prev">이전</button>',
+        nextArrow: '<button type="button" class="slick-next">다음</button>'
+    });
+});
+
+
 var deleteLogNo; // 전역 변수로 선언
 
 function setDeleteLogNo(logNo) {
@@ -86,52 +97,68 @@ function toggleFollowButton() {
     }
 }
 
+$( document ).ready(function() {
+//댓글등록버튼 클릭했을때
+$(".addCommentBtn").on("click", function(){
+	console.log("클릭")
+	
+	let commentText = $(this).prev().children(".commentText").val();
+	let walkLogNo = $(this).data("walklogno");
+	
+	console.log(walkLogNo)
+    console.log(commentText)
 
-$(document).ready(()=>{
-	$(".addCommentBtn").on("click", function(){
-	    var commentText = $("#coText").val();
-	    
-	    let $this = $(this);
-	    var walkLogNo = $(this).data("walklogno");
-	    
-	    console.log(walkLogNo)
-	    console.log(commentText)
+	
+    if (commentText.trim() !== "") { //글을 입력하면
+    	$.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/addComment",
+            data: {
+                walkLogNo: walkLogNo,
+                content: commentText,
+                userNo: ${blogInfoVo.authNo}
+            },
+            success: function (cmt) {
+                console.log(cmt);
+            	                
+                
+            	var commentSection = $(".MRcomments");
+            	var newCommentHtml = '';
+            	newCommentHtml += '<div id="comment_'+cmt.walkLogCmtNo+'" class="MRcomment1">';
+            	newCommentHtml += '    <img src="${pageContext.request.contextPath}/rdimg/userProfile/'+cmt.userSavename+'" alt="">';
+            	newCommentHtml += '    <div class="replyDateCmtBox">';
+            	newCommentHtml += '        <div class="MRreplyDate">'+cmt.regDate+'</div>';
+            	newCommentHtml += '        <button class="deleteCommentButton" onclick="deleteComment('+cmt.walkLogCmtNo+')">삭제</button>';
+            	newCommentHtml += '    </div>';
+            	newCommentHtml += '    <div class="MRuserIdandContent">';
+            	newCommentHtml += '        <div class="MRreplyUserId">'+cmt.name+'</div>';
+            	newCommentHtml += '        <div class="MRreplyContent">'+cmt.content+'</div>';
+            	newCommentHtml += '    </div>';
+            	newCommentHtml += '</div>';
+            	
+            	                
+                $(".MRcomments").append(newCommentHtml);
+                console.log($(this))
+                
+                $(".commentText").val("");
+                
+                
+                
+                
+            },
+            error: function (error) {
+                console.error("댓글 등록 실패: " + error);
+            }
+        });
+    
+    }else {
+    	alert("글을 입력해주세요");
+    }
 
-	    if (commentText.trim() !== "") {
-	        $.ajax({
-	            type: "POST",
-	            url: "${pageContext.request.contextPath}/walkBlog/addComment",
-	            data: {
-	                walkLogNo: walkLogNo,
-	                content: commentText,
-	                userNo: ${blogInfoVo.authNo}
-	            },
-	            success: function (response) {
-	                var commentSection = $(".MRcomments");
-	                var newCommentHtml = `
-	                    <div class="MRcomment1" id="${response.walkLogCmtNo}">
-	                        <img src="${pageContext.request.contextPath}/rdimg/userProfile/${response.userSavename}" alt="">
-	                        <div class="replyDateCmtBox">
-	                            <div class="MRreplyDate">${response.regDate}</div>
-	                            <button class="deleteCommentButton" onclick="deleteComment('${response.walkLogCmtNo}')">삭제</button>
-	                        </div>
-	                        <div class="MRuserIdandContent">
-	                            <div class="MRreplyUserId">${response.name}</div>
-	                            <div class="MRreplyContent">${response.content}</div>
-	                        </div>
-	                    </div>
-	                `;
-	                commentSection.append(newCommentHtml);
-	                $(".commentText").val("");
-	            },
-	            error: function (error) {
-	                console.error("댓글 등록 실패: " + error);
-	            }
-	        });
-	    }
-	});
-
+}); 	
 });
+
+
 
 		function deleteComment(cmtNo) {
 		    // Ajax 호출
@@ -234,7 +261,7 @@ $(function() {
                       console.log(paramCode);
                       console.log(crtPage);
             
-                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"/meeting?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
+                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
                       
                       
                       /* href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date} */

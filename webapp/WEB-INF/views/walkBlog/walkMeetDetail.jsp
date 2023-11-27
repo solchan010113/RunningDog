@@ -8,8 +8,260 @@
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://kit.fontawesome.com/98aecd1b62.js" crossorigin="anonymous"></script>
+
 <script>
+
+
+$(document).ready(function(){
+    $('#dogCarousel').slick({
+        infinite: true,
+        slidesToShow: 4, // 동시에 표시할 슬라이드 수
+        slidesToScroll: 1, // 스크롤할 슬라이드 수
+        prevArrow: '<button type="button" class="slick-prev">이전</button>',
+        nextArrow: '<button type="button" class="slick-next">다음</button>'
+    });
+});
+
+
+var deleteLogNo; // 전역 변수로 선언
+
+function setDeleteLogNo(logNo) {
+    // 삭제할 로그의 walkLogNo를 전역 변수에 설정
+    deleteLogNo = logNo;
+}
+
+function deleteLog() {
+    // 삭제 버튼을 눌렀을 때 전역 변수에 설정된 walkLogNo를 사용하여 삭제 작업 수행
+    if (deleteLogNo) {
+        location.href = '${pageContext.request.contextPath}/walkBlog/delete?no=' + deleteLogNo;
+    }
+}
+
+
+
+function toggleFollowButton() {
+    let followButton = document.getElementById("followButton");
+    let followStatus = "${requestScope.blogInfoVo.followNo}";
+
+    if (followStatus === "0") {
+        // Follow
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+            data: {
+                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
+            },
+            success: function(response) {
+                if (response === "success") {
+                    followButton.innerText = "팔로잉";
+                    location.reload(true);
+                } else {
+                    console.error("팔로우 실패");
+                }
+            },
+            error: function(error) {
+                console.error("팔로우 실패: " + error);
+            }
+        });
+    } else if (followStatus === "1") {
+        // Unfollow
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+            data: {
+                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
+            },
+            success: function(response) {
+                if (response === "success") {
+                    followButton.innerText = "팔로우";
+                    location.reload(true);
+                } else {
+                    console.error("언팔로우 실패");
+                }
+            },
+            error: function(error) {
+                console.error("언팔로우 실패: " + error);
+            }
+        });
+    }
+}
+
+$( document ).ready(function() {
+//댓글등록버튼 클릭했을때
+$(".addCommentBtn").on("click", function(){
+	console.log("클릭")
 	
+	let commentText = $(this).prev().children(".commentText").val();
+	let walkLogNo = $(this).data("walklogno");
+	
+	console.log(walkLogNo)
+    console.log(commentText)
+
+	
+    if (commentText.trim() !== "") { //글을 입력하면
+    	$.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/walkBlog/addComment",
+            data: {
+                walkLogNo: walkLogNo,
+                content: commentText,
+                userNo: ${blogInfoVo.authNo}
+            },
+            success: function (cmt) {
+                console.log(cmt);
+            	                
+                
+            	var commentSection = $(".MRcomments");
+            	var newCommentHtml = '';
+            	newCommentHtml += '<div id="comment_'+cmt.walkLogCmtNo+'" class="MRcomment1">';
+            	newCommentHtml += '    <img src="${pageContext.request.contextPath}/rdimg/userProfile/'+cmt.userSavename+'" alt="">';
+            	newCommentHtml += '    <div class="replyDateCmtBox">';
+            	newCommentHtml += '        <div class="MRreplyDate">'+cmt.regDate+'</div>';
+            	newCommentHtml += '        <button class="deleteCommentButton" onclick="deleteComment('+cmt.walkLogCmtNo+')">삭제</button>';
+            	newCommentHtml += '    </div>';
+            	newCommentHtml += '    <div class="MRuserIdandContent">';
+            	newCommentHtml += '        <div class="MRreplyUserId">'+cmt.name+'</div>';
+            	newCommentHtml += '        <div class="MRreplyContent">'+cmt.content+'</div>';
+            	newCommentHtml += '    </div>';
+            	newCommentHtml += '</div>';
+            	
+            	                
+                $(".MRcomments").append(newCommentHtml);
+                console.log($(this))
+                
+                $(".commentText").val("");
+                
+                
+                
+                
+            },
+            error: function (error) {
+                console.error("댓글 등록 실패: " + error);
+            }
+        });
+    
+    }else {
+    	alert("글을 입력해주세요");
+    }
+
+}); 	
+});
+
+
+
+		function deleteComment(cmtNo) {
+		    // Ajax 호출
+		    $.ajax({
+		        type: "POST",
+		        url: "${pageContext.request.contextPath}/walkBlog/deleteComment",
+		        data: {
+		            walkLogCmtNo: cmtNo
+		        },
+		        success: function (response) {
+		            // 성공 시, 화면 갱신 등 추가 작업 가능
+		            console.log("댓글 삭제 성공");
+		            $('#comment_' + cmtNo).remove();
+		          /*   location.reload(true); */
+		           
+		        },
+		        error: function (error) {
+		            console.error("댓글 삭제 실패: " + error);
+		        }
+		    });
+		}
+		
+		/* $('#usedTrailModal').on('show.bs.modal', function (event) {
+		    var modal = $(this);
+		    var button = $(event.relatedTarget); // 클릭한 버튼 가져오기
+		    var usedTrailList = button.data('usedTrailList'); // data-usedTrailList 속성에서 usedTrailList 값 가져오기
+		    
+		    console.log("usedTrailList:", usedTrailList); // 콘솔에 출력
+
+		    modal.find('#usedTrailModalBody').empty(); // 모달 내용 초기화
+
+		    // 이용 산책로 정보를 동적으로 추가
+		    $.each(usedTrailList, function (index, usedTrail) {
+		        var usedTrailHtml = `
+		            <div class="usedTrailInfo">
+		                <h5>${usedTrail.name}</h5>
+		                <div class="trailInfo">
+		                    <div class="info">
+		                        <span class="detail-text">${usedTrail.distanceFormatted}KM</span> <span class="detail-info">거리</span>
+		                    </div>
+		                    <div class="info">
+		                        <span class="detail-text">${usedTrail.etaFormatted}</span> <span class="detail-info">소요시간</span>
+		                    </div>
+		                    <div class="vr"></div>
+		                    <div class="info cntInfo">
+		                        <span class="detail-text">${usedTrail.trailHit}</span> <span class="detail-info">이용자</span>
+		                    </div>
+		                    <div class="info cntInfo">
+		                        <span class="detail-text">${usedTrail.trailStar}</span> <span class="detail-info">찜</span>
+		                    </div>
+		                    <div class="info cntInfo">
+		                        <span class="detail-text">${usedTrail.trailCmt}</span> <span class="detail-info">후기</span>
+		                    </div>
+		                </div>
+		            </div>
+		        `;
+		        modal.find('#usedTrailModalBody').append(usedTrailHtml);
+		    });
+		}); */
+
+		 $(document).ready(function(){
+	            // Tooltip initialization
+	            $('[data-toggle="tooltip"]').tooltip({
+	                trigger: 'manual',  // 수동으로 툴팁을 열고 닫음
+	                html: true,         // HTML 태그 사용 허용
+	                template: '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>',
+	                title: function () {
+	                    // 툴팁 내용을 지연 로딩하기 위해 함수 사용
+	                    return $(this).attr('title');
+	                }
+	            });
+
+	            // 툴팁 열기
+	            $('.usedTrailButton').on('click', function () {
+	                $(this).tooltip('toggle');
+	            });
+
+	            // 툴팁 닫기
+	            $('.tooltip').on('click', function () {
+	                $(this).tooltip('hide');
+	            });
+	        });
+		
+	
+
+
+$(function() {
+	
+
+	
+	
+	$(".datepicker").datepicker({
+		dateFormat: "yy-mm-dd", // 텍스트 필드에 입력되는 날짜 형식
+        onSelect: function(dateString) {
+        	
+        		      let paramCode = "${blogInfoVo.paramCode}" ;
+        	          let crtPage = "1"	
+        			  let dogNo = "${param.dogNo}"
+        	          console.log(dateString);
+                      console.log(paramCode);
+                      console.log(crtPage);
+            
+                      $(location).prop("href", "${pageContext.request.contextPath}/walkBlog/"+paramCode+"?crtPage="+crtPage+"&date="+dateString+"&dogNo="+dogNo );
+                      
+                      
+                      /* href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}?crtPage=${page}&date=${param.date} */
+                      /*  */
+                  }
+
+
+    });
+});
+
+
 </script>
 </head>
 <body>
