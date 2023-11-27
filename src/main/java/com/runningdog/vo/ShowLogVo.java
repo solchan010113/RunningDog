@@ -23,6 +23,7 @@ public class ShowLogVo {
 	private String title;
 	private String walkLogMap;
 	private String userSavename;
+	private int likeCount;
 	
 	
 	private List<UsedTrailVo> usedTrailList;
@@ -37,30 +38,10 @@ public class ShowLogVo {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public ShowLogVo(int walkLogNo, int userNo, int locationNo, String regDate, String startTime, String endTime,
 			long logTime, double distance, String distanceFormatted, String logTimeFormatted, int meetingNo,
 			String content, String security, char status, String name, String title, String walkLogMap,
-			String userSavename, List<UsedTrailVo> usedTrailList, List<ShowLogCmtVo> showLogCmtList,
+			String userSavename, int likeCount, List<UsedTrailVo> usedTrailList, List<ShowLogCmtVo> showLogCmtList,
 			List<WalkLogConImgVo> imageList, List<LogWalkedDogVo> walkedDogList) {
 		super();
 		this.walkLogNo = walkLogNo;
@@ -81,12 +62,14 @@ public class ShowLogVo {
 		this.title = title;
 		this.walkLogMap = walkLogMap;
 		this.userSavename = userSavename;
+		this.likeCount = likeCount;
 		this.usedTrailList = usedTrailList;
 		this.showLogCmtList = showLogCmtList;
 		this.imageList = imageList;
 		this.walkedDogList = walkedDogList;
 	}
 
+	
 
 
 
@@ -98,14 +81,17 @@ public class ShowLogVo {
 
 
 
+	public int getLikeCount() {
+		return likeCount;
+	}
 
 
 
 
 
-
-
-
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 
 
 

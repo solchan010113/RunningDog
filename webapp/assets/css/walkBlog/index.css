@@ -620,24 +620,23 @@ h2{
   .MRdogCards{
 	  margin-top: 5px;
 	  display: flow-root;
+	  width: 305px;
 	  height: 74px;
+	    overflow-y: hidden; /* 세로 스크롤바 감춤 */
+    overflow-x: auto; /* 가로 스크롤바만 표시 */
+}
 	 
 	  
-  }
+  
   .MRdogCards div{
-	  margin-right: 10px;
+	  /*margin-right: 2px;*/
   }
   
  .MRdogCard1{
 	 float: left;
  }
  
- .MRdogCard2{
-	 float: left;
- }
- .MRdogCard3{
-	 float: left;
- }
+ 
   
   .MRdogCardBox img{
 	  
@@ -687,12 +686,42 @@ h2{
     
 	  
   }
+  .likeContentWrapper{
+	  display: flow-root;
+	  width: 630px ;
+  }
+  
+  .likeWrapper{
+	  width: 100px;
+	  float: left;
+	  border-style: solid;
+  	border-color:#dee2e6;
+  	border-width: 0 1.5px 0 0 ;
+	  
+  }
+  
+  .likeButton{
+	  width: 92px;
+	  
+	  
+  }
+  
+  .like{
+	  margin-bottom: 10px;
+	  width: 90px;
+	  border-style: solid;
+  	border-color:#dee2e6;
+  	border-width: 1.5px;
+  	text-align: center;
+	  
+  }
   
   .walkLogContent{
 	  float: left;
 	  width: 500px;
-	  margin-left: 110px;
+	  margin-left: 20px;
 	  margin-top: 10px;
+	 
   }
   
   .logButton{

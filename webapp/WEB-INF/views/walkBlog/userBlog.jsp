@@ -10,6 +10,8 @@
 <link href="${pageContext.request.contextPath}/assets/css/walkBlog/index.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.8.1/slick.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.8.1/slick-theme.css" />
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -17,10 +19,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.8.1/slick.min.js"></script>
 
 
 
 <script>
+
+
+$(document).ready(function(){
+    $('#dogCarousel').slick({
+        infinite: true,
+        slidesToShow: 4, // 동시에 표시할 슬라이드 수
+        slidesToScroll: 1, // 스크롤할 슬라이드 수
+        prevArrow: '<button type="button" class="slick-prev">이전</button>',
+        nextArrow: '<button type="button" class="slick-next">다음</button>'
+    });
+});
 
 
 var deleteLogNo; // 전역 변수로 선언
@@ -307,13 +321,13 @@ $(function() {
 						팔로우
 						
 						</c:if>
-							
-							<c:if test="${requestScope.blogInfoVo.followNo == 1}">
+
+									<c:if test="${requestScope.blogInfoVo.followNo == 1}">
 						팔로잉
 						
 						</c:if>
 
-							</button>
+								</button>
 							</c:if>
 						</c:if>
 					</div>
@@ -358,11 +372,7 @@ $(function() {
 						<div class="tab record active">산책기록</div>
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/meeting?crtPage=1">
 							<div class="tab record">산책모임</div>
-						</a>
-						
-
-
-						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
+						</a> <a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following">팔로잉</div>
 						</a>
 						<div class="tab blank">
@@ -448,16 +458,10 @@ $(function() {
 											</c:if>
 										</div>
 
-										<div class="MRdogCardBox">
+									<div class="MRdogCardBox">
 
-											<%-- <c:forEach items="${blogInfoVo.blogDogList}" var="blogDogVo">
-												<div class="mainDogCard1">
-													<img src="${pageContext.request.contextPath}/assets/images/${blogDogVo.saveName}" alt="">
-													<div class="mainDogCardName">${blogDogVo.name}</div>
-												</div>
+											
 
-											</c:forEach>
- --%>
 											<div class="MRpartnerDoglabel">함께한 강아지</div>
 											<div class="MRdogCards">
 												<c:forEach items="${ShowLogVo.walkedDogList}" var="walkedDog">
@@ -471,15 +475,20 @@ $(function() {
 
 
 
-										</div>
+										</div> 
+
+										
 										<div class="logButton">
 											<button type="button" class="usedTrailButton" data-toggle="tooltip" data-html="true"
 												title="<c:forEach items='${ShowLogVo.usedTrailList}' var='usedTrail'><div class='custom-tooltip'><strong>${usedTrail.name}</strong><br>거리: ${usedTrail.distanceFormatted}KM<br>소요시간: ${usedTrail.etaFormatted}<br>이용자: ${usedTrail.trailHit}<br>찜: ${usedTrail.trailStar}<br>후기: ${usedTrail.trailCmt}<br><a href='${pageContext.request.contextPath}/walkTrail/detail?trailNo=${usedTrail.trailNo}' class='custom-link'>상세보기</a><br><br></div></c:forEach>">
 												이용 산책로</button>
 											<button type="button" class="regButton" onclick="location.href='${pageContext.request.contextPath}/walkTrail/addForm?walkLogNo=${ShowLogVo.walkLogNo}'">산책로 등록</button>
 										</div>
-
-										<%-- <div class="likeButton">
+										<div class="likeContentWrapper">
+										<div class="likeWrapper">
+										
+											<div class="like">0 likes </div>
+											<div class="likeButton">
 												<c:if test="${requestScope.blogInfoVo.authNo != 0}">
 													<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo}">
 														<button id="likeButton" onclick="toggleLike(${ShowLogVo.walkLogNo})">
@@ -497,8 +506,10 @@ $(function() {
 														</button>
 													</c:if>
 												</c:if>
-											</div> --%>
+											</div> 
+											</div>
 										<div class="walkLogContent">${ShowLogVo.content}</div>
+										</div>
 									</div>
 
 
@@ -549,7 +560,7 @@ $(function() {
 										<c:if test="${requestScope.blogInfoVo.authNo != 0}">
 											<div class="MRcommentInputBox">
 												<div class="MRinput-group">
-													<textarea  class="commentText form-control" aria-label="With textarea"></textarea>
+													<textarea class="commentText form-control" aria-label="With textarea"></textarea>
 												</div>
 												<button class="MRreplyButton addCommentBtn" data-walklogno="${ShowLogVo.walkLogNo}">등록</button>
 											</div>
