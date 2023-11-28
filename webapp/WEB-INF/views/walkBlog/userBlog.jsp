@@ -188,8 +188,8 @@ $(".addCommentBtn").on("click", function(){
 		    });
 		}
 		
-		/* $('#usedTrailModal').on('show.bs.modal', function (event) {
-		    var modal = $(this);
+		 $('#usedTrailModal').on('show.bs.modal', function (event) {
+		   var modal = $(this);
 		    var button = $(event.relatedTarget); // 클릭한 버튼 가져오기
 		    var usedTrailList = button.data('usedTrailList'); // data-usedTrailList 속성에서 usedTrailList 값 가져오기
 		    
@@ -224,7 +224,7 @@ $(".addCommentBtn").on("click", function(){
 		        `;
 		        modal.find('#usedTrailModalBody').append(usedTrailHtml);
 		    });
-		}); */
+		}); 
 
 		 $(document).ready(function(){
 	            // Tooltip initialization

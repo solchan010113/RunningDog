@@ -87,65 +87,69 @@ function toggleFollowButton() {
 }
 
 $( document ).ready(function() {
-//댓글등록버튼 클릭했을때
-$(".addCommentBtn").on("click", function(){
-	console.log("클릭")
-	
-	let commentText = $(this).prev().children(".commentText").val();
-	let walkLogNo = $(this).data("walklogno");
-	
-	console.log(walkLogNo)
-    console.log(commentText)
+	//댓글등록버튼 클릭했을때
+	$(".addCommentBtn").on("click", function(){
+		console.log("클릭")
+		
+		let commentArea = $(this).parent().prev();
+		let commentText = $(this).prev().children(".commentText").val();
+		let walkLogNo = $(this).data("walklogno");
+		
+		console.log("==================");
+		console.log(walkLogNo);
+	    console.log(commentText);
+		console.log(commentArea);
+	    
+	    
+		
+	    if (commentText.trim() !== "") { //글을 입력하면
+	    	$.ajax({
+	            type: "POST",
+	            url: "${pageContext.request.contextPath}/walkBlog/addComment",
+	            data: {
+	                walkLogNo: walkLogNo,
+	                content: commentText,
+	                userNo: ${blogInfoVo.authNo}
+	            },
+	            success: function (cmt) {
+	                console.log(cmt);
+	            	                
+	                
+	            	var commentSection = $(".MRcomments");
+	            	var newCommentHtml = '';
+	            	newCommentHtml += '<div id="comment_'+cmt.walkLogCmtNo+'" class="MRcomment1">';
+	            	newCommentHtml += '    <img src="${pageContext.request.contextPath}/rdimg/userProfile/'+cmt.userSavename+'" alt="">';
+	            	newCommentHtml += '    <div class="replyDateCmtBox">';
+	            	newCommentHtml += '        <div class="MRreplyDate">'+cmt.regDate+'</div>';
+	            	newCommentHtml += '        <button class="deleteCommentButton" onclick="deleteComment('+cmt.walkLogCmtNo+')">삭제</button>';
+	            	newCommentHtml += '    </div>';
+	            	newCommentHtml += '    <div class="MRuserIdandContent">';
+	            	newCommentHtml += '        <div class="MRreplyUserId">'+cmt.name+'</div>';
+	            	newCommentHtml += '        <div class="MRreplyContent">'+cmt.content+'</div>';
+	            	newCommentHtml += '    </div>';
+	            	newCommentHtml += '</div>';
+	            	
+	            	                
+	            	commentArea.append(newCommentHtml);
+	                console.log($(this))
+	                
+	                $(".commentText").val("");
+	                
+	                
+	                
+	                
+	            },
+	            error: function (error) {
+	                console.error("댓글 등록 실패: " + error);
+	            }
+	        });
+	    
+	    }else {
+	    	alert("글을 입력해주세요");
+	    }
 
-	
-    if (commentText.trim() !== "") { //글을 입력하면
-    	$.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/walkBlog/addComment",
-            data: {
-                walkLogNo: walkLogNo,
-                content: commentText,
-                userNo: ${blogInfoVo.authNo}
-            },
-            success: function (cmt) {
-                console.log(cmt);
-            	                
-                
-            	var commentSection = $(".MRcomments");
-            	var newCommentHtml = '';
-            	newCommentHtml += '<div id="comment_'+cmt.walkLogCmtNo+'" class="MRcomment1">';
-            	newCommentHtml += '    <img src="${pageContext.request.contextPath}/rdimg/userProfile/'+cmt.userSavename+'" alt="">';
-            	newCommentHtml += '    <div class="replyDateCmtBox">';
-            	newCommentHtml += '        <div class="MRreplyDate">'+cmt.regDate+'</div>';
-            	newCommentHtml += '        <button class="deleteCommentButton" onclick="deleteComment('+cmt.walkLogCmtNo+')">삭제</button>';
-            	newCommentHtml += '    </div>';
-            	newCommentHtml += '    <div class="MRuserIdandContent">';
-            	newCommentHtml += '        <div class="MRreplyUserId">'+cmt.name+'</div>';
-            	newCommentHtml += '        <div class="MRreplyContent">'+cmt.content+'</div>';
-            	newCommentHtml += '    </div>';
-            	newCommentHtml += '</div>';
-            	
-            	                
-                $(".MRcomments").append(newCommentHtml);
-                console.log($(this))
-                
-                $(".commentText").val("");
-                
-                
-                
-                
-            },
-            error: function (error) {
-                console.error("댓글 등록 실패: " + error);
-            }
-        });
-    
-    }else {
-    	alert("글을 입력해주세요");
-    }
-
-}); 	
-});
+	}); 	
+	});
 
 
 
@@ -170,7 +174,7 @@ $(".addCommentBtn").on("click", function(){
 		    });
 		}
 		
-		/* $('#usedTrailModal').on('show.bs.modal', function (event) {
+		 $('#usedTrailModal').on('show.bs.modal', function (event) {
 		    var modal = $(this);
 		    var button = $(event.relatedTarget); // 클릭한 버튼 가져오기
 		    var usedTrailList = button.data('usedTrailList'); // data-usedTrailList 속성에서 usedTrailList 값 가져오기
@@ -206,7 +210,7 @@ $(".addCommentBtn").on("click", function(){
 		        `;
 		        modal.find('#usedTrailModalBody').append(usedTrailHtml);
 		    });
-		}); */
+		}); 
 
 		 $(document).ready(function(){
 	            // Tooltip initialization
