@@ -41,52 +41,53 @@ function deleteLog() {
 
 
 
-function toggleFollowButton() {
-    let followButton = document.getElementById("followButton");
-    let followStatus = "${requestScope.blogInfoVo.followNo}";
 
-    if (followStatus === "0") {
-        // Follow
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
-            data: {
-                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
-            },
-            success: function(response) {
-                if (response === "success") {
-                    followButton.innerText = "팔로잉";
-                    location.reload(true);
-                } else {
-                    console.error("팔로우 실패");
-                }
-            },
-            error: function(error) {
-                console.error("팔로우 실패: " + error);
-            }
-        });
-    } else if (followStatus === "1") {
-        // Unfollow
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
-            data: {
-                followeeNo: "${requestScope.blogInfoVo.ownerNo}"
-            },
-            success: function(response) {
-                if (response === "success") {
-                    followButton.innerText = "팔로우";
-                    location.reload(true);
-                } else {
-                    console.error("언팔로우 실패");
-                }
-            },
-            error: function(error) {
-                console.error("언팔로우 실패: " + error);
-            }
-        });
-    }
-}
+function toggleFollowButton(followerUserNo) {
+      let followButton = document.getElementById("followButton");
+
+      // Follow
+      if (followButton.innerText === "팔로우") {
+          $.ajax({
+              type: "POST",
+              url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+              data: {
+                  followeeNo: followerUserNo
+              },
+              success: function(response) {
+                  if (response === "success") {
+                      followButton.innerText = "팔로잉";
+                      location.reload(true);
+                  } else {
+                      console.error("팔로우 실패");
+                  }
+              },
+              error: function(error) {
+                  console.error("팔로우 실패: " + error);
+              }
+          });
+      }
+      // Unfollow
+      else {
+          $.ajax({
+              type: "POST",
+              url: "${pageContext.request.contextPath}/walkBlog/toggleFollow",
+              data: {
+                  followeeNo: followerUserNo
+              },
+              success: function(response) {
+                  if (response === "success") {
+                      followButton.innerText = "팔로우";
+                      location.reload(true);
+                  } else {
+                      console.error("언팔로우 실패");
+                  }
+              },
+              error: function(error) {
+                  console.error("언팔로우 실패: " + error);
+              }
+          });
+      }
+  }
 
 $( document ).ready(function() {
 //댓글등록버튼 클릭했을때
@@ -149,6 +150,17 @@ $(".addCommentBtn").on("click", function(){
 }); 	
 });
 
+
+
+function redirectBasedOnSelection() {
+    var selectedValue = document.getElementById("followSelector").value;
+
+    if (selectedValue === "follower") {
+        window.location.href = "${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/follower";
+    } else if (selectedValue === "following") {
+        window.location.href = "${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following";
+    }
+}
 
 
 		function deleteComment(cmtNo) {
@@ -299,7 +311,7 @@ $(function() {
 							<img src="${pageContext.request.contextPath}/rdimg/userProfile/${blogInfoVo.userSavename}" alt="">
 						</div>
 						<h1 class="userName">${blogInfoVo.name}</h1>
-						<c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
+						<%-- <c:if test="${ requestScope.blogInfoVo.authNo != 0  }">
 							<c:if test="${requestScope.blogInfoVo.authNo != requestScope.blogInfoVo.ownerNo }">
 								<button id="followButton" class="followButton" onclick="toggleFollowButton()">
 									<c:if test="${requestScope.blogInfoVo.followNo == 0}">
@@ -313,7 +325,7 @@ $(function() {
 						</c:if>
 
 							</button>
-						</c:if>
+						</c:if> --%>
 					</div>
 					<div class="mainDogCard">
 						<div class="coworkingDog">산책 파트너</div>
