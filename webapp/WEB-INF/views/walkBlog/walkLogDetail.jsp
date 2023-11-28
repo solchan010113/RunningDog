@@ -473,13 +473,13 @@ $(function() {
 
 							<div class="MRwalkRecordSection">
 								<div class="MRwalkData">
-									<img src="${pageContext.request.contextPath}/assets/images/산책데이터.png" alt="">
+									<img src="${pageContext.request.contextPath}/rdimg/mapImg/${walkLog.walkLogMap}" alt="">
 								</div>
 								<div class="MRpictures">
 									<!-- 이미지 가져오기 -->
 									<c:forEach items="${walkLog.imageList}" var="image">
 										<div class="MRpicture${image.imageOrder}">
-											<img src="${pageContext.request.contextPath}/assets/images/${image.saveName}" alt="">
+											<img src="${pageContext.request.contextPath}/rdimg/comImg/${image.saveName}" alt="">
 										</div>
 									</c:forEach>
 								</div>
