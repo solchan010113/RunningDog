@@ -636,11 +636,11 @@ $(function() {
 					<div class="socialWrapper">
 						<div class="socialBox">
 							<h3 class="social">소셜 네트워크</h3>
-							<div class="followingBox">
-								<div class="followText">팔로잉</div>
+							<div class="followingBox" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/following'">
+								<div class="followText"  >팔로잉</div>
 								<div class="followNum">${blogInfoVo.followingNum}</div>
 							</div>
-							<div class="followerBox">
+							<div class="followerBox " onclick="location.href='${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/follower'">
 								<div class="followText">팔로워</div>
 								<div class="followNum">${blogInfoVo.followerNum}</div>
 							</div>

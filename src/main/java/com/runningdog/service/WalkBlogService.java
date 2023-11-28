@@ -299,7 +299,11 @@ public class WalkBlogService {
     	System.out.println(walkedDogList);
     	
     	walkLog.setUserSavename(walkBlogDao.getUserSavenameByWalkLogNo(walkLogNo));
+    	
+    	walkLog.setWalkLogMap(walkBlogDao.getWalkLogMap(walkLogNo));
 		
+    	
+    	
     	
     	
         walkLog.setWalkedDogList(walkedDogList);
