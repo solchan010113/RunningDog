@@ -310,6 +310,8 @@ public class WalkBlogService {
         
         List<UsedTrailVo> usedTrailList = walkBlogDao.getUsedTrailList(walkLog.getWalkLogNo());
         walkLog.setUsedTrailList(usedTrailList);
+        System.out.println("usedTrailList="+usedTrailList);
+        
 		
         List<ShowLogCmtVo> cmtList = walkBlogDao.getShowLogCmtList(walkLog.getWalkLogNo());
         walkLog.setShowLogCmtList(cmtList);
