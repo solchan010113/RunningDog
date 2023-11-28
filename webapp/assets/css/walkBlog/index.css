@@ -224,16 +224,22 @@
     float: right;
     width: 200px;
     height: 200px;
-    margin-right:200px;
+    /*margin-right:200px;*/
     
     
   }
+  
+  
   
   .maindogCardBox{
 	position: relative;
 	width: 260px;
 	height: 200px;
 	overflow: auto;
+}
+
+.maindogCardBox::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
 }
 
 .maindogCardBox > div{
@@ -451,6 +457,8 @@ h2{
 
 .socialBox{
 	width: 180px;
+	float: right;
+	margin-right: 86px;
 	display: flow-root;
 }
 
@@ -745,7 +753,7 @@ h2{
   
   .datepicker{
 	  
-	  margin-right: 100px;
+	 /* margin-right: 100px;*/
 	  
   }
   
@@ -929,7 +937,7 @@ h2{
 	 border-color:#fc5200;
   	border-width: 2px;
 	  
-  }
+  }f
   
   .MRborder{
 	  width: 800px;
@@ -974,12 +982,15 @@ h2{
   .statslabel{
 	  margin-bottom: 20px;
 	  font-size: 22px;
+	  text-align: right;
+	  margin-right: 122px;
   }
   
   
   .statsTable{
 	  margin-bottom: 20px;
 	   border: 2px solid rgb(192, 192, 192);
+	   float: right;
 	  
   }
   
@@ -996,7 +1007,7 @@ h2{
   
   
   .statsTable td{
-	  width: 200px;
+	  width: 140px;
 	  border-left: 1px solid rgb(192, 192, 192);
 	  border-top: 1px solid rgb(192, 192, 192);
     padding: 5px 10px;
@@ -1005,10 +1016,11 @@ h2{
   
   .statsTableAll{
 	 border: 2px solid rgb(192, 192, 192);
+	 float: right ;
   }
   
   .statsTableAll td{
-	  width: 200px;
+	  width: 140px;
 	   border-left: 1px solid rgb(192, 192, 192);
 	  border-top: 1px solid rgb(192, 192, 192);
     padding: 5px 10px;

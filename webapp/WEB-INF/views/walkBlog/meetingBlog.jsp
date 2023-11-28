@@ -387,7 +387,7 @@ $(function() {
 						<c:if test="${empty pMap.walkLogList }">
 							<div class="noData">
 								<img src="${pageContext.request.contextPath}/assets/images/우는강아지.png" alt="">
-								<h1>해당날짜의 산책기록이 없습니다.</h1>
+								<h4>해당날짜의 산책기록이 없습니다.</h4>
 
 							</div>
 
