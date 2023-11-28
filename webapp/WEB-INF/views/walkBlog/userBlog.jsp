@@ -105,12 +105,16 @@ $( document ).ready(function() {
 $(".addCommentBtn").on("click", function(){
 	console.log("클릭")
 	
+	let commentArea = $(this).parent().prev();
 	let commentText = $(this).prev().children(".commentText").val();
 	let walkLogNo = $(this).data("walklogno");
 	
-	console.log(walkLogNo)
-    console.log(commentText)
-
+	console.log("==================");
+	console.log(walkLogNo);
+    console.log(commentText);
+	console.log(commentArea);
+    
+    
 	
     if (commentText.trim() !== "") { //글을 입력하면
     	$.ajax({
@@ -140,7 +144,7 @@ $(".addCommentBtn").on("click", function(){
             	newCommentHtml += '</div>';
             	
             	                
-                $(".MRcomments").append(newCommentHtml);
+            	commentArea.append(newCommentHtml);
                 console.log($(this))
                 
                 $(".commentText").val("");
