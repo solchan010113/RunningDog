@@ -351,10 +351,10 @@ $(function() {
 				<div class="mainPosts">
 
 					<div class="category">
-						<div class="tab record" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">산책기록</div>
+						<div class="tab record" onclick="location.href='${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}?crtPage=1'">산책모임</div>
 
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/meeting?crtPage=1">
-							<div class="tab record">산책모임</div>
+							<div class="tab record">모임일지</div>
 						</a> <a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}/following">
 							<div class="tab following active">팔로잉</div>
 						</a>
@@ -438,7 +438,7 @@ $(function() {
 				</div>
 				<div class="stats">
 
-					<h3 class="statslabel">${blogInfoVo.name}님의기록</h3>
+					<h3 class="statslabel">${blogInfoVo.name}님의 기록</h3>
 
 					<table class="statsTable">
 						<tr>

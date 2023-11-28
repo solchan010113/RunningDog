@@ -342,7 +342,7 @@ $(function() {
 						<a href="${pageContext.request.contextPath}/walkBlog/${requestScope.blogInfoVo.paramCode}">
 							<div class="tab record "></div>
 						</a>
-						<div class="tab meeting active">산책모임</div>
+						<div class="tab meeting active">모임일지</div>
 						<div class="tab following"></div>
 						<div class="tab blank">
 						
@@ -574,7 +574,7 @@ $(function() {
 					</div>
 					<div class="stats">
 
-						<h3 class="statslabel">${blogInfoVo.name}님의기록</h3>
+						<h3 class="statslabel">${blogInfoVo.name}님의 기록</h3>
 
 						<table class="statsTable">
 							<tr>
