@@ -584,23 +584,23 @@ $(function() {
 					<div id="paging">
 						<ul>
 							<c:if test="${pMap.prev}">
-								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.startPageBtnNo-1}&date=${param.date}&dogNo=${param.dogNo}">◀</a></li>
 							</c:if>
 
 							<c:forEach begin="${pMap.startPageBtnNo}" end="${pMap.endPageBtnNo}" step="1" var="page">
 								<c:choose>
 									<c:when test="${param.crtPage == page or pMap.crtPage == page}">
-										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}">${page}</a></li>
+										<li class="active2"><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}&dogNo=${param.dogNo}">${page}</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}">${page}</a></li>
+										<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${page}&date=${param.date}&dogNo=${param.dogNo}">${page}</a></li>
 									</c:otherwise>
 								</c:choose>
 
 							</c:forEach>
 
 							<c:if test="${pMap.next}">
-								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath}/walkBlog/${blogInfoVo.paramCode}/meeting?crtPage=${pMap.endPageBtnNo+1}&date=${param.date}&dogNo=${param.dogNo}">▶</a></li>
 							</c:if>
 						</ul>
 					</div>
